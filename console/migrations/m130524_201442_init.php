@@ -19,11 +19,16 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
+            'role_id'=>$this->integer(),
         ], $tableOptions);
+
+        $this->createTable('{{%role}}',[
+           'id'=>$this->primaryKey(),
+           'role_name'=>$this->string()
+        ]);
     }
 
     public function down()
