@@ -28,7 +28,7 @@ class m130524_201442_init extends Migration
         $this->createTable('{{%role}}',[
            'id'=>$this->primaryKey(),
            'role_name'=>$this->string()
-        ]);
+        ],$tableOptions);
     }
 
     public function down()

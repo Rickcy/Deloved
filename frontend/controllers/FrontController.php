@@ -14,9 +14,9 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
 /**
- * Site controller
+ * Front controller
  */
-class SiteController extends Controller
+class FrontController extends Controller
 {
     /**
      * @inheritdoc
