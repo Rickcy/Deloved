@@ -28,12 +28,6 @@ AppAsset::register($this);
 <?=$this->render("//common/header")?>
 
 
-
-
-
-
-
-
          <?= $content ?>
 
 

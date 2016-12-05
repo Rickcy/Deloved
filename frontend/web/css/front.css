@@ -1,13 +1,14 @@
 body{
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
+
+
+
 }
 .bottom_menu{
     background-color:#94c43d;
     padding:15px 5px 5px 5px;
-    margin-top:20px;
-    border-radius:10px;
+
     font-size:100%
 }
 .bottom_menu ul li{
@@ -22,3 +23,85 @@ body{
 }
 .bottom_menu ul li a:hover{
     color:#d9dfe3}
+.about-del{
+    float: right;
+    color: #428BCA;
+    font-size: 105%;
+}
+
+.menu-top{
+    min-height: 30px;
+    background-color: rgb(239, 239, 239);
+    border-bottom: 1px solid #a8dc43;
+    -webkit-box-shadow: 0 0 10px #94C43D;
+    -moz-box-shadow: 0 0 10px #94C43D;
+    box-shadow: 0 0 10px #94C43D;
+}
+.menu-item>li>a{
+    color: #000;
+    padding-top: 10px;
+
+    padding-bottom: 10px;
+
+}
+
+.navbar-toggle>span{
+    background-color: grey;
+}
+.search_block {
+    padding-left: 1%;
+    padding-right: 1%;
+    background-color: #94c43d;
+    width: 18%;
+    min-width: 190px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    box-shadow: 0 0 15px #939393;
+    text-align: center;
+}
+.search_link {
+    color: white!important;
+    font-size: 13pt;
+    text-decoration: none !important;
+}
+.search_link a:hover {
+    text-shadow: 0 0 5px #cdcdc4!important;
+
+    background: #89bc40;
+}
+.about {
+    background-color: #4b7bbe !important;
+}
+
+.layer a {
+    min-width: 120px;
+    color: white;
+    font-size: 100%;
+    padding: 0.7%;
+    text-decoration: none;
+    width: 17.7%;
+    margin-right: 0.3%;
+    display: inline-block;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 3px;
+    box-shadow: 0 0 15px #c8c8c8;
+    background: #94c43d;
+    margin-bottom: 1%;
+}.layer a.active {
+     background: #6e9836;
+     background: -moz-linear-gradient(top, #94c43d 0%, #6f9734 100%);
+     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #94c43d), color-stop(100%, #6e9735));
+     background: -webkit-linear-gradient(top, #94c43d 0%, #6f9734 100%);
+     background: -o-linear-gradient(top, #94c43d 0%, #699437 100%);
+     background: -ms-linear-gradient(top, #94c43d 0%, #6c9535 100%);
+     background: linear-gradient(to bottom, #94c43d 0%, #6b9637 100%);
+     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#94c43d', endColorstr='#79a437', GradientType=0);
+ }
+.layer a:hover {
+    text-shadow: 0px 0px 5px #e3e3e3;
+    background: #89bc40;
+}
+a:hover {
+    text-decoration: none !important;
+}

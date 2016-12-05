@@ -1,9 +1,10 @@
 <?
 use yii\bootstrap\Nav;
 ?>
-<div class="navbar-wrapper">
 
-    <div class="navbar-inverse" role="navigation">
+    <div class="navbar-wrapper">
+
+    <nav class="navbar navbar-dark navbar-top bg-inverse menu-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
 
@@ -25,15 +26,15 @@ use yii\bootstrap\Nav;
                 $guest = Yii::$app->user->isGuest;
                 $menuItems = [];
                 if($guest) {
-                    $menuItems[]=['label' => '   В Кабинет', 'url' => ['/front/login']];
-                    $menuItems[]= ['label' => '    Регистрация', 'url' => ['/front/about']];
+                    $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/login']];
+                    $menuItems[]= ['label' => '    В Кабинет', 'url' => ['/front/about']];
                 }else{
                     $menuItems[]=['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>   В Кабинет', 'url' => ['/front/index']];
                     $menuItems[]= ['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-off"  >    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
 
                 }
                 echo Nav::widget([
-                    'options' => ['class' => 'navbar-nav navbar-right'],
+                    'options' => ['class' => 'navbar-nav navbar-right menu-item'],
                     'items' => $menuItems,
                 ]);
                 ?>
@@ -42,50 +43,34 @@ use yii\bootstrap\Nav;
             <!-- #Nav Ends -->
 
         </div>
-    </div>
+    </nav>
 
 </div>
 
+<div class="container">
+    <div class="row" >
 
 
+             <div class="col-md-3 col-sm-3 col-xs-9">
+                 <a>
+                     <img class="img-responsive" src="/images/front/logo.gif" />
+                 </a>
+             </div>
 
-    <div class="navbar-brand visible-xs EadnD" style="padding: 0;margin: 0 0 0 2.4%;">
-        <div class="navbar-brand E" ><img src="${resource(dir: 'images', file: 'front/Dol.png')}" style="width: 25px"/><span style="font-size: 10pt;font-weight: 600" class="D_money"></span></div>
-        <div class="navbar-brand D" ><img src="${resource(dir: 'images', file: 'front/Ev.png')}" style="width: 25px"/><span style="font-size: 10pt;font-weight: 600" class="E_money"></span>
-        </div>
-    </div>
-    <div class="collapse navbar-toggleable-xs" id="navbar" style="clear: both">
+    <div class="col-md-9 col-sm-9 col-xs-9 " >
+<div class="row">
 
-        <nav class="nav navbar-nav pull-xs-left">
+                 <div class=layer>
+                     <a href="#" class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span>ПАРТНЕРЫ </a>
+                     <a href="#" class="" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> ТОВАРЫ</a>
+                     <a href="#"	class="" ><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> УСЛУГИ</a>
+                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> О ПРОЕКТЕ</a>
+                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> ТАРИФЫ</a>
 
-
-
-        <a href="#"  class="nav-item nav-link"<span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span>Партнеры</a>
-        <a href="#"	class="nav-item nav-link" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span>Товары</a>
-        <a href="#"	class="nav-item nav-link"><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span>Услуги</a>
-        <a href="#"	class=" nav-item nav-link" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span>О проекте</a>
-        <a href="#" class="nav-item nav-link"><span class="glyphicon" style="margin-right: 5%;font-size: 18pt;padding-top: 0;margin-top: -6px;" >₽</span>Тарифы</a>
-
-        </nav>
+                 </div>
 
 
-    </div>
-</nav>
-
-
-
-
-<div class="row menu_search" style="margin-bottom:0px;">
-    <div class="col-md-3 col-sm-3 col-xs-9" style="padding-top: 15px;padding-left: 70px;padding-right: 20px"><g:link controller="front"><img class="imga" src="${resource(dir: 'images', file: 'front/logo.gif')}" style="width: 78%;max-width:250px;min-width: 150px;float: right;margin-right: 15px "/></g:link></div>
-
-    <div class="col-md-9 col-sm-9 col-xs-9 " style="float: right;padding: 0">
-        <div class="layer" style="margin-top: 0.6%">
-                <a class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span>ПАРТНЕРЫ </a>
-                <a	class=""><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> ТОВАРЫ</a>
-                <a	class=""><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> УСЛУГИ</a>
-                <a	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> О ПРОЕКТЕ</a>
-                <a	class="about" ><span class="glyphicon" style="margin-right: 3%;font-size: 18pt;padding-top: 0;margin-top: -6px;" >₽</span> ТАРИФЫ</a>
-<!-- поисковая форма -->
+        <!-- поисковая форма -->
 
         <form  method="POST">
 
@@ -100,10 +85,11 @@ use yii\bootstrap\Nav;
         <!--конец формы-->
         <div class="search_block">
 
-            <a  class="search_link">Расширенный поиск</a>
+            <a class="search_link">Расширенный поиск</a>
 
         </div>
 
     </div>
-
+        </div>
+</div>
 </div>
