@@ -66,7 +66,7 @@ class m130524_201442_init extends Migration
             'description'=>$this->string(),
             'director'=>$this->string(),
             'work_time'=>$this->string(),
-            'city_name'=>$this->string(),
+            'city_id'=>$this->integer(),
             'address'=>$this->string(),
             'keywords'=>$this->string(),
             'public_status'=>$this->integer(),
@@ -80,6 +80,8 @@ class m130524_201442_init extends Migration
         
         $this->createIndex('fk_acc_id','{{%account}}','user_id');
         $this->addForeignKey('fk_acc_id','{{%account}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+        $this->createIndex('fk_city_id','{{%account}}','city_id');
+        $this->addForeignKey('fk_city_id','{{%account}}','city_id','{{%region}}','id','SET NULL','CASCADE');
         
         
         $this->insert('role',['id'=>1,'role_name'=>'ROLE_NONE']);

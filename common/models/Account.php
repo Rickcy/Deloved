@@ -24,7 +24,7 @@ use Yii;
  * @property string $description
  * @property string $director
  * @property string $work_time
- * @property string $city_name
+ * @property integer $city_id
  * @property string $address
  * @property string $keywords
  * @property integer $public_status
@@ -35,6 +35,7 @@ use Yii;
  * @property integer $updated_at
  *
  * @property User $user
+ * @property Region $city
  */
 class Account extends \yii\db\ActiveRecord
 {
@@ -52,10 +53,11 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_form_id', 'date_reg', 'logo_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['org_form_id', 'date_reg', 'logo_id', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
-            [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'city_name', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -82,7 +84,7 @@ class Account extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'director' => Yii::t('app', 'Director'),
             'work_time' => Yii::t('app', 'Work Time'),
-            'city_name' => Yii::t('app', 'City Name'),
+            'city_id' => Yii::t('app', 'City ID'),
             'address' => Yii::t('app', 'Address'),
             'keywords' => Yii::t('app', 'Keywords'),
             'public_status' => Yii::t('app', 'Public Status'),
@@ -100,5 +102,13 @@ class Account extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'city_id']);
     }
 }
