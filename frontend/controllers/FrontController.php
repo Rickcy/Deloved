@@ -152,6 +152,7 @@ class FrontController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+        //$city_list =
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {

@@ -29,8 +29,8 @@ use yii\bootstrap\Nav;
                     $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
                     $menuItems[]= ['label' => '    В Кабинет', 'url' => ['/front/login']];
                 }else{
-                    $menuItems[]=['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>   В Кабинет', 'url' => ['/front/index']];
-                    $menuItems[]= ['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-off"  >    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
+                    $menuItems[]=['label' => '   В Кабинет', 'url' => ['/front/index']];
+                    $menuItems[]= ['label' => '    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
 
                 }
                 echo Nav::widget([
