@@ -28,7 +28,7 @@ AppAsset::register($this);
 <?=$this->render("//common/header")?>
 
 
-         <?= $content ?>
+        <div class="container"><?= $content ?></div>
 
 
 

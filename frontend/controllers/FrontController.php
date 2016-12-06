@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use Faker\Provider\DateTime;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -82,6 +83,8 @@ class FrontController extends Controller
      */
     public function actionLogin()
     {
+
+        $date= (integer)DateTime::dateTime('now');
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -91,7 +94,7 @@ class FrontController extends Controller
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,
+                'model' => $model,'date'=>$date
             ]);
         }
     }

@@ -3,6 +3,7 @@
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
+use yii\web\View;
 
 /**
  * Main frontend application asset bundle.
@@ -15,10 +16,15 @@ class AppAsset extends AssetBundle
         'css/front.css',
     ];
     public $js = [
+        'js/front.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+    ];
+
+    public $jsOptions = [
+        'position'=> View::POS_HEAD
     ];
 }

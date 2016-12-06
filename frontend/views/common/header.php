@@ -26,8 +26,8 @@ use yii\bootstrap\Nav;
                 $guest = Yii::$app->user->isGuest;
                 $menuItems = [];
                 if($guest) {
-                    $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/login']];
-                    $menuItems[]= ['label' => '    В Кабинет', 'url' => ['/front/about']];
+                    $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
+                    $menuItems[]= ['label' => '    В Кабинет', 'url' => ['/front/login']];
                 }else{
                     $menuItems[]=['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>   В Кабинет', 'url' => ['/front/index']];
                     $menuItems[]= ['label' => '<span style="margin-right: 3px" class="glyphicon glyphicon-off"  >    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
