@@ -52,7 +52,7 @@ use yii\bootstrap\Nav;
 
 
              <div class="col-md-3 col-sm-3 col-xs-9">
-                 <a>
+                 <a href="/">
                      <img class="img-responsive" src="/images/front/logo.gif" />
                  </a>
              </div>

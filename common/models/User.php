@@ -18,12 +18,13 @@ use yii\web\IdentityInterface;
  * @property string $auth_key
  * @property integer $status
  * @property string $password write-only password
+ * @property integer role_id
  */
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-
+    const ROLE_ID = 1;
 
     /**
      * @inheritdoc
@@ -46,6 +47,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['role_id','default', 'value' => self::ROLE_ID]
         ];
     }
 
@@ -164,6 +166,11 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
+
+
+    public function getRole(){
+        return $this->hasOne(Role::className(),['id'=>'role_id']);
+    }
     /**
      * Generates new password reset token
      */

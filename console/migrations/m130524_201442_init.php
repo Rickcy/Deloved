@@ -4,14 +4,17 @@ use yii\db\Migration;
 
 class m130524_201442_init extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-
+        $this->createTable('{{%role}}',[
+            'id'=>$this->primaryKey(),
+            'role_name'=>$this->string()
+        ],$tableOptions);
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
@@ -22,12 +25,11 @@ class m130524_201442_init extends Migration
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'role_id'=>$this->integer()->defaultValue(1),
 
+
         ], $tableOptions);
 
-        $this->createTable('{{%role}}',[
-           'id'=>$this->primaryKey(),
-           'role_name'=>$this->string()
-        ],$tableOptions);
+        $this->createIndex('fk_role_id','{{%user}}','role_id');
+            $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
 //
         $this->createTable('{{%profile}}',[
              'id'=>$this->primaryKey(),
@@ -39,8 +41,13 @@ class m130524_201442_init extends Migration
             'updated_at' => $this->integer()->notNull(),
             'chargeStatus'=>$this->integer()->defaultValue(0),
             'chargeTill'=>$this->integer(),
-            'user_id'=>$this->integer()
+            'user_id'=>$this->integer(),
+
         ],$tableOptions);
+        $this->createIndex('fk_user_id','{{%profile}}','user_id');
+            $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+
+
         $this->createTable('{{%account}}',[
             'id'=>$this->primaryKey(),
             'full_name'=>$this->string(),
@@ -68,8 +75,13 @@ class m130524_201442_init extends Migration
             'user_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-        ],$tableOptions);
 
+        ],$tableOptions);
+        
+        $this->createIndex('fk_acc_id','{{%account}}','user_id');
+        $this->addForeignKey('fk_acc_id','{{%account}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+        
+        
         $this->insert('role',['id'=>1,'role_name'=>'ROLE_NONE']);
         $this->insert('role',['id'=>2,'role_name'=>'ROLE_USER']);
         $this->insert('role',['id'=>3,'role_name'=>'ROLE_ADMIN']);
@@ -84,10 +96,11 @@ class m130524_201442_init extends Migration
         'password_reset_token'=>null,'email'=>'kuden.and.ko@gmail.com','status'=>10,'role_id'=>3]);
     }
 
-    public function down()
+    public function safeDown()
     {
-        $this->dropTable('{{%user}}');
-        $this->dropTable('{{%profile}}');
         $this->dropTable('{{%account}}');
+        $this->dropTable('{{%profile}}');
+        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%role}}');
     }
 }
