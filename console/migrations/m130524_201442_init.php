@@ -78,6 +78,10 @@ class m130524_201442_init extends Migration
         $this->insert('role',['id'=>6,'role_name'=>'ROLE_JUDGE']);
         $this->insert('role',['id'=>7,'role_name'=>'ROLE_MEDIATOR']);
         $this->insert('role',['id'=>8,'role_name'=>'ROLE_SUPPORT']);
+
+
+        $this->insert('user',['id'=>1,'username'=>'Rickcy','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('Rickcy27'),
+        'password_reset_token'=>null,'email'=>'kuden.and.ko@gmail.com','status'=>10,'role_id'=>3]);
     }
 
     public function down()
