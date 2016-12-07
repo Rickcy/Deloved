@@ -4,8 +4,11 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\jui\AutoComplete;
+use yii\jui\DatePicker;
 
 $this->title = 'Регитсрация нового пользователя';
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,7 +33,72 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model,'repassword')->passwordInput(); ?>
 
-                <div class="form-group">
+
+
+
+
+
+                <?= $form->field($model, 'city_id')->widget(
+                    AutoComplete::className(), [
+
+                    'clientOptions' => [
+                        'source' => $city_list,
+                        'minLength' => 3,
+                    ],
+                    'options'=>[
+                        'class'=>'form-control'
+                    ],
+                ]);
+                ?>
+
+                 <?= $form->field($model, 'address')->textInput() ?>
+
+                 <?= $form->field($model, 'brand_name')->textInput() ?>
+
+            <?= $form->field($model, 'date_reg')->widget(DatePicker::className(),['clientOptions' => ['defaultDate' => '2014-01-01']]) ?>
+
+
+                 <?= $form->field($model, 'description')->textInput() ?>
+
+                 <?= $form->field($model, 'director')->textInput() ?>
+
+                 <?= $form->field($model, 'full_name')->textInput() ?>
+
+                 <?= $form->field($model, 'fax')->textInput() ?>
+
+                 <?= $form->field($model, 'inn')->textInput() ?>
+
+                 <?= $form->field($model, 'keywords')->textInput() ?>
+
+                 <?= $form->field($model, 'kpp')->textInput() ?>
+
+                 <?= $form->field($model, 'legal_address')->textInput() ?>
+
+                 <?= $form->field($model, 'phone1')->textInput() ?>
+            
+            
+                 <?= $form->field($model, 'phone2')->textInput() ?>
+            
+                 <?= $form->field($model, 'web_address')->textInput() ?>
+            
+                 <?= $form->field($model, 'work_time')->textInput() ?>
+
+                 <? $items = ArrayHelper::map($org_forms,'id','name');
+                 $params = [
+                     'prompt' => 'Не выбрано'
+                 ];
+                 echo $form->field($model, 'org_form_id')->dropDownList($items,$params);?>
+
+                 <?= $form->field($model, 'fio')->textInput() ?>
+
+                 <?= $form->field($model, 'cellPhone')->textInput() ?>
+<!--            --><?//= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain']) ?>
+
+
+
+
+
+            <div class="form-group">
                     <?= Html::submitButton('Завершить регистрацию', ['class' => 'btn btn-md btn-success registr-btn', 'name' => 'signup-button']) ?>
                 </div>
 

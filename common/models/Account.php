@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "account".
@@ -34,8 +35,11 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property User $user
  * @property Region $city
+ * @property User $user
+ * @property Logo $logo
+ * @property OrgForm $orgForm
+ * @property Logo[] $logos
  */
 class Account extends \yii\db\ActiveRecord
 {
@@ -47,6 +51,14 @@ class Account extends \yii\db\ActiveRecord
         return 'account';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+    
+    
     /**
      * @inheritdoc
      */
@@ -56,8 +68,11 @@ class Account extends \yii\db\ActiveRecord
             [['org_form_id', 'date_reg', 'logo_id', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
             [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'required'],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['logo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Logo::className(), 'targetAttribute' => ['logo_id' => 'user_id']],
+            [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
         ];
     }
 
@@ -99,6 +114,14 @@ class Account extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getCity()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
@@ -107,8 +130,26 @@ class Account extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCity()
+    public function getLogo()
     {
-        return $this->hasOne(Region::className(), ['id' => 'city_id']);
+        return $this->hasOne(Logo::className(), ['user_id' => 'logo_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrgForm()
+    {
+        return $this->hasOne(OrgForm::className(), ['id' => 'org_form_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLogos()
+    {
+        return $this->hasMany(Logo::className(), ['user_id' => 'logo_id']);
+    }
+
+    
 }

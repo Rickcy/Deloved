@@ -4,7 +4,11 @@
 
 $this->title = 'My Yii Application';
 ?>
-<div class="row first_block block_main">
+
+
+
+
+    <div class="row first_block block_main">
 
 
     <div class="row text_main">

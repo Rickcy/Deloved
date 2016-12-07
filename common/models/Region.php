@@ -13,6 +13,7 @@ use Yii;
  * @property string $name
  * @property integer $parent_id
  *
+ * @property Account[] $accounts
  * @property RegionLevel $level
  * @property Region $parent
  * @property Region[] $regions
@@ -54,6 +55,14 @@ class Region extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'parent_id' => Yii::t('app', 'Parent ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccounts()
+    {
+        return $this->hasMany(Account::className(), ['city_id' => 'id']);
     }
 
     /**

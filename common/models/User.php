@@ -166,11 +166,31 @@ class User extends ActiveRecord implements IdentityInterface
         $this->auth_key = Yii::$app->security->generateRandomString();
     }
 
-
+    /**
+        Return Role
+     **/
 
     public function getRole(){
         return $this->hasOne(Role::className(),['id'=>'role_id']);
     }
+
+    /**
+    Return Accounts
+     **/
+
+    public function getAccounts(){
+        return $this->hasMany(Account::className(),['user_id'=>'id']);
+    }
+
+
+    /**
+    Return Profile
+     **/
+
+    public function getProfiles(){
+        return $this->hasMany(Profile::className(),['user_id'=>'id' ]);
+    }
+
     /**
      * Generates new password reset token
      */

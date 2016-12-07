@@ -28,9 +28,8 @@ class m130524_201442_init extends Migration
 
         ], $tableOptions);
 
-        $this->createIndex('fk_role_id','{{%user}}','role_id');
-            $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
-//
+
+
         $this->createTable('{{%profile}}',[
              'id'=>$this->primaryKey(),
             'fio'=>$this->string(),
@@ -44,8 +43,8 @@ class m130524_201442_init extends Migration
             'user_id'=>$this->integer(),
 
         ],$tableOptions);
-        $this->createIndex('fk_user_id','{{%profile}}','user_id');
-            $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+
+
 
 
         $this->createTable('{{%account}}',[
@@ -69,21 +68,51 @@ class m130524_201442_init extends Migration
             'city_id'=>$this->integer(),
             'address'=>$this->string(),
             'keywords'=>$this->string(),
-            'public_status'=>$this->integer(),
-            'verify_status'=>$this->integer(),
+            'public_status'=>$this->integer()->defaultValue(0),
+            'verify_status'=>$this->integer()->defaultValue(0),
             'rating'=>$this->integer(),
             'user_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
 
         ],$tableOptions);
+
+
+        $this->createTable('{{%org_form}}',[
+            'id'=>$this->primaryKey(),
+            'code'=>$this->string(),
+            'name'=>$this->string(),
+        ]);
+
+        $this->createTable('{{%logo}}',[
+            'id'=>$this->primaryKey(),
+            'created_at' => $this->integer()->notNull(),
+            'image_name'=>$this->string(),
+            'file'=>$this->string(),
+            'user_id'=>$this->integer()
+        ],$tableOptions);
+
+
+        $this->createIndex('fk_role_id','{{%user}}','role_id');
+        $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
+
+        $this->createIndex('fk_org_form_id','{{%account}}','org_form_id');
+        $this->addForeignKey('fk_org_form_id','{{%account}}','org_form_id','{{%org_form}}','id','SET NULL','CASCADE');
         
         $this->createIndex('fk_acc_id','{{%account}}','user_id');
         $this->addForeignKey('fk_acc_id','{{%account}}','user_id','{{%user}}','id','SET NULL','CASCADE');
-        $this->createIndex('fk_city_id','{{%account}}','city_id');
-        $this->addForeignKey('fk_city_id','{{%account}}','city_id','{{%region}}','id','SET NULL','CASCADE');
+
+
+        $this->createIndex('fk_user_logo_id','{{%logo}}','user_id');
+        $this->createIndex('fk_logo_id','{{%account}}','logo_id');
+        $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','logo_id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_logo_id','{{%account}}','logo_id','{{%logo}}','user_id','SET NULL','CASCADE');
+
+       
         
-        
+        $this->createIndex('fk_user_id','{{%profile}}','user_id');
+        $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+
         $this->insert('role',['id'=>1,'role_name'=>'ROLE_NONE']);
         $this->insert('role',['id'=>2,'role_name'=>'ROLE_USER']);
         $this->insert('role',['id'=>3,'role_name'=>'ROLE_ADMIN']);
@@ -94,15 +123,24 @@ class m130524_201442_init extends Migration
         $this->insert('role',['id'=>8,'role_name'=>'ROLE_SUPPORT']);
 
 
+        $this->insert('org_form',['id'=>1,'code'=>'ИП', 'name'=>'Индивидуальный предприниматель']);
+        $this->insert('org_form',['id'=>2,'code'=>'ООО','name'=>'Общество с ограниченной ответственностью']);
+        $this->insert('org_form',['id'=>3,'code'=>'ОАО','name'=>'Открытое акционерное общество']);
+        $this->insert('org_form',['id'=>4,'code'=>'ПАО','name'=>'Публичное акционерное общество']);
+        $this->insert('org_form',['id'=>4,'code'=>'ЗАО','name'=>'Закрытое акционерное общество']);
+
+
         $this->insert('user',['id'=>1,'username'=>'Rickcy','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('Rickcy27'),
         'password_reset_token'=>null,'email'=>'kuden.and.ko@gmail.com','status'=>10,'role_id'=>3]);
     }
 
     public function safeDown()
     {
+        $this->dropColumn('user',1);
         $this->dropTable('{{%account}}');
         $this->dropTable('{{%profile}}');
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%role}}');
+
     }
 }

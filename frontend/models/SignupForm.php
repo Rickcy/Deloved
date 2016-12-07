@@ -1,6 +1,8 @@
 <?php
 namespace frontend\models;
 
+use common\models\Account;
+use common\models\Profile;
 use yii\base\Model;
 use common\models\User;
 
@@ -14,6 +16,34 @@ class SignupForm extends Model
     public $password;
     public $repassword;
 
+    public $address;
+    public $brand_name;
+    public $city_id;
+    public $date_reg;
+    public $description;
+    public $director;
+    public $full_name;
+    public $fax;
+    public $inn;
+    public $keywords;
+    public $kpp;
+    public $legal_address;
+    public $phone1;
+    public $phone2;
+    public $org_form_id;
+    public $logo_id;
+    public $avatar_id;
+    public $fio;
+    public $cellPhone;
+    public $chargeStatus;
+    public $chargeTill;
+    public $user_id;
+    public $work_time;
+    public $web_address;
+    public $public_status;
+    public $verify_status;
+    public $rating;
+
     /**
      * @inheritdoc
      */
@@ -21,12 +51,12 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
-            ['username', 'required'],
+            [['username','password'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
-            ['email', 'required'],
+            [['email','fio','full_name', 'brand_name', 'inn', 'kpp', 'email', 'description', 'director', 'address', 'keywords'], 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
@@ -34,6 +64,18 @@ class SignupForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
             ['repassword', 'compare','compareAttribute'=>'password'],
+
+
+            [['avatar_id', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
+            [['fio', 'email', 'cellPhone'], 'string', 'max' => 255],
+
+            [['org_form_id', 'date_reg', 'logo_id', 'city_id', 'public_status', 'verify_status', 'rating'], 'integer'],
+
+            [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address','description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+
+
+
+
         ];
     }
 
@@ -47,13 +89,58 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
         $user = new User();
+        $profile =new Profile();
+        $account =new Account();
+
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        
+        $user->save();
+
+        $profile->fio=$this->fio;
+        $profile->chargeTill=null;
+        $profile->chargeStatus=0;
+        $profile->cellPhone=$this->cellPhone;
+        $profile->email=$user->email;
+        $profile->user_id=$user->id;
+        $profile->avatar_id=null;
+        $profile->created_at=time();
+        $profile->updated_at=time();
+        $profile->save();
+
+        $account->full_name=$this->full_name;
+        $account->address=$this->address;
+        $account->brand_name=$this->brand_name;
+        $account->city_id=$this->city_id;
+        $account->date_reg=$this->date_reg;
+        $account->description=$this->description;
+        $account->director=$this->director;
+        $account->fax=$this->fax;
+        $account->inn=$this->inn;
+        $account->keywords=$this->keywords;
+        $account->kpp=$this->kpp;
+        $account->legal_address=$this->legal_address;
+        $account->org_form_id=$this->org_form_id;
+        $account->phone1=$this->phone1;
+        $account->phone2=$this->phone2;
+        $account->public_status=0;
+        $account->verify_status=0;
+        $account->rating=null;
+        $account->web_address=$this->web_address;
+        $account->work_time=$this->work_time;
+        $account->logo_id=null;
+        $account->email=$user->email;
+        $account->created_at=time();
+        $account->updated_at=time();
+        $account->user_id=$user->id;
+
+
+   
+
+        $account->save();
+
         return $user->save() ? $user : null;
     }
 }

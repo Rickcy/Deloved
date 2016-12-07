@@ -1,6 +1,12 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Account;
+use common\models\OrgForm;
+use common\models\Profile;
+use common\models\Region;
+use common\models\Role;
+use common\models\User;
 use Faker\Provider\DateTime;
 use Yii;
 use yii\base\InvalidParamException;
@@ -73,7 +79,10 @@ class FrontController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $user = User::findOne(Yii::$app->user->id);
+        $profiles=$user->profiles;
+        
+        return $this->render('index',['profiles'=>$profiles]);
     }
 
     /**
@@ -84,17 +93,17 @@ class FrontController extends Controller
     public function actionLogin()
     {
 
-        $date= (integer)DateTime::dateTime('now');
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,'date'=>$date
+                'model' => $model
             ]);
         }
     }
@@ -151,10 +160,21 @@ class FrontController extends Controller
      */
     public function actionSignup()
     {
+        
+       $org_forms =OrgForm::find()->all();
+        $city_list=Region::find()
+           ->select(['name as value', 'name as  label','id as name'])
+           ->asArray()
+           ->all();
+
         $model = new SignupForm();
-        //$city_list =
+
         if ($model->load(Yii::$app->request->post())) {
+
+
             if ($user = $model->signup()) {
+
+            
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
                 }
@@ -162,7 +182,7 @@ class FrontController extends Controller
         }
 
         return $this->render('signup', [
-            'model' => $model,
+            'model' => $model,'city_list'=>$city_list,'org_forms'=>$org_forms
         ]);
     }
 
