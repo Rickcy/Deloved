@@ -15,8 +15,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-
+<!--<pre>-->
+<?//=print_r($city_list)?>
+<!--  </pre>-->
     <div class="row">
         <div class="col-sm-10 ">
 
@@ -33,12 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model,'repassword')->passwordInput(); ?>
 
-
-
-
-
-
-                <?= $form->field($model, 'city_id')->widget(
+            
+                <?= $form->field($model, 'city_name')->widget(
                     AutoComplete::className(), [
 
                     'clientOptions' => [
@@ -50,12 +47,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]);
                 ?>
-
+                
                  <?= $form->field($model, 'address')->textInput() ?>
 
                  <?= $form->field($model, 'brand_name')->textInput() ?>
 
-            <?= $form->field($model, 'date_reg')->widget(DatePicker::className(),['clientOptions' => ['defaultDate' => '2014-01-01']]) ?>
+                 <?= $form->field($model, 'date_reg')->widget(DatePicker::className(),['clientOptions' => ['defaultDate' => '2014-01-01']]) ?>
 
 
                  <?= $form->field($model, 'description')->textInput() ?>
@@ -89,9 +86,9 @@ $this->params['breadcrumbs'][] = $this->title;
                  ];
                  echo $form->field($model, 'org_form_id')->dropDownList($items,$params);?>
 
-                 <?= $form->field($model, 'fio')->textInput() ?>
-
-                 <?= $form->field($model, 'cellPhone')->textInput() ?>
+<!--                 --><?//= $form->field($model, 'fio')->textInput() ?>
+<!---->
+<!--                 --><?//= $form->field($model, 'cellPhone')->textInput() ?>
 <!--            --><?//= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain']) ?>
 
 

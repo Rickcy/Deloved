@@ -127,7 +127,7 @@ class m130524_201442_init extends Migration
         $this->insert('org_form',['id'=>2,'code'=>'ООО','name'=>'Общество с ограниченной ответственностью']);
         $this->insert('org_form',['id'=>3,'code'=>'ОАО','name'=>'Открытое акционерное общество']);
         $this->insert('org_form',['id'=>4,'code'=>'ПАО','name'=>'Публичное акционерное общество']);
-        $this->insert('org_form',['id'=>4,'code'=>'ЗАО','name'=>'Закрытое акционерное общество']);
+        $this->insert('org_form',['id'=>5,'code'=>'ЗАО','name'=>'Закрытое акционерное общество']);
 
 
         $this->insert('user',['id'=>1,'username'=>'Rickcy','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('Rickcy27'),

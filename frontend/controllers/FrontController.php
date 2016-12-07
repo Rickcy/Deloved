@@ -124,10 +124,12 @@ class FrontController extends Controller
      * Displays contact page.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionContact()
     {
         $model = new ContactForm();
+       
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -147,6 +149,7 @@ class FrontController extends Controller
      * Displays about page.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionAbout()
     {
@@ -157,13 +160,14 @@ class FrontController extends Controller
      * Signs user up.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionSignup()
     {
         
        $org_forms =OrgForm::find()->all();
         $city_list=Region::find()
-           ->select(['name as value', 'name as  label','id as name'])
+           ->select(['name as  label','name as value','name as name'])
            ->asArray()
            ->all();
 
