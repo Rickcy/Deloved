@@ -12,14 +12,14 @@ use yii\helpers\Url;
             'validationUrl' => Url::to(['/validate/login']),
         ])
         ?>
-        <h4 >Вход в личный кабинет</h4>
+        <h3 >Вход в личный кабинет</h3>
         <h5 >Чтобы управлять своей компанией, а также вести сделки, нужно авторизоваться в системе.
-            Если вы еще не зарегистрированны, можете сделать это здесь</h5>
+            Если вы еще не зарегистрированны, можете сделать это <?= Html::a('здесь', ['/front/signup/']) ?> </h5>
         <?=$form->field($model,'username')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>'Имя']) ?>
 
         <?=$form->field($model,'password')->passwordInput(['class'=>'user_form-control form-control','placeholder'=>'Пароль'])->label('') ?>
-
-        <?=$form->field($model,'rememberMe')->checkbox()->label('Запомнить меня') ?>
+        <?= Html::a('Забыли пароль?', ['/front/request-password-reset/'],['style'=>'float:left']) ?>
+        <?=$form->field($model,'rememberMe')->checkbox()->label('Запомнить меня',['style'=>'float:right']) ?>
         <div class="clearfix"></div>
         <?=Html::submitButton('Войти',['class'=>'btn btn-lg btn-green btn-block '])?>
 

@@ -184,6 +184,12 @@ a:hover {
     -moz-border-radius:15px;
     border-radius:15px;
 }
+.form-signin h3{
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.form-signin h5{
+    font-family: Georgia, serif;;
+}
 .user_form-control{
     width: 70%;
     margin-left: 17%;
@@ -194,10 +200,9 @@ a:hover {
     border-radius:5px;
     padding: 10px;
 }
-.checkbox{
-    float: right;
-}
+
 .btn-green{
+    margin-top: 5%!important;
     background-color: #94c43d;
 }
 .btn-blue{

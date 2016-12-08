@@ -17,6 +17,7 @@ class Common extends Component {
             ->setTo([$emailFrom=> $nameFrom])
             ->setSubject($subject)
             ->setTextBody($text)
+            
             ->send();
         //$this->trigger(self::EVENT_NOTIFY);
     }
