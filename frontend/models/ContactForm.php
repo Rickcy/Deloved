@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
+use yii\helpers\Url;
 
 /**
  * ContactForm is the model behind the contact form.
@@ -28,7 +29,7 @@ class ContactForm extends Model
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
+            ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
         ];
     }
 
@@ -39,6 +40,7 @@ class ContactForm extends Model
     {
         return [
             'verifyCode' => 'Verification Code',
+
         ];
     }
 

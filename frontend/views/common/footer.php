@@ -1,4 +1,5 @@
 <?
+use frontend\widgets\Contact;
 use frontend\widgets\Login;
 ?>
 <div id="footer">
@@ -16,7 +17,7 @@ use frontend\widgets\Login;
                 
                 <!--Если пользователь является гостем-->
                 <?  if(Yii::$app->user->isGuest):?>
-                    <li><a href="#">Связаться с нами</a></li>
+                    <li><a href="#" data-target="#Contact" data-toggle="modal">Связаться с нами</a></li>
                 <?endif?>
                 
                 <!--Если пользователь не является гостем-->
@@ -31,7 +32,7 @@ use frontend\widgets\Login;
         </div>
 </div>
 
-
+  
     <div class="bottom_block" >
         <div class="container">
             <div class="row">
@@ -51,4 +52,8 @@ use frontend\widgets\Login;
     echo Login::widget();
 }
 ?>
+        <?if(Yii::$app->user->isGuest) {
+            echo Contact::widget();
+        }
+        ?>
 </div>

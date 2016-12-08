@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 @media (min-width:1200px){
 .container{width:90%!important;}
@@ -198,11 +199,21 @@ a:hover {
 }
 .btn-green{
     background-color: #94c43d;
+}
+.btn-blue{
+    background-color: #4b7bbe;
+}
+.btn-blue,.btn-green{
+
     width: 50%;
     margin: 0 auto;
     color: white;
 }
 .btn-green:hover{
     background-color: #82ae36;
+    color: white
+}
+.btn-blue:hover{
+    background-color: #3b6197;
     color: white
 }

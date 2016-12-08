@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\LoginForm;
 use common\models\Subscribe;
+use frontend\models\ContactForm;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -18,15 +19,15 @@ class ValidateController extends Controller{
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'index' => ['get', 'post'],
-                    'subscribe' => ['get', 'post'],
+                    'login' => ['get', 'post'],
+                    'contact' => ['get', 'post'],
                 ],
             ],
         ];
     }
 
 
-    public function actionIndex(){
+    public function actionLogin(){
 
         $model = new LoginForm();
 
@@ -37,6 +38,15 @@ class ValidateController extends Controller{
 
 
     }
+
+    public function actionContact(){
+        $model = new ContactForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
 
 //    public function actionSubscribe(){
 //

@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     
-    'defaultRoute'=>'front',
+   
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -38,6 +38,25 @@ return [
         'errorHandler' => [
             'errorAction' => 'front/error',
         ],
+        'mail' => [
+            'class'            => 'zyx\phpmailer\Mailer',
+            'viewPath'         => '@common/mail',
+            'useFileTransport' => false,
+            'config'           => [
+                'mailer'     => 'smtp',
+                'host'       => 'smtp.yandex.ru',
+                'port'       => '465',
+                'smtpsecure' => 'ssl',
+                'smtpauth'   => true,
+                'username'   => 'Rickcy@yandex.ru',
+                'password'   => 'Rickcy27',
+                'isHtml'     => true,
+                'charset'    => 'UTF-8'
+            ]
+        ],
+        'common' =>[
+            'class' => 'frontend\component\Common'
+        ]
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

@@ -24,7 +24,7 @@ $i=0;
 
             ib.fadeIn(450);
             setTimeout(function(){
-                ib.fadeOut(4000, function() {
+                ib.fadeOut(3000, function() {
                     //ib.remove();
                 });
                 ib.mouseenter(function() {
@@ -33,7 +33,7 @@ $i=0;
                     ib.animate({opacity: 1});
                 });
                 ib.mouseleave(function() {
-                    ib.fadeOut(8000, function() {
+                    ib.fadeOut(6000, function() {
                         //ib.remove();
                     });
                 });
