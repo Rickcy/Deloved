@@ -180,6 +180,8 @@ class FrontController extends Controller
 
             
                 if (Yii::$app->getUser()->login($user)) {
+                    Yii::$app->session->addFlash('success', 'Поздравляем! Регистрация прошла успешно');
+                    Yii::$app->session->addFlash('danger', 'Ожидайте письмо на свою почту');
                     return $this->goHome();
                 }
             }

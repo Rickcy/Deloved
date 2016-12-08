@@ -168,9 +168,41 @@ body {
      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#94c43d', endColorstr='#79a437', GradientType=0);
  }
 .layer a:hover {
-    text-shadow: 0px 0px 5px #e3e3e3;
+    text-shadow: 0 0 5px #e3e3e3;
     background: #89bc40;
 }
 a:hover {
     text-decoration: none !important;
+}
+.form-signin{
+    width: 90%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+    border-radius:15px;
+}
+.user_form-control{
+    width: 70%;
+    margin-left: 17%;
+    height: auto;
+    font-size: 16px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding: 10px;
+}
+.checkbox{
+    float: right;
+}
+.btn-green{
+    background-color: #94c43d;
+    width: 50%;
+    margin: 0 auto;
+    color: white;
+}
+.btn-green:hover{
+    background-color: #82ae36;
+    color: white
 }

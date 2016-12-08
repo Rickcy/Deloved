@@ -27,7 +27,7 @@ use yii\bootstrap\Nav;
                 $menuItems = [];
                 if($guest) {
                     $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
-                    $menuItems[]= ['label' => '    В Кабинет', 'url' => ['/front/login']];
+                    $menuItems[]= ['label' => '    В Кабинет', 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => "modal"]];
                 }else{
                     $menuItems[]=['label' => '   В Кабинет', 'url' => ['/front/index']];
                     $menuItems[]= ['label' => '    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];

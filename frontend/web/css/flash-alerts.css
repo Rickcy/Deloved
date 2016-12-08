@@ -1,6 +1,6 @@
 .flash-alert{
-    position:fixed;
-    top:0;
+    position:absolute;
+    top:15%;
     left:25%;
     right:25%;
     width:50%;

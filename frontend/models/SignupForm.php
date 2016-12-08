@@ -134,7 +134,7 @@ class SignupForm extends Model
         $account->phone2=$this->phone2;
         $account->public_status=0;
         $account->verify_status=0;
-        $account->rating=100;
+        $account->rating=null;
         $account->web_address=$this->web_address;
         $account->work_time=$this->work_time;
         $account->email=$this->email;

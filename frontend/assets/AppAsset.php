@@ -14,6 +14,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/front.css',
+        'css/flash-alerts.css'
     ];
     public $js = [
         'js/front.js'

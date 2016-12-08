@@ -1,32 +1,31 @@
 <?php
+$i=0;
 ?>
-<div id="flash-message" class="flash-alert alert alert-info" hidden></div>
+<?if (Yii::$app->session->getAllFlashes()):?>
+<?php foreach(Yii::$app->session->getAllFlashes() as $type => $messages): ?>
+        <?if (is_array($messages)):?>
+        <? foreach ($messages as $message):?>
+        <div style="top:<?=$i+=10?>%" class="flash-message flash-alert alert alert-<?=$type ?>" role="alert">
+            <?= $message ?>
+        </div>
+        <?endforeach;?>
+        <?endif;?>
+
+
+<?php endforeach ?>
+<?endif?>
 
 <script>
 
-    var ib = $('#flash-message');
+    var ib = $('.flash-message');
 
-    <g:if test="${flash.message}">
-        showMessage('${flash.status}', '${flash.message}')
-        </g:if>
-
-    function showMessage(status, message){
-
-        if ($.inArray(status, ['info', 'danger', 'warning', 'success']) != -1) {
-            ib.attr('class', ib.attr('class').replace(/\balert-\w+\b/g, 'alert-'+status));
-        } else {
-            ib.attr('class', ib.attr('class').replace(/\balert-\w+\b/g, 'alert-info'));
-        }
-
-        ib.clearQueue();
-        ib.stop();
-        ib.hide();
-        ib.html(message);
-
+    function showMessage(){
         setTimeout(function(){
+
             ib.fadeIn(450);
             setTimeout(function(){
                 ib.fadeOut(4000, function() {
+                    //ib.remove();
                 });
                 ib.mouseenter(function() {
                     ib.clearQueue();
@@ -35,6 +34,7 @@
                 });
                 ib.mouseleave(function() {
                     ib.fadeOut(8000, function() {
+                        //ib.remove();
                     });
                 });
             }, 4000)
@@ -42,4 +42,5 @@
         }, 100)
     }
 
+    showMessage();
 </script>

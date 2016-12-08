@@ -1,3 +1,6 @@
+<?
+use frontend\widgets\Login;
+?>
 <div id="footer">
 
 
@@ -44,5 +47,8 @@
         </div>
     </div>
     </div>
-
+<?if(Yii::$app->user->isGuest) {
+    echo Login::widget();
+}
+?>
 </div>
