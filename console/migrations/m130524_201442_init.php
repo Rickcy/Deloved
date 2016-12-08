@@ -15,6 +15,8 @@ class m130524_201442_init extends Migration
             'id'=>$this->primaryKey(),
             'role_name'=>$this->string()
         ],$tableOptions);
+
+
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
@@ -61,7 +63,6 @@ class m130524_201442_init extends Migration
             'fax'=>$this->string(),
             'web_address'=>$this->string(),
             'email'=>$this->string(),
-            'logo_id'=>$this->integer(),
             'description'=>$this->string(),
             'director'=>$this->string(),
             'work_time'=>$this->string(),
@@ -89,6 +90,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'image_name'=>$this->string(),
             'file'=>$this->string(),
+            'main_image'=>$this->integer()->defaultValue(0),
             'user_id'=>$this->integer()
         ],$tableOptions);
 
@@ -104,9 +106,9 @@ class m130524_201442_init extends Migration
 
 
         $this->createIndex('fk_user_logo_id','{{%logo}}','user_id');
-        $this->createIndex('fk_logo_id','{{%account}}','logo_id');
-        $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','logo_id','SET NULL','CASCADE');
-        $this->addForeignKey('fk_logo_id','{{%account}}','logo_id','{{%logo}}','user_id','SET NULL','CASCADE');
+        
+        $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','id','SET NULL','CASCADE');
+        
 
        
         

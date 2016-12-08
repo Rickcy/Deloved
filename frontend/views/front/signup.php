@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                  <?= $form->field($model, 'brand_name')->textInput() ?>
 
-                 <?= $form->field($model, 'date_reg')->widget(DatePicker::className(),['clientOptions' => ['defaultDate' => '2014-01-01']]) ?>
+                
 
 
                  <?= $form->field($model, 'description')->textInput() ?>
@@ -86,10 +86,10 @@ $this->params['breadcrumbs'][] = $this->title;
                  ];
                  echo $form->field($model, 'org_form_id')->dropDownList($items,$params);?>
 
-<!--                 --><?//= $form->field($model, 'fio')->textInput() ?>
-<!---->
-<!--                 --><?//= $form->field($model, 'cellPhone')->textInput() ?>
-<!--            --><?//= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain']) ?>
+                 <?= $form->field($model, 'fio')->textInput() ?>
+
+                 <?= $form->field($model, 'cellPhone')->textInput() ?>
+
 
 
 

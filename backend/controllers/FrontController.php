@@ -8,9 +8,9 @@ use yii\filters\AccessControl;
 use common\models\LoginForm;
 
 /**
- * Site controller
+ * Front controller
  */
-class SiteController extends Controller
+class FrontController extends Controller
 {
     /**
      * @inheritdoc

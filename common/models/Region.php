@@ -62,7 +62,7 @@ class Region extends \yii\db\ActiveRecord
      */
     public function getAccounts()
     {
-        return $this->hasMany(Account::className(), ['city_name' => 'id']);
+        return $this->hasMany(Account::className(), ['city_id' => 'id']);
     }
 
     /**

@@ -11,9 +11,9 @@ use Yii;
  * @property integer $created_at
  * @property string $image_name
  * @property string $file
+ * @property integer $main_image
  * @property integer $user_id
  *
- * @property Account[] $accounts
  * @property Account $user
  */
 class Logo extends \yii\db\ActiveRecord
@@ -33,9 +33,9 @@ class Logo extends \yii\db\ActiveRecord
     {
         return [
             [['created_at'], 'required'],
-            [['created_at', 'user_id'], 'integer'],
+            [['created_at', 'main_image', 'user_id'], 'integer'],
             [['image_name', 'file'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['user_id' => 'logo_id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -49,6 +49,7 @@ class Logo extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'image_name' => Yii::t('app', 'Image Name'),
             'file' => Yii::t('app', 'File'),
+            'main_image' => Yii::t('app', 'Main Image'),
             'user_id' => Yii::t('app', 'User ID'),
         ];
     }
@@ -56,16 +57,8 @@ class Logo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAccounts()
-    {
-        return $this->hasMany(Account::className(), ['logo_id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
-        return $this->hasOne(Account::className(), ['logo_id' => 'user_id']);
+        return $this->hasOne(Account::className(), ['id' => 'user_id']);
     }
 }

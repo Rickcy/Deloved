@@ -19,7 +19,7 @@ class SignupForm extends Model
 
     public $address;
     public $brand_name;
-    public $city_id;
+
     public $date_reg;
     public $description;
     public $director;
@@ -32,8 +32,6 @@ class SignupForm extends Model
     public $phone1;
     public $phone2;
     public $org_form_id;
-    public $logo_id;
-    public $avatar_id;
     public $fio;
     public $cellPhone;
     public $chargeStatus;
@@ -44,7 +42,6 @@ class SignupForm extends Model
     public $public_status;
     public $verify_status;
     public $rating;
-    public $e_mail;
 
     public $city_name;
     /**
@@ -53,26 +50,27 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'trim'],
-            [['username','password'], 'required'],
+            [['username','email'], 'trim'],
+            
+            [['username','password','org_form_id','email','full_name','director','city_name','address'], 'required'],
+            
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'trim'],
-            [['email','password','fio','full_name',  'description', 'director', 'address', ], 'required'],
-            ['email', 'email'],
-            ['e_mail', 'email'],
-
+            
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            
+            ['username', 'string', 'min' => 2, 'max' => 255],
+            
+            ['email', 'email'],
+       
 
-
-            ['password', 'string', 'min' => 6],
+            
+            ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
 
 
-            [['avatar_id', 'chargeStatus', 'chargeTill', 'user_id','org_form_id', 'date_reg', 'logo_id', 'city_id', 'public_status', 'verify_status', 'rating'], 'integer'],
+            [['org_form_id', 'date_reg', 'public_status', 'verify_status', 'rating',  'chargeStatus', 'chargeTill', ], 'integer'],
 
-            [['fio', 'cellPhone','full_name','city_name','brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address','description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name','city_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', 'cellPhone'], 'string', 'max' => 255],
 
 
 
@@ -99,31 +97,31 @@ class SignupForm extends Model
             return null;
         }
         $user = new User();
-//        $profile =new Profile();
-//        $account =new Account();
+        $profile =new Profile();
+        $account =new Account();
 
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->save();
 
-//
-//
-//        $profile->fio=$this->fio;
-//        $profile->chargeTill=null;
-//        $profile->chargeStatus=0;
-//        $profile->cellPhone=$this->cellPhone;
-//        $profile->email=$user->email;
-//        $profile->user_id=$user->id;
-//        $profile->avatar_id=null;
-//        $profile->created_at=time();
-//        $profile->updated_at=time();
-        $account =new Account();
+        $profile->fio=$this->fio;
+        $profile->chargeTill=null;
+        $profile->chargeStatus=0;
+        $profile->cellPhone=$this->cellPhone;
+        $profile->email=$user->email;
+        $profile->user_id=$user->id;
+        $profile->avatar_id=null;
+        $profile->created_at=time();
+        $profile->updated_at=time();
+        $profile->save();
+
         $account->full_name=$this->full_name;
         $account->address=$this->address;
         $account->brand_name=$this->brand_name;
         $account->city_id=$this->returnCity_id();
-        $account->date_reg=$this->date_reg;
+        $account->date_reg=time();
         $account->description=$this->description;
         $account->director=$this->director;
         $account->fax=$this->fax;
@@ -139,17 +137,17 @@ class SignupForm extends Model
         $account->rating=100;
         $account->web_address=$this->web_address;
         $account->work_time=$this->work_time;
-        $account->logo_id=null;
         $account->email=$this->email;
         $account->created_at=time();
         $account->updated_at=time();
         $account->user_id=$user->id;
-
-//        $user->save();
-//
-//        $profile->save();
-
         $account->save();
+     
+
+
+
+
+
 
         return $user->save() ? $user : null;
     }

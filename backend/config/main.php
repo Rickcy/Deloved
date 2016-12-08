@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'defaultRoute'=>'front',
     'modules' => [],
     'components' => [
         'request' => [
@@ -35,7 +36,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'front/error',
         ],
         /*
         'urlManager' => [
