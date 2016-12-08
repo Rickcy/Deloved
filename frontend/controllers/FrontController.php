@@ -76,19 +76,21 @@ class FrontController extends Controller
      * Displays homepage.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionIndex()
     {
-        $user = User::findOne(Yii::$app->user->id);
-        $profiles=$user->profiles;
-        
-        return $this->render('index',['profiles'=>$profiles]);
+//        $user = User::findOne(Yii::$app->user->id);
+//        $profiles=$user->getProfiles()->one();
+//
+        return $this->render('index');
     }
 
     /**
      * Logs in a user.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionLogin()
     {
@@ -196,6 +198,7 @@ class FrontController extends Controller
      * Requests password reset.
      *
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      */
     public function actionRequestPasswordReset()
     {
@@ -220,6 +223,7 @@ class FrontController extends Controller
      *
      * @param string $token
      * @return mixed
+     * @throws \yii\base\InvalidParamException
      * @throws BadRequestHttpException
      */
     public function actionResetPassword($token)
@@ -231,7 +235,7 @@ class FrontController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password was saved.');
+            Yii::$app->session->addFlash('success', 'Новый пароль сохранен!');
 
             return $this->goHome();
         }

@@ -20,7 +20,7 @@ class Contact extends Widget
     {
      $model = new ContactForm();
 
-        if ($model->load(\Yii::$app->request->post()) && $model->validate()){
+        if ($model->load(Yii::$app->request->post()) && $model->validate()){
             $body ='<div>'.$model->body.'</div>';
             $body .='<p><div>Имя отправителя : '.$model->name.'</div><br>';
             $body .='<div>E-mail : '.$model->email.'</div><br></p>';

@@ -10,19 +10,25 @@ use yii\helpers\Url;
 ?>
 <div class="modal fade" id="Contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
+    <div class="modal-content contact-content" style="width:80%;margin: 0 auto">
+        <div class="modal-header" style="background-color: #94C43D">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title " style="text-align: center;color: white">Мы рады вашим обращениям!</h4>
+        </div>
 
-        <?php $form = ActiveForm::begin(['id' => 'contact-form', 'options' => ['class' => 'form-signin text-center'],
+      <div class="modal-body">
+        <?php $form = ActiveForm::begin(['id' => 'contact-form', 'options' => ['class' => 'form-contact text-center'],
             'enableAjaxValidation' => false,
             'validationUrl' => Url::to(['/validate/contact']),
         ])
         ?>
-        <?= $form->field($model, 'name')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>'Имя']) ?>
+        <?= $form->field($model, 'name')->label('')->textInput(['class'=>'contact_form-control form-control','placeholder'=>'Имя']) ?>
 
-        <?= $form->field($model, 'email')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>'E-mail'])?>
+        <?= $form->field($model, 'email')->label('')->textInput(['class'=>'contact_form-control form-control','placeholder'=>'E-mail'])?>
 
-        <?= $form->field($model, 'subject')->dropDownList(['Вопросы по регистрации'=>'Вопросы по регистрации','Реклама'=>'Реклама', 'Сотрудничество'=>'Сотрудничество','Другое'=>'Другое'],['class'=>'user_form-control form-control','prompt'=>'Выбирите тему'])->label('') ?>
+        <?= $form->field($model, 'subject')->dropDownList(['Вопросы по регистрации'=>'Вопросы по регистрации','Реклама'=>'Реклама', 'Сотрудничество'=>'Сотрудничество','Другое'=>'Другое'],['class'=>'contact_form-control form-control','prompt'=>'Выбирите тему'])->label('') ?>
 
-        <?= $form->field($model, 'body')->textarea(['rows' => 6,'class'=>'user_form-control form-control','placeholder'=>'Сообщение'])->label('') ?>
+        <?= $form->field($model, 'body')->textarea(['rows' => 4,'class'=>'contact_form-control form-control','placeholder'=>'Сообщение'])->label('') ?>
 
         <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
             'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
@@ -35,4 +41,8 @@ use yii\helpers\Url;
 
         <?ActiveForm::end()?>
 </div>
-    </div>
+
+
+</div>
+</div>
+</div>

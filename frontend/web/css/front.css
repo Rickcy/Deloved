@@ -1,6 +1,6 @@
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0!important;
+    padding: 0!important;
     overflow-x: hidden;
 }
 @media (min-width:1200px){
@@ -221,4 +221,30 @@ a:hover {
 .btn-blue:hover{
     background-color: #3b6197;
     color: white
+}
+
+.form-contact{
+
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}
+.form-contact h3{
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.form-contact h5{
+    font-family: Georgia, serif;;
+}
+.contact_form-control{
+    width: 65%;
+    margin-left: 17%;
+    height: auto;
+    font-size: 12px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding: 10px;
 }

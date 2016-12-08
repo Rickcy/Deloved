@@ -22,6 +22,18 @@ class Common extends Component {
         //$this->trigger(self::EVENT_NOTIFY);
     }
 
+    public function sendMailResetPassword($emailTo,$user){
+        Yii::$app->mail->compose(
+            ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
+            ['user' => $user]
+        )
+            ->setFrom(['Rickcy@yandex.ru'=>'Deloved'])
+            ->setTo([$emailTo])
+            ->setSubject('Password reset for Deloved.ru')
+            ->send();
+
+    }
+
     public function notifyAdmin($event){
         print "Notify Admin";
     }

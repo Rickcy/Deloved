@@ -1,6 +1,9 @@
 <?
+use frontend\widgets\ChangePassword;
 use frontend\widgets\Contact;
 use frontend\widgets\Login;
+use frontend\widgets\PasswordReset;
+
 ?>
 <div id="footer">
 
@@ -48,12 +51,19 @@ use frontend\widgets\Login;
         </div>
     </div>
     </div>
+
+</div>
 <?if(Yii::$app->user->isGuest) {
     echo Login::widget();
 }
 ?>
-        <?if(Yii::$app->user->isGuest) {
-            echo Contact::widget();
-        }
-        ?>
-</div>
+<?if(Yii::$app->user->isGuest) {
+    echo Contact::widget();
+}
+?>
+<?if(Yii::$app->user->isGuest) {
+    echo PasswordReset::widget();
+}
+?>
+
+

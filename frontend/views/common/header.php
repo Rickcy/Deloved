@@ -4,7 +4,7 @@ use yii\bootstrap\Nav;
 
     <div class="navbar-wrapper">
 
-    <nav class="navbar navbar-dark navbar-top bg-inverse menu-top" role="navigation">
+    <nav class="navbar navbar-dark navbar-top bg-inverse menu-top" style="width: 102%;" role="navigation">
         <div class="container">
             <div class="navbar-header">
 
@@ -27,7 +27,7 @@ use yii\bootstrap\Nav;
                 $menuItems = [];
                 if($guest) {
                     $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
-                    $menuItems[]= ['label' => '    В Кабинет', 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => "modal"]];
+                    $menuItems[]= ['label' => '    В Кабинет', 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => 'modal']];
                 }else{
                     $menuItems[]=['label' => '   В Кабинет', 'url' => ['/front/index']];
                     $menuItems[]= ['label' => '    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
