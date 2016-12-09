@@ -15,7 +15,7 @@ class Login extends Widget
         $model = new  LoginForm();
 
         if($model->load(Yii::$app->request->post()) && $model->login()){
-            Yii::$app->controller->redirect(Url::to(''));
+            Yii::$app->controller->redirect('/admin');
         }
 
         return $this->render('login',['model'=>$model]);

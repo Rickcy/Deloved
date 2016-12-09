@@ -18,12 +18,13 @@ use yii\web\IdentityInterface;
  * @property string $auth_key
  * @property integer $status
  * @property string $password write-only password
- * @property integer role_id
+ * @property integer $role_id
+ * @property string $email_confirm_token
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
+    const STATUS_DETECTED = 0;
+    const STATUS_ACTIVE = 1;
     const ROLE_ID = 1;
 
     /**
@@ -46,10 +47,35 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DETECTED]],
             ['role_id','default', 'value' => self::ROLE_ID]
         ];
     }
+
+    /**
+            CheckRole
+     * @var $role \common\models\Role
+     **/
+
+    public static function checkRole($roles=[]){
+
+        $model=null;
+        $user = User::findOne(Yii::$app->user->id);
+        $role = $user->getRole()->one();
+        $role_name = $role->role_name;
+        foreach ($roles as $role){
+            if ($role===$role_name){
+                $model=true;
+            } else{
+                $model=false;
+            }
+        }
+
+
+        return $model;
+
+    }
+
 
     /**
      * @inheritdoc
@@ -205,5 +231,23 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @param string $email_confirm_token
+     *
+     * @return static
+     */
+    public static function findByEmailConfirmToken($email_confirm_token){
+        return static::findOne(['email_confirm_token'=>$email_confirm_token,'role_id'=>self::ROLE_ID]);
+    }
+
+
+    public function generateEmailConfirmToken(){
+        $this->email_confirm_token = Yii::$app->security->generateRandomString();
+    }
+
+    public function removeEmailConfirmToken(){
+        $this->email_confirm_token=null;
     }
 }

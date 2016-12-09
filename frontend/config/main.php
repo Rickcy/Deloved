@@ -13,6 +13,11 @@ return [
 
     'defaultRoute'=>'front',
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\AdminModule',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -21,6 +26,7 @@ return [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'loginUrl'=>'/#loginmodal'
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend

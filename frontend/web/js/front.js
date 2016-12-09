@@ -1,5 +1,9 @@
-$(document).ready(
-    function(){
+$(document).ready(function(){
+    var hash = window.location.hash;
+    if(hash == '#loginmodal'){
+       
+        $('#Login').modal('show');
+    }
         var a=function(){
             var a=$("#myTabExample > li"),
                 b=a.filter(".active")

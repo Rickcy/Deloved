@@ -4,8 +4,10 @@ namespace frontend\models;
 use common\models\Account;
 use common\models\Profile;
 use common\models\Region;
+use Yii;
 use yii\base\Model;
 use common\models\User;
+use yii\helpers\Url;
 
 /**
  * Signup form
@@ -42,6 +44,8 @@ class SignupForm extends Model
     public $public_status;
     public $verify_status;
     public $rating;
+    
+    public $verifyCode;
 
     public $city_name;
     /**
@@ -51,28 +55,18 @@ class SignupForm extends Model
     {
         return [
             [['username','email'], 'trim'],
-            
             [['username','password','org_form_id','email','full_name','director','city_name','address'], 'required'],
-            
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-            
             ['username', 'string', 'min' => 2, 'max' => 255],
-            
             ['email', 'email'],
-       
-
-            
             ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
 
-
             [['org_form_id', 'date_reg', 'public_status', 'verify_status', 'rating',  'chargeStatus', 'chargeTill', ], 'integer'],
-
             [['full_name','city_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', 'cellPhone'], 'string', 'max' => 255],
 
-
+            ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
 
 
         ];
@@ -104,6 +98,7 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->generateEmailConfirmToken();
         $user->save();
 
         $profile->fio=$this->fio;
@@ -142,13 +137,20 @@ class SignupForm extends Model
         $account->updated_at=time();
         $account->user_id=$user->id;
         $account->save();
-     
+
+        if ($user->save()&&$profile->save()&&$account->save()) {
+          
+
+            if (!$user) {
+                return false;
+            }
+            Yii::$app->common->sendMailEmailConfirm($this->email,$user);
 
 
 
-
-
-
-        return $user->save() ? $user : null;
+            
+        return $user;
+        }
+        return null;
     }
 }

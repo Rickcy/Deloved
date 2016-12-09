@@ -4,9 +4,11 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
+use yii\captcha\Captcha;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
 use yii\jui\AutoComplete;
 use yii\jui\DatePicker;
 
@@ -40,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     'clientOptions' => [
                         'source' => $city_list,
-                        'minLength' => 3,
+                        'minLength' => 2,
                     ],
                     'options'=>[
                         'class'=>'form-control'
@@ -90,7 +92,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                  <?= $form->field($model, 'cellPhone')->textInput() ?>
 
-
+            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+                'captchaAction'=>Url::to(['/front/captcha'])
+            ])->label('') ?>
 
 
 

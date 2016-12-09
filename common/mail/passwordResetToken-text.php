@@ -2,11 +2,12 @@
 
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
-
+/* @var $profile common\models\Profile */
+$profile =$user->getProfiles()->one();
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['front/reset-password', 'token' => $user->password_reset_token]);
 ?>
-Hello <?= $user->username ?>,
+Зджравствуйте  <?= $profile->fio ?>,
 
-Follow the link below to reset your password:
+Пройдите по ссылке и введите новый пароль:
 
 <?= $resetLink ?>

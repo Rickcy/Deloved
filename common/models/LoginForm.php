@@ -44,10 +44,11 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'К сожалению, мы не смогли найти пользователя с таким именем и паролем.');
+            } elseif ($user && $user->status == User::STATUS_DETECTED) {
+                $this->addError($attribute, 'К сожалению, Ваш аккаунт заблокирован.');
             }
         }
     }
-
     /**
      * Logs in a user using the provided username and password.
      *

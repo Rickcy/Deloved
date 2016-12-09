@@ -6,7 +6,7 @@ $this->title = 'My Yii Application';
 ?>
 
 
-<?=$this->render("//common/flash-message")?>
+
 
     <div class="row first_block block_main">
 

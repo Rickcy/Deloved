@@ -8,6 +8,7 @@ use common\models\Region;
 use common\models\Role;
 use common\models\User;
 use Faker\Provider\DateTime;
+use frontend\models\EmailConfirmForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -21,6 +22,7 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 
 /**
+ * @var $profile \common\models\Profile
  * Front controller
  */
 class FrontController extends Controller
@@ -102,7 +104,7 @@ class FrontController extends Controller
         $model = new LoginForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('/admin');
         } else {
             return $this->render('login', [
                 'model' => $model
@@ -166,10 +168,11 @@ class FrontController extends Controller
      */
     public function actionSignup()
     {
-        
+       $level_id=18;
        $org_forms =OrgForm::find()->all();
         $city_list=Region::find()
            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
            ->asArray()
            ->all();
 
@@ -179,13 +182,11 @@ class FrontController extends Controller
 
 
             if ($user = $model->signup()) {
+                $profile =$user->getProfiles()->one();
+                    Yii::$app->session->addFlash('success', $profile->fio.' Мы Поздравляем!  Регистрация прошла успешно');
+                    Yii::$app->session->addFlash('danger', 'Ожидайте письмо на свою почту для подтверждения регистрации!');
+                    return $this->redirect('/admin');
 
-            
-                if (Yii::$app->getUser()->login($user)) {
-                    Yii::$app->session->addFlash('success', 'Поздравляем! Регистрация прошла успешно');
-                    Yii::$app->session->addFlash('danger', 'Ожидайте письмо на свою почту');
-                    return $this->goHome();
-                }
             }
         }
 
@@ -194,6 +195,30 @@ class FrontController extends Controller
         ]);
     }
 
+
+    public function actionEmailConfirm($token)
+    {
+        try {
+            $model = new EmailConfirmForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($user =$model->confirmEmail()) {
+            if (Yii::$app->getUser()->login($user)) {
+                Yii::$app->session->addFlash('success', 'Спасибо! Ваш Email успешно подтверждён.');
+                return $this->redirect('/admin');
+            }
+            return $this->goHome();
+        } else {
+            Yii::$app->session->addFlash('error', 'Ошибка подтверждения Email.');
+        }
+
+        return $this->goHome();
+    }
+    
+    
+    
     /**
      * Requests password reset.
      *

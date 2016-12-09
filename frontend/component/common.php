@@ -34,6 +34,18 @@ class Common extends Component {
 
     }
 
+    public function sendMailEmailConfirm($emailTo,$user){
+        Yii::$app->mail->compose(
+            ['html' => 'emailConfirmToken-html', 'text' => 'emailConfirmToken-text'],
+            ['user' => $user]
+        )
+            ->setFrom(['Rickcy@yandex.ru'=>'Deloved'])
+            ->setTo([$emailTo])
+            ->setSubject('Email Confirm for Deloved.ru')
+            ->send();
+
+    }
+
     public function notifyAdmin($event){
         print "Notify Admin";
     }

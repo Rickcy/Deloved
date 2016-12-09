@@ -27,8 +27,10 @@ AppAsset::register($this);
 
 <?=$this->render("//common/header")?>
 
+<?=$this->render("//common/flash-message")?>
 
-        <div class="container"><?= $content ?></div>
+
+<div class="container"><?= $content ?></div>
 
 
 
