@@ -8,7 +8,8 @@
 <?if ($user->checkRole(['ROLE_USER'])):?>
     Поздравляю в сменили роль на <?=$role->role_name?>
 
-    <a href="javascript:void(0)" onclick="flash()">Повторный запрос на подтверждение</a>
+    <a href="javascript:void(0)" onclick="addflash()">Повторный запрос на подтверждение</a>
+    <a href="javascript:void(0)" onclick="getflash()">Повторный запрос на подтверждение</a>
 
 
 
@@ -28,15 +29,41 @@
             }
         });
     }
-    function flash(){
+    function addflash(){
         $.ajax({
-            url: '/admin/default/flash',
+            url: '/admin/default/add-flash',
             type: "POST",
-            success: function () {
-               
+
+            success: function (json,data,textStatus, jqXHR) {
+                console.log('отправлено');
+
             },
             error: function () {
-               
+                console.log('не отправлено');
+
+            }
+        });
+    }
+    function getflash(){
+        $.ajax({
+            url: '/admin/default/get-flash',
+            type: "GET",
+
+            success: function (responseText) {
+                var a = $.parseJSON(responseText);
+                console.log('success');
+                console.log('success');
+                console.log(a.success);
+                console.log(a.danger);
+                console.log('danger');
+
+
+
+
+
+            },
+            error: function () {
+                console.log('не отправлено');
 
             }
         });

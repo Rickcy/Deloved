@@ -1,6 +1,7 @@
 <?php
 $i=0;
 ?>
+
 <?if (Yii::$app->session->getAllFlashes()):?>
 <?php foreach(Yii::$app->session->getAllFlashes() as $type => $messages): ?>
         <?if (is_array($messages)):?>

@@ -36,4 +36,15 @@ class DefaultController extends AuthController
         return $flash;
     }
     
+    public function actionAddFlash(){
+        Yii::$app->session->addFlash('danger', 'Повторный запрос отправлен!');
+
+
+    }
+    public function actionGetFlash(){
+
+        return json_encode(Yii::$app->session->getAllFlashes());
+
+    }
+    
 }
