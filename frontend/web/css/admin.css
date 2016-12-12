@@ -1,0 +1,181 @@
+.header {
+    height: 70px;
+    width: 100%;
+    display: inline-table;
+    border: 0 solid silver;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin: 0 0 10px 0;
+    background-color: white;
+    border-bottom: 2px solid #94c43d;
+    border-right: 2px solid #94c43d;
+
+    -webkit-box-shadow: 0 0 10px #94c43d;
+    -moz-box-shadow: 0 0 10px #94c43d;
+    box-shadow: 0 0 10px #94c43d;
+}
+.hlogo {
+    float: left;
+    height: 60px;
+    margin-top: 4px;
+}
+.hmenu {
+    float: left;
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 70px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: medium;
+}
+.hperson {
+    position: relative;
+    cursor: pointer;
+    float: right;
+}
+.hperson > img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    float: left;
+    margin-top: 9px;
+}
+
+.hperson > span {
+    line-height: 70px;
+    padding-left: 10px;
+}
+.hperson:hover > span {
+    color: #4b7bbe;
+}
+.info-menu {
+    display: block;
+    text-decoration: none!important;
+    padding: 5px 10px 5px 10px;
+}
+.info-menu:hover {
+    background-color: #94c43d;
+    text-decoration: none;
+}
+.hperson > div {
+    display: none;
+    position: absolute;
+    width: 200px;
+    border: 1px solid silver;
+    border-right: 2px solid #94c43d;
+    border-bottom: 2px solid #94c43d;
+    z-index: 2;
+    right: 0;
+    top: 85px;
+    border-radius: 4px;
+    background-color: white;
+    padding: 10px 0 10px 0;
+}
+.hperson > div::before {
+    content: "\00a0";
+    display: block;
+    height: 15px;
+    position: absolute;
+    transform: rotate( 45deg );
+    -moz-transform: rotate( 45deg );
+    -ms-transform: rotate( 45deg );
+    -o-transform: rotate( 45deg );
+    -webkit-transform: rotate( 45deg );
+    width: 15px;
+    top: -9px;
+    right: 30px;
+    background-color: white;
+    border-left: 1px solid silver;
+    border-right: none;
+    border-top: 2px solid #94c43d;
+    border-bottom: none;
+}
+.block {
+    border: 1px solid silver;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    min-height: 570px;
+}
+.left-block {
+    border: 1px solid silver;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+.shadow {
+    border: 0 solid black;
+    width: 100%;
+    height: 45px;
+    background: url(../images/admin/shadow.png) no-repeat right top;
+}
+ul{
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 12pt;
+}
+
+.admin_menu li a {
+    display: block;
+    text-decoration: none !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #428bca;
+}
+.admin_menu li a:hover {
+    padding-left: 5px;
+    background-color: #f4f4f4;
+    box-shadow: 0 0 10px #d1d1d1;
+    text-shadow: 2px 2px 2px #b8b8b8;
+}
+.left-block h1 {
+    background-color: #94c43d;
+    color: white;
+    font-size: 14pt;
+    margin: 0 -10px -1px -27px;
+    font-weight: normal;
+    padding: 6px 6px 6px 25px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.ft {
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.ug {
+    background: url(../images/admin/ugolok.png) no-repeat bottom left;
+    margin-left: -27px;
+    height: 10px;
+    margin-bottom: -4px;
+}
+@media (min-width:1200px){
+    .container{width:90%!important;}
+}
+.bottom_block{
+    margin-top: 1%;
+}
+.bottom_menu{
+    background-color:#94c43d;
+    padding:15px 5px 5px 5px;
+
+    font-size:100%
+}
+.about-del{
+    float: right;
+    color: #428BCA;
+    font-size: 105%;
+}
+.bottom_menu ul li{
+    display:inline;
+    list-style:none
+}
+.bottom_menu ul li a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none !important;
+    font-size:11pt
+}

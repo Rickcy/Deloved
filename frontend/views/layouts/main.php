@@ -25,7 +25,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<?=$this->render("//common/header")?>
+<?=$this->render("//common/front/header")?>
 
 <?=$this->render("//common/flash-message")?>
 
@@ -34,7 +34,7 @@ AppAsset::register($this);
 
 
 
-<?=$this->render("//common/footer") ?>
+<?=$this->render("//common/front/footer") ?>
 
 
 <?php $this->endBody() ?>

@@ -56,8 +56,8 @@ class SignupForm extends Model
         return [
             [['username','email'], 'trim'],
             [['username','password','org_form_id','email','full_name','director','city_name','address'], 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'email'],
             ['password', 'string', 'min' => 4],

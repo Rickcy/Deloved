@@ -9,9 +9,10 @@ $profile =$user->getProfiles()->one();
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['front/email-confirm', 'token' => $user->email_confirm_token]);
 ?>
 <div class="password-reset">
-    <p>Здравствуйте <?= Html::encode($profile->fio) ?>,</p>
+    <p>Здравствуйте, <?= $profile->fio ?>! </p>
+    <p>Вы зарегистрировались на межотраслевом бизнес-портале "Деловед".<br/></p>
 
-    <p>Для подтверждения пройдите по ссылке:</p>
+    <p>Чтобы активировать свой профиль, пройдите по ссылке:</p>
 
     <p><?= Html::a(Html::encode($resetLink), $resetLink,[]) ?></p>
 </div>

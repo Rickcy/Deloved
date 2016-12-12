@@ -6,8 +6,9 @@
 $profile =$user->getProfiles()->one();
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['front/email-confirm', 'token' => $user->email_confirm_token]);
 ?>
-Зджравствуйте  <?= $profile->fio ?>,
+Здравствуйте, <?= $profile->fio ?>!<br>
+Вы зарегистрировались на межотраслевом бизнес-портале "Деловед".<br/>
 
-Для подтверждения пройдите по ссылке:
+Чтобы активировать свой профиль, пройдите по ссылке:
 
 <?= $resetLink ?>

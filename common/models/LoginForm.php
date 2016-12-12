@@ -44,7 +44,7 @@ class LoginForm extends Model
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError($attribute, 'К сожалению, мы не смогли найти пользователя с таким именем и паролем.');
-            } elseif ($user && $user->status == User::STATUS_DETECTED) {
+            } elseif ($user->status === 0) {
                 $this->addError($attribute, 'К сожалению, Ваш аккаунт заблокирован.');
             }
         }

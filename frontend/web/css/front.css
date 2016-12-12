@@ -75,6 +75,9 @@ body {
 .nav-pills > li.active > a{
     background-color:#94c43d!important;
 }
+.bottom_block{
+    margin-top: 1%;
+}
 .bottom_menu{
     background-color:#94c43d;
     padding:15px 5px 5px 5px;

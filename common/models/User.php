@@ -52,27 +52,43 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+
     /**
-            CheckRole
-     * @var $role \common\models\Role
+    * Check Free User
      **/
+    public function freeUser(){
+        $user = User::findOne(Yii::$app->user->id);
+        $profile = $user->getProfiles()->one();
+        if($profile->chargeStatus>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
-    public static function checkRole($roles=[]){
 
-        $model=null;
+    /**
+     * CheckRole
+     * @param array $roles
+     * @return bool|null
+     */
+
+    public  function checkRole($roles=[]){
+
+        
         $user = User::findOne(Yii::$app->user->id);
         $role = $user->getRole()->one();
         $role_name = $role->role_name;
-        foreach ($roles as $role){
-            if ($role===$role_name){
-                $model=true;
+
+            if (in_array($role_name, $roles)) {
+                return true;
             } else{
-                $model=false;
+                return false;
             }
-        }
 
 
-        return $model;
+
+        
 
     }
 
@@ -101,7 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username]);
     }
 
     /**
