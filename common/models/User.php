@@ -73,7 +73,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @return bool|null
      */
 
-    public  function checkRole($roles=[]){
+    public static  function checkRole($roles=[]){
 
         
         $user = User::findOne(Yii::$app->user->id);

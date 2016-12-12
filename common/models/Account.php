@@ -12,7 +12,7 @@ use Yii;
  * @property integer $org_form_id
  * @property string $brand_name
  * @property string $inn
- * @property string $kpp
+ * @property string $ogrn
  * @property string $legal_address
  * @property integer $date_reg
  * @property string $phone1
@@ -56,7 +56,7 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
-            [['full_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
@@ -74,7 +74,7 @@ class Account extends \yii\db\ActiveRecord
             'org_form_id' => Yii::t('app', 'Org Form ID'),
             'brand_name' => Yii::t('app', 'Brand Name'),
             'inn' => Yii::t('app', 'Inn'),
-            'kpp' => Yii::t('app', 'Kpp'),
+            'ogrn' => Yii::t('app', 'OGRN'),
             'legal_address' => Yii::t('app', 'Legal Address'),
             'date_reg' => Yii::t('app', 'Date Reg'),
             'phone1' => Yii::t('app', 'Phone1'),
@@ -96,6 +96,16 @@ class Account extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public function getMainImage(){
+        $user = User::findOne(Yii::$app->user->id);
+        $account = $user->getAccounts()->one();
+        $user_id = $account->id;
+        $main_image =Logo::find()->where('user_id=:user_id',[':user_id'=>$user_id])->andWhere('main_image=:main_image',[':main_image'=>1])->one();
+        
+        return $main_image;
+    }
+
 
     /**
      * @return \yii\db\ActiveQuery
