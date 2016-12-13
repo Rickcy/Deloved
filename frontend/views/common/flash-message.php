@@ -15,12 +15,12 @@ $i=0;
 
 <?php endforeach ?>
 <?endif?>
-
+<div id="flash-message" class="flash-alert alert alert-info" hidden></div>
 <script>
 
     var ib = $('.flash-message');
 
-    function showMessage(){
+    function showMessages(){
         setTimeout(function(){
 
             ib.fadeIn(450);
@@ -43,5 +43,5 @@ $i=0;
         }, 100)
     }
 
-    showMessage();
+    showMessages();
 </script>

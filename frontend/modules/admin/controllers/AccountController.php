@@ -2,14 +2,17 @@
 
 namespace app\modules\admin\controllers;
 
+use common\models\Logo;
 use common\models\User;
 use Yii;
 use common\models\Account;
 use common\models\search\AccountSearch;
+use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * AccountController implements the CRUD actions for Account model.
@@ -157,13 +160,44 @@ class AccountController extends Controller
         }
         $model=User::findOne(Yii::$app->user->id);
         $account=$model->getAccounts()->one();
+        $logo=new Logo();
         return $this->render('show',[
-            'account'=>$account
+            'account'=>$account,'logo'=>$logo
         ]);
     }
-    
-    public function actionEditNew($data){
-            return $data;
+
+    public function actionFileUploadGeneral(){
+        $account = User::findOne(Yii::$app->user->id);
+        $model = new Logo();
+
+        $res=null;
+            if (Yii::$app->request->isPost) {
+                $model->image_file = UploadedFile::getInstance($model, 'image_file');
+                
+                $res =$model->uploadMainImage($account->id);
+
+
+
+        }
+        return json_encode($res);
+    }
+
+
+
+    public function actionEditNew($value,$prop){
+        
+        $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
+
+        if (Yii::$app->request->isPost) {
+
+            $account->$prop =$value;
+            Yii::$app->session->addFlash('success', 'Успешно изменен');
+            }
+            $account->save();
+            return json_encode(Yii::$app->session->getAllFlashes());
+
+
+
     }
 
 

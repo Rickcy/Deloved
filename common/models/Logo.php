@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\BaseFileHelper;
 
 /**
  * This is the model class for table "logo".
@@ -18,6 +19,10 @@ use Yii;
  */
 class Logo extends \yii\db\ActiveRecord
 {
+
+
+    public $image_file;
+
     /**
      * @inheritdoc
      */
@@ -32,10 +37,11 @@ class Logo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['created_at'], 'required'],
-            [['created_at', 'main_image', 'user_id'], 'integer'],
+
+            [[ 'main_image', 'user_id'], 'integer'],
             [['image_name', 'file'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['image_file'], 'file', 'extensions' => ['jpg', 'png', 'gif']],
         ];
     }
 
@@ -60,5 +66,25 @@ class Logo extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Account::className(), ['id' => 'user_id']);
+    }
+
+    public function uploadMainImage($account_id)
+    {
+        $path = Yii::getAlias('@app/web/uploads/accounts/' . $account_id);
+        BaseFileHelper::createDirectory($path);
+        if ($this->validate()) {
+
+           $name=$this->image_name = Yii::$app->security->generateRandomString();
+            $this->user_id = $account_id;
+            $this->file = $path . DIRECTORY_SEPARATOR . $name.'.png';
+            $this->created_at=time();
+            $this->main_image=1;
+            $this->save();
+            $this->image_file->saveAs('uploads/accounts/' . $account_id . '/' . $name.'.png');
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

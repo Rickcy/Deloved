@@ -1,4 +1,5 @@
 <?php
+use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 /**@var $account common\models\Account**/
 /**@var $image common\models\Logo**/
@@ -68,6 +69,11 @@ $image =$account->getMainImage();
         <div class="value-col ft">
             <div name="logo">
                 <img src="<?=Html::encode($image->file)?>" class="img-thumbnail" alt="<?=Html::encode($image->image_name)?>">
+
+                <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+                <?= $form->field($logo, 'image_file')->fileInput()->label('') ?>
+                <?php ActiveForm::end(); ?>
+
             </div>
         </div>
         <div class="action-col ft">
@@ -80,7 +86,7 @@ $image =$account->getMainImage();
             <label for="rating">Деловая репутация</label>
         </div>
         <div class="value-col">
-            <p id="rating" name="rating"><?=Html::encode($account->rating)?></p>
+            <p id="rating" name="rating"><?=Html::encode($account->rating)?>%</p>
         </div>
 
     </div>
@@ -211,15 +217,15 @@ $image =$account->getMainImage();
 
     <div class="row">
         <div class="label-col ft">
-            <label for="webAddress">Сайт</label>
+            <label for="web_address">Сайт</label>
         </div>
         <div class="value-col ft">
-            <input id="webAddress" name="webAddress" type="text" readonly value="<?=Html::encode($account->web_address)?>" data-old="<?=Html::encode($account->web_address)?>"
+            <input id="web_address" name="web_address" type="text" readonly value="<?=Html::encode($account->web_address)?>" data-old="<?=Html::encode($account->web_address)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Адрес веб-сайта</div>
         </div>
         <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="webAddress">Изменить</a>
+            <a href="javascript:void(0)" name="change" data-for="web_address">Изменить</a>
         </div>
     </div>
 
@@ -255,15 +261,15 @@ $image =$account->getMainImage();
 
     <div class="row">
         <div class="label-col ft">
-            <label for="fax1">Факс</label>
+            <label for="fax">Факс</label>
         </div>
         <div class="value-col ft">
-            <input id="fax1" name="fax1" type="text" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
+            <input id="fax1" name="fax" type="text" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Номер факса</div>
         </div>
         <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="fax1">Изменить</a>
+            <a href="javascript:void(0)" name="change" data-for="fax">Изменить</a>
         </div>
     </div>
 
@@ -275,15 +281,15 @@ $image =$account->getMainImage();
 
     <div class="row">
         <div class="label-col ft">
-            <label for="workTime">Время работы</label>
+            <label for="work_time">Время работы</label>
         </div>
         <div class="value-col ft">
-            <input id="workTime" name="workTime" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
+            <input id="workTime" name="work_time" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">В свободной форме укажите график работы</div>
         </div>
         <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="workTime">Изменить</a>
+            <a href="javascript:void(0)" name="change" data-for="work_time">Изменить</a>
         </div>
     </div>
 
@@ -324,6 +330,26 @@ $image =$account->getMainImage();
 </div>
 <script>
     $(document).ready(function() {
+
+            var value =$("#logo-image_file");
+            value.change(function () {
+                console.log(value.val());
+                $.ajax({
+                    type: 'POST',
+                    url: "/admin/account/file-upload-general",
+                    success: function (data, textStatus) {
+
+                        console.log(data)
+
+                    },
+                    error:function (XMLHttpRequest, textStatus, errorThrown) {
+
+                        console.log(errorThrown)
+                    }
+                })
+
+            });
+
         $('[name=change]').click(function(e) {
 
             var el = e.target || e.srcElement;
@@ -338,10 +364,11 @@ $image =$account->getMainImage();
                 var oldValue = $('#'+prop).data('old');
                 var newValue = $('#'+prop).val();
                 if (oldValue != newValue) {
+
                     $.ajax({
                         type: 'POST',
-                        url: "/admin/account/edit-new?id=<?=Yii::$app->user->id?>",
-                        data: {prop: prop, value: newValue},
+                        url: "/admin/account/edit-new/?value="+newValue+'&prop='+prop,
+
                         beforeSend: function() {
                             $('#'+prop+'spinner').show();
                         },
@@ -354,17 +381,19 @@ $image =$account->getMainImage();
                             }
                         },
                         success: function (data, textStatus) {
-                            console.log(data);
-                            if (data.status == 'success') {
+                            var obj = $.parseJSON(data);
+
+
+                            if (obj.success) {
                                 $('#'+prop).data('old', newValue);
 
                             } else {
                                 $('#'+prop).val(oldValue);
                             }
-                            showMessage(data.status, data.messages)
+                            showMessage('success', obj.success)
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            showMessage('danger', 'Ошибка соединения')
+                            showMessage('danger', 'Ошибка соединения');
                             console.log('Ошибка соединения')
                         }
                     })
