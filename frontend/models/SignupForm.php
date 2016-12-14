@@ -29,7 +29,7 @@ class SignupForm extends Model
     public $fax;
     public $inn;
     public $keywords;
-    public $kpp;
+    public $ogrn;
     public $legal_address;
     public $phone1;
     public $phone2;
@@ -55,7 +55,7 @@ class SignupForm extends Model
     {
         return [
             [['username','email'], 'trim'],
-            [['username','password','org_form_id','email','full_name','director','city_name','address'], 'required'],
+            [['username','password','org_form_id','email','full_name','fio','city_name','address'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -64,7 +64,7 @@ class SignupForm extends Model
             ['repassword', 'compare','compareAttribute'=>'password'],
 
             [['org_form_id', 'date_reg', 'public_status', 'verify_status', 'rating',  'chargeStatus', 'chargeTill', ], 'integer'],
-            [['full_name','city_name', 'brand_name', 'inn', 'kpp', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', 'cellPhone'], 'string', 'max' => 255],
+            [['full_name','city_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
 
@@ -104,7 +104,7 @@ class SignupForm extends Model
         $profile->fio=$this->fio;
         $profile->chargeTill=null;
         $profile->chargeStatus=0;
-        $profile->cellPhone=$this->cellPhone;
+
         $profile->email=$user->email;
         $profile->user_id=$user->id;
         $profile->avatar_id=null;
@@ -122,11 +122,11 @@ class SignupForm extends Model
         $account->fax=$this->fax;
         $account->inn=$this->inn;
         $account->keywords=$this->keywords;
-        $account->kpp=$this->kpp;
+        $account->ogrn=$this->ogrn;
         $account->legal_address=$this->legal_address;
         $account->org_form_id=$this->org_form_id;
         $account->phone1=$this->phone1;
-        $account->phone2=$this->phone2;
+
         $account->public_status=0;
         $account->verify_status=0;
         $account->rating=null;

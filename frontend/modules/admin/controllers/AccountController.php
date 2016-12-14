@@ -7,7 +7,7 @@ use common\models\User;
 use Yii;
 use common\models\Account;
 use common\models\search\AccountSearch;
-use yii\base\Security;
+
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -106,6 +106,8 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
+
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -130,6 +132,9 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
+
+
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -147,6 +152,9 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
+
+
+
         if (($model = Account::findOne($id)) !== null) {
             return $model;
         } else {
@@ -159,6 +167,8 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_USER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
+
+
 
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
@@ -197,14 +207,7 @@ class AccountController extends Controller
         ]);
     }
 
-    public function actionFileUploadGeneral()
-    {
-
-    }
-   
-
-        
-
+    
 
 
     public function actionEditNew($value,$prop){
