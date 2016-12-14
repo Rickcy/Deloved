@@ -251,6 +251,14 @@ input, button, select, textarea {
     font-size: 10pt;
     color: gray;
 }
+.image_input{
+    display: inline-block;
+    vertical-align: middle;
+    background-color: white;
+    color: white;
+    width: 129px!important;
+
+}
 .value-col > textarea {
     user-select: none;
     -ms-user-select: none;

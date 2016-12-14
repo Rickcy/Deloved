@@ -21,7 +21,7 @@ class Logo extends \yii\db\ActiveRecord
 {
 
 
-    public $image_file;
+
 
     /**
      * @inheritdoc
@@ -39,9 +39,9 @@ class Logo extends \yii\db\ActiveRecord
         return [
 
             [[ 'main_image', 'user_id'], 'integer'],
-            [['image_name', 'file'], 'string', 'max' => 255],
+            [['image_name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['image_file'], 'file', 'extensions' => ['jpg', 'png', 'gif']],
+            [['file'],'file'],
         ];
     }
 
@@ -55,8 +55,10 @@ class Logo extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'image_name' => Yii::t('app', 'Image Name'),
             'file' => Yii::t('app', 'File'),
+            'image_file' => Yii::t('app', 'Image File'),
             'main_image' => Yii::t('app', 'Main Image'),
             'user_id' => Yii::t('app', 'User ID'),
+
         ];
     }
 
@@ -68,23 +70,5 @@ class Logo extends \yii\db\ActiveRecord
         return $this->hasOne(Account::className(), ['id' => 'user_id']);
     }
 
-    public function uploadMainImage($account_id)
-    {
-        $path = Yii::getAlias('@app/web/uploads/accounts/' . $account_id);
-        BaseFileHelper::createDirectory($path);
-        if ($this->validate()) {
-
-           $name=$this->image_name = Yii::$app->security->generateRandomString();
-            $this->user_id = $account_id;
-            $this->file = $path . DIRECTORY_SEPARATOR . $name.'.png';
-            $this->created_at=time();
-            $this->main_image=1;
-            $this->save();
-            $this->image_file->saveAs('uploads/accounts/' . $account_id . '/' . $name.'.png');
-
-            return true;
-        } else {
-            return false;
-        }
-    }
+   
 }

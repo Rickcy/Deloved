@@ -7,6 +7,7 @@ use common\models\User;
 use Yii;
 use common\models\Account;
 use common\models\search\AccountSearch;
+use yii\base\Security;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -158,29 +159,51 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_USER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $model=User::findOne(Yii::$app->user->id);
-        $account=$model->getAccounts()->one();
-        $logo=new Logo();
+
+        $user=User::findOne(Yii::$app->user->id);
+        $account=$user->getAccounts()->one();
+        $model=new Logo();
+        
+
+        if ($model->load(Yii::$app->request->post())){
+
+            $file = UploadedFile::getInstance($model,'file');
+            if ($file){
+
+                $logo = $file;
+                if($account->getMainImage()){
+                    Logo::findOne($account->getMainImage()->id)->delete();
+                    $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
+                    BaseFileHelper::removeDirectory($path2);
+                }
+                $path = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
+                BaseFileHelper::createDirectory($path);
+                $model->created_at=time();
+                $model->user_id=$account->id;
+                $name =$logo->baseName.'.'.$logo->extension;
+                $model->image_name=$name;
+                $model->main_image=1;
+                $model->file='uploads/accounts/'.$account->id.'/general/'.$name;
+                $logo->saveAs($path .DIRECTORY_SEPARATOR .$name);
+
+            }
+            $model->save();
+        }
+
+
+
         return $this->render('show',[
-            'account'=>$account,'logo'=>$logo
+            'account'=>$account,'model'=>$model,'logo'=>$logo
         ]);
     }
 
-    public function actionFileUploadGeneral(){
-        $account = User::findOne(Yii::$app->user->id);
-        $model = new Logo();
+    public function actionFileUploadGeneral()
+    {
 
-        $res=null;
-            if (Yii::$app->request->isPost) {
-                $model->image_file = UploadedFile::getInstance($model, 'image_file');
-                
-                $res =$model->uploadMainImage($account->id);
-
-
-
-        }
-        return json_encode($res);
     }
+   
+
+        
 
 
 

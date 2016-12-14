@@ -1,8 +1,10 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
+use yii\widgets\Pjax;
+
 /**@var $account common\models\Account**/
-/**@var $image common\models\Logo**/
+/**@var $model common\models\Logo**/
 $image =$account->getMainImage();
 ?>
 <div class="profile-info">
@@ -68,12 +70,24 @@ $image =$account->getMainImage();
         </div>
         <div class="value-col ft">
             <div name="logo">
-                <img src="<?=Html::encode($image->file)?>" class="img-thumbnail" alt="<?=Html::encode($image->image_name)?>">
 
-                <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                <?= $form->field($logo, 'image_file')->fileInput()->label('') ?>
-                <?php ActiveForm::end(); ?>
 
+
+
+                <?php Pjax::begin(); ?>
+                <?if ($account->getMainImage()):?>
+                <img width="40%" src="/<?=Html::encode($account->getMainImage()->file)?>" class="img-thumbnail" alt="<?=Html::encode($account->getMainImage()->image_name)?>">
+                <?endif;?>
+                <?if (!$account->getMainImage()):?>
+                    <img width="40%" src="/uploads/default/logo_default.png" class="img-thumbnail" alt="logo_default">
+                <?endif;?>
+                <?= Html::beginForm(['/admin/account/show'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
+
+                <?= Html::activeFileInput($model, 'file', ['class' => 'form-control image_input','accept' => 'image/*']) ?>
+                <button type="submit" class="image_btn" style="opacity: 0"></button>
+                <?= Html::endForm() ?>
+
+                <?php Pjax::end(); ?>
             </div>
         </div>
         <div class="action-col ft">
@@ -331,22 +345,9 @@ $image =$account->getMainImage();
 <script>
     $(document).ready(function() {
 
-            var value =$("#logo-image_file");
+            var value =$("#logo-file");
             value.change(function () {
-                console.log(value.val());
-                $.ajax({
-                    type: 'POST',
-                    url: "/admin/account/file-upload-general",
-                    success: function (data, textStatus) {
-
-                        console.log(data)
-
-                    },
-                    error:function (XMLHttpRequest, textStatus, errorThrown) {
-
-                        console.log(errorThrown)
-                    }
-                })
+                $(".image_btn").submit()
 
             });
 
