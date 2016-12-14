@@ -173,14 +173,15 @@ class AccountController extends Controller
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         $model=new Logo();
-        
+
 
         if ($model->load(Yii::$app->request->post())){
 
             $file = UploadedFile::getInstance($model,'file');
+            $logo = $file;
             if ($file){
 
-                $logo = $file;
+
                 if($account->getMainImage()){
                     Logo::findOne($account->getMainImage()->id)->delete();
                     $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
@@ -201,10 +202,15 @@ class AccountController extends Controller
         }
 
 
-
+        if (!isset($logo)){
         return $this->render('show',[
-            'account'=>$account,'model'=>$model,'logo'=>$logo
-        ]);
+            'account'=>$account,'model'=>$model
+        ]);}
+        else{
+            return $this->render('show',[
+                'account'=>$account,'model'=>$model,'logo'=>$logo
+            ]);
+        }
     }
 
     

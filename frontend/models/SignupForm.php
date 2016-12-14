@@ -32,10 +32,8 @@ class SignupForm extends Model
     public $ogrn;
     public $legal_address;
     public $phone1;
-    public $phone2;
     public $org_form_id;
     public $fio;
-    public $cellPhone;
     public $chargeStatus;
     public $chargeTill;
     public $user_id;

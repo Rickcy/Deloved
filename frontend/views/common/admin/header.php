@@ -30,10 +30,12 @@ $profile =$user->getProfiles()->one();
 		<div class="hperson">
 
 			<img id="hperson-avatar" src="/images/admin/avatar.jpg"/>
-
-			<span id="hperson-name"><?=$profile->fio?></span>
-
-			<div id="info">
+            <?if ($profile):?>
+                <span id="hperson-name"><?=$profile->fio?></span>
+            <?elseif (!$profile):?>
+            <span id="hperson-name"><?=$user->username?></span>
+            <?endif;?>
+            <div id="info">
 
 				<a href="#" class="info-menu" >Мой профиль</a>
 

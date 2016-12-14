@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'kpp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true]) ?>
 
@@ -28,7 +28,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phone1')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone2')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'fax')->textInput(['maxlength' => true]) ?>
 

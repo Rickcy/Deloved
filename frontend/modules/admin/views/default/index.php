@@ -2,7 +2,7 @@
 use yii\bootstrap\Html;
 /**@var $role common\models\Role**/
 /**@var $user common\models\User**/
-
+$this->title = 'Главная'
 ?>
 
 

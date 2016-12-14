@@ -19,7 +19,7 @@ class AccountSearch extends Account
     {
         return [
             [['id', 'org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
-            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'safe'],
+            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'safe'],
         ];
     }
 
@@ -77,7 +77,6 @@ class AccountSearch extends Account
             ->andFilterWhere(['like', 'ogrn', $this->ogrn])
             ->andFilterWhere(['like', 'legal_address', $this->legal_address])
             ->andFilterWhere(['like', 'phone1', $this->phone1])
-            ->andFilterWhere(['like', 'phone2', $this->phone2])
             ->andFilterWhere(['like', 'fax', $this->fax])
             ->andFilterWhere(['like', 'web_address', $this->web_address])
             ->andFilterWhere(['like', 'email', $this->email])

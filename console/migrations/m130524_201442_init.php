@@ -25,7 +25,7 @@ class m130524_201442_init extends Migration
             'password_reset_token' => $this->string()->unique(),
             'email_confirm_token'=>$this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
+            'status' => $this->smallInteger()->notNull()->defaultValue(1),
             'role_id'=>$this->integer()->defaultValue(1),
 
 
@@ -37,7 +37,6 @@ class m130524_201442_init extends Migration
              'id'=>$this->primaryKey(),
             'fio'=>$this->string(),
             'email'=>$this->string(),
-            'cellPhone'=>$this->string(),
             'avatar_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
@@ -56,11 +55,10 @@ class m130524_201442_init extends Migration
             'org_form_id'=>$this->integer(),
             'brand_name'=>$this->string(),
             'inn'=>$this->string(),
-            'kpp'=>$this->string(),
+            'ogrn'=>$this->string(),
             'legal_address'=>$this->string(),
             'date_reg'=>$this->integer(),
             'phone1'=>$this->string(),
-            'phone2'=>$this->string(),
             'fax'=>$this->string(),
             'web_address'=>$this->string(),
             'email'=>$this->string(),
@@ -72,7 +70,7 @@ class m130524_201442_init extends Migration
             'keywords'=>$this->string(),
             'public_status'=>$this->integer()->defaultValue(0),
             'verify_status'=>$this->integer()->defaultValue(0),
-            'rating'=>$this->integer(),
+            'rating'=>$this->integer()->defaultValue(100),
             'user_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
@@ -133,8 +131,6 @@ class m130524_201442_init extends Migration
         $this->insert('org_form',['id'=>5,'code'=>'ЗАО','name'=>'Закрытое акционерное общество']);
 
 
-        $this->insert('user',['id'=>1,'username'=>'Rickcy','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('Rickcy27'),
-        'password_reset_token'=>null,'email'=>'kuden.and.ko@gmail.com','status'=>10,'role_id'=>3]);
     }
 
     public function safeDown()

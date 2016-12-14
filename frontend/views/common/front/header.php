@@ -1,4 +1,4 @@
-<?
+<?php
 use yii\bootstrap\Nav;
 ?>
 
@@ -19,11 +19,8 @@ use yii\bootstrap\Nav;
             </div>
 
 
-            <!-- Nav Starts -->
             <div class="navbar-collapse  collapse">
-                <?
-
-                $guest = Yii::$app->user->isGuest;
+                <?php $guest = Yii::$app->user->isGuest;
                 $menuItems = [];
                 if($guest) {
                     $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
@@ -40,7 +37,7 @@ use yii\bootstrap\Nav;
                 ?>
 
             </div>
-            <!-- #Nav Ends -->
+
 
         </div>
     </nav>

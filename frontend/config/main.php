@@ -61,7 +61,7 @@ return [
             ]
         ],
         'common' =>[
-            'class' => 'frontend\component\Common'
+            'class' => 'frontend\component\common'
         ]
         /*
         'urlManager' => [

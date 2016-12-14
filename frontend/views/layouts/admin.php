@@ -124,12 +124,12 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
 
-                    <li><a href="admin/account/index/" >Предприятия</a></li>
+                    <li><a href="/admin/account/index/" >Предприятия</a></li>
 
                 <?endif;?>
 
                 <?if ($user->checkRole(['ROLE_USER'])):?>
-                    <li><a href="admin/account/show/">Мои данные</a></li>
+                    <li><a href="/admin/account/show/">Мои данные</a></li>
                 <?endif;?>
 
                 <?if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])):?>

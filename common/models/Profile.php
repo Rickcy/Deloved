@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $fio
  * @property string $email
- * @property string $cellPhone
  * @property integer $avatar_id
  * @property integer $created_at
  * @property integer $updated_at
@@ -38,7 +37,7 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['avatar_id', 'created_at', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
-            [['fio', 'email', 'cellPhone'], 'string', 'max' => 255],
+            [['fio', 'email'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -52,7 +51,6 @@ class Profile extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'fio' => Yii::t('app', 'Fio'),
             'email' => Yii::t('app', 'Email'),
-            'cellPhone' => Yii::t('app', 'Cell Phone'),
             'avatar_id' => Yii::t('app', 'Avatar ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 /**@var $account common\models\Account**/
 /**@var $model common\models\Logo**/
 $image =$account->getMainImage();
+$this->title = 'Мои данные';
 ?>
 <div class="profile-info">
 
@@ -83,7 +84,7 @@ $image =$account->getMainImage();
                 <?endif;?>
                 <?= Html::beginForm(['/admin/account/show'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
-                <?= Html::activeFileInput($model, 'file', ['class' => 'form-control image_input','accept' => 'image/*']) ?>
+                <?= Html::activeFileInput($model, 'file', ['class' => 'form-control image_input']) ?>
                 <button type="submit" class="image_btn" style="opacity: 0"></button>
                 <?= Html::endForm() ?>
 
@@ -257,19 +258,7 @@ $image =$account->getMainImage();
         </div>
     </div>
 
-    <div class="row">
-        <div class="label-col ft">
-            <label for="phone2">Номер телефона №2</label>
-        </div>
-        <div class="value-col ft">
-            <input id="phone2" name="phone2" type="text" readonly value="<?=Html::encode($account->phone2)?>" data-old="<?=Html::encode($account->phone2)?>"
-                   placeholder="Отсутствует"/>
-            <div class="pods fr">Дополнительный номер телефона</div>
-        </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="phone2">Изменить</a>
-        </div>
-    </div>
+
 
 
 

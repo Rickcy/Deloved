@@ -6,6 +6,7 @@ use yii\helpers\Url;
 
 /**@var $model frontend\models\RepeatEmailConfirm
  **/
+$this->title = 'Повторный запрос на почту'
 ?>
 <div align="center">
     <div style="width: 80%; border-radius: 4px; border: 1px solid silver; padding: 15px" align="left">

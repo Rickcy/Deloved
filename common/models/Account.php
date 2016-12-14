@@ -16,7 +16,7 @@ use Yii;
  * @property string $legal_address
  * @property integer $date_reg
  * @property string $phone1
- * @property string $phone2
+
  * @property string $fax
  * @property string $web_address
  * @property string $email
@@ -56,7 +56,7 @@ class Account extends \yii\db\ActiveRecord
         return [
             [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
-            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'phone2', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
@@ -78,7 +78,6 @@ class Account extends \yii\db\ActiveRecord
             'legal_address' => Yii::t('app', 'Legal Address'),
             'date_reg' => Yii::t('app', 'Date Reg'),
             'phone1' => Yii::t('app', 'Phone1'),
-            'phone2' => Yii::t('app', 'Phone2'),
             'fax' => Yii::t('app', 'Fax'),
             'web_address' => Yii::t('app', 'Web Address'),
             'email' => Yii::t('app', 'Email'),
