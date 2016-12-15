@@ -4,6 +4,11 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
+/* @var $category \common\models\Category */
+/* @var $cat \common\models\Category */
+/* @var $c \common\models\Category */
+/* @var $catType \common\models\CategoryType */
+
 use yii\captcha\Captcha;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -115,7 +120,74 @@ $this->params['breadcrumbs'][] = $this->title;
                 'captchaAction'=>Url::to(['/front/captcha'])
             ])->label('') ?>
 
+            <div class="col-sm-9">
+                
 
+                <div class="tab-pane" id="cat" >
+                    <ul class="nav nav-pills" style="margin-bottom: 20px">
+                        <?foreach ($categoryType as $catType ):?>
+
+                            <li style="font-size: 16pt;" class=""><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code?></a></li>
+
+                        <?endforeach;?>
+                    </ul>
+
+                    <div class="tab-content">
+                        <?foreach ($categoryType as $catType ):?>
+
+                        <div class="tab-pane" id="<?=$catType->code?>">
+
+                                <div id="<?=$catType->code?>">
+
+
+                                    <?foreach ($category as $cat):?>
+                                        <?if ($cat->parent_id==$catType->id&&$cat->parent_id!=null):?>
+                                            <ul>
+                                            <?if ($cat->parent_id==$catType->id):?>
+                                                <a href="#"><?$cat->name?></a>
+                                            <?endif;?>
+                                            <?foreach ($category as $c):?>
+                                                <?if ($c->parent_id==$cat->id):?>
+                                                        <li><?=$c->name?></li>
+                                                 <?endif;?>
+                                            <?endforeach;?>
+                                        </ul>
+
+                                        <?endif?>
+                                    <?endforeach;?>
+
+
+
+
+
+<!--                                    <ul>-->
+<!--                                    --><?// foreach ($category as $cat):?>
+<!--                                       -->
+<!--                                        <li>-->
+<!--                                            --><?//if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null):?>
+<!---->
+<!---->
+<!---->
+<!--                                                <li>--><?//=$cat->name?><!--</li>-->
+<!---->
+<!--                                            --><?//endif?>
+<!--                                       </li>-->
+<!---->
+<!--                                    --><?// endforeach;?>
+<!--                                    </ul>-->
+<!--<!--                                    --><?////var_dump($category[0]->sortByCategoryType($catType->id))?>
+                                </div>
+                            </div>
+                        <?endforeach;?>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+
+     
 
 
             <div class="form-group">

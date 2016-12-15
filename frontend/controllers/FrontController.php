@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\Account;
+use common\models\Category;
+use common\models\CategoryType;
 use common\models\OrgForm;
 use common\models\Profile;
 use common\models\Region;
@@ -168,6 +170,9 @@ class FrontController extends Controller
      */
     public function actionSignup()
     {
+
+      $categoryType = CategoryType::find()->all();
+        $category = Category::find()->all();
        $level_id=18;
        $org_forms =OrgForm::find()->all();
         $city_list=Region::find()
@@ -192,7 +197,7 @@ class FrontController extends Controller
         }
 
         return $this->render('signup', [
-            'model' => $model,'city_list'=>$city_list,'org_forms'=>$org_forms
+            'model' => $model,'city_list'=>$city_list,'org_forms'=>$org_forms,'categoryType'=>$categoryType,'category'=>$category
         ]);
     }
 
