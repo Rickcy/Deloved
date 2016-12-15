@@ -41,7 +41,6 @@ class SignupForm extends Model
     public $web_address;
     public $public_status;
     public $verify_status;
-    public $rating;
     
     public $verifyCode;
 
@@ -61,7 +60,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
 
-            [['org_form_id', 'date_reg', 'public_status', 'verify_status', 'rating',  'chargeStatus', 'chargeTill', ], 'integer'],
+            [['org_form_id', 'date_reg', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
             [['full_name','city_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
@@ -127,7 +126,6 @@ class SignupForm extends Model
 
         $account->public_status=0;
         $account->verify_status=0;
-        $account->rating=null;
         $account->web_address=$this->web_address;
         $account->work_time=$this->work_time;
         $account->email=$this->email;

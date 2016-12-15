@@ -40,6 +40,9 @@ use Yii;
  */
 class Account extends \yii\db\ActiveRecord
 {
+    const DEFAULT_RATING =100;
+
+
     /**
      * @inheritdoc
      */
@@ -54,8 +57,9 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'rating', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'user_id', 'created_at', 'updated_at'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
+            ['rating', 'default', 'value' => self::DEFAULT_RATING],
             [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
