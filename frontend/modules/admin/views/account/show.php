@@ -267,7 +267,7 @@ $this->title = 'Мои данные';
             <label for="fax">Факс</label>
         </div>
         <div class="value-col ft">
-            <input id="fax1" name="fax" type="text" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
+            <input id="fax" name="fax" type="text" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Номер факса</div>
         </div>
@@ -287,7 +287,7 @@ $this->title = 'Мои данные';
             <label for="work_time">Время работы</label>
         </div>
         <div class="value-col ft">
-            <input id="workTime" name="work_time" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
+            <input id="work_time" name="work_time" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">В свободной форме укажите график работы</div>
         </div>

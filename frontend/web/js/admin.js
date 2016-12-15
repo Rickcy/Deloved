@@ -2,7 +2,7 @@
 
 
 function showMessage(status, message){
-        console.log(status, message);
+
     var ib = $('#flash-message');
     if ($.inArray(status, ['info', 'danger', 'warning', 'success']) != -1) {
         ib.attr('class', ib.attr('class').replace(/\balert-\w+\b/g, 'alert-'+status));
