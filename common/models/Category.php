@@ -78,17 +78,10 @@ class Category extends \yii\db\ActiveRecord
     }
 
 
-    public function sortByCategoryType($id){
+ 
 
-
-        $data=Category::find()->where('categorytype_id=:categorytype_id',[':categorytype_id'=>$id])->all();
-
-
-        return $data;
-    }
-
-    public function sortByParentId($id){
-        $data = Category::find()->where('parent_id=:parent_id',[':parent_id'=>$id])->all();
+    public function getMainCategory(){
+        $data = Category::find()->where('parent_id=:parent_id',[':parent_id'=>null])->all();
         return $data;
     }
 }

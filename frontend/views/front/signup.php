@@ -141,41 +141,43 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                     <?foreach ($category as $cat):?>
-                                        <?if ($cat->parent_id==$catType->id&&$cat->parent_id!=null):?>
-                                            <ul>
-                                            <?if ($cat->parent_id==$catType->id):?>
-                                                <a href="#"><?$cat->name?></a>
-                                            <?endif;?>
-                                            <?foreach ($category as $c):?>
-                                                <?if ($c->parent_id==$cat->id):?>
-                                                        <li><?=$c->name?></li>
-                                                 <?endif;?>
-                                            <?endforeach;?>
-                                        </ul>
 
-                                        <?endif?>
+                                    <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
+
+                                            <li><?=$cat->name?>|||111111111||||||||||
+                                                <ul>
+                                            <?foreach ($category as $c):?>
+
+                                                <?if ($c->parent_id===$cat->id):?>
+
+                                                    <li><?=$c->name?>22222222222
+                                                        <ul>
+                                                    <?foreach ($category as $item):?>
+                                                        <?if ($item->parent_id===$c->id):?>
+                                                      <li><?=$item->name?>33333333</li>
+                                                        <?endif;?>
+                                                    <?endforeach;?>
+                                                        </ul>
+                                                    </li>
+                                                <?endif?>
+
+
+
+
+                                             <?endforeach;?>
+                                                </ul>
+                                            </li>
+
+
+                                        <?endif;?>
+
+
                                     <?endforeach;?>
 
 
 
 
 
-<!--                                    <ul>-->
-<!--                                    --><?// foreach ($category as $cat):?>
-<!--                                       -->
-<!--                                        <li>-->
-<!--                                            --><?//if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null):?>
-<!---->
-<!---->
-<!---->
-<!--                                                <li>--><?//=$cat->name?><!--</li>-->
-<!---->
-<!--                                            --><?//endif?>
-<!--                                       </li>-->
-<!---->
-<!--                                    --><?// endforeach;?>
-<!--                                    </ul>-->
-<!--<!--                                    --><?////var_dump($category[0]->sortByCategoryType($catType->id))?>
                                 </div>
                             </div>
                         <?endforeach;?>
