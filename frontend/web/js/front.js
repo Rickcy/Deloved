@@ -4,6 +4,14 @@ $(document).ready(function(){
        
         $('#Login').modal('show');
     }
+
+
+   
+
+
+
+
+
         var a=function(){
             var a=$("#myTabExample > li"),
                 b=a.filter(".active")

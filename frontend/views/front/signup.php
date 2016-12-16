@@ -137,24 +137,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div class="tab-pane" id="<?=$catType->code?>">
 
-                                <div id="<?=$catType->code?>">
 
 
+                                        <ul>
                                     <?foreach ($category as $cat):?>
 
                                     <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
 
-                                            <li><?=$cat->name?>|||111111111||||||||||
+                                            <li><?=$cat->name?>
                                                 <ul>
                                             <?foreach ($category as $c):?>
 
                                                 <?if ($c->parent_id===$cat->id):?>
 
-                                                    <li><?=$c->name?>22222222222
+                                                    <li><?=$c->name?>
                                                         <ul>
                                                     <?foreach ($category as $item):?>
                                                         <?if ($item->parent_id===$c->id):?>
-                                                      <li><?=$item->name?>33333333</li>
+                                                      <li><?=$item->name?></li>
                                                         <?endif;?>
                                                     <?endforeach;?>
                                                         </ul>
@@ -173,14 +173,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                     <?endforeach;?>
+                                        </ul>
 
 
 
-
-
-                                </div>
-                            </div>
+                        </div>
+                            <script>
+                                $(function () {
+                                    $('#<?=$catType->code?>').jstree({
+                                        "core" : {
+                                            "themes" : {
+                                                "variant" : "large"
+                                            }
+                                        },
+                                        "checkbox" : {
+                                            "keep_selected_style" : true
+                                        },
+                                        "plugins" : [ "checkbox" ]
+                                    });
+                                })
+                            </script>
                         <?endforeach;?>
+
                     </div>
 
                 </div>

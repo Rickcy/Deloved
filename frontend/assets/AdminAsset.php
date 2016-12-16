@@ -18,7 +18,8 @@ class AdminAsset extends AssetBundle
         'css/flash-alerts.css'
     ];
     public $js = [
-        'js/admin.js'
+        'js/admin.js',
+       
     ];
     public $depends = [
         'yii\web\YiiAsset',
