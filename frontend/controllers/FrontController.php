@@ -189,8 +189,7 @@ class FrontController extends Controller
 
             if ($user = $model->signup()) {
                 $profile =$user->getProfiles()->one();
-                    Yii::$app->session->addFlash('success', $profile->fio.' Мы Поздравляем!  Регистрация прошла успешно');
-                    Yii::$app->session->addFlash('danger', 'Ожидайте письмо на свою почту для подтверждения регистрации!');
+
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->redirect('/admin');
                 }

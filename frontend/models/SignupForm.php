@@ -43,7 +43,8 @@ class SignupForm extends Model
     public $public_status;
     public $verify_status;
 
-    public $account_category;
+    public $account_category_goods;
+    public $account_category_service;
 
     public $verifyCode;
 
@@ -65,7 +66,7 @@ class SignupForm extends Model
 
             [['org_form_id', 'date_reg', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
             [['full_name','city_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
-            ['account_category', 'string', 'max' => 1055],
+            [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
 
@@ -81,8 +82,12 @@ class SignupForm extends Model
     }
 
     public function returnCategoties_id(){
-        $categories = $this->account_category;
-        return $arr = explode(", ", $categories);
+        $categories_goods = $this->account_category_goods;
+        $categories_service = $this->account_category_service;
+        $arr1 = explode(", ", $categories_goods);
+        $arr2 = explode(", ", $categories_service);
+
+        return $result = array_merge($arr1,$arr2);
     }
 
     /**

@@ -432,9 +432,8 @@ $this->title = 'Мои данные';
 
 <script>
     $(document).ready(function() {
-        var selected = $(".selected-1");
-        selected.removeClass('jstree-closed')
-        selected.addClass('jstree-open')
+
+
         var selected_cat_div =$(".selected-1").children("div");
         var selected_cat_a =$(".selected-1").children("a");
         selected_cat_div.addClass('jstree-wholerow-clicked');

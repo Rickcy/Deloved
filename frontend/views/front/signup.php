@@ -111,13 +111,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'keywords')->textarea(['rows'=>6])->label('Ключевые слова') ?>
 
 
-
-            
-            
+            <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>
 
 
-
-            <?= $form->field($model, 'account_category')->hiddenInput(['id'=>'account_category'])->label('') ?>
+            <?= $form->field($model, 'account_category_service')->hiddenInput(['id'=>'account_category_service'])->label('') ?>
 
             <div class="col-sm-9">
                 
@@ -201,8 +198,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         for(i = 0, j = data.selected.length; i < j; i++) {
                                             r.push(data.instance.get_node(data.selected[i]).id);
                                         }
-                                        $('#account_category').val(r.join(', '));
-                                        console.log($('#account_category').val());
+                                        $('#<?=$catType->code=='GOOD'?'account_category_goods':'account_category_service'?>').val(r.join(', '));
+                                        console.log($('#account_category_goods').val());
+                                        console.log($('#account_category_service').val());
 
 
                                     })
