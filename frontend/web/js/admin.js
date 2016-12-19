@@ -1,4 +1,6 @@
-
+function submitFiles() {
+    $(".image_btn").submit()
+}
 
 
 function showMessage(status, message){

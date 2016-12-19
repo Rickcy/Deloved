@@ -80,8 +80,13 @@ class Category extends \yii\db\ActiveRecord
 
  
 
-    public function getMainCategory(){
-        $data = Category::find()->where('parent_id=:parent_id',[':parent_id'=>null])->all();
-        return $data;
+    public function equelsVar($id,$array){
+      foreach ($array as $arr){
+          if ($arr->category_id==$id){
+              return true;
+          }
+      }
+        return false;
+
     }
 }

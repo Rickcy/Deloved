@@ -115,10 +115,9 @@ $this->params['breadcrumbs'][] = $this->title;
             
             
 
-            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-                'captchaAction'=>Url::to(['/front/captcha'])
-            ])->label('') ?>
+
+
+            <?= $form->field($model, 'account_category')->hiddenInput(['id'=>'account_category'])->label('') ?>
 
             <div class="col-sm-9">
                 
@@ -197,6 +196,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                         },
                                         "plugins" : [ "checkbox","wholerow" ]
                                     });
+                                    $('#<?=$catType->code?>') .on('changed.jstree', function (e, data) {
+                                        var i, j, r = [];
+                                        for(i = 0, j = data.selected.length; i < j; i++) {
+                                            r.push(data.instance.get_node(data.selected[i]).id);
+                                        }
+                                        $('#account_category').val(r.join(', '));
+                                        console.log($('#account_category').val());
+
+
+                                    })
                                 })
                             </script>
                         <?
@@ -211,7 +220,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             </div>
 
-     
+            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
+                'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
+                'captchaAction'=>Url::to(['/front/captcha'])
+            ])->label('') ?>
 
 
             <div class="form-group">

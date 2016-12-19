@@ -141,4 +141,9 @@ class Account extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Logo::className(), ['user_id' => 'id']);
     }
+
+    public function getCategory(){
+
+        return $this->hasMany(AccountCategory::className(),['account_id'=>'id']);
+    }
 }

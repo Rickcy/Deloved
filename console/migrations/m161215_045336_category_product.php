@@ -293,9 +293,11 @@ class m161215_045336_category_product extends Migration
         
         ');
         $this->createTable('{{%account_category}}',[
+            'id'=>$this->primaryKey(),
             'account_id'=>$this->integer(),
             'category_id'=>$this->integer()
         ]);
+
         $this->createIndex('fk_account_id','{{%account_category}}','account_id');
         $this->addForeignKey('fk_account_id','{{%account_category}}','account_id','{{%account}}','id','SET NULL','CASCADE');
         $this->createIndex('fk_category_id','{{%account_category}}','category_id');

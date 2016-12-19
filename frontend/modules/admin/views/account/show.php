@@ -5,6 +5,9 @@ use yii\widgets\Pjax;
 
 /**@var $account common\models\Account**/
 /**@var $model common\models\Logo**/
+/**@var $cat common\models\Category**/
+/**@var $c common\models\Category**/
+/**@var $item common\models\Category**/
 $image =$account->getMainImage();
 $this->title = 'Мои данные';
 ?>
@@ -84,7 +87,7 @@ $this->title = 'Мои данные';
                 <?endif;?>
                 <?= Html::beginForm(['/admin/account/show'], 'post', ['data-pjax' => '', 'class' => 'form-inline']); ?>
 
-                <?= Html::activeFileInput($model, 'file', ['class' => 'form-control image_input']) ?>
+                <?= Html::activeFileInput($model, 'file', ['class' => 'form-control image_input','onchange'=>'submitFiles()']) ?>
                 <button type="submit" class="image_btn" style="opacity: 0"></button>
                 <?= Html::endForm() ?>
 
@@ -327,18 +330,126 @@ $this->title = 'Мои данные';
         </div>
     </div>
     <hr>
+    <div class="row">
+      
+        <div class="tab-pane" id="cat" >
+            <ul class="nav nav-pills" style="margin-bottom: 20px">
+                <?
+                $i=0;
+                foreach ($categoryType as $catType ):?>
 
+                    <li style="font-size: 16pt;" class="<?=$i==0?"active":""?>"><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code=='GOOD'?'Категория  товаров':'Категория услуг'?></a></li>
+
+                    <?
+                    $i++;
+                endforeach;?>
+            </ul>
+
+            <div class="tab-content ">
+                <?
+                $i=0;
+                foreach ($categoryType as $catType ):?>
+
+                    <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
+
+
+
+                        <ul>
+                            <?foreach ($category as $cat):?>
+
+                                <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
+
+                                    <li id="<?=$cat->id?>" class="<?=$cat->equelsVar($cat->id,$myCategory)?'selected-1':''?>"><?=$cat->name?>
+                                        <ul>
+                                            <?foreach ($category as $c):?>
+
+                                                <?if ($c->parent_id===$cat->id):?>
+
+                                                    <li id="<?=$c->id?>" class="<?=$c->equelsVar($c->id,$myCategory)?'selected-2':''?>"><?=$c->name?>
+                                                        <ul>
+                                                            <?foreach ($category as $item):?>
+                                                                <?if ($item->parent_id===$c->id):?>
+                                                                    <li id="<?=$item->id?>" class="<?=$item->equelsVar($item->id,$myCategory)?'selected-3':''?>"><?=$item->name?></li>
+                                                                <?endif;?>
+                                                            <?endforeach;?>
+                                                        </ul>
+                                                    </li>
+                                                <?endif?>
+
+
+
+
+                                            <?endforeach;?>
+                                        </ul>
+                                    </li>
+
+
+                                <?endif;?>
+
+
+                            <?endforeach;?>
+                        </ul>
+
+
+
+                    </div>
+                    <script>
+                        $(function () {
+                            $('#<?=$catType->code?>').jstree({
+                                "core" : {
+                                    "themes" : {
+                                        "variant" : "large"
+                                    }
+                                },
+                                "checkbox" : {
+                                    "keep_selected_style" : true
+                                },
+                                "plugins" : [ "checkbox","wholerow" ]
+                            });
+                            $('#<?=$catType->code?>') .on('changed.jstree', function (e, data) {
+                                var i, j, r = [];
+                                for(i = 0, j = data.selected.length; i < j; i++) {
+                                    r.push(data.instance.get_node(data.selected[i]).id);
+                                }
+//                                $('#account_category').val(r.join(', '));
+//                                console.log($('#account_category').val());
+
+
+                            })
+                        })
+                    </script>
+                    <?
+                    $i++;
+                endforeach;?>
+
+            </div>
+
+        </div>
+    </div>
 
 
 </div>
+
 <script>
     $(document).ready(function() {
+        var selected = $(".selected-1");
+        selected.removeClass('jstree-closed')
+        selected.addClass('jstree-open')
+        var selected_cat_div =$(".selected-1").children("div");
+        var selected_cat_a =$(".selected-1").children("a");
+        selected_cat_div.addClass('jstree-wholerow-clicked');
+        selected_cat_a.addClass('jstree-clicked');
 
-            var value =$("#logo-file");
-            value.change(function () {
-                $(".image_btn").submit()
 
-            });
+        var selected_cat_div_2 =$(".selected-2").children("div");
+        var selected_cat_a_2 =$(".selected-2").children("a");
+        selected_cat_div_2.addClass('jstree-wholerow-clicked');
+        selected_cat_a_2.addClass('jstree-clicked');
+
+        var selected_cat_div_3 =$(".selected-3").children("div");
+        var selected_cat_a_3 =$(".selected-3").children("a");
+        selected_cat_div_3.addClass('jstree-wholerow-clicked');
+        selected_cat_a_3.addClass('jstree-clicked');
 
         $('[name=change]').click(function(e) {
 

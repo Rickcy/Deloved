@@ -2,6 +2,9 @@
 
 namespace app\modules\admin\controllers;
 
+use common\models\AccountCategory;
+use common\models\Category;
+use common\models\CategoryType;
 use common\models\Logo;
 use common\models\User;
 use Yii;
@@ -167,17 +170,18 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_USER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-
-
-
+        $categoryType = CategoryType::find()->all();
+        $category = Category::find()->all();
+        
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         $model=new Logo();
-
-
+        
+        $myCategory =$account->getCategory()->all();
+        
         if ($model->load(Yii::$app->request->post())){
 
-            $file = UploadedFile::getInstance($model,'file');
+            $file =$model->file=UploadedFile::getInstance($model,'file');
             $logo = $file;
             if ($file){
 
@@ -204,11 +208,11 @@ class AccountController extends Controller
 
         if (!isset($logo)){
         return $this->render('show',[
-            'account'=>$account,'model'=>$model
+            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory
         ]);}
         else{
             return $this->render('show',[
-                'account'=>$account,'model'=>$model,'logo'=>$logo
+                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory
             ]);
         }
     }

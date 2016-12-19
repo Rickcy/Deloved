@@ -41,7 +41,7 @@ class Logo extends \yii\db\ActiveRecord
             [[ 'main_image', 'user_id'], 'integer'],
             [['image_name'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['file'],'file'],
+            [['file'],'file','extensions' => ['jpg','png','gif']],
         ];
     }
 

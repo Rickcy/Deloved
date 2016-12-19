@@ -2,6 +2,7 @@
 namespace frontend\models;
 
 use common\models\Account;
+use common\models\AccountCategory;
 use common\models\Profile;
 use common\models\Region;
 use Yii;
@@ -41,7 +42,9 @@ class SignupForm extends Model
     public $web_address;
     public $public_status;
     public $verify_status;
-    
+
+    public $account_category;
+
     public $verifyCode;
 
     public $city_name;
@@ -62,6 +65,7 @@ class SignupForm extends Model
 
             [['org_form_id', 'date_reg', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
             [['full_name','city_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
+            ['account_category', 'string', 'max' => 1055],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
 
@@ -74,6 +78,11 @@ class SignupForm extends Model
         $region_id=[];
         $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
         return $region_id[0]['id'];
+    }
+
+    public function returnCategoties_id(){
+        $categories = $this->account_category;
+        return $arr = explode(", ", $categories);
     }
 
     /**
@@ -132,7 +141,19 @@ class SignupForm extends Model
         $account->created_at=time();
         $account->updated_at=time();
         $account->user_id=$user->id;
+
+
         $account->save();
+        foreach ($this->returnCategoties_id() as $item){
+            $category =new AccountCategory();
+
+            $category->category_id=$item;
+            $category->account_id=$account->id;
+
+            $category->save();
+
+        }
+
 
         if ($user->save()&&$profile->save()&&$account->save()) {
           
