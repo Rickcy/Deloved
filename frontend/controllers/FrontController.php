@@ -172,7 +172,8 @@ class FrontController extends Controller
     {
 
       $categoryType = CategoryType::find()->all();
-        $category = Category::find()->all();
+      $category = Category::find()->all();
+        
        $level_id=18;
        $org_forms =OrgForm::find()->all();
         $city_list=Region::find()

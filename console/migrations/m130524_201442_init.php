@@ -92,7 +92,7 @@ class m130524_201442_init extends Migration
             'main_image'=>$this->integer()->defaultValue(0),
             'user_id'=>$this->integer()
         ],$tableOptions);
-
+        
 
         $this->createIndex('fk_role_id','{{%user}}','role_id');
         $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');

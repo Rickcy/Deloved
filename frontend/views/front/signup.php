@@ -125,17 +125,23 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="tab-pane" id="cat" >
                     <ul class="nav nav-pills" style="margin-bottom: 20px">
-                        <?foreach ($categoryType as $catType ):?>
+                        <?
+                        $i=0;
+                        foreach ($categoryType as $catType ):?>
 
-                            <li style="font-size: 16pt;" class=""><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code?></a></li>
+                            <li style="font-size: 16pt;" class="<?=$i==0?"active":""?>"><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code=='GOOD'?'Категория  товаров':'Категория услуг'?></a></li>
 
-                        <?endforeach;?>
+                        <?
+                        $i++;
+                        endforeach;?>
                     </ul>
 
-                    <div class="tab-content">
-                        <?foreach ($categoryType as $catType ):?>
+                    <div class="tab-content ">
+                        <?
+                        $i=0;
+                        foreach ($categoryType as $catType ):?>
 
-                        <div class="tab-pane" id="<?=$catType->code?>">
+                        <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
 
 
 
@@ -144,17 +150,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                     <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
 
-                                            <li><?=$cat->name?>
+                                            <li id="<?=$cat->id?>"><?=$cat->name?>
                                                 <ul>
                                             <?foreach ($category as $c):?>
 
                                                 <?if ($c->parent_id===$cat->id):?>
 
-                                                    <li><?=$c->name?>
+                                                    <li id="<?=$c->id?>"><?=$c->name?>
                                                         <ul>
                                                     <?foreach ($category as $item):?>
                                                         <?if ($item->parent_id===$c->id):?>
-                                                      <li><?=$item->name?></li>
+                                                      <li id="<?=$item->id?>" ><?=$item->name?></li>
                                                         <?endif;?>
                                                     <?endforeach;?>
                                                         </ul>
@@ -189,11 +195,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                         "checkbox" : {
                                             "keep_selected_style" : true
                                         },
-                                        "plugins" : [ "checkbox" ]
+                                        "plugins" : [ "checkbox","wholerow" ]
                                     });
                                 })
                             </script>
-                        <?endforeach;?>
+                        <?
+                            $i++;
+                        endforeach;?>
 
                     </div>
 
