@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'inn',
             'ogrn',
             'legal_address',
-            'date_reg',
+            'date_reg:datatime',
             'phone1',
             'fax',
             'web_address',
@@ -50,8 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'verify_status',
             'rating',
             'user_id',
-            'created_at',
-            'updated_at',
+            'created_at:datatime',
+            'updated_at:datatime',
         ],
     ]) ?>
 

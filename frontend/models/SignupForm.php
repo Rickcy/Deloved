@@ -23,7 +23,6 @@ class SignupForm extends Model
     public $address;
     public $brand_name;
 
-    public $date_reg;
     public $description;
     public $director;
     public $full_name;
@@ -48,6 +47,7 @@ class SignupForm extends Model
 
     public $verifyCode;
 
+    public $date;
     public $city_name;
     /**
      * @inheritdoc
@@ -64,8 +64,8 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
 
-            [['org_form_id', 'date_reg', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
-            [['full_name','city_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
+            [['org_form_id', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
+            [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
             [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
@@ -88,6 +88,11 @@ class SignupForm extends Model
         $arr2 = explode(", ", $categories_service);
 
         return $result = array_merge($arr1,$arr2);
+    }
+
+    public function returnDate(){
+        $date_registration =$this->date;
+        return $result = strtotime($date_registration); 
     }
 
     /**
@@ -127,7 +132,7 @@ class SignupForm extends Model
         $account->address=$this->address;
         $account->brand_name=$this->brand_name;
         $account->city_id=$this->returnCity_id();
-        $account->date_reg=time();
+        $account->date_reg=$this->returnDate();
         $account->description=$this->description;
         $account->director=$this->director;
         $account->fax=$this->fax;

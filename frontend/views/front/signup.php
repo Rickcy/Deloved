@@ -9,13 +9,13 @@
 /* @var $c \common\models\Category */
 /* @var $catType \common\models\CategoryType */
 
+use kartik\date\DatePicker;
 use yii\captcha\Captcha;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use yii\jui\AutoComplete;
-use yii\jui\DatePicker;
 
 $this->title = 'Регитсрация нового пользователя';
 $this->params['breadcrumbs'][] = $this->title;
@@ -109,6 +109,18 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($model, 'description')->textarea(['rows'=>6])->label('Описание') ?>
 
             <?= $form->field($model, 'keywords')->textarea(['rows'=>6])->label('Ключевые слова') ?>
+            <div class="col-sm-9">
+
+            <?= $form->field($model, 'date')->widget(
+                DatePicker::className(), [
+                'type' => DatePicker::TYPE_BUTTON,
+                'value' => '12/31/2010',
+                'pluginOptions' => [
+                    'format' => 'mm/dd/yyyy',
+                    'autoclose'=>true
+                ]
+            ]);?>
+            </div>
 
 
             <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>
@@ -199,8 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             r.push(data.instance.get_node(data.selected[i]).id);
                                         }
                                         $('#<?=$catType->code=='GOOD'?'account_category_goods':'account_category_service'?>').val(r.join(', '));
-                                        console.log($('#account_category_goods').val());
-                                        console.log($('#account_category_service').val());
+                                  
 
 
                                     })
