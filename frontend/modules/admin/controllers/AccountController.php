@@ -235,6 +235,38 @@ class AccountController extends Controller
 
 
     }
+    
+    public function actionSaveCategory($goods,$service){
+        $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
+       
+        if (Yii::$app->request->isPost) {
+            $arr1=[];
+            $arr2=[];
+            if ($goods){$arr1 = explode(",", $goods);}
+            if ($service){$arr2 = explode(",", $service);}
+            $result = array_merge($arr1,$arr2);
+
+            if($result){
+               AccountCategory::deleteAll(['account_id'=>$account->id]);
+
+            foreach ($result as $item){
+                $category =new AccountCategory();
+
+                $category->category_id=$item;
+                $category->account_id=$account->id;
+
+                $category->save();
+
+            }
+                Yii::$app->session->addFlash('success', 'Успешно добавлено!');
+            } else{
+                AccountCategory::deleteAll(['account_id'=>$account->id]);
+                Yii::$app->session->addFlash('danger', 'Вы не выбрали категорию!');
+            }
+
+        }
+        return json_encode(Yii::$app->session->getAllFlashes());
+    }
 
 
 }

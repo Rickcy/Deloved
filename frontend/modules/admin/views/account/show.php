@@ -331,7 +331,7 @@ $this->title = 'Мои данные';
     </div>
     <hr>
     <div class="row">
-      
+      <div class="col-sm-9">
         <div class="tab-pane" id="cat" >
             <ul class="nav nav-pills" style="margin-bottom: 20px">
                 <?
@@ -347,8 +347,7 @@ $this->title = 'Мои данные';
 
             <div class="tab-content ">
                 <?
-                $i=0;
-                foreach ($categoryType as $catType ):?>
+                $i=0;foreach ($categoryType as $catType ):?>
 
                     <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
 
@@ -359,17 +358,17 @@ $this->title = 'Мои данные';
 
                                 <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
 
-                                    <li id="<?=$cat->id?>" class="<?=$cat->equelsVar($cat->id,$myCategory)?'selected-1':''?>"><?=$cat->name?>
+                                    <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
                                         <ul>
                                             <?foreach ($category as $c):?>
 
                                                 <?if ($c->parent_id===$cat->id):?>
 
-                                                    <li id="<?=$c->id?>" class="<?=$c->equelsVar($c->id,$myCategory)?'selected-2':''?>"><?=$c->name?>
+                                                    <li id="<?=$c->id?>" data-jstree=<?=$c->equelsVar($c->id,$myCategory)?>><?=$c->name?>
                                                         <ul>
                                                             <?foreach ($category as $item):?>
                                                                 <?if ($item->parent_id===$c->id):?>
-                                                                    <li id="<?=$item->id?>" class="<?=$item->equelsVar($item->id,$myCategory)?'selected-3':''?>"><?=$item->name?></li>
+                                                                    <li id="<?=$item->id?>" data-jstree=<?=$item->equelsVar($item->id,$myCategory)?>><?=$item->name?></li>
                                                                 <?endif;?>
                                                             <?endforeach;?>
                                                         </ul>
@@ -395,27 +394,30 @@ $this->title = 'Мои данные';
                     </div>
                     <script>
                         $(function () {
-                            $('#<?=$catType->code?>').jstree({
-                                "core" : {
-                                    "themes" : {
-                                        "variant" : "large"
-                                    }
-                                },
-                                "checkbox" : {
-                                    "keep_selected_style" : true
-                                },
-                                "plugins" : [ "checkbox","wholerow" ]
-                            });
                             $('#<?=$catType->code?>') .on('changed.jstree', function (e, data) {
                                 var i, j, r = [];
                                 for(i = 0, j = data.selected.length; i < j; i++) {
                                     r.push(data.instance.get_node(data.selected[i]).id);
                                 }
-//                                $('#account_category').val(r.join(', '));
-//                                console.log($('#account_category').val());
+                                $('#<?=$catType->code=='GOOD'?'account_category_goods':'account_category_service'?>').val(r.join(','));
+
+                                if($("#saveCategory").hide()){
+                                    $("#saveCategory").show()
+                                }
 
 
                             })
+                                .jstree({
+                                    "core" : {
+                                        "themes" : {
+                                            "variant" : "large"
+                                        }
+                                    },
+                                    "checkbox" : {
+                                        "keep_selected_style" : true
+                                    },
+                                    "plugins" : [ "checkbox","wholerow" ]
+                                });
                         })
                     </script>
                     <?
@@ -423,32 +425,59 @@ $this->title = 'Мои данные';
                 endforeach;?>
 
             </div>
-
+        </div>
+        </div>
+        <div class="col-sm-3">
+            <a href="javascript:void(0)" style="display: none" id="saveCategory">Сохранить</a>
         </div>
     </div>
 
 
 </div>
+<input id="account_category_goods" class="hidden"/>
+<hr>
+<input id="account_category_service" class="hidden"/>
 
 <script>
     $(document).ready(function() {
 
+        $("#saveCategory").click(function () {
+            var goods = $("#account_category_goods");
+            var category_goods =[];
+            goods.each(function () {
+                category_goods.push($(this).val())
+            });
+            var service = $("#account_category_service");
+            var category_services =[];
+            service.each(function () {
+                category_services.push($(this).val())
+            });
+         
 
-        var selected_cat_div =$(".selected-1").children("div");
-        var selected_cat_a =$(".selected-1").children("a");
-        selected_cat_div.addClass('jstree-wholerow-clicked');
-        selected_cat_a.addClass('jstree-clicked');
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/account/save-category/?goods='+category_goods+'&service='+category_services,
+                success:function (data) {
+                    var obj = $.parseJSON(data);
+                   
+                    if (obj.success) {
+                        showMessage('success', obj.success)
+                    }
+                    if (obj.danger) {
+                        showMessage('danger', obj.danger)
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    showMessage('danger', 'Ошибка соединения');
+                 
+                }
+            })
+        });
 
 
-        var selected_cat_div_2 =$(".selected-2").children("div");
-        var selected_cat_a_2 =$(".selected-2").children("a");
-        selected_cat_div_2.addClass('jstree-wholerow-clicked');
-        selected_cat_a_2.addClass('jstree-clicked');
 
-        var selected_cat_div_3 =$(".selected-3").children("div");
-        var selected_cat_a_3 =$(".selected-3").children("a");
-        selected_cat_div_3.addClass('jstree-wholerow-clicked');
-        selected_cat_a_3.addClass('jstree-clicked');
+      
 
         $('[name=change]').click(function(e) {
 
