@@ -75,8 +75,19 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'inn')->textInput()->label('ИНН') ?>
 
             <?= $form->field($model, 'legal_address')->textInput()->label('Юридический адрес') ?>
-            <div class="col-sm-12">
 
+            <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-3">{input}{error}{hint}</div>'])->widget(
+                DatePicker::className(), [
+                'value' => '12/31/2010',
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'mm/dd/yyyy',
+                    
+                ]
+            ])->label('Дата регистрации');?>
+
+            <div class="row">
+            <div class="col-sm-12">
             <div style="width: 30%;float: right">
             <?= $form->field($model, 'address')->textInput()->label('') ?>
             </div>
@@ -95,6 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ?>
                 </div>
             </div>
+            </div>
             <?= $form->field($model, 'director')->textInput()->label('Руководство') ?>
 
             <?= $form->field($model, 'phone1')->textInput()->label('Основной номер телефона') ?>
@@ -109,18 +121,10 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($model, 'description')->textarea(['rows'=>6])->label('Описание') ?>
 
             <?= $form->field($model, 'keywords')->textarea(['rows'=>6])->label('Ключевые слова') ?>
-            <div class="col-sm-9">
 
-            <?= $form->field($model, 'date')->widget(
-                DatePicker::className(), [
-                'type' => DatePicker::TYPE_BUTTON,
-                'value' => '12/31/2010',
-                'pluginOptions' => [
-                    'format' => 'mm/dd/yyyy',
-                    'autoclose'=>true
-                ]
-            ]);?>
-            </div>
+
+
+
 
 
             <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>

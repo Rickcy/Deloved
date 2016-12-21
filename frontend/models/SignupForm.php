@@ -92,7 +92,9 @@ class SignupForm extends Model
 
     public function returnDate(){
         $date_registration =$this->date;
-        return $result = strtotime($date_registration); 
+        $date = explode("/", $date_registration);
+        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
+        return $timestamp;
     }
 
     /**
@@ -133,6 +135,7 @@ class SignupForm extends Model
         $account->brand_name=$this->brand_name;
         $account->city_id=$this->returnCity_id();
         $account->date_reg=$this->returnDate();
+
         $account->description=$this->description;
         $account->director=$this->director;
         $account->fax=$this->fax;
