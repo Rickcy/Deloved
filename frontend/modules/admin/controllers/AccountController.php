@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use common\models\AccountCategory;
+use common\models\Affiliate;
 use common\models\Category;
 use common\models\CategoryType;
 use common\models\Logo;
@@ -177,6 +178,8 @@ class AccountController extends Controller
         $account=$user->getAccounts()->one();
         $model=new Logo();
         
+        $affiliate =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
+        $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
         $myCategory =$account->getCategory()->all();
         
         if ($model->load(Yii::$app->request->post())){
@@ -208,17 +211,32 @@ class AccountController extends Controller
 
         if (!isset($logo)){
         return $this->render('show',[
-            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory
+            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count
         ]);}
         else{
             return $this->render('show',[
-                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory
+                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count
             ]);
         }
     }
 
-    
+    public function actionAddAffiliate(){
+        $user=User::findOne(Yii::$app->user->id);
+        $account=$user->getAccounts()->one();
+        $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
+        $active =true;
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('affiliate',['aff'=>'','count'=>$count,'active'=>$active]);
+        }
 
+    }
+
+
+    public function actionCheckCountAffiliate(){
+
+
+
+    }
 
     public function actionEditNew($value,$prop){
         

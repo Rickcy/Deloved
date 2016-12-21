@@ -329,11 +329,94 @@ $this->title = 'Мои данные';
             <a href="javascript:void(0)" name="change" data-for="keywords">Изменить</a>
         </div>
     </div>
-    <hr>
+
+
     <div class="row">
-      <div class="col-sm-9">
+        <h2 class="ft">Филиалы</h2>
+        <div class="col-md-3 col-lg-3 col-sm-3 col-xs-2"></div>
+        <div class="value-col ft">
+
+
+            <ul id="affTabNav" class="nav nav-pills">
+                <?$i=0;
+                foreach ($affiliate as $aff):?>
+                    <li class="<?=$i==0?'active':''?>"><a data-toggle="tab" href="#aff<?=$i?>"><?=$i+1?></a></li>
+                <?$i++;
+                endforeach;?>
+                <li id="affPlus">
+                    <a href="javascript:void(0)" id="addAffiliates" onclick="createAffiliates()"  ><span class="glyphicon glyphicon-plus"></span></a>
+                </li>
+            </ul>
+
+            <form id="affiliateList" name="affiliateList" href="#">
+
+
+                <div id="affTabContent" class="tab-content">
+                    <?$i=0;
+                    foreach ($affiliate as $aff):?>
+                        <?=$this->render("affiliate",['aff'=>$aff,'i'=>$i,'active'=>false])?>
+                    <?$i++;
+                    endforeach;?>
+
+                </div>
+            </form>
+
+        </div>
+        
+    </div>
+    <script>
+        function createAffiliates() {
+            jQuery.ajax({
+                type:'POST',
+                url:'/admin/account/add-affiliate',
+                success:function(data,textStatus){
+                    pushAffiliate(data);
+                },error:function(XMLHttpRequest,textStatus,errorThrown){
+
+                }}
+            );return false;
+        }
+        
+        
+        function createTab(index){
+            var tab = document.createElement('LI');
+            var a = document.createElement('A');
+            a.setAttribute('href', '#aff'+index);
+            a.dataset.toggle = 'tab';
+            a.innerText = index+1;
+            tab.appendChild(a);
+            return tab
+        }
+
+        function affiliateBlockCount(){
+            return {index: $('[name=affiliateBlock]').length}
+        }
+        function pushAffiliate(data) {
+            var result = [];
+
+            var tab = createTab(document.getElementsByName('affiliateBlock').length)
+
+            result.push($("li.active").removeClass('active').removeClass('in'));
+            result.push($(tab).appendTo('#affTabNav'));
+            result.push($(tab).addClass('active'));
+
+            result.push($(".tab-pane.active.in").removeClass('active').removeClass('in'));
+            result.push($(data).appendTo('#affTabContent'));
+            console.log(data)
+            result.push($('#affPlus').insertAfter(tab));
+            $('#addAffiliates').hide();
+            $()
+            return result
+        }
+    </script>
+
+
+    <hr>
+
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
         <div class="tab-pane" id="cat" >
-            <ul class="nav nav-pills" style="margin-bottom: 20px">
+            <ul class="nav nav-pills nav-justified" style="margin-bottom: 20px">
                 <?
                 $i=0;
                 foreach ($categoryType as $catType ):?>
@@ -427,7 +510,7 @@ $this->title = 'Мои данные';
             </div>
         </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <a href="javascript:void(0)" style="display: none" id="saveCategory">Сохранить</a>
         </div>
     </div>
@@ -440,7 +523,11 @@ $this->title = 'Мои данные';
 
 <script>
     $(document).ready(function() {
+        $("#saveAffiliate").click(function () {
 
+            $('#addAffiliates').show();
+
+        });
         $("#saveCategory").click(function () {
             var goods = $("#account_category_goods");
             var category_goods =[];

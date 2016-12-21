@@ -92,8 +92,19 @@ class m130524_201442_init extends Migration
             'main_image'=>$this->integer()->defaultValue(0),
             'user_id'=>$this->integer()
         ],$tableOptions);
-        
 
+        $this->createTable('{{affiliate}}',[
+            'id'=>$this->primaryKey(),
+            'address'=>$this->string(),
+            'city_id'=>$this->integer(),
+            'email'=>$this->string(),
+            'phone'=>$this->string(),
+            'account_id'=>$this->integer()
+        ],$tableOptions);
+
+        $this->createIndex('fk_affiliate_account_id','{{%affiliate}}','account_id');
+        $this->addForeignKey('fk_affiliate_account_id','{{%affiliate}}','account_id','{{%account}}','id','SET NULL','CASCADE');
+        
         $this->createIndex('fk_role_id','{{%user}}','role_id');
         $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
 
@@ -130,12 +141,35 @@ class m130524_201442_init extends Migration
         $this->insert('org_form',['id'=>4,'code'=>'ПАО','name'=>'Публичное акционерное общество']);
         $this->insert('org_form',['id'=>5,'code'=>'ЗАО','name'=>'Закрытое акционерное общество']);
 
+        //  ADMIN
+        $this->insert('user',['id'=>1,'username'=>'admin','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
+        'email_confirm_token'=>null,'email'=>'Rickcy@mail.com','status'=>1,'role_id'=>3]);
+        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@mail.com','avatar_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>0,'chargeTill'=>null,'user_id'=>1]);
 
+        
+        
     }
 
     public function safeDown()
     {
+        $this->dropColumn('profile',1);
         $this->dropColumn('user',1);
+        $this->dropColumn('org_form',5);
+        $this->dropColumn('org_form',4);
+        $this->dropColumn('org_form',3);
+        $this->dropColumn('org_form',2);
+        $this->dropColumn('org_form',1);
+        $this->dropColumn('role',8);
+        $this->dropColumn('role',7);
+        $this->dropColumn('role',6);
+        $this->dropColumn('role',5);
+        $this->dropColumn('role',4);
+        $this->dropColumn('role',3);
+        $this->dropColumn('role',2);
+        $this->dropColumn('role',1);
+        $this->dropTable('{{%affiliate}}');
+        $this->dropTable('{{%logo}}');
+        $this->dropTable('{{%org_form}}');
         $this->dropTable('{{%account}}');
         $this->dropTable('{{%profile}}');
         $this->dropTable('{{%user}}');

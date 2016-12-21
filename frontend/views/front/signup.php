@@ -41,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="signup_desc">После регистрации на вашу почту придет письмо об активации.</div>
 
-            <?= $form->field($model, 'fio')->textInput()->label('Имя') ?>
+            <?= $form->field($model, 'fio')->textInput(['autofocus' => true])->label('Имя') ?>
 
-            <?= $form->field($model, 'email')->textInput(['autofocus' => true,'placeholder'=>'name@domain'])->label('Введите адрес эл. почты') ?>
+            <?= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain'])->label('Введите адрес эл. почты') ?>
 
                 <?= $form->field($model, 'username')->textInput()->label('Введите логин') ?>
 
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'pluginOptions' => [
                     'autoclose'=>true,
                     'format' => 'mm/dd/yyyy',
-                    
+
                 ]
             ])->label('Дата регистрации');?>
 
@@ -123,16 +123,15 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'keywords')->textarea(['rows'=>6])->label('Ключевые слова') ?>
 
 
+            <hr>
+            <h3 class="text_reg_1">Категории деятельности</h3>
+
+            <div class="signup_desc">Отметьте галочками ветки категорий товаров и услуг, которые относятся к виду вашей деятельности.</div>
 
 
 
 
-            <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>
-
-
-            <?= $form->field($model, 'account_category_service')->hiddenInput(['id'=>'account_category_service'])->label('') ?>
-
-            <div class="col-sm-9">
+            <div class="col-sm-9 col-sm-offset-3">
                 
 
                 <div class="tab-pane" id="cat" >
@@ -232,6 +231,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 
 
             </div>
+
+
+            <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>
+
+
+            <?= $form->field($model, 'account_category_service')->hiddenInput(['id'=>'account_category_service'])->label('') ?>
+
 
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                 'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
