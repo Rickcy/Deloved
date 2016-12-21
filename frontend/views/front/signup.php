@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?= $form->field($model, 'legal_address')->textInput()->label('Юридический адрес') ?>
 
-            <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-3">{input}{error}{hint}</div>'])->widget(
+            <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-4">{input}{error}{hint}</div>'])->widget(
                 DatePicker::className(), [
                 'value' => '12/31/2010',
                 'pluginOptions' => [
@@ -86,12 +86,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ])->label('Дата регистрации');?>
 
-            <div class="row">
-            <div class="col-sm-12">
-            <div style="width: 30%;float: right">
-            <?= $form->field($model, 'address')->textInput()->label('') ?>
-            </div>
-                <div style="width: 60%;float: right">
+
+            <div class="col-sm-11 col-sm-offset-1">
+                <div class="col-sm-8">
                     <?= $form->field($model, 'city_name')->widget(
                         AutoComplete::className(), [
 
@@ -105,8 +102,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     ])->label('Адрес офиса');
                     ?>
                 </div>
+            <div class="col-sm-4">
+            <?= $form->field($model, 'address')->textInput()->label('') ?>
             </div>
+
             </div>
+
             <?= $form->field($model, 'director')->textInput()->label('Руководство') ?>
 
             <?= $form->field($model, 'phone1')->textInput()->label('Основной номер телефона') ?>

@@ -63,6 +63,14 @@ class Affiliate extends \yii\db\ActiveRecord
         return $this->hasOne(Region::className(), ['id' => 'city_id']);
     }
 
+    public function returnCity_id($city_name){
+        $name = $city_name;
+        $region_id=[];
+        $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
+        return $region_id[0]['id'];
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */

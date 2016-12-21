@@ -354,7 +354,7 @@ $this->title = 'Мои данные';
                 <div id="affTabContent" class="tab-content">
                     <?$i=0;
                     foreach ($affiliate as $aff):?>
-                        <?=$this->render("affiliate",['aff'=>$aff,'i'=>$i,'active'=>false])?>
+                        <?=$this->render("affiliate",['i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false])?>
                     <?$i++;
                     endforeach;?>
 
@@ -366,7 +366,7 @@ $this->title = 'Мои данные';
     </div>
     <script>
         function createAffiliates() {
-            jQuery.ajax({
+            $.ajax({
                 type:'POST',
                 url:'/admin/account/add-affiliate',
                 success:function(data,textStatus){
@@ -376,7 +376,8 @@ $this->title = 'Мои данные';
                 }}
             );return false;
         }
-        
+
+
         
         function createTab(index){
             var tab = document.createElement('LI');
@@ -388,24 +389,22 @@ $this->title = 'Мои данные';
             return tab
         }
 
-        function affiliateBlockCount(){
-            return {index: $('[name=affiliateBlock]').length}
-        }
+
         function pushAffiliate(data) {
             var result = [];
 
-            var tab = createTab(document.getElementsByName('affiliateBlock').length)
+            var tab = createTab(document.getElementsByName('affiliateBlock').length);
 
             result.push($("li.active").removeClass('active').removeClass('in'));
             result.push($(tab).appendTo('#affTabNav'));
             result.push($(tab).addClass('active'));
 
-            result.push($(".tab-pane.active.in").removeClass('active').removeClass('in'));
+            result.push($(".tab-pane.active.affiliate").removeClass('active'));
             result.push($(data).appendTo('#affTabContent'));
-            console.log(data)
+
             result.push($('#affPlus').insertAfter(tab));
             $('#addAffiliates').hide();
-            $()
+
             return result
         }
     </script>
@@ -518,16 +517,11 @@ $this->title = 'Мои данные';
 
 </div>
 <input id="account_category_goods" class="hidden"/>
-<hr>
 <input id="account_category_service" class="hidden"/>
 
 <script>
     $(document).ready(function() {
-        $("#saveAffiliate").click(function () {
 
-            $('#addAffiliates').show();
-
-        });
         $("#saveCategory").click(function () {
             var goods = $("#account_category_goods");
             var category_goods =[];

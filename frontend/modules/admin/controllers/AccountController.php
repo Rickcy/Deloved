@@ -224,19 +224,74 @@ class AccountController extends Controller
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
-        $active =true;
+
         if (Yii::$app->request->isAjax) {
-            return $this->renderAjax('affiliate',['aff'=>'','count'=>$count,'active'=>$active]);
+            return $this->renderAjax('affiliate',['aff'=>null,'count'=>$count,'active'=>true]);
         }
 
     }
 
 
-    public function actionCheckCountAffiliate(){
+    public function actionSaveNewAffiliate($address,$city,$email,$phone){
 
 
 
+            $affiliate = new Affiliate();
+            $user=User::findOne(Yii::$app->user->id);
+            $account=$user->getAccounts()->one();
+            if($address&&$city&&$email&&$phone){
+                 if(Yii::$app->request->isPost){
+
+                 $affiliate->city_id =  105;
+                 $affiliate->address = $address;
+                 $affiliate->account_id = $account->id;
+                 $affiliate->phone = $phone;
+                 $affiliate->email = $email;
+
+
+                 }
+                $affiliate->save();
+                Yii::$app->session->addFlash('success', 'Успешно добавленно');
+
+            }
+            else{
+            Yii::$app->session->addFlash('danger', 'Заполните все поля');
+            }
+
+        return json_encode(Yii::$app->session->getAllFlashes());
     }
+
+
+
+    public function actionEditAffiliate($address,$city,$email,$phone,$aff_id){
+
+
+
+        $affiliate = Affiliate::findOne($aff_id);
+        $user=User::findOne(Yii::$app->user->id);
+        $account=$user->getAccounts()->one();
+        if($address&&$city&&$email&&$phone){
+            if(Yii::$app->request->isPost){
+
+                $affiliate->city_id =  105;
+                $affiliate->address = $address;
+                $affiliate->account_id = $account->id;
+                $affiliate->phone = $phone;
+                $affiliate->email = $email;
+
+                $affiliate->save();
+            }
+
+            Yii::$app->session->addFlash('success', 'Успешно добавленно');
+
+        }
+        else{
+            Yii::$app->session->addFlash('danger', 'Заполните все поля');
+        }
+
+        return json_encode(Yii::$app->session->getAllFlashes());
+    }
+
 
     public function actionEditNew($value,$prop){
         

@@ -55,8 +55,8 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            [['username','email'], 'trim'],
-            [['username','password','org_form_id','email','full_name','fio','city_name','address'], 'required'],
+            [['username','password','email','full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio'], 'trim'],
+            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','city_name','address','date','legal_address','director','phone1'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -65,8 +65,9 @@ class SignupForm extends Model
             ['repassword', 'compare','compareAttribute'=>'password'],
 
             [['org_form_id', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
-            [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio', ], 'string', 'max' => 255],
+            [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address', 'fio' ], 'string', 'max' => 100],
             [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
+            [['description','keywords'], 'string', 'max' => 2055],
 
             ['verifyCode', 'captcha','captchaAction'=>Url::to(['/front/captcha'])],
 
