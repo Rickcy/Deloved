@@ -70,6 +70,7 @@ class m130524_201442_init extends Migration
             'keywords'=>$this->string(),
             'public_status'=>$this->integer()->defaultValue(0),
             'verify_status'=>$this->integer()->defaultValue(0),
+            'show_main'=>$this->integer()->defaultValue(0),
             'rating'=>$this->integer()->defaultValue(100),
             'user_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),

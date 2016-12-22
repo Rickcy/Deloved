@@ -7,6 +7,7 @@ use common\models\Affiliate;
 use common\models\Category;
 use common\models\CategoryType;
 use common\models\Logo;
+use common\models\OrgForm;
 use common\models\Region;
 use common\models\User;
 use Yii;
@@ -121,12 +122,12 @@ class AccountController extends Controller
 
 
         $model = $this->findModel($id);
-
+        $org_forms =OrgForm::find()->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model,'org_forms'=>$org_forms
             ]);
         }
     }
