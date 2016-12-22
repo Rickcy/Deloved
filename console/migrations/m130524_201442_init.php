@@ -144,7 +144,7 @@ class m130524_201442_init extends Migration
         //  ADMIN
         $this->insert('user',['id'=>1,'username'=>'admin','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
         'email_confirm_token'=>null,'email'=>'Rickcy@mail.com','status'=>1,'role_id'=>3]);
-        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@mail.com','avatar_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>0,'chargeTill'=>null,'user_id'=>1]);
+        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@mail.com','avatar_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
 
         
         

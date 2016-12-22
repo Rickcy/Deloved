@@ -32,7 +32,8 @@ use Yii;
  * @property integer $user_id
  * @property integer $created_at
  * @property integer $updated_at
- *
+ * @property integer $show_main
+ * 
  * @property Region $city
  * @property User $user
  * @property OrgForm $orgForm
@@ -57,7 +58,7 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'user_id', 'created_at', 'updated_at'], 'integer'],
+            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'user_id', 'created_at', 'updated_at','show_main'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
             ['rating', 'default', 'value' => self::DEFAULT_RATING],
             [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
@@ -88,7 +89,7 @@ class Account extends \yii\db\ActiveRecord
             'description' => Yii::t('app', 'Description'),
             'director' => Yii::t('app', 'Director'),
             'work_time' => Yii::t('app', 'Work Time'),
-            'city_id' => Yii::t('app', 'City ID'),
+            'city_id' => Yii::t('app', 'City'),
             'address' => Yii::t('app', 'Address'),
             'keywords' => Yii::t('app', 'Keywords'),
             'public_status' => Yii::t('app', 'Public Status'),
@@ -97,6 +98,7 @@ class Account extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'show_main'=>Yii::t('app','Show Main')
         ];
     }
 

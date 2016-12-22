@@ -8,8 +8,21 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="account-form">
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#main" data-toggle="tab">Основное</a></li>
+        <li><a href="#contacts" data-toggle="tab">Контакты</a></li>
+        <li><a href="#affiliates" data-toggle="tab">Филиалы</a></li>
+        <li><a href="#seo" data-toggle="tab">SEO</a></li>
+        <li><a href="#cat" data-toggle="tab">Категории</a></li>
 
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="main">
+            <?= $form->field($model, 'public_status')->textInput() ?>
+
+            <?= $form->field($model, 'verify_status')->textInput() ?>
+        </div>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
@@ -47,9 +60,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'public_status')->textInput() ?>
 
-    <?= $form->field($model, 'verify_status')->textInput() ?>
 
     <?= $form->field($model, 'rating')->textInput() ?>
 

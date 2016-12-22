@@ -52,31 +52,38 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $searchModel = new AccountSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+      $account = Account::find()->all();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'account' => $account,
         ]);
     }
 
-    /**
-     * Displays a single Account model.
-     * @param integer $id
-     * @return mixed
-     * @throws ForbiddenHttpException
-     * @throws NotFoundHttpException
-     */
-    public function actionView($id){
+
+    public function actionChangeStatus($id,$type){
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
-        throw new ForbiddenHttpException('Доступ запрещен');
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
+        if (Yii::$app->request->isAjax) {
+            $account =Account::findOne($id);
+            if ($type =='ps') {
+                $publicStatus = $account->public_status == 0 ? $account->public_status = 1 : $account->public_status = 0;
+                $account->save();
+                return $this->renderAjax('status', ['status' => $publicStatus==1?true:false, 'statusClass' => 'publicStatus', 'iconFalse' => 'glyphicon-lock']);
+            } if ($type =='vs') {
+
+                $verifyStatus = $account->verify_status == 0 ? $account->verify_status = 1 : $account->verify_status = 0;
+                $account->save();
+                return $this->renderAjax('status', ['status' => $verifyStatus==1?true:false, 'statusClass' => 'verifyStatus']);
+            } else {
+
+            }
+
+        }
+
+
     }
 
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
 
     /**
      * Creates a new Account model.
@@ -91,7 +98,7 @@ class AccountController extends Controller
         $model = new Account();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -334,18 +341,21 @@ class AccountController extends Controller
         $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
 
         if (Yii::$app->request->isPost) {
-            $city_name='';
+
             if ($prop=='city'){
                $city_name = $account->city_id=$account->returnCity_id($value);
+                if ($city_name){
+                    $account->save();
+                    Yii::$app->session->addFlash('success', 'Успешно изменен');
+                }else{
+                    Yii::$app->session->addFlash('danger', 'Такого города нет в списке');
+                }
             }else{
             $account->$prop =$value;
+                $account->save();
+                Yii::$app->session->addFlash('success', 'Успешно изменен');
             }
-            if ($city_name){
-            $account->save();
-            Yii::$app->session->addFlash('success', 'Успешно изменен');
-            }else{
-                Yii::$app->session->addFlash('danger', 'Такого города нет в списке');
-            }
+
         }
 
             return json_encode(Yii::$app->session->getAllFlashes());

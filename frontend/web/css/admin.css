@@ -290,3 +290,22 @@ button, input, optgroup, select, textarea {
 .form-control,.label-control,.ui-autocomplete-input{
     margin: 5px 0;
 }
+
+.buttons {
+    background-color: #efefef;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 0.1em 0 20px;
+}
+span.status {
+    cursor: pointer;
+}
+
+span.enabled {
+    color: lightgreen;
+}
+
+span.disabled {
+    color: orangered;
+}

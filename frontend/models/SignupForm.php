@@ -41,12 +41,13 @@ class SignupForm extends Model
     public $web_address;
     public $public_status;
     public $verify_status;
-
+    public $show_main;
     public $account_category_goods;
     public $account_category_service;
 
     public $verifyCode;
-
+    
+    
     public $date;
     public $city_name;
     /**
@@ -55,6 +56,7 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+            
             [['username','password','email','full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio'], 'trim'],
             [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','city_name','address','date','legal_address','director','phone1'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
@@ -64,7 +66,7 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
 
-            [['org_form_id', 'public_status', 'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
+            [['org_form_id', 'public_status','show_main' ,'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
             [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address', 'fio' ], 'string', 'max' => 100],
             [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
             [['description','keywords'], 'string', 'max' => 2055],
@@ -146,7 +148,7 @@ class SignupForm extends Model
         $account->legal_address=$this->legal_address;
         $account->org_form_id=$this->org_form_id;
         $account->phone1=$this->phone1;
-
+        $account->show_main=0;
         $account->public_status=0;
         $account->verify_status=0;
         $account->web_address=$this->web_address;
