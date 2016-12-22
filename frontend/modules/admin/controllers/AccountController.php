@@ -7,6 +7,7 @@ use common\models\Affiliate;
 use common\models\Category;
 use common\models\CategoryType;
 use common\models\Logo;
+use common\models\Region;
 use common\models\User;
 use Yii;
 use common\models\Account;
@@ -177,7 +178,15 @@ class AccountController extends Controller
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         $model=new Logo();
-        
+
+        $level_id=18;
+        $city_list=Region::find()
+            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
+            ->asArray()
+            ->all();
+
+
         $affiliate =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
         $myCategory =$account->getCategory()->all();
@@ -211,22 +220,28 @@ class AccountController extends Controller
 
         if (!isset($logo)){
         return $this->render('show',[
-            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count
+            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count,'city_list'=>$city_list
         ]);}
         else{
             return $this->render('show',[
-                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count
+                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count,'city_list'=>$city_list
             ]);
         }
     }
 
     public function actionAddAffiliate(){
+        $level_id=18;
+        $city_list=Region::find()
+            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
+            ->asArray()
+            ->all();
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
 
         if (Yii::$app->request->isAjax) {
-            return $this->renderAjax('affiliate',['aff'=>null,'count'=>$count,'active'=>true]);
+            return $this->renderAjax('affiliate',['aff'=>null,'count'=>$count,'active'=>true,'city_list'=>$city_list]);
         }
 
     }
@@ -240,9 +255,11 @@ class AccountController extends Controller
             $user=User::findOne(Yii::$app->user->id);
             $account=$user->getAccounts()->one();
             if($address&&$city&&$email&&$phone){
+                $city_name='';
+                $repeat = $affiliate->find()->where('address=:address',[':address'=>$address])->andWhere('account_id=:account_id',[':account_id'=>$account->id])->all();
                  if(Yii::$app->request->isPost){
 
-                 $affiliate->city_id =  105;
+                 $city_name=$affiliate->city_id = $affiliate->returnCity_id($city);
                  $affiliate->address = $address;
                  $affiliate->account_id = $account->id;
                  $affiliate->phone = $phone;
@@ -250,9 +267,18 @@ class AccountController extends Controller
 
 
                  }
+                if (!$repeat){
+                if ($city_name){
+
                 $affiliate->save();
                 Yii::$app->session->addFlash('success', 'Успешно добавленно');
-
+                }else{
+                    Yii::$app->session->addFlash('danger', 'Нет такого города!');
+                }
+                }
+                else{
+                    Yii::$app->session->addFlash('danger', 'Данный адресс уже существует!');
+                }
             }
             else{
             Yii::$app->session->addFlash('danger', 'Заполните все поля');
@@ -261,29 +287,39 @@ class AccountController extends Controller
         return json_encode(Yii::$app->session->getAllFlashes());
     }
 
-
+    public function actionDeleteAffiliate($aff_id){
+        if(Yii::$app->request->isPost) {
+            $affiliate = Affiliate::findOne($aff_id);
+            $affiliate->delete();
+            Yii::$app->session->addFlash('success', 'Успешно удаленно');
+        }
+        return json_encode(Yii::$app->session->getAllFlashes());
+    }
 
     public function actionEditAffiliate($address,$city,$email,$phone,$aff_id){
-
 
 
         $affiliate = Affiliate::findOne($aff_id);
         $user=User::findOne(Yii::$app->user->id);
         $account=$user->getAccounts()->one();
         if($address&&$city&&$email&&$phone){
+            $city_name = '';
             if(Yii::$app->request->isPost){
 
-                $affiliate->city_id =  105;
+                $city_name=$affiliate->city_id = $affiliate->returnCity_id($city);
                 $affiliate->address = $address;
                 $affiliate->account_id = $account->id;
                 $affiliate->phone = $phone;
                 $affiliate->email = $email;
 
-                $affiliate->save();
+
             }
-
+            if ($city_name){
+            $affiliate->save();
             Yii::$app->session->addFlash('success', 'Успешно добавленно');
-
+            }else{
+                Yii::$app->session->addFlash('danger', 'Такого города нет в списке');
+            }
         }
         else{
             Yii::$app->session->addFlash('danger', 'Заполните все поля');
@@ -298,11 +334,20 @@ class AccountController extends Controller
         $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
 
         if (Yii::$app->request->isPost) {
-
+            $city_name='';
+            if ($prop=='city'){
+               $city_name = $account->city_id=$account->returnCity_id($value);
+            }else{
             $account->$prop =$value;
-            Yii::$app->session->addFlash('success', 'Успешно изменен');
             }
+            if ($city_name){
             $account->save();
+            Yii::$app->session->addFlash('success', 'Успешно изменен');
+            }else{
+                Yii::$app->session->addFlash('danger', 'Такого города нет в списке');
+            }
+        }
+
             return json_encode(Yii::$app->session->getAllFlashes());
 
 

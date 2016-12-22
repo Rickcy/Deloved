@@ -126,6 +126,13 @@ class Account extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
+    public function returnCity_id($city_name){
+        $name = $city_name;
+        $region_id=[];
+        $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
+        return $region_id[0]['id'];
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

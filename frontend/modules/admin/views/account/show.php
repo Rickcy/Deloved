@@ -1,6 +1,7 @@
 <?php
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
+use yii\jui\AutoComplete;
 use yii\widgets\Pjax;
 
 /**@var $account common\models\Account**/
@@ -186,8 +187,26 @@ $this->title = 'Мои данные';
             <label for="city">Фактический город</label>
         </div>
         <div class="value-col ft">
-            <input id="city" name="city" type="text" readonly value="<?=Html::encode($account->city->name)?>" data-old="<?=Html::encode($account->city->name)?>"
-                   placeholder="Отсутствует"/>
+
+            <?
+            echo AutoComplete::widget([
+                'name'=>'city',
+                'value'=>$account->city->name,
+                'id'=>'city',
+
+
+                'clientOptions' => [
+                    'source' => $city_list,
+                    'autoFill'=>true,
+                    'minLength' => 2,
+
+                ],
+                'options'=>[
+                    'data-old'=>'$account->city->name',
+                    'readonly'=>true
+                ]
+            ])
+            ?>
             <div class="pods fr">Город вашего центрального офиса</div>
         </div>
 
@@ -208,16 +227,13 @@ $this->title = 'Мои данные';
         <div class="action-col">
             <a href="javascript:void(0)" name="change" data-for="address">Изменить</a>
             <!--a href="javascript:void(0)">Показать на карте</a-->
-            <a id="ancorShow" href="#" onclick="mapToolBarShow();return false;">Показать карту</a>
-            <a id="ancorHide" href="#" onclick="mapToolBarHide();return false;" style="display:none;">Скрыть карту</a>
+
         </div>
     </div>
 
 
 
-    <div id="mapToolBar" style="display:block;" align="center">
-        <div id="map" style="width:500px; height:500px; display: none; margin: 15px"></div>
-    </div>
+   
 
     <div class="row">
         <div class="label-col ft">
@@ -340,7 +356,7 @@ $this->title = 'Мои данные';
             <ul id="affTabNav" class="nav nav-pills">
                 <?$i=0;
                 foreach ($affiliate as $aff):?>
-                    <li class="<?=$i==0?'active':''?>"><a data-toggle="tab" href="#aff<?=$i?>"><?=$i+1?></a></li>
+                    <li class="<?=$i==0?'active':''?>"><a id="hrefaff<?=$i?>" data-toggle="tab" href="#aff<?=$i?>"><?=$i+1?></a></li>
                 <?$i++;
                 endforeach;?>
                 <li id="affPlus">
@@ -354,7 +370,7 @@ $this->title = 'Мои данные';
                 <div id="affTabContent" class="tab-content">
                     <?$i=0;
                     foreach ($affiliate as $aff):?>
-                        <?=$this->render("affiliate",['i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false])?>
+                        <?=$this->render("affiliate",['i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false,'city_list'=>$city_list])?>
                     <?$i++;
                     endforeach;?>
 
@@ -510,7 +526,7 @@ $this->title = 'Мои данные';
         </div>
         </div>
         <div class="col-sm-2">
-            <a href="javascript:void(0)" style="display: none" id="saveCategory">Сохранить</a>
+            <a href="javascript:void(0)" class="btn btn-success" style="display: none" id="saveCategory">Сохранить</a>
         </div>
     </div>
 
@@ -596,11 +612,13 @@ $this->title = 'Мои данные';
 
                             if (obj.success) {
                                 $('#'+prop).data('old', newValue);
+                                showMessage('success', obj.success)
 
-                            } else {
+                            } if (obj.danger) {
                                 $('#'+prop).val(oldValue);
+                                showMessage('danger', obj.danger)
                             }
-                            showMessage('success', obj.success)
+
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             showMessage('danger', 'Ошибка соединения');

@@ -205,7 +205,7 @@ h2.ft {
     text-align: left;
     width: 25%;
     vertical-align: top;
-    padding-top: 5px;
+    padding-top: 18px;
 }
 .value-col > p {
     padding-top: 5px;
@@ -286,4 +286,7 @@ button, input, optgroup, select, textarea {
     margin: 0;
     font: inherit;
     color: inherit;
+}
+.form-control,.label-control,.ui-autocomplete-input{
+    margin: 5px 0;
 }
