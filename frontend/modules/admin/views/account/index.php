@@ -27,7 +27,7 @@ Yii::$app->formatter->timeZone = 'UTC';
 
     <div class="table-responsive">
     <table border="0" class="table table-striped">
-        <thead>
+        <thead class="thead-main">
         <tr>
 
 

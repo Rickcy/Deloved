@@ -29,13 +29,13 @@ use Yii;
  * @property integer $public_status
  * @property integer $verify_status
  * @property integer $rating
- * @property integer $user_id
+ * @property integer $profile_id
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $show_main
  * 
  * @property Region $city
- * @property User $user
+ * @property Profile $profile
  * @property OrgForm $orgForm
  * @property Logo[] $logos
  */
@@ -43,7 +43,8 @@ class Account extends \yii\db\ActiveRecord
 {
     const DEFAULT_RATING =100;
 
-
+    public $date;
+    public $city_name;
     /**
      * @inheritdoc
      */
@@ -58,12 +59,12 @@ class Account extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'user_id', 'created_at', 'updated_at','show_main'], 'integer'],
+            [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'profile_id', 'created_at', 'updated_at','show_main'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
             ['rating', 'default', 'value' => self::DEFAULT_RATING],
-            [['full_name', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name', 'date','brand_name', 'city_name','inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
             [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
         ];
     }
@@ -95,16 +96,26 @@ class Account extends \yii\db\ActiveRecord
             'public_status' => Yii::t('app', 'Public Status'),
             'verify_status' => Yii::t('app', 'Verify Status'),
             'rating' => Yii::t('app', 'Rating'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'profile_id' => Yii::t('app', 'Profile ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            'show_main'=>Yii::t('app','Show Main')
+            'show_main'=>Yii::t('app','Show Main'),
+            'date'=>Yii::t('app','Date'),
+            'city_name'=>Yii::t('app','City name')
+
         ];
     }
+    public function returnDate(){
+        $date_registration =$this->date;
+        $date = explode("/", $date_registration);
+        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
+        return $timestamp;
+    }
+
 
     public function getMainImage(){
         $user = User::findOne(Yii::$app->user->id);
-        $account = $user->getAccounts()->one();
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         $user_id = $account->id;
         $main_image =Logo::find()->where('user_id=:user_id',[':user_id'=>$user_id])->andWhere('main_image=:main_image',[':main_image'=>1])->one();
         
@@ -123,9 +134,9 @@ class Account extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getProfile()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Profile::className(), ['id' => 'profile_id']);
     }
 
     public function returnCity_id($city_name){

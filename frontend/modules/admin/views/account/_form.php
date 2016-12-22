@@ -1,7 +1,9 @@
 <?php
 
+use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\jui\AutoComplete;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -59,7 +61,10 @@ use yii\widgets\ActiveForm;
                 },
             ]); ?>
 
-            <?= $form->field($model->getUser()->one()->getProfiles()->one(), 'fio')->textInput(['maxlength' => true]) ?>
+
+            <? $items = ArrayHelper::map($profiles,'id','fio');
+
+            echo $form->field($model, 'profile_id')->dropDownList($items)->label('Профиль')?>
 
             <?= $form->field($model, 'show_main',[
 
@@ -94,15 +99,32 @@ use yii\widgets\ActiveForm;
 
             <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true]) ?>
 
-            <div class="form-group field-account-date_reg">
-                <label class="col-sm-3 control-label" for="account-date_reg">Дата Регистрации</label><div class="col-sm-9"><input type="text" id="account-date_reg" class="form-control" name="Account[date_reg]" value="<?=Yii::$app->formatter->asDatetime($model->date_reg, "php:d.m.Y");?>" maxlength="255"></div><div class="col-sm-9 col-sm-offset-3"><div class="help-block"></div></div>
-            </div>
+            <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-4">{input}{error}{hint}</div>'])->widget(
+                DatePicker::className(), [
+                'value' => '12/31/2010',
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'mm/dd/yyyy',
+
+                ]
+            ])->label('Дата регистрации');?>
 
         </div>
 
         <div class="tab-pane" id="contacts">
 
-            <?= $form->field($model, 'city_id')->textInput() ?>
+            <?= $form->field($model, 'city_name')->widget(
+                AutoComplete::className(), [
+
+                'clientOptions' => [
+                    'source' => $city_list,
+                    'minLength' => 2,
+                ],
+                'options'=>[
+                    'class'=>'form-control'
+                ],
+            ])->label('Адрес офиса');
+            ?>
 
             <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
@@ -126,10 +148,10 @@ use yii\widgets\ActiveForm;
 
         <div class="tab-pane" id="seo">
 
-            <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
 
-            <?= $form->field($model, 'keywords')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'keywords')->textarea(['rows' => 6]) ?>
 
         </div>
 
@@ -143,7 +165,7 @@ use yii\widgets\ActiveForm;
 
 
         <p><?=$model->rating?></p>
-        <p><?=$model->user_id?></p>
+        <p><?=$model->profile_id?></p>
         <p><?=$model->created_at?></p>
         <p><?=$model->updated_at?></p>
 

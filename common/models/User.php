@@ -20,6 +20,8 @@ use yii\web\IdentityInterface;
  * @property string $password write-only password
  * @property integer $role_id
  * @property string $email_confirm_token
+ *
+ * @property Profile $profile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -221,9 +223,6 @@ class User extends ActiveRecord implements IdentityInterface
     Return Accounts
      **/
 
-    public function getAccounts(){
-        return $this->hasMany(Account::className(),['user_id'=>'id']);
-    }
 
 
     /**

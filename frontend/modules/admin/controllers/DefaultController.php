@@ -35,7 +35,7 @@ class DefaultController extends AuthController
     public function actionIndex()
     {  $user = User::findOne(Yii::$app->user->id);
        $profile = $user->getProfiles()->one();
-       $account = $user->getAccounts()->one();
+       $account = $profile->getAccount()->one();
        $role =$user->getRole()->one();
         return $this->render('index',['user'=>$user,'profile'=>$profile,'account'=>$account,'role'=>$role]);
     }

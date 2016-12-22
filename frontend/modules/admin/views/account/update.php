@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <h3><?= Html::encode($this->title) ?></h3>
 
     <?= $this->render('_form', [
-        'model' => $model,'org_forms'=>$org_forms
+        'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list
     ]) ?>
 
 </div>

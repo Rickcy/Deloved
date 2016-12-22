@@ -156,7 +156,7 @@ class SignupForm extends Model
         $account->email=$this->email;
         $account->created_at=time();
         $account->updated_at=time();
-        $account->user_id=$user->id;
+        $account->profile_id=$profile->id;
 
 
         $account->save();

@@ -309,3 +309,6 @@ span.enabled {
 span.disabled {
     color: orangered;
 }
+.thead-main{
+    border-bottom: 3px solid rgba(176, 208, 83, 0.24);
+}

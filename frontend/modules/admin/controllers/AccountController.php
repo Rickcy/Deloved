@@ -8,6 +8,7 @@ use common\models\Category;
 use common\models\CategoryType;
 use common\models\Logo;
 use common\models\OrgForm;
+use common\models\Profile;
 use common\models\Region;
 use common\models\User;
 use Yii;
@@ -96,13 +97,24 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $model = new Account();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $level_id=18;
+        $city_list=Region::find()
+            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
+            ->asArray()
+            ->all();
+        $model = new Account();
+        $profiles =Profile::find()->all();
+        $org_forms =OrgForm::find()->all();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->date_reg=$model->returnDate();
+            $model->city_id=$model->returnCity_id($model->city_name);
+            $model->save();
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list
             ]);
         }
     }
@@ -120,14 +132,20 @@ class AccountController extends Controller
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-
+        $level_id=18;
+        $city_list=Region::find()
+            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
+            ->asArray()
+            ->all();
         $model = $this->findModel($id);
         $org_forms =OrgForm::find()->all();
+        $profiles =Profile::find()->all();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
-                'model' => $model,'org_forms'=>$org_forms
+                'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list
             ]);
         }
     }
@@ -184,7 +202,7 @@ class AccountController extends Controller
         $category = Category::find()->all();
         
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getAccounts()->one();
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         $model=new Logo();
 
         $level_id=18;
@@ -245,7 +263,7 @@ class AccountController extends Controller
             ->asArray()
             ->all();
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getAccounts()->one();
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
 
         if (Yii::$app->request->isAjax) {
@@ -261,7 +279,7 @@ class AccountController extends Controller
 
             $affiliate = new Affiliate();
             $user=User::findOne(Yii::$app->user->id);
-            $account=$user->getAccounts()->one();
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
             if($address&&$city&&$email&&$phone){
                 $city_name='';
                 $repeat = $affiliate->find()->where('address=:address',[':address'=>$address])->andWhere('account_id=:account_id',[':account_id'=>$account->id])->all();
@@ -309,7 +327,7 @@ class AccountController extends Controller
 
         $affiliate = Affiliate::findOne($aff_id);
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getAccounts()->one();
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         if($address&&$city&&$email&&$phone){
             $city_name = '';
             if(Yii::$app->request->isPost){
@@ -338,8 +356,9 @@ class AccountController extends Controller
 
 
     public function actionEditNew($value,$prop){
-        
-        $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
+
+        $user=User::findOne(Yii::$app->user->id);
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
 
         if (Yii::$app->request->isPost) {
 
@@ -366,8 +385,10 @@ class AccountController extends Controller
     }
     
     public function actionSaveCategory($goods,$service){
-        $account = User::findOne(Yii::$app->user->id)->getAccounts()->one();
-       
+        $user=User::findOne(Yii::$app->user->id);
+        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+
+
         if (Yii::$app->request->isPost) {
             $arr1=[];
             $arr2=[];

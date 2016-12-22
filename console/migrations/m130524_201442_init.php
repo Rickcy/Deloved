@@ -72,7 +72,7 @@ class m130524_201442_init extends Migration
             'verify_status'=>$this->integer()->defaultValue(0),
             'show_main'=>$this->integer()->defaultValue(0),
             'rating'=>$this->integer()->defaultValue(100),
-            'user_id'=>$this->integer(),
+            'profile_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
 
@@ -112,8 +112,8 @@ class m130524_201442_init extends Migration
         $this->createIndex('fk_org_form_id','{{%account}}','org_form_id');
         $this->addForeignKey('fk_org_form_id','{{%account}}','org_form_id','{{%org_form}}','id','SET NULL','CASCADE');
         
-        $this->createIndex('fk_acc_id','{{%account}}','user_id');
-        $this->addForeignKey('fk_acc_id','{{%account}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+        $this->createIndex('fk_acc_id','{{%account}}','profile_id');
+        $this->addForeignKey('fk_acc_id','{{%account}}','profile_id','{{%profile}}','id','SET NULL','CASCADE');
 
 
         $this->createIndex('fk_user_logo_id','{{%logo}}','user_id');
