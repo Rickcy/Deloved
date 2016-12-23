@@ -188,7 +188,7 @@ class FrontController extends Controller
 
 
             if ($user = $model->signup()) {
-                $profile =$user->getProfiles()->one();
+               
 
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->redirect('/admin');

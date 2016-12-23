@@ -364,18 +364,18 @@ $this->title = 'Мои данные';
                 </li>
             </ul>
 
-            <form id="affiliateList" name="affiliateList" href="#">
+            
 
 
                 <div id="affTabContent" class="tab-content">
                     <?$i=0;
                     foreach ($affiliate as $aff):?>
-                        <?=$this->render("affiliate",['i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false,'city_list'=>$city_list])?>
+                        <?=$this->render("affiliate",['myAccount'=>null,'i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false,'city_list'=>$city_list])?>
                     <?$i++;
                     endforeach;?>
 
                 </div>
-            </form>
+        
 
         </div>
         
@@ -429,7 +429,7 @@ $this->title = 'Мои данные';
     <hr>
 
     <div class="row">
-      <div class="col-sm-8 col-sm-offset-2">
+      <div class="col-sm-8 col-sm-offset-1">
         <div class="tab-pane" id="cat" >
             <ul class="nav nav-pills nav-justified" style="margin-bottom: 20px">
                 <?
@@ -526,7 +526,7 @@ $this->title = 'Мои данные';
         </div>
         </div>
         <div class="col-sm-2">
-            <a href="javascript:void(0)" class="btn btn-success" style="display: none" id="saveCategory">Сохранить</a>
+            <a href="javascript:void(0)" class="btn btn-success" style="width:100%" id="saveCategory">Сохранить</a>
         </div>
     </div>
 

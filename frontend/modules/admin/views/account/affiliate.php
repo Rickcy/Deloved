@@ -78,7 +78,7 @@ if ($aff):
 
             $.ajax({
                 type:'POST',
-                url:'/admin/account/edit-affiliate?address='+address+'&city='+city+'&email='+email+'&phone='+phone+'&aff_id='+aff_id,
+                url:'/admin/account/edit-affiliate?address='+address+'&city='+city+'&email='+email+'&phone='+phone+'&aff_id='+aff_id<?if ($myAccount!=null) echo'+\'&id='.$myAccount->id.'\','?><?if ($myAccount==null) echo ','?>
                 success:function (data) {
 
                     var obj = $.parseJSON(data);

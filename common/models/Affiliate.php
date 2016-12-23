@@ -19,6 +19,10 @@ use Yii;
  */
 class Affiliate extends \yii\db\ActiveRecord
 {
+
+
+    public $city_name;
+
     /**
      * @inheritdoc
      */
@@ -34,7 +38,7 @@ class Affiliate extends \yii\db\ActiveRecord
     {
         return [
             [['city_id', 'account_id'], 'integer'],
-            [['address', 'email', 'phone'], 'string', 'max' => 255],
+            [['address', 'email','city_name', 'phone'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
         ];
@@ -49,6 +53,7 @@ class Affiliate extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'address' => Yii::t('app', 'Address'),
             'city_id' => Yii::t('app', 'City ID'),
+            'city_name' => Yii::t('app', 'City Name'),
             'email' => Yii::t('app', 'Email'),
             'phone' => Yii::t('app', 'Phone'),
             'account_id' => Yii::t('app', 'Account ID'),
@@ -78,4 +83,6 @@ class Affiliate extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Account::className(), ['id' => 'account_id']);
     }
+    
+    
 }

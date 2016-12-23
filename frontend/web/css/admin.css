@@ -312,3 +312,8 @@ span.disabled {
 .thead-main{
     border-bottom: 3px solid rgba(176, 208, 83, 0.24);
 }
+.create-btn{
+    font-size: 20px;
+
+
+}

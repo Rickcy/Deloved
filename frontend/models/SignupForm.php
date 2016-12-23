@@ -77,29 +77,6 @@ class SignupForm extends Model
         ];
     }
 
-    public function returnCity_id(){
-        $name = $this->city_name;
-        $region_id=[];
-        $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
-        return $region_id[0]['id'];
-    }
-
-    public function returnCategoties_id(){
-        $categories_goods = $this->account_category_goods;
-        $categories_service = $this->account_category_service;
-        $arr1 = explode(", ", $categories_goods);
-        $arr2 = explode(", ", $categories_service);
-
-        return $result = array_merge($arr1,$arr2);
-    }
-
-    public function returnDate(){
-        $date_registration =$this->date;
-        $date = explode("/", $date_registration);
-        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
-        return $timestamp;
-    }
-
     /**
      * Signs user up.
      *
@@ -136,8 +113,8 @@ class SignupForm extends Model
         $account->full_name=$this->full_name;
         $account->address=$this->address;
         $account->brand_name=$this->brand_name;
-        $account->city_id=$this->returnCity_id();
-        $account->date_reg=$this->returnDate();
+        $account->city_id=$account->returnCity_id($this->city_name);
+        $account->date_reg=$account->returnDate($this->date);
 
         $account->description=$this->description;
         $account->director=$this->director;
@@ -160,14 +137,16 @@ class SignupForm extends Model
 
 
         $account->save();
-        foreach ($this->returnCategoties_id() as $item){
-            $category =new AccountCategory();
+        if($this->account_category_goods!=null||$this->account_category_service!=null){
+            foreach ($account->returnCategoties_id($this->account_category_goods,$this->account_category_service) as $item){
+                $category =new AccountCategory();
 
-            $category->category_id=$item;
-            $category->account_id=$account->id;
+                $category->category_id=$item;
+                $category->account_id=$account->id;
 
-            $category->save();
+                $category->save();
 
+            }
         }
 
 

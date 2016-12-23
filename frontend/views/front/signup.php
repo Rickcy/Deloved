@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'pluginOptions' => [
                     'autoclose'=>true,
                     'format' => 'mm/dd/yyyy',
-
+                    
                 ]
             ])->label('Дата регистрации');?>
 

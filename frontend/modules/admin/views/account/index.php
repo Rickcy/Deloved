@@ -68,7 +68,7 @@ Yii::$app->formatter->timeZone = 'UTC';
 
                 <td id="gridRow<?=$item->id?>city"><?=$item->city->name?></td>
 
-                <td><?=Yii::$app->formatter->asDatetime($item->created_at, "php:d.m.Y H:i:s");?></td>
+                <td><?=Yii::$app->formatter->asDatetime($item->created_at, "php:d.m.Y");?></td>
                 <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td>
                         <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

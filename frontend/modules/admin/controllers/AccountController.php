@@ -11,6 +11,7 @@ use common\models\OrgForm;
 use common\models\Profile;
 use common\models\Region;
 use common\models\User;
+use frontend\models\AccountForm;
 use Yii;
 use common\models\Account;
 use common\models\search\AccountSearch;
@@ -98,23 +99,34 @@ class AccountController extends Controller
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
+
+
+        $categoryType = CategoryType::find()->all();
+        $category = Category::find()->all();
         $level_id=18;
         $city_list=Region::find()
             ->select(['name as  label','name as value','name as name'])
             ->where('level_id=:level_id',[':level_id'=>$level_id])
             ->asArray()
             ->all();
-        $model = new Account();
-        $profiles =Profile::find()->all();
+        
+        
+        $model = new AccountForm();
+        
+        $profiles =Profile::find()
+            ->select(['fio as  label','fio as value','fio as fio'])
+            ->asArray()
+            ->all();
+        
         $org_forms =OrgForm::find()->all();
+        
         if ($model->load(Yii::$app->request->post())) {
-            $model->date_reg=$model->returnDate();
-            $model->city_id=$model->returnCity_id($model->city_name);
-            $model->save();
+            $model->createAccount();
+            Yii::$app->session->addFlash('success', 'Account Create!');
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
-                'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list
+                'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list,'categoryType'=>$categoryType,'category'=>$category
             ]);
         }
     }
@@ -127,25 +139,33 @@ class AccountController extends Controller
      * @throws ForbiddenHttpException
      * @throws NotFoundHttpException
      */
-    public function actionUpdate($id){
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
-            throw new ForbiddenHttpException('Доступ запрещен');
-        }
-
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+        $org_forms =OrgForm::find()->all();
+        $profiles =Profile::find()->all();
         $level_id=18;
         $city_list=Region::find()
             ->select(['name as  label','name as value','name as name'])
             ->where('level_id=:level_id',[':level_id'=>$level_id])
             ->asArray()
             ->all();
-        $model = $this->findModel($id);
-        $org_forms =OrgForm::find()->all();
-        $profiles =Profile::find()->all();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
+
+        $categoryType = CategoryType::find()->all();
+        $category = Category::find()->all();
+        $myAffiliates=$model->getAffiliates()->all();
+        $myCategory =$model->getCategory()->all();
+        
+        if ($model->load(Yii::$app->request->post())) {
+            $model->city_id=$model->returnCity_id($model->city_name);
+            $model->save();
+            Yii::$app->session->addFlash('success', 'Account Update!');
             return $this->redirect(['index']);
-        } else {
+        }  else {
             return $this->render('update', [
-                'model' => $model,'org_forms'=>$org_forms,'profiles'=>$profiles,'city_list'=>$city_list
+                'model' => $model,'profiles'=>$profiles,'org_forms'=>$org_forms,'city_list'=>$city_list,'myAffiliates'=>$myAffiliates,'categoryType'=>$categoryType,'category'=>$category,'myCategory'=>$myCategory
             ]);
         }
     }
@@ -167,7 +187,7 @@ class AccountController extends Controller
 
 
         $this->findModel($id)->delete();
-
+        Yii::$app->session->addFlash('success', 'Account Delete!');
         return $this->redirect(['index']);
     }
 
@@ -322,12 +342,17 @@ class AccountController extends Controller
         return json_encode(Yii::$app->session->getAllFlashes());
     }
 
-    public function actionEditAffiliate($address,$city,$email,$phone,$aff_id){
-
+    public function actionEditAffiliate($address,$city,$email,$phone,$aff_id,$id=''){
+        if($id==''){
+            $user=User::findOne(Yii::$app->user->id);
+            $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        }
+        if ($id!=''){
+            $account =$this->findModel($id);
+        }
 
         $affiliate = Affiliate::findOne($aff_id);
-        $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+
         if($address&&$city&&$email&&$phone){
             $city_name = '';
             if(Yii::$app->request->isPost){
@@ -384,10 +409,15 @@ class AccountController extends Controller
 
     }
     
-    public function actionSaveCategory($goods,$service){
-        $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+    public function actionSaveCategory($goods,$service,$id=null){
 
+        if ($id==null) {
+            $user = User::findOne(Yii::$app->user->id);
+            $account = $user->getProfiles()->where('user_id=:user_id', [':user_id' => $user->id])->one()->getAccount()->one();
+        }
+            if ($id!==null){
+            $account =$this->findModel($id);
+        }
 
         if (Yii::$app->request->isPost) {
             $arr1=[];

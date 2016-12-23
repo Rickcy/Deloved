@@ -45,6 +45,9 @@ class Account extends \yii\db\ActiveRecord
 
     public $date;
     public $city_name;
+
+    public $account_category_goods;
+    public $account_category_service;
     /**
      * @inheritdoc
      */
@@ -62,7 +65,7 @@ class Account extends \yii\db\ActiveRecord
             [['org_form_id', 'date_reg', 'city_id', 'public_status', 'verify_status', 'profile_id', 'created_at', 'updated_at','show_main'], 'integer'],
             [['created_at', 'updated_at'], 'required'],
             ['rating', 'default', 'value' => self::DEFAULT_RATING],
-            [['full_name', 'date','brand_name', 'city_name','inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
+            [['full_name','city_name','date','brand_name','account_category_service','account_category_goods','inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords'], 'string', 'max' => 255],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
             [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
@@ -96,7 +99,7 @@ class Account extends \yii\db\ActiveRecord
             'public_status' => Yii::t('app', 'Public Status'),
             'verify_status' => Yii::t('app', 'Verify Status'),
             'rating' => Yii::t('app', 'Rating'),
-            'profile_id' => Yii::t('app', 'Profile ID'),
+            'profile_name' => Yii::t('app', 'Profile Name'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'show_main'=>Yii::t('app','Show Main'),
@@ -105,12 +108,7 @@ class Account extends \yii\db\ActiveRecord
 
         ];
     }
-    public function returnDate(){
-        $date_registration =$this->date;
-        $date = explode("/", $date_registration);
-        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
-        return $timestamp;
-    }
+  
 
 
     public function getMainImage(){
@@ -145,7 +143,28 @@ class Account extends \yii\db\ActiveRecord
         $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
         return $region_id[0]['id'];
     }
+    public function returnProfile_id($profile_name){
+        $fio = $profile_name;
+        $profile_id=[];
+        $profile_id[] = Profile::find()->select('id')->where(['fio'=>$fio])->one();
+        return $profile_id[0]['id'];
+    }
 
+    public function returnCategoties_id($account_category_goods,$account_category_service){
+        $categories_goods = $account_category_goods;
+        $categories_service = $account_category_service;
+        $arr1 = explode(", ", $categories_goods);
+        $arr2 = explode(", ", $categories_service);
+
+        return $result = array_merge($arr1,$arr2);
+    }
+
+    public function returnDate($date){
+        $date_registration =$date;
+        $date = explode("/", $date_registration);
+        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
+        return $timestamp;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -165,5 +184,9 @@ class Account extends \yii\db\ActiveRecord
     public function getCategory(){
 
         return $this->hasMany(AccountCategory::className(),['account_id'=>'id']);
+    }
+
+    public function getAffiliates(){
+        return $this->hasMany(Affiliate::className(),['account_id'=>'id']);
     }
 }
