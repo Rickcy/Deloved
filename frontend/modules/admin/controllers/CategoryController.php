@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use common\models\CategoryType;
 use Yii;
 use common\models\Category;
 use common\models\search\CategorySearch;
@@ -14,6 +15,13 @@ use yii\filters\VerbFilter;
  */
 class CategoryController extends Controller
 {
+
+
+
+
+
+
+    public $layout = '/admin';
     /**
      * @inheritdoc
      */
@@ -35,12 +43,10 @@ class CategoryController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new CategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $categoryType = Category::find()->where('parent_id=:parent_id',['parent_id'=>1])->all();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'categoryType'=>$categoryType
         ]);
     }
 
@@ -51,27 +57,40 @@ class CategoryController extends Controller
      */
     public function actionView($id)
     {
+        $model=Category::findOne($id);
+        $category = Category::find()
+            ->where('parent_id=:parent_id',['parent_id'=>$id])
+            ->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model'=>$model,'category'=>$category
         ]);
     }
 
     /**
      * Creates a new Category model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param $cat_name
+     * @param $parent_cat
+     * @param $cat_id
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCategory($cat_name,$parent_cat,$cat_id)
     {
         $model = new Category();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($cat_name==''){
+            Yii::$app->session->addFlash('danger', "Имя не заполнено");
         }
+        if ($cat_name!=''){
+        if(Yii::$app->request->isAjax){
+            $model->parent_id=$parent_cat;
+            $model->name=$cat_name;
+            $model->categorytype_id=$cat_id;
+
+        }
+            $model->save();
+            Yii::$app->session->addFlash('success', "Категория $cat_name добавлена");
+    }
+
+    return json_encode(Yii::$app->session->getAllFlashes());
     }
 
     /**

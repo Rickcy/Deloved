@@ -151,21 +151,31 @@ class AccountController extends Controller
             ->asArray()
             ->all();
 
-
-
         $categoryType = CategoryType::find()->all();
         $category = Category::find()->all();
         $myAffiliates=$model->getAffiliates()->all();
         $myCategory =$model->getCategory()->all();
-        
+        $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$model->id])->count();
+
+
         if ($model->load(Yii::$app->request->post())) {
+
             $model->city_id=$model->returnCity_id($model->city_name);
             $model->save();
             Yii::$app->session->addFlash('success', 'Account Update!');
             return $this->redirect(['index']);
+
         }  else {
             return $this->render('update', [
-                'model' => $model,'profiles'=>$profiles,'org_forms'=>$org_forms,'city_list'=>$city_list,'myAffiliates'=>$myAffiliates,'categoryType'=>$categoryType,'category'=>$category,'myCategory'=>$myCategory
+                'model' => $model,
+                'profiles'=>$profiles,
+                'org_forms'=>$org_forms,
+                'city_list'=>$city_list,
+                'myAffiliates'=>$myAffiliates,
+                'categoryType'=>$categoryType,
+                'category'=>$category,
+                'myCategory'=>$myCategory,
+                'count'=>$count
             ]);
         }
     }
@@ -184,8 +194,6 @@ class AccountController extends Controller
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-
-
         $this->findModel($id)->delete();
         Yii::$app->session->addFlash('success', 'Account Delete!');
         return $this->redirect(['index']);
@@ -203,7 +211,6 @@ class AccountController extends Controller
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-
 
 
         if (($model = Account::findOne($id)) !== null) {
@@ -243,7 +250,6 @@ class AccountController extends Controller
             $logo = $file;
             if ($file){
 
-
                 if($account->getMainImage()){
                     Logo::findOne($account->getMainImage()->id)->delete();
                     $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
@@ -266,11 +272,26 @@ class AccountController extends Controller
 
         if (!isset($logo)){
         return $this->render('show',[
-            'account'=>$account,'model'=>$model,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count,'city_list'=>$city_list
+            'account'=>$account,
+            'model'=>$model,
+            'category'=>$category,
+            'categoryType'=>$categoryType,
+            'myCategory'=>$myCategory,
+            'affiliate'=>$affiliate,
+            'count'=>$count,
+            'city_list'=>$city_list
         ]);}
         else{
             return $this->render('show',[
-                'account'=>$account,'model'=>$model,'logo'=>$logo,'category'=>$category,'categoryType'=>$categoryType,'myCategory'=>$myCategory,'affiliate'=>$affiliate,'count'=>$count,'city_list'=>$city_list
+                'account'=>$account,
+                'model'=>$model,
+                'logo'=>$logo,
+                'category'=>$category,
+                'categoryType'=>$categoryType,
+                'myCategory'=>$myCategory,
+                'affiliate'=>$affiliate,
+                'count'=>$count,
+                'city_list'=>$city_list
             ]);
         }
     }

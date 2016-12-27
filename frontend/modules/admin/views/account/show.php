@@ -454,7 +454,7 @@ $this->title = 'Мои данные';
                         <ul>
                             <?foreach ($category as $cat):?>
 
-                                <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
+                                <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                     <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
                                         <ul>

@@ -12,6 +12,7 @@ use Yii;
  * @property integer $parent_id
  * @property integer $categorytype_id
  *
+ * @property AccountCategory[] $accountCategories
  * @property Category $parent
  * @property Category[] $categories
  * @property CategoryType $categorytype
@@ -32,8 +33,8 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'categorytype_id'], 'required'],
-            [['id', 'parent_id', 'categorytype_id'], 'integer'],
+            [['name'], 'required'],
+            [['parent_id', 'categorytype_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['parent_id' => 'id']],
             [['categorytype_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryType::className(), 'targetAttribute' => ['categorytype_id' => 'id']],
@@ -51,6 +52,14 @@ class Category extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('app', 'Parent ID'),
             'categorytype_id' => Yii::t('app', 'Categorytype ID'),
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccountCategories()
+    {
+        return $this->hasMany(AccountCategory::className(), ['category_id' => 'id']);
     }
 
     /**
@@ -77,15 +86,12 @@ class Category extends \yii\db\ActiveRecord
         return $this->hasOne(CategoryType::className(), ['id' => 'categorytype_id']);
     }
 
-
- 
-
     public function equelsVar($id,$array){
-      foreach ($array as $arr){
-          if ($arr->category_id==$id){
-              return '{"opened":false,"selected":true}';
-          }
-      }
+        foreach ($array as $arr){
+            if ($arr->category_id==$id){
+                return '{"opened":false,"selected":true}';
+            }
+        }
         return false;
 
     }

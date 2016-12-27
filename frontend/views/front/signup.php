@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <ul>
                                     <?foreach ($category as $cat):?>
 
-                                    <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
+                                    <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>"><?=$cat->name?>
                                                 <ul>

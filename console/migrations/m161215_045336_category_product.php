@@ -8,19 +8,20 @@ class m161215_045336_category_product extends Migration
     {
         $this->execute('
         CREATE TABLE category_type(id INT NOT NULL PRIMARY KEY,code VARCHAR(100));
+       
        CREATE TABLE category(
-       id INT NOT NULL PRIMARY KEY NOT NULL ,
-            name VARCHAR(255) NOT NULL ,
-            parent_id INT,
-            categorytype_id INT NOT NULL,
-             FOREIGN KEY (parent_id) REFERENCES category (id),
-              FOREIGN KEY (categorytype_id) REFERENCES category_type (id));
-          
+       id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+       name VARCHAR(255) NOT NULL ,
+       parent_id INT,
+       categorytype_id INT,
+        FOREIGN KEY (parent_id) REFERENCES category (id),
+        FOREIGN KEY (categorytype_id) REFERENCES category_type (id));
+         
         INSERT INTO category_type  VALUES (1, "GOOD");
         INSERT INTO category_type  VALUES (2, "SERVICE");    
         
-        
-        INSERT INTO category  VALUES (1228, "Категории товаров", null, 1);
+        INSERT INTO category  VALUES (1, "Категории", null, null);
+        INSERT INTO category  VALUES (1228, "Категории товаров", 1, 1);
         INSERT INTO category  VALUES (1229, "Автосервис/Автотовары", 1228, 1);
         INSERT INTO category  VALUES (1230, "Автоаксессуары", 1229, 1);
         INSERT INTO category  VALUES (1231, "Автозапчасти для грузовых автомобилей", 1229, 1);
@@ -134,7 +135,7 @@ class m161215_045336_category_product extends Migration
         INSERT INTO category  VALUES (1339, "Посуда, хозтовары", 1331, 1);
         INSERT INTO category  VALUES (1340, "Прочая розничная торговля", 1331, 1);
         INSERT INTO category  VALUES (1341, "Табачная продукция", 1331, 1);
-        INSERT INTO category  VALUES (1343, "Категории услуг", null, 2);
+        INSERT INTO category  VALUES (1343, "Категории услуг", 1, 2);
         INSERT INTO category  VALUES (1344, "Бизнес-услуги. Финансы. Право.", 1343, 2);
         INSERT INTO category  VALUES (1345, "Аудиторские услуги", 1344, 2);
         INSERT INTO category  VALUES (1346, "Адвокаты и адвокатские образования", 1344, 2);

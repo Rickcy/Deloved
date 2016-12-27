@@ -83,7 +83,7 @@ class m130524_201442_init extends Migration
             'id'=>$this->primaryKey(),
             'code'=>$this->string(),
             'name'=>$this->string(),
-        ]);
+        ],$tableOptions);
 
         $this->createTable('{{%logo}}',[
             'id'=>$this->primaryKey(),

@@ -42,10 +42,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
         <li><a href="#cat" data-toggle="tab">Категории</a></li>
 
     </ul>
+
     <div class="tab-content" style="margin-top: 15px;min-height: 300px">
+
         <div class="tab-pane active" id="main">
             <?= $form->field($model, 'public_status',[
- ])->radioList([
+            ])->radioList([
                 '1' => 'ON',
                 '0' =>'OFF',
 
@@ -151,8 +153,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
         <div class="tab-pane" id="affiliates">
 
-
-
                 <div class="col-md-3 col-lg-3 col-sm-3 col-xs-2"></div>
                 <div class="value-col ft">
 
@@ -188,7 +188,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
         </div>
 
-
         <div class="tab-pane" id="seo">
 
             <?= $form->field($model, 'description')->textarea(['rows'=>5]) ?>
@@ -219,8 +218,8 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                     </ul>
 
                     <div class="tab-content ">
-                        <?
-                        $i=0;foreach ($categoryType as $catType ):?>
+                        <?$i=0;
+                        foreach ($categoryType as $catType ):?>
 
                             <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
 
@@ -229,7 +228,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                                 <ul>
                                     <?foreach ($category as $cat):?>
 
-                                        <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=null&&$cat->getParent()->one()->parent_id==null):?>
+                                        <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
                                                 <ul>
@@ -330,7 +329,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
                         $.ajax({
                             type: 'POST',
-                            url: '/admin/account/save-category/?goods=' + category_goods + '&service=' + category_services,
+                            url: '/admin/account/save-category/?goods=' + category_goods + '&service=' + category_services+<?='\'&id='.$model->id."'"?>,
                             success: function (data) {
                                 var obj = $.parseJSON(data);
 

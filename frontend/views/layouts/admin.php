@@ -49,7 +49,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             <ul class="admin_menu">
 
-                <li><a href="#" >Категории</a></li>
+                <li><a href="/admin/category/index/" >Категории</a></li>
                 <li><a href="#" >Единицы измерения</a></li>
                 <li><a href="#" >Контент-блоки</a></li>
                 <li><a href="#" >Валюты</a></li>
