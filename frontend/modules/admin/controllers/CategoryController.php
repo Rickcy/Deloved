@@ -58,11 +58,12 @@ class CategoryController extends Controller
     public function actionView($id)
     {
         $model=Category::findOne($id);
+        $child=$model->getChild()->all();
         $category = Category::find()
             ->where('parent_id=:parent_id',['parent_id'=>$id])
             ->all();
         return $this->render('view', [
-            'model'=>$model,'category'=>$category
+            'model'=>$model,'category'=>$category,'child'=>$child
         ]);
     }
 
@@ -122,6 +123,28 @@ class CategoryController extends Controller
     public function actionDelete($id,$parent_id)
     {
         $model=$this->findModel($parent_id);
+        $child=$this->findModel($id)->getChild()->all();
+        if ($child){
+            foreach ($child as $item){
+                if ($chi = $item->getChild()->all()){
+                    foreach ($chi as $c){
+                        if ($h = $c->getChild()->all()){
+                            foreach ($h as $z){
+
+                                   $z->delete();
+
+                            }
+                        }
+                        else{
+                            $c->delete();
+                        }
+                    }
+                }
+                else{
+                    $item->delete();
+                }
+            }
+        }
         $this->findModel($id)->delete();
         Yii::$app->session->addFlash('success', 'Category Delete!');
         return $this->redirect(['view','id'=>$model->id]);
