@@ -73,7 +73,7 @@ class CategoryController extends Controller
      * @param $cat_id
      * @return mixed
      */
-    public function actionCategory($cat_name,$parent_cat,$cat_id)
+    public function actionCreateCategory($cat_name,$parent_cat,$cat_id)
     {
         $model = new Category();
         if ($cat_name==''){
@@ -116,13 +116,15 @@ class CategoryController extends Controller
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param $parent_id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id,$parent_id)
     {
+        $model=$this->findModel($parent_id);
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        Yii::$app->session->addFlash('success', 'Category Delete!');
+        return $this->redirect(['view','id'=>$model->id]);
     }
 
     /**

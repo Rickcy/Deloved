@@ -14,7 +14,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 ?>
 <div class="category-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
 
 
     <div class="table-responsive">
@@ -30,9 +30,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 <td>Действие</td>
 
-                <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-                    <td></td>
-                <?endif;?>
+
             </tr>
             </thead>
             <tbody>
@@ -48,15 +46,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                     <td><?=Html::a('Развернуть', ['view', 'id' => $catType->id])?></td>
 
 
-                    <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-                        <td>
-                            <?= Html::a('', ['delete', 'id' => $catType->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
-                                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                'method' => 'post',
-                            ],])?>
 
-                        </td>
-                    <?endif;?>
                 </tr>
                 <?
                 $i++;

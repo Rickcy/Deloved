@@ -15,7 +15,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 ?>
 <div class="category-view">
     <div class="row">
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <div class="col-xs-12 buttons">
         <div class="col-sm-5">
         <input type="text" name="name" required id="category_name" class="form-control">
@@ -25,6 +25,9 @@ $user = User::findIdentity(Yii::$app->user->id);
         </div>
         <div class="col-sm-5">
             <a href="javascript:void(0)" class="btn btn-md btn-success" id="create-category" style="margin-top:5px"><?=Yii::t('app', 'Create category')?></a>
+        </div>
+        <div class="col-sm-2">
+            <?=Html::a(Yii::t('app', 'Back'), [$model->parent_id==1?'index':'view', $model->parent_id==1?'':'id' => $model->parent_id],['class'=>'btn btn-md btn-success'])?>
         </div>
         </div>
     </div>
@@ -62,7 +65,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                     <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
-                            <?= Html::a('', ['delete', 'id' => $cat->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
+                            <?= Html::a('', ['delete', 'id' => $cat->id,'parent_id'=>$model->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
                                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                 'method' => 'post',
                             ],])?>
@@ -91,7 +94,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             $.ajax({
                 type:'POST',
-                url:'/admin/category/category/?cat_name='+cat_name+'&parent_cat='+parent_cat+'&cat_id='+cat_id,
+                url:'/admin/category/create-category/?cat_name='+cat_name+'&parent_cat='+parent_cat+'&cat_id='+cat_id,
                 success:function (data) {
                     console.log(data);
 

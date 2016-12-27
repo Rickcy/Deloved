@@ -218,6 +218,13 @@ $this->title = Yii::t('app', 'Create Account');
                                                                     <?foreach ($category as $item):?>
                                                                         <?if ($item->parent_id===$c->id):?>
                                                                             <li id="<?=$item->id?>" ><?=$item->name?></li>
+                                                                            <ul>
+                                                                                <?foreach ($category as $it):?>
+                                                                                    <?if ($it->parent_id===$item->id):?>
+                                                                                        <li id="<?=$it->id?>" ><?=$it->name?></li>
+                                                                                    <?endif;?>
+                                                                                <?endforeach;?>
+                                                                            </ul>
                                                                         <?endif;?>
                                                                     <?endforeach;?>
                                                                 </ul>

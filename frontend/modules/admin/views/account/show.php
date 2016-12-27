@@ -467,6 +467,14 @@ $this->title = 'Мои данные';
                                                             <?foreach ($category as $item):?>
                                                                 <?if ($item->parent_id===$c->id):?>
                                                                     <li id="<?=$item->id?>" data-jstree=<?=$item->equelsVar($item->id,$myCategory)?>><?=$item->name?></li>
+
+                                                                    <ul>
+                                                                        <?foreach ($category as $it):?>
+                                                                            <?if ($it->parent_id===$item->id):?>
+                                                                                <li id="<?=$it->id?>" ><?=$it->name?></li>
+                                                                            <?endif;?>
+                                                                        <?endforeach;?>
+                                                                    </ul>
                                                                 <?endif;?>
                                                             <?endforeach;?>
                                                         </ul>

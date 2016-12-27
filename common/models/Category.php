@@ -70,6 +70,8 @@ class Category extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
 
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
