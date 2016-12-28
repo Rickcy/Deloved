@@ -315,5 +315,7 @@ span.disabled {
 .create-btn{
     font-size: 20px;
 
-
+}
+.ui-front{
+    z-index: 10000!important;
 }

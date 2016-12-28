@@ -31,13 +31,14 @@
 
                 if (obj.success) {
                     showMessage('success', obj.success)
+                    $("#<?=$model->id?>").text(cname)
                 }
                 if (obj.danger) {
                     showMessage('danger', obj.danger)
                 }
 
 
-                $("#<?=$model->id?>").text(cname)
+
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 showMessage('danger', 'Ошибка соединения');

@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\LoginForm;
+use common\models\Profile;
 use common\models\Subscribe;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
@@ -27,6 +28,7 @@ class ValidateController extends Controller{
                     'contact' => ['get', 'post'],
                     'reset' => ['get', 'post'],
                     'change' => ['get', 'post'],
+                    'profile' => ['get', 'post'],
                 ],
             ],
         ];
@@ -55,6 +57,14 @@ class ValidateController extends Controller{
 
     public function actionReset(){
         $model = new PasswordResetRequestForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
+    public function actionProfile(){
+        $model = new Profile();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);

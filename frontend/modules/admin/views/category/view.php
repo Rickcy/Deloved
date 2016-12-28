@@ -15,7 +15,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 ?>
 <div class="category-view">
     <div class="row">
-    <div><h2 style="float: left"><?= Html::encode($this->title) ?></h2>
+    <div><h3 style="float: left"><?= Html::encode($this->title) ?></h3>
 
     </div>
         <div style="float: right;position: relative;right: 3% ">
@@ -108,7 +108,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 success:function (data) {
 
                     var obj = $.parseJSON(data);
-                    console.log(obj)
+
                     if (obj[0].success) {
                         showMessage('success', obj[0].success)
                     }
@@ -126,7 +126,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         });
 
 
-       
+
 
         function constructModalDOM() {
             return $("<div></div>").

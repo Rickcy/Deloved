@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\rbac\Role;
 use yii\web\IdentityInterface;
 
 /**
@@ -22,6 +23,7 @@ use yii\web\IdentityInterface;
  * @property string $email_confirm_token
  *
  * @property Profile $profile
+ * @property \common\models\Role $role
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -216,7 +218,7 @@ class User extends ActiveRecord implements IdentityInterface
      **/
 
     public function getRole(){
-        return $this->hasOne(Role::className(),['id'=>'role_id']);
+        return $this->hasOne(\common\models\Role::className(),['id'=>'role_id']);
     }
 
     /**

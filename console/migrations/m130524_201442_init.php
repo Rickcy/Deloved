@@ -38,6 +38,7 @@ class m130524_201442_init extends Migration
             'fio'=>$this->string(),
             'email'=>$this->string(),
             'avatar_id'=>$this->integer(),
+            'city_id'=>$this->integer(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
             'chargeStatus'=>$this->integer()->defaultValue(0),
@@ -103,9 +104,20 @@ class m130524_201442_init extends Migration
             'account_id'=>$this->integer()
         ],$tableOptions);
 
+        $this->createTable('{{%experience}}',[
+            'id'=>$this->primaryKey(),
+            'profile_id'=>$this->integer(),
+            'experience'=>$this->string()
+        ],$tableOptions);
+
         $this->createIndex('fk_affiliate_account_id','{{%affiliate}}','account_id');
         $this->addForeignKey('fk_affiliate_account_id','{{%affiliate}}','account_id','{{%account}}','id','SET NULL','CASCADE');
+
+
+        $this->createIndex('fk_experience_profile_id','{{%experience}}','profile_id');
+        $this->addForeignKey('fk_experience_profile_id','{{%experience}}','profile_id','{{%profile}}','id','SET NULL','CASCADE');
         
+
         $this->createIndex('fk_role_id','{{%user}}','role_id');
         $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
 
@@ -144,15 +156,20 @@ class m130524_201442_init extends Migration
 
         //  ADMIN
         $this->insert('user',['id'=>1,'username'=>'admin','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
-        'email_confirm_token'=>null,'email'=>'Rickcy@mail.com','status'=>1,'role_id'=>3]);
-        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@mail.com','avatar_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
+        'email_confirm_token'=>null,'email'=>'Rickcy@yandex.ru','status'=>1,'role_id'=>3]);
+        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@yandex.ru','avatar_id'=>null,'city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
+        //  MANAGER
+        $this->insert('user',['id'=>2,'username'=>'manager','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
+            'email_confirm_token'=>null,'email'=>'testdeloved@gmail.com','status'=>1,'role_id'=>4]);
+        $this->insert('profile',['id'=>2,'fio'=>'Менеджер','email'=>'testdeloved@gmail.com','avatar_id'=>null,'city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>2]);
 
-        
-        
+
     }
 
     public function safeDown()
     {
+        $this->dropColumn('profile',2);
+        $this->dropColumn('user',2);
         $this->dropColumn('profile',1);
         $this->dropColumn('user',1);
         $this->dropColumn('org_form',5);

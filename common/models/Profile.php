@@ -16,11 +16,17 @@ use Yii;
  * @property integer $chargeStatus
  * @property integer $chargeTill
  * @property integer $user_id
+ *  @property integer $city_id
  *
+ * @property Region $city
  * @property User $user
  */
 class Profile extends \yii\db\ActiveRecord
 {
+    public $date;
+    public $city_name;
+
+
     /**
      * @inheritdoc
      */
@@ -35,10 +41,11 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['avatar_id', 'created_at', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
-            [['created_at', 'updated_at'], 'required'],
-            [['fio', 'email'], 'string', 'max' => 255],
+            [['avatar_id', 'created_at','city_id', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
+            ['fio', 'required'],
+            [['fio', 'email','city_name','date'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -55,8 +62,11 @@ class Profile extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'chargeStatus' => Yii::t('app', 'Charge Status'),
-            'chargeTill' => Yii::t('app', 'Charge Till'),
+            'date' => Yii::t('app', 'Charge Till'),
             'user_id' => Yii::t('app', 'User ID'),
+            'city_id' => Yii::t('app', 'User City ID'),
+            'city_name'=>Yii::t('app','City name')
+            
         ];
     }
 
@@ -67,6 +77,26 @@ class Profile extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function getCity()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'city_id']);
+    }
+
+    public function returnCity_id($city_name){
+        $name = $city_name;
+        $region_id=[];
+        $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
+        return $region_id[0]['id'];
+    }
+
+    public function returnDate($date){
+        $date_registration =$date;
+        $date = explode("/", $date_registration);
+        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
+        return $timestamp;
+    }
+
     public function getAccount()
     {
         return $this->hasOne(Account::className(), ['profile_id'=>'id']);

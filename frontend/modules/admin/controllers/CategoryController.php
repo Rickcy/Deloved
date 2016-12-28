@@ -3,11 +3,13 @@
 namespace app\modules\admin\controllers;
 
 use common\models\CategoryType;
+use common\models\User;
 use Yii;
 use common\models\Category;
 use common\models\search\CategorySearch;
 use yii\helpers\Json;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -41,9 +43,13 @@ class CategoryController extends Controller
     /**
      * Lists all Category models.
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionIndex()
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
         $categoryType = Category::find()->where('parent_id=:parent_id',['parent_id'=>1])->all();
 
         return $this->render('index', [
@@ -55,9 +61,13 @@ class CategoryController extends Controller
      * Displays a single Category model.
      * @param integer $id
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionView($id)
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
         $model=Category::findOne($id);
         $child=$model->getChild()->all();
         $category = Category::find()
@@ -74,13 +84,17 @@ class CategoryController extends Controller
      * @param $parent_cat
      * @param $cat_id
      * @return mixed
+     * @throws ForbiddenHttpException
      */
     public function actionCreateCategory($cat_name,$parent_cat,$cat_id)
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
         $id_model=null;
         $model = new Category();
         if ($cat_name==''){
-            Yii::$app->session->addFlash('danger', "Имя не заполнено");
+            Yii::$app->session->addFlash('danger', "Empty Category!");
         }
         if ($cat_name!=''){
         if(Yii::$app->request->isAjax){
@@ -92,10 +106,10 @@ class CategoryController extends Controller
 
             $model->save();
             $id_model = $model->id;
-            Yii::$app->session->addFlash('success', "Категория $cat_name добавлена");
-            $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
-    }
+            Yii::$app->session->addFlash('success', "Category $cat_name Add");
 
+    }
+        $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
     return Json::encode($mes);
     }
 
@@ -104,9 +118,14 @@ class CategoryController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
 
         $model = $this->findModel($id);
 
@@ -120,7 +139,15 @@ class CategoryController extends Controller
 
 
     public function actionEditCategory($id,$name){
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
         $model=$this->findModel($id);
+        if($name==''){
+            Yii::$app->session->addFlash('danger', "Empty Category!");
+            return json_encode(Yii::$app->session->getAllFlashes());
+        }
         if(Yii::$app->request->isAjax){
             $model->name = $name;
             $model->save();
@@ -129,15 +156,22 @@ class CategoryController extends Controller
         return json_encode(Yii::$app->session->getAllFlashes());
 
     }
+
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @param $parent_id
      * @return mixed
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     * @throws \Exception
      */
     public function actionDelete($id,$parent_id)
-    {
+    {if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+        throw new ForbiddenHttpException('Доступ запрещен');
+    }
+
         $model=$this->findModel($parent_id);
         $child=$this->findModel($id)->getChild()->all();
         if ($child){
@@ -171,10 +205,15 @@ class CategoryController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Category the loaded model
+     * @throws ForbiddenHttpException
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
         if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {

@@ -65,6 +65,12 @@ class Region extends \yii\db\ActiveRecord
         return $this->hasMany(Account::className(), ['city_id' => 'id']);
     }
 
+
+    public function getProfiles()
+    {
+        return $this->hasMany(Profile::className(), ['city_id' => 'id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

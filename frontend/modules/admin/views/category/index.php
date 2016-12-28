@@ -14,7 +14,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 ?>
 <div class="category-index">
 
-    <h2><?= Html::encode($this->title) ?></h2>
+    <h3><?= Html::encode($this->title) ?></h3>
 
 
     <div class="table-responsive">
