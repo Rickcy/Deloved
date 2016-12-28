@@ -41,7 +41,7 @@ use Yii;
  */
 class Account extends \yii\db\ActiveRecord
 {
-    const DEFAULT_RATING =100;
+    const  DEFAULT_RATING =100;
 
     public $date;
     public $city_name;

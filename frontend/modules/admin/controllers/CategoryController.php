@@ -6,6 +6,7 @@ use common\models\CategoryType;
 use Yii;
 use common\models\Category;
 use common\models\search\CategorySearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -76,6 +77,7 @@ class CategoryController extends Controller
      */
     public function actionCreateCategory($cat_name,$parent_cat,$cat_id)
     {
+        $id_model=null;
         $model = new Category();
         if ($cat_name==''){
             Yii::$app->session->addFlash('danger', "Имя не заполнено");
@@ -87,11 +89,14 @@ class CategoryController extends Controller
             $model->categorytype_id=$cat_id;
 
         }
+
             $model->save();
+            $id_model = $model->id;
             Yii::$app->session->addFlash('success', "Категория $cat_name добавлена");
+            $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
     }
 
-    return json_encode(Yii::$app->session->getAllFlashes());
+    return Json::encode($mes);
     }
 
     /**

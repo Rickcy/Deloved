@@ -245,7 +245,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                                                                             <ul>
                                                                                 <?foreach ($category as $it):?>
                                                                                     <?if ($it->parent_id===$item->id):?>
-                                                                                        <li id="<?=$it->id?>" data-jstree=<?=$item->equelsVar($item->id,$myCategory)?>><?=$it->name?></li>
+                                                                                        <li id="<?=$it->id?>" data-jstree=<?=$it->equelsVar($it->id,$myCategory)?>><?=$it->name?></li>
                                                                                     <?endif;?>
                                                                                 <?endforeach;?>
                                                                             </ul>

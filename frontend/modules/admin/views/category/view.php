@@ -50,7 +50,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 <?endif;?>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="tbody-category">
             <?
             $i=0;
             foreach ($category as $cat):?>
@@ -88,24 +88,23 @@ $user = User::findIdentity(Yii::$app->user->id);
             cat_name = $("#category_name").val();
             parent_cat =$("#parent_id_category").val();
             cat_id =$("#category_id_category").val();
-            console.log(cat_name);
-            console.log(parent_cat);
-            console.log(cat_id);
+
 
             $.ajax({
                 type:'POST',
                 url:'/admin/category/create-category/?cat_name='+cat_name+'&parent_cat='+parent_cat+'&cat_id='+cat_id,
                 success:function (data) {
-                    console.log(data);
 
                     var obj = $.parseJSON(data);
-
-                    if (obj.success) {
-                        showMessage('success', obj.success)
+                    console.log(obj)
+                    if (obj[0].success) {
+                        showMessage('success', obj[0].success)
                     }
-                    if (obj.danger) {
-                        showMessage('danger', obj.danger)
+                    if (obj[0].danger) {
+                        showMessage('danger', obj[0].danger)
                     }
+                    $("#category_name").val('');
+                    $(".tbody-category").append("<tr class='odd'><td>"+cat_name+"</td><td><a href='/admin/category/view?id="+obj['id_model']+"'>Развернуть</a></td><td><a class='glyphicon glyphicon-trash status' href='/admin/category/delete?id="+obj['id_model']+"&amp;parent_id="+parent_cat+"' data-confirm='Are you sure you want to delete this item?' data-method='post'></a> </td> </tr>");
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     showMessage('danger', 'Ошибка соединения');
