@@ -22,16 +22,13 @@ $user = User::findIdentity(Yii::$app->user->id);
             <thead class="thead-main">
             <tr>
 
-
-                <td><?=Yii::t('app', 'Name')?></td>
-
-
-
-
-                <td>Действие</td>
-
-
-            </tr>
+                 <td>
+                     <?=Yii::t('app', 'Name')?>
+                 </td>
+                  <td>
+                      Действие
+                  </td>
+        </tr>
             </thead>
             <tbody>
             <?

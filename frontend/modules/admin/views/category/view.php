@@ -15,8 +15,15 @@ $user = User::findIdentity(Yii::$app->user->id);
 ?>
 <div class="category-view">
     <div class="row">
-    <h2><?= Html::encode($this->title) ?></h2>
+    <div><h2 style="float: left"><?= Html::encode($this->title) ?></h2>
+
+    </div>
+        <div style="float: right;position: relative;right: 3% ">
+            <?=Html::a(Yii::t('app', 'Return'), [$model->parent_id==1?'index':'view', $model->parent_id==1?'':'id' => $model->parent_id],['class'=>'btn btn-md btn-default','style'=>'font-size:20px;margin-bottom:0%'])?>
+        </div>
+
     <div class="col-xs-12 buttons">
+
         <div class="col-sm-5">
         <input type="text" name="name" required id="category_name" class="form-control">
         <input type="text" name="parent_id" id="parent_id_category" class="hidden" value="<?=$model->id?>">
@@ -26,9 +33,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         <div class="col-sm-5">
             <a href="javascript:void(0)" class="btn btn-md btn-success" id="create-category" style="margin-top:5px"><?=Yii::t('app', 'Create category')?></a>
         </div>
-        <div class="col-sm-2">
-            <?=Html::a(Yii::t('app', 'Back'), [$model->parent_id==1?'index':'view', $model->parent_id==1?'':'id' => $model->parent_id],['class'=>'btn btn-md btn-success'])?>
-        </div>
+
         </div>
     </div>
     <div class="row">
@@ -57,7 +62,10 @@ $user = User::findIdentity(Yii::$app->user->id);
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
                     <td>
-                        <?= $cat->name?>
+                        <a href="/admin/category/update/?id=<?=$cat->id?>" id="<?=$cat->id?>"
+                        data-toggle="modal"
+                        data-remote="/admin/category/update/?id=<?=$cat->id?>"
+                        data-target="#myModal"><?= $cat->name?></a>
                     </td>
 
                     <td><?=Html::a('Развернуть', ['view', 'id' => $cat->id])?></td>
@@ -80,7 +88,11 @@ $user = User::findIdentity(Yii::$app->user->id);
         </table>
     </div>
     </div>
+
 </div>
+<div id="modalContainer"></div>
+
+
 <script>
     $(document).ready(function () {
         $("#create-category").click(function () {
@@ -111,6 +123,37 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 }
             })
-        })
+        });
+
+
+       
+
+        function constructModalDOM() {
+            return $("<div></div>").
+            attr('id', 'myModal').
+            addClass("modal").
+            addClass("fade").
+            attr('tabindex', '-1').
+            attr('role', 'dialog').
+            attr('aria-labelledby', 'myModalLabel').
+            attr('aria-hidden', 'true').
+            on('hidden.bs.modal', onHideModal).
+            append(
+                $("<div></div>").
+                addClass("modal-dialog").
+                append(
+                    $("<div></div>").
+                    attr('id', 'myModalContent').
+                    addClass("modal-content")
+                )
+            );
+        }
+
+        function onHideModal() {
+            $('#myModal').replaceWith(constructModalDOM());
+        }
+
+        constructModalDOM().appendTo($('#modalContainer'));
+
     })
 </script>

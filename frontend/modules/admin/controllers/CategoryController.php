@@ -107,17 +107,28 @@ class CategoryController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
+        if (Yii::$app->request->isAjax) {
+
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }
     }
 
+
+    public function actionEditCategory($id,$name){
+        $model=$this->findModel($id);
+        if(Yii::$app->request->isAjax){
+            $model->name = $name;
+            $model->save();
+            Yii::$app->session->addFlash('success', "Category  Update!");
+        }
+        return json_encode(Yii::$app->session->getAllFlashes());
+
+    }
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
