@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id
  * @property string $fio
  * @property string $email
- * @property integer $avatar_id
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $chargeStatus
@@ -19,13 +18,14 @@ use Yii;
  *  @property integer $city_id
  *
  * @property Region $city
+ * @property Experience $experience
  * @property User $user
  */
 class Profile extends \yii\db\ActiveRecord
 {
     public $date;
     public $city_name;
-
+    public $experience;
 
     /**
      * @inheritdoc
@@ -41,9 +41,10 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['avatar_id', 'created_at','city_id', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
+            ['city_name','trim'],
+            [['created_at','city_id', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
             ['fio', 'required'],
-            [['fio', 'email','city_name','date'], 'string', 'max' => 255],
+            [['fio','experience', 'email','city_name','date'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
@@ -58,7 +59,6 @@ class Profile extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'fio' => Yii::t('app', 'Fio'),
             'email' => Yii::t('app', 'Email'),
-            'avatar_id' => Yii::t('app', 'Avatar ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'chargeStatus' => Yii::t('app', 'Charge Status'),
@@ -101,4 +101,15 @@ class Profile extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Account::className(), ['profile_id'=>'id']);
     }
+
+    public function getExperience()
+    {
+        return $this->hasOne(Experience::className(), ['profile_id' => 'id']);
+    }
+
+    public function getRegions()
+    {
+        return $this->hasMany(ProfileRegion::className(), ['profile_id' =>'id']);
+    }
+
 }

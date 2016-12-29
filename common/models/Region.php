@@ -94,4 +94,15 @@ class Region extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Region::className(), ['parent_id' => 'id']);
     }
+
+    public function equelsVar($id,$array){
+        foreach ($array as $arr){
+            if ($arr->region_id==$id){
+                return '{"opened":false,"selected":true}';
+            }
+        }
+        return false;
+
+    }
+    
 }

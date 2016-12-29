@@ -51,7 +51,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model,'repassword')->passwordInput()->label('Повторите пароль') ?>
 
-            
+                     <?= $form->field($model, 'profile_city')->widget(
+                         AutoComplete::className(), [
+
+                         'clientOptions' => [
+                             'source' => $city_list,
+                             'minLength' => 2,
+                         ],
+                         'options'=>[
+                             'class'=>'form-control'
+                         ],
+                     ])->label('Ваш город');
+                     ?>
 
             <hr>
 

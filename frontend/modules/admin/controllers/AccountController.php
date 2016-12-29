@@ -156,17 +156,47 @@ class AccountController extends Controller
         $myAffiliates=$model->getAffiliates()->all();
         $myCategory =$model->getCategory()->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$model->id])->count();
+        $logo = new Logo();
+
 
 
         if ($model->load(Yii::$app->request->post())) {
 
             $model->city_id=$model->returnCity_id($model->city_name);
             $model->save();
+            $file =$model->file=UploadedFile::getInstance($model,'file');
+            if ($file){
+
+                if($model->getMainImage($model->id)){
+                    Logo::findOne($model->getMainImage($model->id)->id)->delete();
+                    $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$model->id.'/general');
+                    BaseFileHelper::removeDirectory($path2);
+                }
+
+                $path = Yii::getAlias('@frontend/web/uploads/accounts/'.$model->id.'/general');
+                BaseFileHelper::createDirectory($path);
+                $logo->created_at=time();
+                $logo->user_id=$model->id;
+                $name =$file->baseName.'.'.$file->extension;
+                $logo->image_name=$name;
+                $logo->main_image=1;
+                $logo->file='uploads/accounts/'.$model->id.'/general/'.$name;
+                $file->saveAs($path .DIRECTORY_SEPARATOR .$name);
+
+            }
+            $logo->save();
+            
+            
+            
+            
+            
+
             Yii::$app->session->addFlash('success', 'Account Update!');
             return $this->redirect(['index']);
 
         }  else {
             return $this->render('update', [
+
                 'model' => $model,
                 'profiles'=>$profiles,
                 'org_forms'=>$org_forms,
@@ -229,7 +259,7 @@ class AccountController extends Controller
         $category = Category::find()->all();
         
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         $model=new Logo();
 
         $level_id=18;
@@ -255,6 +285,7 @@ class AccountController extends Controller
                     $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
                     BaseFileHelper::removeDirectory($path2);
                 }
+
                 $path = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
                 BaseFileHelper::createDirectory($path);
                 $model->created_at=time();
@@ -269,23 +300,10 @@ class AccountController extends Controller
             $model->save();
         }
 
-
-        if (!isset($logo)){
-        return $this->render('show',[
-            'account'=>$account,
-            'model'=>$model,
-            'category'=>$category,
-            'categoryType'=>$categoryType,
-            'myCategory'=>$myCategory,
-            'affiliate'=>$affiliate,
-            'count'=>$count,
-            'city_list'=>$city_list
-        ]);}
-        else{
             return $this->render('show',[
                 'account'=>$account,
                 'model'=>$model,
-                'logo'=>$logo,
+                $logo==null?:'logo'=>$logo,
                 'category'=>$category,
                 'categoryType'=>$categoryType,
                 'myCategory'=>$myCategory,
@@ -293,7 +311,7 @@ class AccountController extends Controller
                 'count'=>$count,
                 'city_list'=>$city_list
             ]);
-        }
+
     }
 
     public function actionAddAffiliate(){
@@ -304,7 +322,7 @@ class AccountController extends Controller
             ->asArray()
             ->all();
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
 
         if (Yii::$app->request->isAjax) {
@@ -320,7 +338,7 @@ class AccountController extends Controller
 
             $affiliate = new Affiliate();
             $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
             if($address&&$city&&$email&&$phone){
                 $city_name='';
                 $repeat = $affiliate->find()->where('address=:address',[':address'=>$address])->andWhere('account_id=:account_id',[':account_id'=>$account->id])->all();
@@ -366,7 +384,7 @@ class AccountController extends Controller
     public function actionEditAffiliate($address,$city,$email,$phone,$aff_id,$id=''){
         if($id==''){
             $user=User::findOne(Yii::$app->user->id);
-            $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+            $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
         }
         if ($id!=''){
             $account =$this->findModel($id);
@@ -404,7 +422,7 @@ class AccountController extends Controller
     public function actionEditNew($value,$prop){
 
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
 
         if (Yii::$app->request->isPost) {
 
@@ -434,7 +452,7 @@ class AccountController extends Controller
 
         if ($id==null) {
             $user = User::findOne(Yii::$app->user->id);
-            $account = $user->getProfiles()->where('user_id=:user_id', [':user_id' => $user->id])->one()->getAccount()->one();
+            $account = $user->getProfile()->where('user_id=:user_id', [':user_id' => $user->id])->one()->getAccount()->one();
         }
             if ($id!==null){
             $account =$this->findModel($id);
@@ -447,7 +465,7 @@ class AccountController extends Controller
             if ($service){$arr2 = explode(",", $service);}
             $result = array_merge($arr1,$arr2);
 
-            if($result){
+            if($result[0]!=''){
                AccountCategory::deleteAll(['account_id'=>$account->id]);
 
             foreach ($result as $item){

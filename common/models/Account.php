@@ -45,7 +45,7 @@ class Account extends \yii\db\ActiveRecord
 
     public $date;
     public $city_name;
-
+    public $file;
     public $account_category_goods;
     public $account_category_service;
     /**
@@ -69,9 +69,9 @@ class Account extends \yii\db\ActiveRecord
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
             [['org_form_id'], 'exist', 'skipOnError' => true, 'targetClass' => OrgForm::className(), 'targetAttribute' => ['org_form_id' => 'id']],
+            ['file','file','extensions' => ['jpg','png','gif']]
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -111,10 +111,20 @@ class Account extends \yii\db\ActiveRecord
   
 
 
-    public function getMainImage(){
-        $user = User::findOne(Yii::$app->user->id);
-        $account=$user->getProfiles()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
-        $user_id = $account->id;
+    public function getMainImage($id=null){
+        $user_id=null;
+        if($id){
+            $user = Account::findOne($id);
+            $user_id = $user->id;
+        }
+        else{
+            $user = User::findOne(Yii::$app->user->id);
+            $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+            $user_id = $account->id;
+        }
+        
+
+       ;
         $main_image =Logo::find()->where('user_id=:user_id',[':user_id'=>$user_id])->andWhere('main_image=:main_image',[':main_image'=>1])->one();
         
         return $main_image;

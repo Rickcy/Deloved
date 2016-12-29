@@ -62,7 +62,7 @@ class User extends ActiveRecord implements IdentityInterface
      **/
     public function freeUser(){
         $user = User::findOne(Yii::$app->user->id);
-        $profile = $user->getProfiles()->one();
+        $profile = $user->getProfile()->one();
         if($profile){
         if($profile->chargeStatus>0){
             return false;
@@ -231,8 +231,8 @@ class User extends ActiveRecord implements IdentityInterface
     Return Profile
      **/
 
-    public function getProfiles(){
-        return $this->hasMany(Profile::className(),['user_id'=>'id' ]);
+    public function getProfile(){
+        return $this->hasOne(Profile::className(),['user_id'=>'id' ]);
     }
 
     /**

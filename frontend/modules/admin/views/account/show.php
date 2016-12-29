@@ -202,7 +202,7 @@ $this->title = 'Мои данные';
 
                 ],
                 'options'=>[
-                    'data-old'=>'$account->city->name',
+                    'data-old'=>$account->city->name,
                     'readonly'=>true
                 ]
             ])

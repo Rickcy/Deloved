@@ -44,6 +44,7 @@ class SignupForm extends Model
     public $show_main;
     public $account_category_goods;
     public $account_category_service;
+    public $profile_city;
 
     public $verifyCode;
     
@@ -67,7 +68,7 @@ class SignupForm extends Model
             ['repassword', 'compare','compareAttribute'=>'password'],
 
             [['org_form_id', 'public_status','show_main' ,'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
-            [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address', 'fio' ], 'string', 'max' => 100],
+            [['full_name','city_name','profile_city','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address', 'fio' ], 'string', 'max' => 100],
             [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
             [['description','keywords'], 'string', 'max' => 2055],
 
@@ -102,7 +103,7 @@ class SignupForm extends Model
         $profile->fio=$this->fio;
         $profile->chargeTill=null;
         $profile->chargeStatus=0;
-
+        $profile->city_id=$profile->returnCity_id($this->profile_city);
         $profile->email=$user->email;
         $profile->user_id=$user->id;
         $profile->avatar_id=null;

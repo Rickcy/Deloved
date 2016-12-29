@@ -11,6 +11,7 @@ use yii\helpers\ArrayHelper;
 
 use yii\jui\AutoComplete;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 
@@ -98,6 +99,29 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                     Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
                 },
             ]); ?>
+
+    <div class="row">
+                <label class="col-sm-3 control-label">
+
+                    Логотип
+                </label>
+
+                <div class="col-sm-9">
+
+            <?if ($model->getMainImage($model->id)):?>
+                <img width="40%" src="/<?=$model->getMainImage($model->id)->file?>" class="img-thumbnail" alt="<?=$model->getMainImage($model->id)->image_name?>">
+            <?endif;?>
+            <?if (!$model->getMainImage($model->id)):?>
+                <img width="40%" src="/uploads/default/logo_default.png" class="img-thumbnail" alt="logo_default">
+            <?endif;?>
+        
+                </div>
+        <?= $form->field($model, 'file')->fileInput()->label('') ?>
+
+
+    </div>
+
+
 
 
 

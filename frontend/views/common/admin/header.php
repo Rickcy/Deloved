@@ -2,7 +2,7 @@
 use common\models\User;
 
 $user = User::findIdentity(Yii::$app->user->id);
-$profile =$user->getProfiles()->one();
+$profile =$user->getProfile()->one();
 ?>
 
 <div class="header col-md-12">
@@ -37,7 +37,7 @@ $profile =$user->getProfiles()->one();
             <?endif;?>
             <div id="info">
 
-				<a href="#" class="info-menu" >Мой профиль</a>
+				<a href="/admin/profile/show" class="info-menu" >Мой профиль</a>
 
                 <?if ($user->checkRole(['ROLE_USER'])):?>
 					<a href="#" class="info-menu">Лицевой счет</a>
