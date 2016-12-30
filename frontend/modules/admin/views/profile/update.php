@@ -202,7 +202,10 @@ use yii\widgets\ActiveForm;
                var obj = $.parseJSON(data);
 
                if (obj.success) {
-                   showMessage('success', obj.success)
+                   showMessage('success', obj.success);
+                   var p_name;
+                   p_name = $("#category_name_update").val();
+                   $('#myModal').modal('hide');
                }
                if (obj.danger) {
                    showMessage('danger', obj.danger)

@@ -144,7 +144,7 @@ class ProfileController extends Controller
                 $experience==''?$exp_model->experience=null:$exp_model->experience=$experience;
                 $exp_model->save();
                 $model->fio=$fio;
-                $model->email=$email;
+                $email==''?$model->email=$model->email:$model->email=$email;
                 $city==''?$model->city_id=null:$model->city_id=$model->returnCity_id($city);
                 $date==''?$model->chargeTill=null:$model->chargeTill=$model->returnDate($date);
                 $model->chargeStatus=$status;
