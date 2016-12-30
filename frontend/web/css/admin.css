@@ -117,7 +117,7 @@ ul{
     margin-top: 0;
     margin-bottom: 10px;
     padding: 0;
-    font-size: 12pt;
+
 }
 
 .admin_menu li a {
@@ -186,11 +186,20 @@ h2.ft {
     text-align: center;
 }
 .label-col {
-    display: inline-block;
-    text-align: right;
-    width: 25%;
-    vertical-align: top;
-    margin-top: 15px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.ok{
+    color: green;
+    cursor: pointer;
+}
+.pen{
+    color: #1d58ff;
+    cursor: pointer
+}
+.grey{
+    background-color: #eeeeff;
 }
 .value-col {
     margin-left: 10px;
@@ -251,12 +260,29 @@ input, button, select, textarea {
     font-size: 10pt;
     color: gray;
 }
+
+
+.change-pass{
+    background-color:#0bc617;
+    color: white;
+    padding: 7px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+    text-decoration: none;
+    margin: 15px;
+}
+.change-pass:hover{
+    background-color: #0ba515;
+    text-decoration: none;
+    color: #dedede;
+}
 .image_input{
     display: inline-block;
     vertical-align: middle;
     background-color: white;
     color: white;
-    width: 129px!important;
+    width: 145px!important;
 
 }
 .value-col > textarea {

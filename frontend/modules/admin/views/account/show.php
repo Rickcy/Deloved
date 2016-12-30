@@ -19,11 +19,11 @@ $this->title = 'Мои данные';
     <h2 class="ft">Общая информация</h2>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="id">ID в системе</label>
         </div>
-        <div class="value-col ft">
-            <p id="id" name="id"><?=Html::encode($account->id)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="id" class="form-control grey" name="id"><?=Html::encode($account->id)?></p>
         </div>
         <div class="action-col">
 
@@ -31,11 +31,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="orgForm">Организационно-правовая форма</label>
         </div>
-        <div class="value-col ft">
-            <p id="orgForm" name="orgForm"><?=Html::encode($account->orgForm->name)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="orgForm" class="form-control grey" name="orgForm"><?=Html::encode($account->orgForm->name)?></p>
         </div>
         <div class="action-col">
 
@@ -43,11 +43,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="fullName">Полное наименование</label>
         </div>
-        <div class="value-col ft">
-            <p id="fullName" name="fullName"><?=Html::encode($account->full_name)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="fullName" class="form-control grey" name="fullName"><?=Html::encode($account->full_name)?></p>
         </div>
         <div class="action-col">
 
@@ -57,11 +57,11 @@ $this->title = 'Мои данные';
 
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="brandName">Фирменное наименование</label>
         </div>
-        <div class="value-col ft">
-            <p id="brandName" name="brandName"><?=Html::encode($account->brand_name)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="brandName" class="form-control grey" name="brandName"><?=Html::encode($account->brand_name)?></p>
         </div>
         <div class="action-col">
 
@@ -69,11 +69,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
 
             <label>Логотип</label>
         </div>
-        <div class="value-col ft">
+        <div class="col-sm-7 ft ">
             <div name="logo">
 
 
@@ -101,11 +101,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="rating">Деловая репутация</label>
         </div>
-        <div class="value-col">
-            <p id="rating" name="rating"><?=Html::encode($account->rating)?>%</p>
+        <div class="col-sm-7 ft ">
+            <p id="rating" class="form-control grey" name="rating"><?=Html::encode($account->rating)?>%</p>
         </div>
 
     </div>
@@ -118,11 +118,11 @@ $this->title = 'Мои данные';
     <h2 class="ft">Юридическая информация</h2>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="inn">ИНН</label>
         </div>
-        <div class="value-col ft">
-            <p id="inn" name="inn"><?=Html::encode($account->inn)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="inn" class="form-control grey" name="inn"><?=Html::encode($account->inn)?></p>
         </div>
         <div class="action-col">
 
@@ -130,11 +130,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="regNumber">ОГРН</label>
         </div>
-        <div class="value-col ft">
-            <p id="regNumber" name="regNumber"><?=Html::encode($account->ogrn)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="regNumber" class="form-control grey" name="regNumber"><?=Html::encode($account->ogrn)?></p>
         </div>
         <div class="action-col">
 
@@ -143,11 +143,11 @@ $this->title = 'Мои данные';
 
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="legalAddress">Юридический адрес</label>
         </div>
-        <div class="value-col ft">
-            <p id="legalAddress" name="legalAddress"><?=Html::encode($account->legal_address)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="legalAddress" class="form-control grey" name="legalAddress"><?=Html::encode($account->legal_address)?></p>
         </div>
         <div class="action-col">
 
@@ -155,11 +155,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="regDate">Дата регистрации</label>
         </div>
-        <div class="value-col ft">
-            <p id="regDate" name="regDate"><?=Html::encode($account->date_reg)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="regDate" class="form-control grey" name="regDate"><?=Html::encode($account->date_reg)?></p>
         </div>
         <div class="action-col">
 
@@ -167,11 +167,11 @@ $this->title = 'Мои данные';
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="manager">Руководство</label>
         </div>
-        <div class="value-col ft">
-            <p id="manager" name="manager"><?=Html::encode($account->director)?></p>
+        <div class="col-sm-7 ft ">
+            <p id="manager" class="form-control grey" name="manager"><?=Html::encode($account->director)?></p>
         </div>
         <div class="action-col">
         </div>
@@ -183,10 +183,10 @@ $this->title = 'Мои данные';
     <h2 class="ft">Контактная информация</h2>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="city">Фактический город</label>
         </div>
-        <div class="value-col ft">
+        <div class="col-sm-7 col-xs-10 ft ">
 
             <?
             echo AutoComplete::widget([
@@ -203,31 +203,30 @@ $this->title = 'Мои данные';
                 ],
                 'options'=>[
                     'data-old'=>$account->city->name,
-                    'readonly'=>true
+                    'readonly'=>true,
+                    'class'=>'form-control'
                 ]
             ])
             ?>
             <div class="pods fr">Город вашего центрального офиса</div>
         </div>
 
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="city">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="city" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="address">Фактический адрес</label>
         </div>
-        <div class="value-col ft">
-            <input id="address" name="address" type="text" readonly value="<?=Html::encode($account->address)?>" data-old="<?=Html::encode($account->address)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="address" name="address" type="text" class="form-control" readonly="true" value="<?=Html::encode($account->address)?>" data-old="<?=Html::encode($account->address)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Адрес вашего центрального офиса</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="address">Изменить</a>
-            <!--a href="javascript:void(0)">Показать на карте</a-->
-
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="address" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
@@ -236,44 +235,44 @@ $this->title = 'Мои данные';
    
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="email">Email</label>
         </div>
-        <div class="value-col ft">
-            <input id="email" name="email" type="text" readonly value="<?=Html::encode($account->email)?>" data-old="<?=Html::encode($account->email)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="email" name="email" type="text" class="form-control" readonly value="<?=Html::encode($account->email)?>" data-old="<?=Html::encode($account->email)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Адрес электронной почты</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="email">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="email" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="web_address">Сайт</label>
         </div>
-        <div class="value-col ft">
-            <input id="web_address" name="web_address" type="text" readonly value="<?=Html::encode($account->web_address)?>" data-old="<?=Html::encode($account->web_address)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="web_address" name="web_address" class="form-control" type="text" readonly value="<?=Html::encode($account->web_address)?>" data-old="<?=Html::encode($account->web_address)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Адрес веб-сайта</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="web_address">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="web_address" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="phone1">Номер телефона №1</label>
         </div>
-        <div class="value-col ft">
-            <input id="phone1" name="phone1" type="text" readonly value="<?=Html::encode($account->phone1)?>" data-old="<?=Html::encode($account->phone1)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="phone1" name="phone1" type="text" class="form-control" readonly value="<?=Html::encode($account->phone1)?>" data-old="<?=Html::encode($account->phone1)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Основной номер телефона</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="phone1">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="phone1" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
@@ -282,16 +281,16 @@ $this->title = 'Мои данные';
 
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="fax">Факс</label>
         </div>
-        <div class="value-col ft">
-            <input id="fax" name="fax" type="text" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="fax" name="fax" type="text" class="form-control" readonly value="<?=Html::encode($account->fax)?>" data-old="<?=Html::encode($account->fax)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Номер факса</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="fax">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="fax" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
@@ -302,47 +301,47 @@ $this->title = 'Мои данные';
     <h2 class="ft">Дополнительная информация</h2>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="work_time">Время работы</label>
         </div>
-        <div class="value-col ft">
-            <input id="work_time" name="work_time" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="work_time" name="work_time" class="form-control" type="text" readonly value="<?=Html::encode($account->work_time)?>" data-old="<?=Html::encode($account->work_time)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">В свободной форме укажите график работы</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="work_time">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="work_time" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="description">Описание</label>
         </div>
-        <div class="value-col ft">
-                <textarea id="description" name="description" type="text" readonly data-old="<?=Html::encode($account->description)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+                <textarea id="description" class="form-control" name="description" type="text" readonly data-old="<?=Html::encode($account->description)?>"
                           placeholder="Отсутствует"><?=Html::encode($account->description)?>
                 </textarea>
             <div class="pods fr">Краткое описанеи вашей деятельности, основые направления деятельности, предлагаемые товары и услуги.</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="description">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="description" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="keywords">Ключевые слова</label>
         </div>
-        <div class="value-col ft">
-                <textarea id="keywords" name="keywords" type="text" readonly data-old="<?=Html::encode($account->keywords)?>"
+        <div class="col-sm-7 col-xs-10 ft ">
+                <textarea id="keywords" class="form-control" name="keywords" type="text" readonly data-old="<?=Html::encode($account->keywords)?>"
                           placeholder="Отсутствуют"><?=Html::encode($account->keywords)?>
                 </textarea>
             <div class="pods fr">Укажите через запятые набор слов наиболее полно отражающих вашу деятельности.
                 Ключевые слова используются для более эффективного поиска вашего предприятия</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="keywords">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="keywords" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
@@ -533,7 +532,7 @@ $this->title = 'Мои данные';
             </div>
         </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-3">
             <a href="javascript:void(0)" class="btn btn-success" style="width:100%" id="saveCategory">Сохранить</a>
         </div>
     </div>
@@ -592,7 +591,8 @@ $this->title = 'Мои данные';
 
             if ($('#'+prop).is('[readonly]')) {
                 $('#'+prop).attr('readonly', false);
-                $(el).html('Сохранить');
+                $(el).removeClass('glyphicon-pencil').removeClass('pen');
+                $(el).addClass('glyphicon-ok').addClass('ok')
 
             } else {
                 var oldValue = $('#'+prop).data('old');
@@ -635,7 +635,8 @@ $this->title = 'Мои данные';
                     })
                 }
                 $('#'+prop).attr('readonly', true);
-                $(el).html('Изменить');
+                $(el).removeClass('glyphicon-ok').removeClass('ok');
+                $(el).addClass('glyphicon-pencil');
             }
         });
     });

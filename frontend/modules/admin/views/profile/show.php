@@ -15,25 +15,35 @@ $user = User::findIdentity(Yii::$app->user->id);
     <h3><?= Html::encode($this->title) ?></h3>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="fio">Fio</label>
         </div>
-        <div class="value-col ft">
-            <input id="fio" name="fio" type="text" readonly value="<?=Html::encode($profile->fio)?>"
+        <div class="col-sm-7 ft ">
+            <input id="fio" name="fio" class="form-control" type="text" readonly value="<?=Html::encode($profile->fio)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr"></div>
         </div>
-        <div class="action-col">
-<!--            <a href="javascript:void(0)" name="change" data-for="email">Изменить</a>-->
-        </div>
+
     </div>
 
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
+            <label for="profile_date"></label>
+        </div>
+
+            <a class="value-col ft change-pass" href="/admin/profile/password" > Change Password</a>
+
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="city">City</label>
         </div>
-        <div class="value-col ft">
+        <div class="col-sm-7 col-xs-10 ft ">
             <?
             echo AutoComplete::widget([
                 'name'=>'profile_city',
@@ -50,54 +60,51 @@ $user = User::findIdentity(Yii::$app->user->id);
                 'options'=>[
                     'placeholder'=>'Отсутствует',
                     'data-old'=>$profile->city->name,
-                    'readonly'=>true
+                    'readonly'=>true,
+                     'class'=>'form-control'
                 ]
             ])
             ?>
             <div class="pods fr">Город, к которому будет прикреплен ваш профиль</div>
         </div>
-        <div class="action-col">
-            <a href="javascript:void(0)" name="change" data-for="city">Изменить</a>
+        <div class="col-sm-1 col-xs-1">
+           <span name="change" data-for="city" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="email">Email</label>
         </div>
-        <div class="value-col ft">
-            <input id="email" name="email" type="text" readonly value="<?=Html::encode($profile->email)?>"
+        <div class="col-sm-7 ft ">
+            <input id="email" name="email"  class="form-control" type="text" readonly value="<?=Html::encode($profile->email)?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr">Контактный адрес электронной почты</div>
         </div>
-        <div class="action-col">
-            <!--            <a href="javascript:void(0)" name="change" data-for="email">Изменить</a>-->
-        </div>
+
     </div>
 
 
     <?if (in_array($user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
         <div class="row">
-            <div class="label-col ft">
+            <div class="col-sm-3 label-col ft  col-sm-offset-1">
                 <label for="experience">Experience</label>
             </div>
-            <div class="value-col ft">
-                <input id="experience" name="experience" type="text" readonly value="<?=Html::encode($profile->getExperience()->one()->experience)?>"
+            <div class="col-sm-7 ft ">
+                <input id="experience"  class="form-control" name="experience" type="text" readonly value="<?=Html::encode($profile->getExperience()->one()->experience)?>"
                        placeholder="Отсутствует"/>
                 <div class="pods fr">Стаж работы по данной специальности</div>
             </div>
-            <div class="action-col">
-                <!--            <a href="javascript:void(0)" name="change" data-for="email">Изменить</a>-->
-            </div>
+
         </div>
     <?endif;?>
 
     <div class="row">
-        <div class="label-col ft">
+        <div class="col-sm-3 label-col ft  col-sm-offset-1">
             <label for="date_reg">Date registration</label>
         </div>
-        <div class="value-col ft">
-            <input id="date_reg" name="date_reg" type="text" readonly value="<?=Yii::$app->formatter->asDatetime($profile->created_at, "php:d.m.Y")?>"
+        <div class="col-sm-7 ft ">
+            <input id="date_reg"  class="form-control" name="date_reg" type="text" readonly value="<?=Yii::$app->formatter->asDatetime($profile->created_at, "php:d.m.Y")?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr"></div>
         </div>
@@ -106,19 +113,16 @@ $user = User::findIdentity(Yii::$app->user->id);
         </div>
     </div>
 
-    <?if (User::checkRole(['ROLE_ADMIN'])):?>
+    <?if (User::checkRole(['ROLE_USER'])):?>
 
         <div class="row">
-            <div class="label-col ft">
-                <label for="profile_date">Срок подписки</label>
+            <div class="col-sm-3 label-col ft  col-sm-offset-1">
+                <label for="profile_date">Статус подписки</label>
             </div>
-            <div class="value-col ft">
-                <input id="profile_date" name="profile_date" type="text" readonly value="<?=$profile->chargeStatus==1?'Extended to '.Yii::$app->formatter->asDatetime($profile->chargeTill, "php:d.m.Y"):'Starting'?>"
+            <div class="col-sm-7 ft ">
+                <input id="profile_date"  class="form-control" name="profile_date" type="text" readonly value="<?=$profile->chargeStatus==1?'Extended to '.Yii::$app->formatter->asDatetime($profile->chargeTill, "php:d.m.Y"):'Starting'?>"
                        placeholder="Отсутствует"/>
                 <div class="pods fr"></div>
-            </div>
-            <div class="action-col">
-                <!--            <a href="javascript:void(0)" name="change" data-for="email">Изменить</a>-->
             </div>
         </div>
 
@@ -137,7 +141,8 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             if ($('#' + prop).is('[readonly]')) {
                 $('#' + prop).attr('readonly', false);
-                $(el).html('Сохранить');
+                $(el).removeClass('glyphicon-pencil').removeClass('pen');
+                $(el).addClass('glyphicon-ok').addClass('ok')
 
             } else {
                 var oldValue = $('#' + prop).data('old');
@@ -182,7 +187,8 @@ $user = User::findIdentity(Yii::$app->user->id);
                     })
                 }
                 $('#' + prop).attr('readonly', true);
-                $(el).html('Изменить');
+                $(el).removeClass('glyphicon-ok').removeClass('ok');
+                $(el).addClass('glyphicon-pencil');
             }
         });
     })

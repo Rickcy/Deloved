@@ -6,6 +6,7 @@ use common\models\Experience;
 use common\models\ProfileRegion;
 use common\models\Region;
 use common\models\User;
+use frontend\models\ChangePassForm;
 use Yii;
 use common\models\Profile;
 use common\models\search\ProfileSearch;
@@ -207,6 +208,37 @@ class ProfileController extends Controller
 
 
     }
+
+
+
+    public function actionPassword(){
+        
+        $model = new ChangePassForm();
+
+        if ($model->load(Yii::$app->request->post()) ) {
+            $res = $model->changePass();
+            if ($res){
+                Yii::$app->session->addFlash('success', 'Пароль успешно изменен!');
+                return $this->redirect('/admin/profile/show');
+            }
+            else{
+                Yii::$app->session->addFlash('danger', 'Ошибка!');
+                return $this->redirect(['/admin/profile/password',
+                    'model' => $model
+                ]);
+            }
+
+        } else {
+            return $this->render('passwd', [
+                'model' => $model
+            ]);
+        }
+
+    }
+
+
+
+
 
 
     /**
