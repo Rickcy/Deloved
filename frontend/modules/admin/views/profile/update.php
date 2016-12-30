@@ -61,7 +61,7 @@ use yii\widgets\ActiveForm;
         'options'=>[
             'class'=>'form-control profile-city',
 
-            'value'=>$model->city->name,
+            'value'=>isset($model->city->name)?$model->city->name:'',
         ],
     ])->label('Город');
     ?>
@@ -187,12 +187,15 @@ use yii\widgets\ActiveForm;
       var status = $('#profile-chargestatus>label.active>input').val();
       var chargetill =  $('#profile-date').val();
       var exp =  $('#profile-exp').val();
+      if (exp==undefined){
+          exp='null'
+      }
       var regions_values =$('#region_values')
        var regions =[];
        regions_values.each(function () {
            regions.push($(this).val())
        });
-        console.log(status);
+
 
        $.ajax({
            type:'POST',
@@ -203,8 +206,14 @@ use yii\widgets\ActiveForm;
 
                if (obj.success) {
                    showMessage('success', obj.success);
-                   var p_name;
-                   p_name = $("#category_name_update").val();
+                   if(email!=''){ $('#email-profile<?=$model->id?>>a').text(email)}
+
+                   $('#fio-profile<?=$model->id?>').text(fio);
+
+                  $('#city-profile<?=$model->id?>').text(city)
+
+
+
                    $('#myModal').modal('hide');
                }
                if (obj.danger) {

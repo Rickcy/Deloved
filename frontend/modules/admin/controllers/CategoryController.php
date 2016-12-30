@@ -2,21 +2,22 @@
 
 namespace app\modules\admin\controllers;
 
-use common\models\CategoryType;
+use common\controllers\AuthController;
+
 use common\models\User;
 use Yii;
 use common\models\Category;
-use common\models\search\CategorySearch;
+
 use yii\helpers\Json;
-use yii\web\Controller;
+
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
 
 /**
  * CategoryController implements the CRUD actions for Category model.
  */
-class CategoryController extends Controller
+class CategoryController extends AuthController
 {
 
 
@@ -25,20 +26,7 @@ class CategoryController extends Controller
 
 
     public $layout = '/admin';
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Category models.

@@ -40,16 +40,16 @@ $user = User::findIdentity(Yii::$app->user->id);
             foreach ($profiles as $profile):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
-                    <td>
+                    <td id="email-profile<?=$profile->id?>">
                         <a href="/admin/profile/update/?id=<?=$profile->id?>" id="<?=$profile->id?>"
                            data-toggle="modal"
                            data-remote="/admin/profile/update/?id=<?=$profile->id?>"
                            data-target="#myModal"><?= $profile->email?></a>
                     </td>
 
-                    <td><?=$profile->fio?></td>
+                    <td id="fio-profile<?=$profile->id?>"><?=$profile->fio?></td>
 
-                    <td><?=$profile->city->name?></td>
+                    <td id="city-profile<?=$profile->id?>"><?=isset($profile->city->name)?$profile->city->name:''?></td>
                     <td><?=Yii::t('app', $profile->user->role->role_name)?></td>
 
 

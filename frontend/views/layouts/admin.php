@@ -92,7 +92,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             <ul class="admin_menu">
 
-                <li><a href="#" >Учетные записи</a></li>
+                <li><a href="/admin/user/" >Учетные записи</a></li>
                 <li><a  href="/admin/profile/" >Профили</a></li>
 
             </ul>

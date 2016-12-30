@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use common\controllers\AuthController;
 use common\models\Experience;
 use common\models\ProfileRegion;
 use common\models\Region;
@@ -9,33 +10,16 @@ use common\models\User;
 use frontend\models\ChangePassForm;
 use Yii;
 use common\models\Profile;
-use common\models\search\ProfileSearch;
-use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ProfileController implements the CRUD actions for Profile model.
  */
-class ProfileController extends Controller
+class ProfileController extends AuthController
 {
 
     public $layout ='/admin';
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Profile models.
@@ -141,10 +125,23 @@ class ProfileController extends Controller
                     ProfileRegion::deleteAll('profile_id=:profile_id',[':profile_id'=>$id]);
 
                 }
+                if ($experience!='null'){
                 $experience==''?$exp_model->experience=null:$exp_model->experience=$experience;
                 $exp_model->save();
+                }
+
                 $model->fio=$fio;
-                $email==''?$model->email=$model->email:$model->email=$email;
+                if ($email==''){
+                    $model->email=$model->email;
+                }else{
+                    $model->email=$email;
+                    $user = User::findOne($model->user_id);
+                    $user->email=$email;
+                    $user->save();
+                }
+
+
+
                 $city==''?$model->city_id=null:$model->city_id=$model->returnCity_id($city);
                 $date==''?$model->chargeTill=null:$model->chargeTill=$model->returnDate($date);
                 $model->chargeStatus=$status;

@@ -20,6 +20,7 @@ use Yii;
  * @property Region $city
  * @property Experience $experience
  * @property User $user
+ * @property ProfileRegion $region
  */
 class Profile extends \yii\db\ActiveRecord
 {
@@ -43,7 +44,7 @@ class Profile extends \yii\db\ActiveRecord
         return [
             ['city_name','trim'],
             [['created_at','city_id', 'updated_at', 'chargeStatus', 'chargeTill', 'user_id'], 'integer'],
-            ['fio', 'required'],
+            ['email', 'required'],
             [['fio','experience', 'email','city_name','date'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Region::className(), 'targetAttribute' => ['city_id' => 'id']],

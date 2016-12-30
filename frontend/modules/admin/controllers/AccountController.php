@@ -2,6 +2,7 @@
 
 namespace app\modules\admin\controllers;
 
+use common\controllers\AuthController;
 use common\models\AccountCategory;
 use common\models\Affiliate;
 use common\models\Category;
@@ -26,25 +27,12 @@ use yii\web\UploadedFile;
 /**
  * AccountController implements the CRUD actions for Account model.
  */
-class AccountController extends Controller
+class AccountController extends AuthController
 {
 
 
     public $layout = '/admin';
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+
 
     /**
      * Lists all Account models.
@@ -269,7 +257,7 @@ class AccountController extends Controller
             ->asArray()
             ->all();
 
-
+        $logo=null;
         $affiliate =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
         $myCategory =$account->getCategory()->all();
@@ -303,7 +291,7 @@ class AccountController extends Controller
             return $this->render('show',[
                 'account'=>$account,
                 'model'=>$model,
-                $logo==null?:'logo'=>$logo,
+                isset($logo)?:'logo'=>$logo,
                 'category'=>$category,
                 'categoryType'=>$categoryType,
                 'myCategory'=>$myCategory,
