@@ -171,14 +171,14 @@ class m130524_201442_init extends Migration
 
         //  ADMIN
         $this->insert('user',['id'=>1,'username'=>'admin','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
-        'email_confirm_token'=>null,'email'=>'Rickcy@yandex.ru','status'=>1,'role_id'=>3]);
-        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'Rickcy@yandex.ru','city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
+        'email_confirm_token'=>null,'email'=>'admin@yandex.ru','status'=>1,'role_id'=>3]);
+        $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'admin@yandex.ru','city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
         $this->insert('experience',['id'=>1,'profile_id'=>1,'experience'=>null]);
         $this->insert('profile_region',['id'=>1,'profile_id'=>1,'region_id'=>null]);
         //  MANAGER
         $this->insert('user',['id'=>2,'username'=>'manager','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
-            'email_confirm_token'=>null,'email'=>'testdeloved@gmail.com','status'=>1,'role_id'=>4]);
-        $this->insert('profile',['id'=>2,'fio'=>'Менеджер','email'=>'testdeloved@gmail.com','city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>2]);
+            'email_confirm_token'=>null,'email'=>'manager@yandex.ru','status'=>1,'role_id'=>4]);
+        $this->insert('profile',['id'=>2,'fio'=>'Менеджер','email'=>'manager@yandex.ru','city_id'=>null,'created_at'=>time(),'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>2]);
         $this->insert('experience',['id'=>2,'profile_id'=>2,'experience'=>null]);
         $this->insert('profile_region',['id'=>2,'profile_id'=>2,'region_id'=>null]);
 
