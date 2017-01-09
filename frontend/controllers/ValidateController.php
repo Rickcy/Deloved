@@ -1,6 +1,7 @@
 <?
 namespace frontend\controllers;
 
+use common\models\Currency;
 use common\models\LoginForm;
 use common\models\Profile;
 use common\models\Subscribe;
@@ -29,6 +30,7 @@ class ValidateController extends Controller{
                     'reset' => ['get', 'post'],
                     'change' => ['get', 'post'],
                     'profile' => ['get', 'post'],
+                    'currency' => ['get', 'post'],
                 ],
             ],
         ];
@@ -65,6 +67,14 @@ class ValidateController extends Controller{
 
     public function actionProfile(){
         $model = new Profile();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
+    public function actionCurrency(){
+        $model = new Currency();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);

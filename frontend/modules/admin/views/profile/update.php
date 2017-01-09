@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title" style="text-align: left">Редактирование Профиля</h4>
+    <h4 class="modal-title" style="text-align: left"><?=Yii::t('app', 'Update profile')?></h4>
 </div>
 
 
@@ -210,7 +210,7 @@ use yii\widgets\ActiveForm;
 
                    $('#fio-profile<?=$model->id?>').text(fio);
 
-                  $('#city-profile<?=$model->id?>').text(city)
+                  $('#city-profile<?=$model->id?>').text(city);
 
 
 

@@ -41,7 +41,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
                     <td id="name-currency<?=$cur->id?>">
-                        <a href="/admin/currency/update/?id=<?=$cur->id?>"
+                        <a href="/admin/currency/update/?id=<?=$cur->id?>" id="<?=$cur->id?>"
                            data-toggle="modal"
                            data-remote="/admin/currency/update/?id=<?=$cur->id?>"
                            data-target="#myModal"><?= $cur->name?></a>
@@ -61,3 +61,40 @@ $user = User::findIdentity(Yii::$app->user->id);
     </div>
 
 </div>
+<div id="modalContainer"></div>
+<script>
+    $(document).ready(function () {
+
+
+
+
+
+        function constructModalDOM() {
+            return $("<div></div>").
+            attr('id', 'myModal').
+            addClass("modal").
+            addClass("fade").
+            attr('tabindex', '-1').
+            attr('role', 'dialog').
+            attr('aria-labelledby', 'myModalLabel').
+            attr('aria-hidden', 'true').
+            on('hidden.bs.modal', onHideModal).
+            append(
+                $("<div></div>").
+                addClass("modal-dialog").
+                append(
+                    $("<div></div>").
+                    attr('id', 'myModalContent').
+                    addClass("modal-content")
+                )
+            );
+        }
+
+        function onHideModal() {
+            $('#myModal').replaceWith(constructModalDOM());
+        }
+
+        constructModalDOM().appendTo($('#modalContainer'));
+
+    })
+</script>
