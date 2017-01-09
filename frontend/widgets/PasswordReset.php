@@ -10,12 +10,13 @@ use yii\bootstrap\Widget;
 
 class PasswordReset extends Widget
 {
+
+
+
     public function run()
     {
      $model = new PasswordResetRequestForm();
-        /**
-        Изменить на zyxphpmailer
-         **/
+
         if($model->load(Yii::$app->request->post()) && $model->validate()){
             $user = User::findOne([
                 'status' => User::STATUS_ACTIVE,

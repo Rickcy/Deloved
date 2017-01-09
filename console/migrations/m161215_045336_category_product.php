@@ -6,6 +6,15 @@ class m161215_045336_category_product extends Migration
 {
     public function safeUp()
     {
+
+
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+
+
         $this->execute('
         CREATE TABLE category_type(id INT NOT NULL PRIMARY KEY,code VARCHAR(100));
        
@@ -297,12 +306,24 @@ class m161215_045336_category_product extends Migration
             'id'=>$this->primaryKey(),
             'account_id'=>$this->integer(),
             'category_id'=>$this->integer()
-        ]);
+        ],$tableOptions);
 
+        $this->createTable('{{%measure}}',[
+            'id'=>$this->primaryKey(),
+            'full_name'=>$this->string()->notNull(),
+            'name'=>$this->string()->notNull(),
+            'type_id'=>$this->integer()->notNull()
+        ],$tableOptions);
+
+
+        $this->createIndex('fk_type_measure_id','{{%measure}}','type_id');
+        $this->addForeignKey('fk_type_measure_id','{{%measure}}','type_id','{{%category_type}}','id','CASCADE','CASCADE');
+        
         $this->createIndex('fk_account_id','{{%account_category}}','account_id');
-        $this->addForeignKey('fk_account_id','{{%account_category}}','account_id','{{%account}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_account_id','{{%account_category}}','account_id','{{%account}}','id','CASCADE','CASCADE');
+        
         $this->createIndex('fk_category_id','{{%account_category}}','category_id');
-        $this->addForeignKey('fk_category_id','{{%account_category}}','category_id','{{%category}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_category_id','{{%account_category}}','category_id','{{%category}}','id','CASCADE','CASCADE');
     }
 
     public function safeDown()

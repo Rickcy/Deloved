@@ -108,7 +108,15 @@ class m130524_201442_init extends Migration
             'profile_id'=>$this->integer(),
             'experience'=>$this->string()
         ],$tableOptions);
+        
+        
+        
 
+        $this->createTable('{{%currency}}',[
+            'id'=>$this->primaryKey(),
+            'code'=>$this->string()->notNull(),
+            'name'=>$this->string()->notNull(),
+        ],$tableOptions);
 
 
         $this->createTable('{{%profile_region}}',[

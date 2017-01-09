@@ -342,7 +342,7 @@ span.disabled {
     color: orangered;
 }
 .thead-main{
-    border-bottom: 3px solid rgba(176, 208, 83, 0.24);
+    border-bottom: 3px solid rgba(176, 208, 83, 0.47);
 }
 .create-btn{
     font-size: 20px;
