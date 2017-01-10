@@ -39,6 +39,7 @@ use yii\helpers\Url;
         console.log(id)
         console.log(code)
         console.log(name)
+        
         $.ajax({
             type:'POST',
             url:'/admin/currency/edit-currency?id='+id+'&code='+code+'&name='+name,

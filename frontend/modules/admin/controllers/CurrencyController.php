@@ -37,7 +37,8 @@ class CurrencyController extends AuthController
         $currency = new Currency();
         if ($currency->load(Yii::$app->request->post())){
             $currency->save();
-            return $this->redirect('/admin/currency/');
+            Yii::$app->session->addFlash('success', "Currency Created");
+            return $this->redirect(['index']);
         }
         return $this->render('create',[
             'currency'=>$currency,//'type'=>$type
@@ -66,10 +67,15 @@ class CurrencyController extends AuthController
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $model=$this->findModel($id);
+        $model=Currency::findOne($id);
 
-        if (empty($code)){
-            Yii::$app->session->addFlash('danger', "$code is Empty");
+        if (empty($code)||empty($name)){
+            Yii::$app->session->addFlash('danger', "Fields is Empty");
+        }else{
+            $model->code = $code;
+            $model->name = $name;
+            $model->save();
+            Yii::$app->session->addFlash('success', "Currency Update");
         }
         return json_encode(Yii::$app->session->getAllFlashes());
     }

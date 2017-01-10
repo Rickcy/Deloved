@@ -18,9 +18,11 @@ $user = User::findIdentity(Yii::$app->user->id);
         'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
         'labelOptions' => ['class' => 'col-sm-3 control-label'],
     ]])?>
+    <?=$form->field($currency , 'name')->textInput()?>
+
     <?=$form->field($currency , 'code')->textInput()?>
 
-    <?=$form->field($currency , 'name')->textInput()?>
+
 <!---->
 <!-- --><?// $items = ArrayHelper::map($type,'id','code');
 //

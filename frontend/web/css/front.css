@@ -6,7 +6,10 @@ body {
 @media (min-width:1200px){
 .container{width:90%!important;}
 }
-
+div.required label.control-label:after {
+    content: " *";
+    color: red;
+}
 .icovideo:hover{
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);

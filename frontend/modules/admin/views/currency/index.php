@@ -51,7 +51,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
 
-
+                    <td></td>
                 </tr>
                 <?
                 $i++;

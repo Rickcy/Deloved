@@ -322,7 +322,10 @@ button, input, optgroup, select, textarea {
 .form-control,.label-control,.ui-autocomplete-input{
     margin: 5px 0;
 }
-
+div.required label.control-label:after {
+    content: " *";
+    color: red;
+}
 .buttons {
     background-color: #efefef;
     padding: 10px;
