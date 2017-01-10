@@ -53,8 +53,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 <li><a href="/admin/measure/" >Единицы измерения</a></li>
                 <li><a href="#" >Контент-блоки</a></li>
                 <li><a href="/admin/currency/" >Валюты</a></li>
-                <li><a href="#" >ОПФ</a></li>
-                <li><a href="#">Тарифы</a></li>
+                <li><a href="/admin/tariffs/">Тарифы</a></li>
 
 
             </ul>
@@ -230,16 +229,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             </ul>
         <?endif;?>
 
-        <?if ($user->checkRole(['ROLE_ADMIN'])):?>
-            <h1 class="ft">Администратор</h1>
 
-            <div class="ug"></div>
-
-            <ul class="admin_menu">
-                <li><a href="#">Инструменты</a></li>
-
-            </ul>
-        <?endif;?>
 
 
     </div>

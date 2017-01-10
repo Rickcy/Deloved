@@ -3,8 +3,10 @@ namespace frontend\controllers;
 
 use common\models\Currency;
 use common\models\LoginForm;
+use common\models\Measure;
 use common\models\Profile;
 use common\models\Subscribe;
+use common\models\Tariffs;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
@@ -31,6 +33,8 @@ class ValidateController extends Controller{
                     'change' => ['get', 'post'],
                     'profile' => ['get', 'post'],
                     'currency' => ['get', 'post'],
+                    'measure' => ['get', 'post'],
+                    'tariff' => ['get', 'post'],
                 ],
             ],
         ];
@@ -81,6 +85,21 @@ class ValidateController extends Controller{
         }
     }
 
+    public function actionMeasure(){
+        $model = new Measure();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
+    public function actionTariff(){
+        $model = new Tariffs();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
 
 
 //    public function actionSubscribe(){

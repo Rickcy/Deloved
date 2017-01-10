@@ -9,6 +9,7 @@ use yii\bootstrap\Html;
 $this->title = Yii::t('app', 'Measure');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
+
 ?>
 <div class="measure-index">
 
@@ -39,17 +40,17 @@ $user = User::findIdentity(Yii::$app->user->id);
             foreach ($measures as $measure):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
-                    <td id="name-measure<?=$measure->id?>">
-                        <a href="/admin/measure/update/?id=<?=$measure->id?>"
+                    <td id="name<?=$measure->id?>">
+                        <a href="/admin/measure/update/?id=<?=$measure->id?>" id="<?=$measure->id?>"
                            data-toggle="modal"
                            data-remote="/admin/measure/update/?id=<?=$measure->id?>"
                            data-target="#myModal"><?= $measure->name?></a>
                     </td>
 
-                    <td id="full-name<?=$measure->id?>"><?=$measure->full_name?></td>
+                    <td id="full_name<?=$measure->id?>"><?=$measure->full_name?></td>
 
 
-                    <td><?=Yii::t('app', $measure->type->code)?></td>
+                    <td id="code<?=$measure->id?>"><?=Yii::t('app', $measure->type->code)?></td>
 
                     <td>
                         <?= Html::a('', ['delete', 'id' => $measure->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
@@ -69,3 +70,41 @@ $user = User::findIdentity(Yii::$app->user->id);
     </div>
 
 </div>
+
+<div id="modalContainer"></div>
+<script>
+    $(document).ready(function () {
+
+
+
+
+
+        function constructModalDOM() {
+            return $("<div></div>").
+            attr('id', 'myModal').
+            addClass("modal").
+            addClass("fade").
+            attr('tabindex', '-1').
+            attr('role', 'dialog').
+            attr('aria-labelledby', 'myModalLabel').
+            attr('aria-hidden', 'true').
+            on('hidden.bs.modal', onHideModal).
+            append(
+                $("<div></div>").
+                addClass("modal-dialog").
+                append(
+                    $("<div></div>").
+                    attr('id', 'myModalContent').
+                    addClass("modal-content")
+                )
+            );
+        }
+
+        function onHideModal() {
+            $('#myModal').replaceWith(constructModalDOM());
+        }
+
+        constructModalDOM().appendTo($('#modalContainer'));
+
+    })
+</script>

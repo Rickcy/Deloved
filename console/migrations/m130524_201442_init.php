@@ -17,6 +17,9 @@ class m130524_201442_init extends Migration
         ],$tableOptions);
 
 
+
+
+
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
@@ -119,6 +122,16 @@ class m130524_201442_init extends Migration
         ],$tableOptions);
 
 
+        $this->createTable('{{%tariffs}}',[
+            'id'=>$this->primaryKey(),
+            'months'=>$this->integer()->notNull(),
+            'name'=>$this->string()->notNull(),
+            'price'=>$this->double()->notNull(),
+            'currency_id'=>$this->integer()->notNull()
+        ],$tableOptions);
+
+
+
         $this->createTable('{{%profile_region}}',[
             'id'=>$this->primaryKey(),
             'profile_id'=>$this->integer(),
@@ -128,38 +141,40 @@ class m130524_201442_init extends Migration
 
 
         $this->createIndex('fk_affiliate_account_id','{{%affiliate}}','account_id');
-        $this->addForeignKey('fk_affiliate_account_id','{{%affiliate}}','account_id','{{%account}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_affiliate_account_id','{{%affiliate}}','account_id','{{%account}}','id','CASCADE','CASCADE');
 
 
         $this->createIndex('fk_experience_profile_id','{{%experience}}','profile_id');
-        $this->addForeignKey('fk_experience_profile_id','{{%experience}}','profile_id','{{%profile}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_experience_profile_id','{{%experience}}','profile_id','{{%profile}}','id','CASCADE','CASCADE');
 
 
         $this->createIndex('fk_region_profile_id','{{%profile_region}}','profile_id');
-        $this->addForeignKey('fk_region_profile_id','{{%profile_region}}','profile_id','{{%profile}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_region_profile_id','{{%profile_region}}','profile_id','{{%profile}}','id','CASCADE','CASCADE');
 
+        $this->createIndex('fk_tariff_currency_id','{{%tariffs}}','currency_id');
+        $this->addForeignKey('fk_tariff_currency_id','{{%tariffs}}','currency_id','{{%currency}}','id','CASCADE','CASCADE');
 
        
 
         $this->createIndex('fk_role_id','{{%user}}','role_id');
-        $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_role_id','{{%user}}','role_id','{{%role}}','id','CASCADE','CASCADE');
 
         $this->createIndex('fk_org_form_id','{{%account}}','org_form_id');
-        $this->addForeignKey('fk_org_form_id','{{%account}}','org_form_id','{{%org_form}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_org_form_id','{{%account}}','org_form_id','{{%org_form}}','id','CASCADE','CASCADE');
         
         $this->createIndex('fk_acc_id','{{%account}}','profile_id');
-        $this->addForeignKey('fk_acc_id','{{%account}}','profile_id','{{%profile}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_acc_id','{{%account}}','profile_id','{{%profile}}','id','CASCADE','CASCADE');
 
 
         $this->createIndex('fk_user_logo_id','{{%logo}}','user_id');
         
-        $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','id','CASCADE','CASCADE');
         
 
        
         
         $this->createIndex('fk_user_id','{{%profile}}','user_id');
-        $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','CASCADE','CASCADE');
 
         $this->insert('role',['id'=>1,'role_name'=>'ROLE_NONE']);
         $this->insert('role',['id'=>2,'role_name'=>'ROLE_USER']);

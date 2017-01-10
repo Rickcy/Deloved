@@ -37,7 +37,7 @@ class CurrencyController extends AuthController
         $currency = new Currency();
         if ($currency->load(Yii::$app->request->post())){
             $currency->save();
-            Yii::$app->session->addFlash('success', "Currency Created");
+            Yii::$app->session->addFlash('success', "");
             return $this->redirect(['index']);
         }
         return $this->render('create',[

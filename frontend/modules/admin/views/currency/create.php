@@ -14,7 +14,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
     <h3><?= Html::encode($this->title) ?></h3>
 
-    <?$form =ActiveForm::begin(['id' => 'form-signup', 'options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
+    <?$form =ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
         'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
         'labelOptions' => ['class' => 'col-sm-3 control-label'],
     ]])?>

@@ -28,6 +28,8 @@ class MeasureController extends AuthController
     }
 
 
+
+
     public function actionCreate()
     {
         if (!User::checkRole(['ROLE_ADMIN', 'ROLE_MANAGER'])) {
@@ -48,6 +50,8 @@ class MeasureController extends AuthController
     }
 
 
+
+
     public function actionDelete($id){
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
@@ -59,6 +63,47 @@ class MeasureController extends AuthController
 
     }
 
+
+    public function actionUpdate($id){
+        
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+        $type = CategoryType::find()->all();
+        $measure = $this->findModel($id);
+
+        if (Yii::$app->request->isAjax){
+            return $this->renderAjax('update',[
+                'measure'=>$measure,
+                'type'=>$type
+            ]);
+        }
+
+
+    }
+
+    public function actionEditMeasure($id,$name,$full_name,$type_id){
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
+        $model = Measure::findOne($id);
+
+        if (empty($name)||empty($full_name)||empty($type_id)){
+            Yii::$app->session->addFlash('danger', "Fields is Empty");
+
+        }else{
+            $model->name = $name;
+            $model->full_name = $full_name;
+            $model->type_id = $type_id;
+            $model->save();
+            Yii::$app->session->addFlash('success', "Measure Update");
+        }
+
+        return json_encode(Yii::$app->session->getAllFlashes());
+
+
+    }
 
     protected function findModel($id){
         if (($model = Measure::findOne($id)) !== null){

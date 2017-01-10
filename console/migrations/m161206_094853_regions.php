@@ -1226,17 +1226,17 @@ INSERT INTO region  VALUES (1212, null, 18, "Ярославль", 96);
 
 ');
         $this->createIndex('fk_city_id','{{%account}}','city_id');
-        $this->addForeignKey('fk_city_id','{{%account}}','city_id','{{%region}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_city_id','{{%account}}','city_id','{{%region}}','id','CASCADE','CASCADE');
 
         $this->createIndex('fk_city_id_profile','{{%profile}}','city_id');
-        $this->addForeignKey('fk_city_id_profile','{{%profile}}','city_id','{{%region}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_city_id_profile','{{%profile}}','city_id','{{%region}}','id','CASCADE','CASCADE');
 
         $this->createIndex('fk_city_id_affiliate','{{%affiliate}}','city_id');
-        $this->addForeignKey('fk_city_id_affiliate','{{%affiliate}}','city_id','{{%region}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_city_id_affiliate','{{%affiliate}}','city_id','{{%region}}','id','CASCADE','CASCADE');
 
 
         $this->createIndex('fk_region_id','{{%profile_region}}','region_id');
-        $this->addForeignKey('fk_region_id','{{%profile_region}}','region_id','{{%region}}','id','SET NULL','CASCADE');
+        $this->addForeignKey('fk_region_id','{{%profile_region}}','region_id','{{%region}}','id','CASCADE','CASCADE');
 
 
 

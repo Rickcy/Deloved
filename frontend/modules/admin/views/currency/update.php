@@ -47,10 +47,12 @@ use yii\helpers\Url;
                 var obj = $.parseJSON(data);
 
                 if (obj.success) {
-                    showMessage('success', obj.success);
 
+                    $('#name<?=$currency->id?>').text(name);
+                    $('#code<?=$currency->id?>').text(code);
 
                     $('#myModal').modal('hide');
+                    showMessage('success', obj.success);
                 }
                 if (obj.danger) {
                     showMessage('danger', obj.danger)
