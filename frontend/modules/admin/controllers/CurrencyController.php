@@ -37,7 +37,7 @@ class CurrencyController extends AuthController
         $currency = new Currency();
         if ($currency->load(Yii::$app->request->post())){
             $currency->save();
-            Yii::$app->session->addFlash('success', "");
+            Yii::$app->session->addFlash('success', Yii::t('app', 'New Currency created'));
             return $this->redirect(['index']);
         }
         return $this->render('create',[
@@ -70,7 +70,7 @@ class CurrencyController extends AuthController
         $model=Currency::findOne($id);
 
         if (empty($code)||empty($name)){
-            Yii::$app->session->addFlash('danger', "Fields is Empty");
+            Yii::$app->session->addFlash('danger', Yii::t('app', 'Fill in all the fields'));
         }else{
             $model->code = $code;
             $model->name = $name;

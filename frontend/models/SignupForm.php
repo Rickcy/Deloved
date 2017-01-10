@@ -106,7 +106,6 @@ class SignupForm extends Model
         $profile->city_id=$profile->returnCity_id($this->profile_city);
         $profile->email=$user->email;
         $profile->user_id=$user->id;
-        $profile->avatar_id=null;
         $profile->created_at=time();
         $profile->updated_at=time();
         $profile->save();

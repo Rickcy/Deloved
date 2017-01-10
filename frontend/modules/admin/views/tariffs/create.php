@@ -40,7 +40,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         ]);?>
 
 
-    <div class="form-group">
+    <div class="form-btn">
         <?= Html::submitButton(Yii::t('app', 'Create Tariff'), ['class' =>  'btn create-btn btn-md btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Cancel'), ['index'],['class' =>  'btn create-btn btn-md btn-default']) ?>
 

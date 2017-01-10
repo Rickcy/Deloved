@@ -36,9 +36,9 @@ use yii\helpers\Url;
         id =<?=$currency->id?>;
         code = $('#currency-code').val();
         name = $('#currency-name').val();
-        console.log(id)
-        console.log(code)
-        console.log(name)
+        console.log(id);
+        console.log(code);
+        console.log(name);
         
         $.ajax({
             type:'POST',
@@ -48,7 +48,7 @@ use yii\helpers\Url;
 
                 if (obj.success) {
 
-                    $('#name<?=$currency->id?>').text(name);
+                    $('#name<?=$currency->id?> >a').text(name);
                     $('#code<?=$currency->id?>').text(code);
 
                     $('#myModal').modal('hide');

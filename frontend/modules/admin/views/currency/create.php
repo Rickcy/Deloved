@@ -29,7 +29,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 //    echo $form->field($currency, 'type_id')->dropDownList($items)->label('Категория')?>
 
 
-    <div class="form-group">
+    <div class="form-btn">
         <?= Html::submitButton(Yii::t('app', 'Create Currency'), ['class' =>  'btn create-btn btn-md btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Cancel'), ['index'],['class' =>  'btn create-btn btn-md btn-default']) ?>
 

@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
 /* @var $profile common\models\Profile */
-$profile =$user->getProfiles()->one();
+$profile =$user->getProfile()->one();
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['front/reset-password', 'token' => $user->password_reset_token]);
 ?>
 Здравствуйте  <?= $profile->fio ?>,<br/>

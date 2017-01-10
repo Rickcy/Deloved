@@ -47,7 +47,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             <?
             echo AutoComplete::widget([
                 'name'=>'profile_city',
-                'value'=>$profile->city->name,
+                'value'=>isset($profile->city->name)?$profile->city->name:'',
                 'id'=>'city',
 
 
@@ -59,7 +59,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 ],
                 'options'=>[
                     'placeholder'=>'Отсутствует',
-                    'data-old'=>$profile->city->name,
+                    'data-old'=>isset($profile->city->name)?$profile->city->name:'',
                     'readonly'=>true,
                      'class'=>'form-control'
                 ]
@@ -85,7 +85,7 @@ $user = User::findIdentity(Yii::$app->user->id);
     </div>
 
 
-    <?if (in_array($user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
+    <?if (in_array($user->role->role_name, ['ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
         <div class="row">
             <div class="col-sm-3 label-col ft  col-sm-offset-1">
                 <label for="experience">Experience</label>

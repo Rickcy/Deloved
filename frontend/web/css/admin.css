@@ -15,6 +15,27 @@
     -moz-box-shadow: 0 0 10px #94c43d;
     box-shadow: 0 0 10px #94c43d;
 }
+.active-item{
+    background-color: #b7b6bb;
+    padding-left: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+
+}
+.active-item>a{
+   color: whitesmoke!important;
+
+}
+.admin_menu_business li.active-item a:hover,.admin_menu li.active-item a:hover{
+    padding-left: 0;
+    background-color: inherit;
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+.form-btn{
+    float: right;
+}
+
 .hlogo {
     float: left;
     height: 60px;
@@ -121,7 +142,7 @@ ul{
 }
 
 
-.admin_menu li a {
+.admin_menu_business li a,.admin_menu li a {
     display: block;
     text-decoration: none !important;
     padding-top: 5px;
@@ -129,7 +150,11 @@ ul{
     color: #428bca;
     font-size: 12pt;
 }
-.admin_menu li a:hover {
+.admin_menu_business{
+    margin-bottom: 0!important;
+}
+
+.admin_menu_business li a:hover,.admin_menu li a:hover {
     padding-left: 5px;
     background-color: #f4f4f4;
     box-shadow: 0 0 10px #d1d1d1;

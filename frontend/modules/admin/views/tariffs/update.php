@@ -70,7 +70,7 @@ use yii\helpers\Url;
 
                 if (obj.success) {
                     
-                    $('#name<?=$tariff->id?>').text(name);
+                    $('#name<?=$tariff->id?> >a').text(name);
                     $('#price<?=$tariff->id?>').text(price);
                     $('#code<?=$tariff->id?>').text(currency_text);
 
