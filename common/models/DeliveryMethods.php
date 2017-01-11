@@ -5,21 +5,21 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "suggestion_cat".
+ * This is the model class for table "delivery_methods".
  *
  * @property integer $id
  * @property string $name
  *
- * @property Suggestion[] $suggestions
+ * @property Goods[] $goods
  */
-class SuggestionCat extends \yii\db\ActiveRecord
+class DeliveryMethods extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'suggestion_cat';
+        return 'delivery_methods';
     }
 
     /**
@@ -28,7 +28,6 @@ class SuggestionCat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -47,8 +46,8 @@ class SuggestionCat extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getSuggestions()
+    public function getGoods()
     {
-        return $this->hasMany(Suggestion::className(), ['sug_category_id' => 'id']);
+        return $this->hasMany(Goods::className(), ['delivery_methods_id' => 'id']);
     }
 }

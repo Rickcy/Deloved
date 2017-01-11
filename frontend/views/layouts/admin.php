@@ -63,6 +63,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                         ['label' => Yii::t('app', 'Content-blocks'), 'url' => ['/#']],
                         ['label' => Yii::t('app', 'Currency'), 'url' => ['/admin/currency/index']],
                         ['label' => Yii::t('app', 'Tariffs'), 'url' => ['/admin/tariffs/index']],
+                        ['label' => Yii::t('app', 'Additional'), 'url' => ['/admin/additional/index']],
 
                     ],
                     'options' => [ 'class'=>'admin_menu'],
@@ -213,7 +214,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'), 'url' => ['/#']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'), 'url' => ['/admin/goods/index']];
                     $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'), 'url' => ['/#']];
                 }
 

@@ -1,7 +1,7 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'language' => 'en-US',
+    'language' => 'ru-RU',
     'components' => [
         'i18n' => [
         'translations' => [
