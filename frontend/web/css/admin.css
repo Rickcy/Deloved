@@ -24,6 +24,9 @@
     margin: 0 auto;
     color: white;
 }
+.badge{
+    margin-left: 5px;
+}
 .btn-green:hover{
     background-color: #82ae36;
     color: white

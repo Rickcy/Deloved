@@ -151,6 +151,7 @@ class AccountController extends AuthController
         if ($model->load(Yii::$app->request->post())) {
 
             $model->city_id=$model->returnCity_id($model->city_name);
+            $model->date_reg = $model->returnDate($model->date);
             $model->save();
             $file =$model->file=UploadedFile::getInstance($model,'file');
             if ($file){

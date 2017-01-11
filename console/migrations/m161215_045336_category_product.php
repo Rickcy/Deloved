@@ -316,6 +316,34 @@ class m161215_045336_category_product extends Migration
         ],$tableOptions);
 
 
+        $this->createTable('{{%goods}}',[
+            'id'=>$this->primaryKey(),
+            'name'=>$this->string()->notNull(),
+            'price'=>$this->double(),
+            'model'=>$this->string(),
+            'description'=>$this->text(),
+            'availability'=>$this->integer()->notNull(),
+            'rating_count'=>$this->integer()->defaultValue(0),
+            'rating_good'=>$this->integer()->defaultValue(0),
+            'condition'=>$this->integer(),
+            'payment_methods'=>$this->integer(),
+            'delivery_methods'=>$this->integer(),
+            'account_id'=>$this->integer()->notNull(),
+            'category_type_id'=>$this->integer()->notNull(),
+            'category_id'=>$this->integer()->notNull(),
+            'date_created'=>$this->integer(),
+            'show_main'=>$this->integer()->defaultValue(0),
+            'photo_id'=>$this->integer(),
+            'measure_id'=>$this->integer()->notNull(),
+            'currency_id'=>$this->integer()->notNull()
+            
+        ],$tableOptions);
+
+        $this->createTable('{{%services}}',[
+
+        ],$tableOptions);
+
+
         $this->createIndex('fk_type_measure_id','{{%measure}}','type_id');
         $this->addForeignKey('fk_type_measure_id','{{%measure}}','type_id','{{%category_type}}','id','CASCADE','CASCADE');
         

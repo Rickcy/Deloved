@@ -26,13 +26,13 @@ use frontend\widgets\Suggestion;
                 
                 <!--Если пользователь не является гостем-->
                 <?if(!Yii::$app->user->isGuest):?>
-                    <li><a href="/admin">Связаться с нами</a></li>
+                    <li><a href="/#">Связаться с нами</a></li>
                 <?endif;?>
 
 
                 <!--Если пользователь является гостем-->
                 <?  if(Yii::$app->user->isGuest):?>
-                    <li><a href="#">Отзывы или предложения</a></li>
+                    <li><a href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
                 <?endif?>
 
                 <!--Если пользователь не является гостем-->
@@ -80,5 +80,10 @@ use frontend\widgets\Suggestion;
     echo Suggestion::widget();
 }
 ?>
+    <script>
+        function noAuth() {
+            $('#Login').modal('show');
+        }
+    </script>
 
 

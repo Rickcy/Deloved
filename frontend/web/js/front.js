@@ -3,6 +3,8 @@ $(document).ready(function(){
     if(hash == '#loginmodal'){
        
         $('#Login').modal('show');
+        
+       
     }
 
 

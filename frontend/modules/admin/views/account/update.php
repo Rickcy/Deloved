@@ -139,7 +139,19 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
             <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true]) ?>
 
+            <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-5">{input}{error}{hint}</div>'])->widget(
+                DatePicker::className(), [
+                'options'=>[
+                    'value'=>$model->date_reg!=null?Yii::$app->formatter->asDatetime($model->date_reg, "php:m/d/y"):''
+                ],
+                'type' => 2,
+                'pluginOptions' => [
+                    'autoclose'=>true,
+                    'format' => 'm/d/yy',
 
+
+                ]
+            ])->label('Срок подписки');?>
 
         </div>
 
