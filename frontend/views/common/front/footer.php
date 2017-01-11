@@ -3,6 +3,7 @@ use frontend\widgets\ChangePassword;
 use frontend\widgets\Contact;
 use frontend\widgets\Login;
 use frontend\widgets\PasswordReset;
+use frontend\widgets\Suggestion;
 
 ?>
 <div id="footer">
@@ -25,10 +26,20 @@ use frontend\widgets\PasswordReset;
                 
                 <!--Если пользователь не является гостем-->
                 <?if(!Yii::$app->user->isGuest):?>
-                    <li><a href="#">Связаться с нами</a></li>
+                    <li><a href="/admin">Связаться с нами</a></li>
                 <?endif;?>
 
-                <li><a href="#">Отзывы или предложения</a></li>
+
+                <!--Если пользователь является гостем-->
+                <?  if(Yii::$app->user->isGuest):?>
+                    <li><a href="#">Отзывы или предложения</a></li>
+                <?endif?>
+
+                <!--Если пользователь не является гостем-->
+                <?if(!Yii::$app->user->isGuest):?>
+                    <li><a href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
+                <?endif;?>
+
 
             </ul>
              </div>
@@ -63,6 +74,10 @@ use frontend\widgets\PasswordReset;
 ?>
 <?if(Yii::$app->user->isGuest) {
     echo PasswordReset::widget();
+}
+?>
+<?if(!Yii::$app->user->isGuest) {
+    echo Suggestion::widget();
 }
 ?>
 

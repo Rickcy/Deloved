@@ -139,6 +139,27 @@ class m130524_201442_init extends Migration
         ],$tableOptions);
 
 
+        $this->createTable('{{%suggestion_cat}}',[
+            'id'=>$this->primaryKey(),
+            'name'=>$this->string()->notNull()
+        ],$tableOptions);
+
+        $this->createTable('{{%suggestion}}',[
+            'id'=>$this->primaryKey(),
+            'content'=>$this->text()->notNull(),
+            'date_published'=>$this->integer()->notNull(),
+            'author_id'=>$this->integer()->notNull(),
+            'sug_category_id'=>$this->integer()->notNull(),
+        ],$tableOptions);
+
+
+        $this->createIndex('fk_suggestion_author_id','{{%suggestion}}','author_id');
+        $this->addForeignKey('fk_suggestion_author_id','{{%suggestion}}','author_id','{{%profile}}','id','CASCADE','CASCADE');
+
+
+        $this->createIndex('fk_suggestion_cat_id','{{%suggestion}}','sug_category_id');
+        $this->addForeignKey('fk_suggestion_cat_id','{{%suggestion}}','sug_category_id','{{%suggestion_cat}}','id','CASCADE','CASCADE');
+
 
         $this->createIndex('fk_affiliate_account_id','{{%affiliate}}','account_id');
         $this->addForeignKey('fk_affiliate_account_id','{{%affiliate}}','account_id','{{%account}}','id','CASCADE','CASCADE');

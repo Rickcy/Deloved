@@ -12,19 +12,19 @@ use yii\helpers\Url;
             'validationUrl' => Url::to(['/validate/login']),
         ])
         ?>
-        <h3 >Вход в личный кабинет</h3>
-        <h5 >Чтобы управлять своей компанией, а также вести сделки, нужно авторизоваться в системе.
-            Если вы еще не зарегистрированны, можете сделать это <?= Html::a('здесь', ['/front/signup/']) ?> </h5>
-        <?=$form->field($model,'username')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>'Имя']) ?>
+        <h3 ><?=Yii::t('app', 'The entrance to personal Cabinet')?></h3>
+        <h5 ><?=Yii::t('app', 'To manage your company, and also to conduct transactions, you need to log into the system. If you have not yet registered can do so ')?>
+            <?= Html::a(Yii::t('app', 'here'), ['/front/signup/']) ?> </h5>
+        <?=$form->field($model,'username')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>Yii::t('app', 'Username')]) ?>
 
-        <?=$form->field($model,'password')->passwordInput(['class'=>'user_form-control form-control','placeholder'=>'Пароль'])->label('') ?>
+        <?=$form->field($model,'password')->passwordInput(['class'=>'user_form-control form-control','placeholder'=>Yii::t('app', 'Password')])->label('') ?>
 
 <!--        <a href="#" data-target="#resetPassword" data-dismiss="modal" data-toggle="modal" style="float: left">Забыли пароль?</a>-->
-        <?= Html::a('Забыли пароль?', ['/#'],['data-dismiss'=>'modal','data-toggle'=>'modal', 'data-target'=>'#resetPassword','style'=>'float: left']) ?>
+        <?= Html::a(Yii::t('app', 'Are you forgot password?'), ['/#'],['data-dismiss'=>'modal','data-toggle'=>'modal', 'data-target'=>'#resetPassword','style'=>'float: left']) ?>
 
-        <?=$form->field($model,'rememberMe')->checkbox()->label('Запомнить меня',['style'=>'float:right']) ?>
+        <?=$form->field($model,'rememberMe')->checkbox()->label(Yii::t('app', 'Remember me'),['style'=>'float:right']) ?>
         <div class="clearfix"></div>
-        <?=Html::submitButton('Войти',['class'=>'btn btn-lg btn-green btn-block '])?>
+        <?=Html::submitButton(Yii::t('app', 'Login'),['class'=>'btn btn-lg btn-green btn-block '])?>
 
         <?ActiveForm::end()?>
 

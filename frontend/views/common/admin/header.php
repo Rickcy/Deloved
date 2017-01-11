@@ -12,13 +12,13 @@ $profile =$user->getProfile()->one();
 	<div class="col-xs-12 col-sm-10">
 
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#">Главная</a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Home')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#">Партнеры</a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Companies')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#">Товары</a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Goods')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;" href="#">Услуги</a>
+		<a class="hmenu" style="font-family: Georgia, serif;" href="#"><?=Yii::t('app', 'Services')?></a>
 
 
 
@@ -37,12 +37,12 @@ $profile =$user->getProfile()->one();
             <?endif;?>
             <div id="info">
 
-				<a href="/admin/profile/show" class="info-menu" >Мой профиль</a>
+				<a href="/admin/profile/show" class="info-menu" ><?=Yii::t('app', 'My Profile')?></a>
 
                 <?if ($user->checkRole(['ROLE_USER'])):?>
-					<a href="#" class="info-menu">Лицевой счет</a>
+					<a href="#" class="info-menu"><?=Yii::t('app', 'Personal Invoice')?></a>
 				<?endif;?>
-				<a href="/admin/default/logout" data-method="post" class="info-menu">    Выйти</a>
+				<a href="/admin/default/logout" data-method="post" class="info-menu"><?=Yii::t('app', 'Logout')?></a>
 
 
 			</div>

@@ -23,11 +23,11 @@ use yii\bootstrap\Nav;
                 <?php $guest = Yii::$app->user->isGuest;
                 $menuItems = [];
                 if($guest) {
-                    $menuItems[]=['label' => '   Регистрация', 'url' => ['/front/signup']];
-                    $menuItems[]= ['label' => '    В Кабинет', 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => 'modal']];
+                    $menuItems[]=['label' => Yii::t('app', 'Sign Up'), 'url' => ['/front/signup']];
+                    $menuItems[]= ['label' => Yii::t('app', 'Login'), 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => 'modal']];
                 }else{
-                    $menuItems[]=['label' => '   В Кабинет', 'url' => ['/admin/']];
-                    $menuItems[]= ['label' => '    Выйти', 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
+                    $menuItems[]=['label' => Yii::t('app', 'Cabinet'), 'url' => ['/admin/']];
+                    $menuItems[]= ['label' => Yii::t('app', 'Logout'), 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
 
                 }
                 echo Nav::widget([
@@ -58,11 +58,11 @@ use yii\bootstrap\Nav;
 <div class="row">
 
                  <div class=layer>
-                     <a href="#" class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span>ПАРТНЕРЫ </a>
-                     <a href="#" class="" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> ТОВАРЫ</a>
-                     <a href="#"	class="" ><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> УСЛУГИ</a>
-                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> О ПРОЕКТЕ</a>
-                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> ТАРИФЫ</a>
+                     <a href="#" class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span><?=Yii::t('app', 'Companies')?> </a>
+                     <a href="#" class="" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Goods')?></a>
+                     <a href="#"	class="" ><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Services')?></a>
+                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'About Us')?></a>
+                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Tariffs')?></a>
 
                  </div>
 
@@ -72,7 +72,7 @@ use yii\bootstrap\Nav;
         <form  method="POST">
 
             <div class="input-group col-md-11  col-sm-11 col-xs-11">
-                <input required="" name="search" class="form-control" style="height: 45px;font-size: 15pt;box-shadow: inset 0 0 15px #e2e2e2" value="" placeholder="Поиск"/>
+                <input required="" name="search" class="form-control" style="height: 45px;font-size: 15pt;box-shadow: inset 0 0 15px #e2e2e2" value="" placeholder="<?=Yii::t('app', 'Search')?>"/>
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit" style="height: 45px;margin-right: 5px;background-color:#94c43d"><span class="glyphicon glyphicon-search" style="padding: 10px;font-size: 15pt;color: white"></span> </button>
 					</span>
@@ -82,7 +82,7 @@ use yii\bootstrap\Nav;
         <!--конец формы-->
         <div class="search_block">
 
-            <a class="search_link">Расширенный поиск</a>
+            <a class="search_link"><?=Yii::t('app', 'Advanced search')?></a>
 
         </div>
 

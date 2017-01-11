@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'form-signup', 'options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
                 'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
                 'labelOptions' => ['class' => 'col-sm-3 control-label'],
-            ],]); ?>
+            ]]); ?>
             <h1 style="font-weight: bold;text-align:left!important;color:rgb(148, 196, 61)"><?= Html::encode($this->title) ?>
                 <div style="background-image: linear-gradient(270deg, rgb(248, 215, 53), rgb(148, 196, 61) 110%);
 			width: 98%;

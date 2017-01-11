@@ -2,11 +2,19 @@
 return [
     //MENU
     'Home' => 'Главная страница',
+    'Sign Up' => 'Регистрация',
+    'Login' => 'Войти',
+    'Cabinet' => 'В Кабинет',
+    'About Us' => 'О ПРОЕКТЕ',
+    'Companies' => 'Партнеры',
+    'My Profile' => 'Мой профиль',
     'Categories' => 'Категории',
     'Measure' => 'Единицы измерения',
     'Content-blocks' => 'Контент-блоки',
     'Currency' => 'Валюты',
     'Tariffs' => 'Тарифы',
+    'Search' => 'Поиск',
+    'Advanced search' => 'Расширенный поиск',
     'Information' => 'Справочники',
     'Feedback' => 'Обратная связь',
     'Contact us' => 'Связаться с нами',
@@ -17,8 +25,10 @@ return [
     'Profiles' => 'Профили',
     'Billing' => 'Биллинг',
     'Invoices for payment' => 'Счета на оплату',
+    'Personal Invoice' => 'Лицевой счет',
     'Business' => 'Бизнес',
     'Accounts' => 'Предприятия',
+    'My Account' => 'Мои данные',
     'Deals' => 'Сделки',
     'Reviews' => 'Отзывы',
     'Goods' => 'Товары',
@@ -30,7 +40,20 @@ return [
     'Legal advice' => 'Помощь юриста',
     'Forms of documents' => 'Формы документов',
     'Technical support' => 'Помощь специалиста',
-   //
+    'Logout' => 'Выйти',
+
+    //Login
+    'To manage your company, and also to conduct transactions, you need to log into the system. If you have not yet registered can do so ' => 'Чтобы управлять своей компанией, а также вести сделки, нужно авторизоваться в системе. Если вы еще не зарегистрированны, можете сделать это ',
+    'here' => ' здесь',
+    'The entrance to personal Cabinet' => 'Вход в личный кабинет',
+    'Username' => 'Имя',
+    'Password' => 'Пароль',
+    'Remember me' => 'Запомнить меня',
+    'Are you forgot password?' => 'Забыли пароль?',
+
+
+
+
 
     'GOOD' => 'Категория товаров',
     'SERVICE' => 'Категория услуг',

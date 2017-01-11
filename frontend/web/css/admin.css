@@ -15,6 +15,24 @@
     -moz-box-shadow: 0 0 10px #94c43d;
     box-shadow: 0 0 10px #94c43d;
 }
+.btn-blue{
+    background-color: #4b7bbe;
+}
+.btn-blue,.btn-green{
+
+    width: 50%;
+    margin: 0 auto;
+    color: white;
+}
+.btn-green:hover{
+    background-color: #82ae36;
+    color: white
+}
+.btn-blue:hover{
+    background-color: #3b6197;
+    color: white
+}
+
 .active-item{
     background-color: #b7b6bb;
     padding-left: 10px;

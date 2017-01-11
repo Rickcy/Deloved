@@ -10,6 +10,7 @@ use common\models\Tariffs;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
+use frontend\models\SuggestionForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -29,6 +30,7 @@ class ValidateController extends Controller{
                 'actions' => [
                     'login' => ['get', 'post'],
                     'contact' => ['get', 'post'],
+                    'suggestion' => ['get', 'post'],
                     'reset' => ['get', 'post'],
                     'change' => ['get', 'post'],
                     'profile' => ['get', 'post'],
@@ -55,6 +57,14 @@ class ValidateController extends Controller{
 
     public function actionContact(){
         $model = new ContactForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
+    public function actionSuggestion(){
+        $model = new SuggestionForm();
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);

@@ -38,7 +38,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         <?
         echo Menu::widget([
             'items' => [
-                ['label' => 'Главная страница', 'url' => ['/admin/default/index']],
+                ['label' => Yii::t('app', 'Home'), 'url' => ['/admin/default/index']],
 
             ],
             'options' => [ 'class'=>'admin_menu'],
@@ -50,7 +50,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
         <?if ($user->checkRole(['ROLE_ADMIN'])):?>
 
-            <h1 class="ft">Справочники</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Information')?></h1>
 
             <div class="ug"></div>
 
@@ -58,11 +58,11 @@ $user = User::findIdentity(Yii::$app->user->id);
                 <?
                 echo Menu::widget([
                     'items' => [
-                        ['label' => 'Категории', 'url' => ['/admin/category/index']],
-                        ['label' => 'Единицы измерения', 'url' => ['/admin/measure/index']],
-                        ['label' => 'Контент-блоки', 'url' => ['/#']],
-                        ['label' => 'Валюты', 'url' => ['/admin/currency/index']],
-                        ['label' => 'Тарифы', 'url' => ['/admin/tariffs/index']],
+                        ['label' => Yii::t('app', 'Categories'), 'url' => ['/admin/category/index']],
+                        ['label' => Yii::t('app', 'Measure'), 'url' => ['/admin/measure/index']],
+                        ['label' => Yii::t('app', 'Content-blocks'), 'url' => ['/#']],
+                        ['label' => Yii::t('app', 'Currency'), 'url' => ['/admin/currency/index']],
+                        ['label' => Yii::t('app', 'Tariffs'), 'url' => ['/admin/tariffs/index']],
 
                     ],
                     'options' => [ 'class'=>'admin_menu'],
@@ -78,17 +78,17 @@ $user = User::findIdentity(Yii::$app->user->id);
         <?if ($user->checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])):?>
 
 
-            <h1 class="ft">Обратная связь</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Feedback')?></h1>
             <div class="ug"></div>
 
                 <?
                 $menuItemsFeedback = [];
-            $menuItemsFeedback[]=['label' => 'Связаться с нами ', 'url' => ['/#']];
+            $menuItemsFeedback[]=['label' => Yii::t('app', 'Contact us'), 'url' => ['/admin/suggestion/show']];
                 if ($user->checkRole(['ROLE_ADMIN'])){
 
-                    $menuItemsFeedback[]= ['label' => 'Категории связи', 'url' => ['/#']];
+                    $menuItemsFeedback[]= ['label' => Yii::t('app', 'Category communication'), 'url' => ['/admin/suggestion/index']];
                 }
-            $menuItemsFeedback[]= ['label' => 'Служба поддержки', 'url' => ['/#']];
+            $menuItemsFeedback[]= ['label' => Yii::t('app', 'Support'), 'url' => ['/#']];
 
                 echo Menu::widget([
                     'items' =>$menuItemsFeedback ,
@@ -107,15 +107,15 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
 
-            <h1 class="ft">Пользователи</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Users')?></h1>
 
             <div class="ug"></div>
 
             <?
             echo Menu::widget([
                 'items' => [
-                    ['label' => 'Учетные записи', 'url' => ['/admin/user/index']],
-                    ['label' => 'Профили', 'url' => ['/admin/profile/index']],
+                    ['label' => Yii::t('app', 'Users list'), 'url' => ['/admin/user/index']],
+                    ['label' => Yii::t('app', 'Profiles'), 'url' => ['/admin/profile/index']],
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],
@@ -130,13 +130,13 @@ $user = User::findIdentity(Yii::$app->user->id);
 
         <?if ($user->checkRole(['ROLE_ADMIN'])):?>
 
-            <h1 class="ft">Биллинг</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Billing')?></h1>
 
             <div class="ug"></div>
             <?
             echo Menu::widget([
                 'items' => [
-                    ['label' => 'Счета на оплату', 'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Invoices for payment'), 'url' => ['/#']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],
@@ -151,7 +151,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
 
-            <h1 class="ft">Бизнес</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Business')?></h1>
 
             <div class="ug"></div>
 
@@ -162,12 +162,12 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])){
 
-                    $menuItemsBusiness[]= ['label' => 'Предприятия', 'url' => ['/admin/account/index']];
+                    $menuItemsBusiness[]= ['label' => Yii::t('app', 'Accounts'), 'url' => ['/admin/account/index']];
                 }
 
                 if ($user->checkRole(['ROLE_USER'])){
 
-                    $menuItemsBusiness[]= ['label' => 'Мои данные', 'url' => ['/admin/account/show']];
+                    $menuItemsBusiness[]= ['label' => Yii::t('app', 'My Account'), 'url' => ['/admin/account/show']];
                 }
 
                 echo Menu::widget([
@@ -189,13 +189,13 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => 'Сделки', 'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Deals'), 'url' => ['/#']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => 'Отзывы', 'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Reviews'), 'url' => ['/#']];
 
                 }
 
@@ -213,8 +213,8 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness4[]= ['label' => 'Товары', 'url' => ['/#']];
-                    $menuItemsBusiness4[]= ['label' => 'Услуги', 'url' => ['/#']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'), 'url' => ['/#']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'), 'url' => ['/#']];
                 }
 
 
@@ -240,7 +240,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])){
 
-                    $menuItemsBusiness3[]= ['label' => 'Рекламные материалы', 'url' => ['/#']];
+                    $menuItemsBusiness3[]= ['label' => Yii::t('app', 'Advertising material'), 'url' => ['/#']];
 
                 }
 
@@ -262,7 +262,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         <?if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST','ROLE_JUDGE'])):?>
 
 
-            <h1 class="ft">Юриспрудеция</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Jurisprudence')?></h1>
             <div class="ug"></div>
             <ul class="admin_menu">
                 <?
@@ -277,20 +277,20 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR'])){
 
-                    $menuItemsJurist3[]= ['label' => 'Споры', 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Disputes'), 'url' => ['/#']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JUDGE','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => 'Иски', 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Claims'), 'url' => ['/#']];
 
                 }
 
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JURIST','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => 'Помощь юриста', 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Legal advice'), 'url' => ['/#']];
 
                 }
 
@@ -308,7 +308,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                     <?
                     echo Menu::widget([
                         'items' => [
-                            ['label' => 'Формы документов', 'url' => ['/#']]
+                            ['label' => Yii::t('app', 'Forms of documents'), 'url' => ['/#']]
 
                         ],
                         'options' => [ 'class'=>'admin_menu'],
@@ -326,12 +326,12 @@ $user = User::findIdentity(Yii::$app->user->id);
         <?if ($user->checkRole(['ROLE_MANAGER','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_JURIST','ROLE_USER'])):?>
 
 
-            <h1 class="ft">Служба поддержки</h1>
+            <h1 class="ft"><?=Yii::t('app', 'Support')?></h1>
             <div class="ug"></div>
             <?
             echo Menu::widget([
                 'items' => [
-                    ['label' => 'Помощь специалиста', 'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Technical support'), 'url' => ['/#']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],
