@@ -38,7 +38,6 @@ class SuggestionForm extends Model
         }
         $user = User::findOne(Yii::$app->user->id);
         $suggestion = new Suggestion();
-        $suggestion->title =$this->title;
         $suggestion->content =$this->content;
         $suggestion->date_published =time();
         $suggestion->sug_category_id =$this->suggestion_cat;

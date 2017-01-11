@@ -28,7 +28,7 @@ use yii\helpers\Url;
 
                 <?
                 $items = ArrayHelper::map($suggestion_cat,'id','name');
-                echo $form->field($model, 'suggestion_cat')->label('')->dropDownList($items,['class'=>'contact_form-control form-control'])?>
+                echo $form->field($model, 'suggestion_cat')->label('')->dropDownList($items,['class'=>'contact_form-control form-control','prompt' => Yii::t('app', 'Select category')])?>
 
 
 
