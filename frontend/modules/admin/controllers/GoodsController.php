@@ -10,6 +10,7 @@ use common\models\DeliveryMethods;
 use common\models\Measure;
 use common\models\PaymentMethods;
 use common\models\User;
+use frontend\models\UploadForm;
 use Yii;
 use common\models\Goods;
 use common\models\search\GoodsSearch;
@@ -17,6 +18,7 @@ use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * GoodsController implements the CRUD actions for Goods model.
@@ -74,7 +76,9 @@ class GoodsController extends AuthController
         $paymentMethods = PaymentMethods::find()->all();
         $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
         $myCategory =$account->getCategory()->all();
-      
+       
+
+
         if ($model->load(Yii::$app->request->post())) {
 
             $model->date_created = time();
@@ -87,8 +91,12 @@ class GoodsController extends AuthController
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
         }
+       
+
+        
         else {
             return $this->render('create', [
+                
                 'model' => $model,
                 'measure'=>$measure,
                 'currency'=>$currency,
@@ -101,6 +109,23 @@ class GoodsController extends AuthController
         }
     }
 
+    
+    
+    public function actionUpload(){
+        $model = new Goods();
+    if (Yii::$app->request->isAjax){
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->image) {
+                Yii::$app->session->addFlash('success', 'You has Image');
+                return $this->refresh();
+            }
+        return $this->refresh();
+        }
+        
+        
+    }
+    
+    
     /**
      * Updates an existing Goods model.
      * If update is successful, the browser will be redirected to the 'view' page.

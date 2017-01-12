@@ -11,10 +11,16 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$session = Yii::$app->session;
+if ($session->has('lang')){
+    $lang = $session->get('lang');
+}else{
+    $lang = Yii::$app->language;
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language=$lang ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -55,6 +55,7 @@ class FrontController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    
                 ],
             ],
         ];
@@ -115,6 +116,11 @@ class FrontController extends Controller
             ]);
         }
     }
+
+
+
+   
+
 
     /**
      * Logs out the current user.

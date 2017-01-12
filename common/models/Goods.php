@@ -39,6 +39,8 @@ use Yii;
  */
 class Goods extends \yii\db\ActiveRecord
 {
+
+    public $image;
     /**
      * @inheritdoc
      */
@@ -67,6 +69,7 @@ class Goods extends \yii\db\ActiveRecord
             [['measure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Measure::className(), 'targetAttribute' => ['measure_id' => 'id']],
             [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
             [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
+            ['image', 'file', 'skipOnEmpty' => false, 'extensions' => 'png,jpg']
         ];
     }
 

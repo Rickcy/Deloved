@@ -50,7 +50,8 @@ use frontend\widgets\Suggestion;
     <div class="bottom_block" >
         <div class="container">
             <div class="row">
-        <div class="col-xs-5 col-sm-5 " ><img  src="/images/front/logo_footer.gif">
+                <div style="margin-top: 2%" class="col-xs-1"><b class="lang"  id="lang_ru">RU</b>|<b class="lang" id="lang_en">EN</b></div>
+        <div class="col-xs-4 col-sm-4 " ><img  src="/images/front/logo_footer.gif">
 			<span class="hidden-sm hidden-xs about-del">
 			Бизнес портал товаров и услуг<br/>
 			Все права защищены &copy; 2015
@@ -84,6 +85,24 @@ use frontend\widgets\Suggestion;
         function noAuth() {
             $('#Login').modal('show');
         }
-    </script>
 
+    </script>
+    <script>
+        $(function () {
+            $('.lang').click(function () {
+                    var $lang =$(this).text();
+                $.ajax({
+                    type:'POST',
+                    url:'/admin/default/change-language?lang='+$lang,
+                    success:function () {
+
+                    },
+                    error:function () {
+
+                    }
+                });
+
+            })
+        })
+    </script>
     

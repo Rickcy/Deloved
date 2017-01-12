@@ -10,6 +10,9 @@ div.required label.control-label:after {
     content: " *";
     color: red;
 }
+.lang{
+    cursor: pointer;
+}
 .icovideo:hover{
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);

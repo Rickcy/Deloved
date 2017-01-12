@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="goods-create">
 
-        <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
+        <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal','enctype' => 'multipart/form-data'], 'fieldConfig' => [
             'template' => '<div class="col-sm-3 control-label">{label}</div><div class="col-sm-7">{input}</div><div class="col-sm-7 col-sm-offset-3">{error}</div>',
         ]]); ?>
 
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-        <?= $form->field($model, 'photo_id')->textInput() ?>
+        <?= $form->field($model, 'photo_id')->fileInput(['id'=>'imgInput']) ?>
 
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
@@ -177,3 +177,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+<script>
+
+        $('#imgInput').change(function () {
+           
+        })
+
+
+</script>
