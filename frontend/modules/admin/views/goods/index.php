@@ -12,24 +12,29 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Goods');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
-Yii::$app->formatter->timeZone = 'UTC';
+$session = Yii::$app->session;
+$timeZone = $session->get('timeZone');
 ?>
 <div class="goods-index">
+<?//=$array = DateTimeZone::listIdentifiers();
+//foreach($array as $value):?>
+<!--    <p>--><?//=$value?><!--</p>-->
+<?//endforeach;?>
 
     <h3><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Goods'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <?if ($user->checkRole(['ROLE_USER'])):?>
+        <div class="buttons">
+            <?= Html::a(Yii::t('app', 'Create good'), ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+    <?endif;?>
     <div class="table-responsive">
         <table border="0" class="table table-striped">
             <thead class="thead-main">
             <tr>
 
                 <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-                <td><?=Yii::t('app', 'Account')?></td>
+                <td><?=Yii::t('app', 'Accounts')?></td>
                 <?endif;?>
 
                 <td><?=Yii::t('app', 'Name')?></td>
@@ -50,7 +55,7 @@ Yii::$app->formatter->timeZone = 'UTC';
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
                     <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td>
-                        <?=$good->getAccount()->one()->fio ?>
+                        <?=$good->getAccount()->one()->full_name ?>
                     </td>
                     <?endif;?>
                     <td>
@@ -58,10 +63,10 @@ Yii::$app->formatter->timeZone = 'UTC';
                     </td>
 
                     <td>
-                        <?=$good->price ?>
+                        <?=$good->price ?> <?=$good->getCurrency()->one()->name?>/<?=$good->getMeasure()->one()->full_name?>
                     </td>
-
-                    <td><?=Yii::$app->formatter->asDatetime($good->date_created, "php:d.m.Y H:i:s");?></td>
+                  
+                    <td><?=Yii::$app->formatter->asDatetime($good->date_created+($timeZone*60), "php:d.m.Y H:i:s");?></td>
 
                     <td>
                         <?= Html::a('', ['delete', 'id' => $good->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

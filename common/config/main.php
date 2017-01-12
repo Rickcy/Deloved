@@ -2,6 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'language' => 'ru-RU',
+    'timeZone' => 'UTC',
     'components' => [
         'i18n' => [
         'translations' => [

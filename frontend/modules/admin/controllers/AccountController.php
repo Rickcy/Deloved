@@ -248,7 +248,7 @@ class AccountController extends AuthController
         $category = Category::find()->all();
         
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
+        $account=$user->getProfile()->one()->getAccount()->one();
         $model=new Logo();
 
         $level_id=18;

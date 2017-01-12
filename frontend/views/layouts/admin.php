@@ -9,6 +9,7 @@ use yii\widgets\Menu;
 
 AdminAsset::register($this);
 $user = User::findIdentity(Yii::$app->user->id);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -351,6 +352,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 </div>
 <div class=" col-lg-9 col-md-8" >
     <div class="block">
+
         <?= $content ?>
     </div>
 

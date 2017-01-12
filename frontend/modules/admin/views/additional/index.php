@@ -15,10 +15,11 @@ Yii::$app->formatter->timeZone = 'UTC';
 
         <h3><?= Yii::t('app', 'Condition good') ?></h3>
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+       
         <div class="buttons">
             <?= Html::a(Yii::t('app', 'Create Condition'), ['create-condition'], ['class' => 'btn btn-success']) ?>
         </div>
-
+       
         <div class="table-responsive">
             <table border="0" class="table table-striped">
                 <thead class="thead-main">

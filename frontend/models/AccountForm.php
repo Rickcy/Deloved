@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User11
- * Date: 23.12.2016
- * Time: 9:37
- */
+
 
 namespace frontend\models;
 

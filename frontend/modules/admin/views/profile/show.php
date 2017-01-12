@@ -10,6 +10,8 @@ use yii\jui\AutoComplete;
 $this->title = Yii::t('app', 'Profile');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
+$session = Yii::$app->session;
+$timeZone = $session->get('timeZone');
 ?>
 <div class="profile-info">
     <h3><?= Html::encode($this->title) ?></h3>
@@ -104,7 +106,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             <label for="date_reg">Date registration</label>
         </div>
         <div class="col-sm-7 ft ">
-            <input id="date_reg"  class="form-control" name="date_reg" type="text" readonly value="<?=Yii::$app->formatter->asDatetime($profile->created_at, "php:d.m.Y")?>"
+            <input id="date_reg"  class="form-control" name="date_reg" type="text" readonly value="<?=Yii::$app->formatter->asDatetime($profile->created_at+$timeZone*60, "php:d.m.Y H:i:s")?>"
                    placeholder="Отсутствует"/>
             <div class="pods fr"></div>
         </div>

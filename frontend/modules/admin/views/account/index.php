@@ -12,7 +12,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Accounts');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
-Yii::$app->formatter->timeZone = 'UTC';
+
 
 ?>
 <div class="account-index">

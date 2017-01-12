@@ -12,7 +12,7 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
-
+    public $timeZone;
     private $_user;
 
 
@@ -25,6 +25,7 @@ class LoginForm extends Model
             // username and password are both required
             [['username', 'password'], 'required'],
             // rememberMe must be a boolean value
+            ['timeZone','integer'],
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
@@ -56,6 +57,7 @@ class LoginForm extends Model
      */
     public function login()
     {
+        
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         } else {
@@ -73,7 +75,8 @@ class LoginForm extends Model
         if ($this->_user === null) {
             $this->_user = User::findByUsername($this->username);
         }
-
+        $session = Yii::$app->session;
+        $session->set('timeZone', (string)$this->timeZone);
         return $this->_user;
     }
 }

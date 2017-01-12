@@ -159,7 +159,7 @@ $this->title = 'Мои данные';
             <label for="regDate">Дата регистрации</label>
         </div>
         <div class="col-sm-7 ft ">
-            <p id="regDate" class="form-control grey" name="regDate"><?=Html::encode($account->date_reg)?></p>
+            <p id="regDate" class="form-control grey" name="regDate"><?=Html::encode(Yii::$app->formatter->asDatetime($account->date_reg, "php:d.m.Y"))?></p>
         </div>
         <div class="action-col">
 

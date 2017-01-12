@@ -92,8 +92,14 @@ class Category extends \yii\db\ActiveRecord
     }
 
     public function equelsVar($id,$array){
+        if (is_array($array)){
         foreach ($array as $arr){
             if ($arr->category_id==$id){
+                return '{"opened":false,"selected":true}';
+            }
+        }
+        }elseif (!is_array($array)){
+            if ($array->category_id==$id){
                 return '{"opened":false,"selected":true}';
             }
         }

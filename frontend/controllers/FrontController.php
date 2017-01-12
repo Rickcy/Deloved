@@ -105,7 +105,9 @@ class FrontController extends Controller
         }
         $model = new LoginForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+           
+            $model->login();
             return $this->redirect('/admin');
         } else {
             return $this->render('login', [
@@ -121,6 +123,8 @@ class FrontController extends Controller
      */
     public function actionLogout()
     {
+        $session = Yii::$app->session;
+        $session->remove('timeZone');
         Yii::$app->user->logout();
 
         return $this->goHome();

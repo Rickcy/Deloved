@@ -14,9 +14,6 @@ return [
     'Currency' => 'Валюты',
     'Tariffs' => 'Тарифы',
     'Additional' => 'Дополнительно',
-    'Condition good' => 'Состояние товара',
-    'Payment methods' => 'Способы оплаты',
-    'Delivery methods' => 'Способы доставки',
     'Search' => 'Поиск',
     'Advanced search' => 'Расширенный поиск',
     'Information' => 'Справочники',
@@ -55,8 +52,12 @@ return [
     'Remember me' => 'Запомнить меня',
     'Are you forgot password?' => 'Забыли пароль?',
 
+    ///Additional
+    'Condition good' => 'Состояние товара',
+    'Payment methods' => 'Способы оплаты',
+    'Delivery methods' => 'Способы доставки',
 
-
+    //Goods
 
 
     'GOOD' => 'Категория товаров',
