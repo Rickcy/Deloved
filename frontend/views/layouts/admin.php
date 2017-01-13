@@ -9,11 +9,16 @@ use yii\widgets\Menu;
 
 AdminAsset::register($this);
 $user = User::findIdentity(Yii::$app->user->id);
-
+$session = Yii::$app->session;
+if ($session->has('lang')){
+    $lang = $session->get('lang');
+}else{
+    $lang = Yii::$app->language;
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= Yii::$app->language=$lang ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -216,7 +221,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
                     $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'), 'url' => ['/admin/goods/index']];
-                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'), 'url' => ['/#']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'), 'url' => ['/admin/services/index']];
                 }
 
 

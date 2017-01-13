@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Goods */
+/* @var $model common\models\Services */
 /* @var $cat common\models\AccountCategory */
 
 $this->title = Yii::t('app', 'Update good');
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Goods'), 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
 ?>
-<div class="goods-update">
+<div class="service-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="goods-update">
+    <div class="service-update">
 
         <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
             'template' => '<div class="col-sm-3 control-label">{label}</div><div class="col-sm-7">{input}</div><div class="col-sm-7 col-sm-offset-3">{error}</div>',
@@ -41,11 +41,10 @@ $user = User::findIdentity(Yii::$app->user->id);
                     Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
                 },
             ]); ?>
-            
+
         <?endif;?>
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'model')->textInput(['maxlength' => true]) ?>
 
         <div class="col-sm-12 col-sm-offset-0">
             <div class="col-sm-7">
@@ -69,34 +68,16 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
 
-        <?= $form->field($model, 'availability',[
 
-        ])->radioList([
-            '1' => 'Есть в наличии',
-            '0' =>'Под заказ',
-
-        ],  [
-            'class' => 'btn-group',
-            'data-toggle' => 'buttons',
-            'value'=>$model->availability,
-            'unselect' => null,
-            'item' => function ($index, $label, $name, $checked, $value) {
-                return '<label class="btn btn-default' . ($checked ? ' active' : '') . '">' .
-                Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
-            },
-        ]); ?>
 
 
         <hr>
-        <?$items = ArrayHelper::map($conditions,'id','name');
 
-        echo $form->field($model, 'condition_id')->dropDownList($items) ?>
 
         <?$items = ArrayHelper::map($paymentMethods,'id','name');
         echo $form->field($model, 'payment_methods_id')->dropDownList($items) ?>
 
-        <?$items = ArrayHelper::map($deliveryMethods,'id','name');
-        echo $form->field($model, 'delivery_methods_id')->dropDownList($items) ?>
+
         <hr>
 
 
@@ -112,7 +93,7 @@ $user = User::findIdentity(Yii::$app->user->id);
         <div id="myCat">
             <ul>
                 <?foreach ($myCategory as $cat):?>
-                    <?if ($cat->getCategory()->one()->getCategorytype()->one()->id==1&&$cat->getCategory()->one()->parent_id!=1&&$cat->getCategory()->one()->getParent()->one()->parent_id==1):?>
+                    <?if ($cat->getCategory()->one()->getCategorytype()->one()->id==2&&$cat->getCategory()->one()->parent_id!=1&&$cat->getCategory()->one()->getParent()->one()->parent_id==1):?>
                         <li id="<?=$cat->getCategory()->one()->id?>" data-jstree=<?=$cat->getCategory()->one()->equelsVar($cat->getCategory()->one()->id,$model)?>><?=$cat->getCategory()->one()->name?>
                             <ul>
                                 <?if ($cat->getCategory()->one()->getChild()->all()):?>

@@ -80,60 +80,46 @@ $this->params['breadcrumbs'][] = $this->title;
         echo $form->field($model, 'delivery_methods_id')->dropDownList($items) ?>
         <hr>
       
-
-
-
-
-
-
-
+        
         <?= $form->field($model, 'photo_id')->fileInput(['id'=>'imgInput']) ?>
 
-
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
+        
+        
+        
+        
         <div id="myCat">
             <ul>
                 <?foreach ($myCategory as $cat):?>
+                <?if ($cat->getCategory()->one()->getCategorytype()->one()->id==1&&$cat->getCategory()->one()->parent_id!=1&&$cat->getCategory()->one()->getParent()->one()->parent_id==1):?>
+                <li id="<?=$cat->getCategory()->one()->id?>"><?=$cat->getCategory()->one()->name?>
+                        <ul>
+                <?if ($cat->getCategory()->one()->getChild()->all()):?>
+                    <?foreach ($cat->getCategory()->one()->getChild()->all() as $child):?>
+                <li id="<?=$child->id?>">
+                    <?=$child->name?>
+                    <ul>
 
-                    <?if ($cat->getCategory()->one()->getCategorytype()->one()->id==1&&$cat->getCategory()->one()->parent_id!=1&&$cat->getCategory()->one()->getParent()->one()->parent_id==1):?>
+                        <?if ($child->getChild()->all()):?>
 
-                        <li id="<?=$cat->getCategory()->one()->id?>"><?=$cat->getCategory()->one()->name?>
-                            <ul>
-                                <?foreach ($myCategory as $c):?>
-
-                                    <?if ($c->getCategory()->one()->parent_id===$cat->getCategory()->one()->id):?>
-
-                                        <li id="<?=$c->getCategory()->one()->id?>" ><?=$c->getCategory()->one()->name?>
-                                            <ul>
-                                                <?foreach ($myCategory as $item):?>
-                                                    <?if ($item->getCategory()->one()->parent_id===$c->getCategory()->one()->id):?>
-                                                        <li id="<?=$item->getCategory()->one()->id?>" ><?=$item->getCategory()->one()->name?></li>
-
-                                                        <ul>
-                                                            <?foreach ($myCategory as $it):?>
-                                                                <?if ($it->getCategory()->one()->parent_id===$item->getCategory()->one()->id):?>
-                                                                    <li id="<?=$it->getCategory()->one()->id?>" ><?=$it->getCategory()->one()->name?></li>
-                                                                <?endif;?>
-                                                            <?endforeach;?>
-                                                        </ul>
-                                                    <?endif;?>
-                                                <?endforeach;?>
-                                            </ul>
-                                        </li>
-                                    <?endif?>
+                            <?foreach ($child->getChild()->all() as $c):?>
+                        <li id="<?=$c->id?>"><?=$c->name?></li>
+                            <?endforeach;?>
 
 
+                        <?endif;?>
+                    </ul>
+                </li>
 
-
-                                <?endforeach;?>
-                            </ul>
-                        </li>
-
+                    <?endforeach;?>
 
                     <?endif;?>
-
+                        </ul>
+                        </li>
+                    <?endif;?>
 
                 <?endforeach;?>
+
             </ul>
         </div>
         <script>
@@ -168,7 +154,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <hr>
 
         <div class="form-group">
-            <?= Html::submitButton( Yii::t('app', 'Create') , ['class' =>  'btn btn-success' ]) ?>
+            <?= Html::submitButton( Yii::t('app', 'Create') , ['class' =>  'btn create-btn btn-md btn-success' ]) ?>
             <?= Html::a(Yii::t('app', 'Cancel'), ['index'],['class' =>  'btn create-btn btn-md btn-default']) ?>
         </div>
 

@@ -267,35 +267,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                                         <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
-                                                <ul>
-                                                    <?foreach ($category as $c):?>
-
-                                                        <?if ($c->parent_id===$cat->id):?>
-
-                                                            <li id="<?=$c->id?>" data-jstree=<?=$c->equelsVar($c->id,$myCategory)?>><?=$c->name?>
-                                                                <ul>
-                                                                    <?foreach ($category as $item):?>
-                                                                        <?if ($item->parent_id===$c->id):?>
-                                                                            <li id="<?=$item->id?>" data-jstree=<?=$item->equelsVar($item->id,$myCategory)?>><?=$item->name?></li>
-
-                                                                            <ul>
-                                                                                <?foreach ($category as $it):?>
-                                                                                    <?if ($it->parent_id===$item->id):?>
-                                                                                        <li id="<?=$it->id?>" data-jstree=<?=$it->equelsVar($it->id,$myCategory)?>><?=$it->name?></li>
-                                                                                    <?endif;?>
-                                                                                <?endforeach;?>
-                                                                            </ul>
-                                                                        <?endif;?>
-                                                                    <?endforeach;?>
-                                                                </ul>
-                                                            </li>
-                                                        <?endif?>
-
-
-
-
-                                                    <?endforeach;?>
-                                                </ul>
+                                              
                                             </li>
 
 

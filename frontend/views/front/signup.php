@@ -174,34 +174,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>"><?=$cat->name?>
-                                                <ul>
-                                            <?foreach ($category as $c):?>
-
-                                                <?if ($c->parent_id===$cat->id):?>
-
-                                                    <li id="<?=$c->id?>"><?=$c->name?>
-                                                        <ul>
-                                                    <?foreach ($category as $item):?>
-                                                        <?if ($item->parent_id===$c->id):?>
-                                                      <li id="<?=$item->id?>" ><?=$item->name?></li>
-                                                            <ul>
-                                                                <?foreach ($category as $it):?>
-                                                                    <?if ($it->parent_id===$item->id):?>
-                                                                        <li id="<?=$it->id?>" ><?=$it->name?></li>
-                                                                    <?endif;?>
-                                                                <?endforeach;?>
-                                                            </ul>
-                                                        <?endif;?>
-                                                    <?endforeach;?>
-                                                        </ul>
-                                                    </li>
-                                                <?endif?>
-
-
-
-
-                                             <?endforeach;?>
-                                                </ul>
+                                               
                                             </li>
 
 

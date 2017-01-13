@@ -321,6 +321,22 @@ class AccountController extends AuthController
     }
 
 
+    public function actionChangeLanguage($lang){
+
+        $session = Yii::$app->session;
+        if (Yii::$app->request->isPost) {
+            if ($lang == 'RU') {
+                $session->set('lang', 'ru-RU');
+
+            } elseif ($lang == 'EN') {
+                $session->set('lang', 'en-US');
+
+            }
+           return true;
+        }
+
+    }
+
     public function actionSaveNewAffiliate($address,$city,$email,$phone){
 
 

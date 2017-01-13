@@ -5,19 +5,15 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "goods".
+ * This is the model class for table "services".
  *
  * @property integer $id
  * @property string $name
  * @property double $price
- * @property string $model
  * @property string $description
- * @property integer $availability
  * @property integer $rating_count
- * @property integer $rating_good
- * @property integer $condition_id
+ * @property integer $rating_service
  * @property integer $payment_methods_id
- * @property integer $delivery_methods_id
  * @property integer $account_id
  * @property integer $category_type_id
  * @property integer $category_id
@@ -27,17 +23,15 @@ use Yii;
  * @property integer $measure_id
  * @property integer $currency_id
  *
- * @property Condition $condition
+ * @property PaymentMethods $paymentMethods
  * @property Account $account
  * @property Category $category
  * @property CategoryType $categoryType
  * @property Currency $currency
- * @property DeliveryMethods $deliveryMethods
  * @property Measure $measure
- * @property PaymentMethods $paymentMethods
  * @property Photo $photo
  */
-class Goods extends \yii\db\ActiveRecord
+class Services extends \yii\db\ActiveRecord
 {
 
     public $image;
@@ -46,7 +40,7 @@ class Goods extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'goods';
+        return 'services';
     }
 
     /**
@@ -55,19 +49,17 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'availability', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id','price'], 'required'],
+            [['name', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id'], 'required'],
             [['price'], 'number'],
             [['description'], 'string'],
-            [['availability', 'rating_count', 'rating_good', 'condition_id', 'payment_methods_id', 'delivery_methods_id', 'account_id', 'category_type_id', 'category_id', 'date_created', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
-            [['name', 'model'], 'string', 'max' => 255],
-            [['condition_id'], 'exist', 'skipOnError' => true, 'targetClass' => Condition::className(), 'targetAttribute' => ['condition_id' => 'id']],
+            [['rating_count', 'rating_service', 'payment_methods_id',  'account_id', 'category_type_id', 'category_id', 'date_created', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
+            [['name'], 'string', 'max' => 255],
+            [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::className(), 'targetAttribute' => ['category_id' => 'id']],
             [['category_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryType::className(), 'targetAttribute' => ['category_type_id' => 'id']],
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'id']],
-            [['delivery_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => DeliveryMethods::className(), 'targetAttribute' => ['delivery_methods_id' => 'id']],
             [['measure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Measure::className(), 'targetAttribute' => ['measure_id' => 'id']],
-            [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
             [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
             ['image', 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg']
         ];
@@ -82,20 +74,16 @@ class Goods extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'price' => Yii::t('app', 'Price'),
-            'model' => Yii::t('app', 'Model'),
             'description' => Yii::t('app', 'Description'),
-            'availability' => Yii::t('app', 'Availability'),
             'rating_count' => Yii::t('app', 'Rating Count'),
-            'rating_good' => Yii::t('app', 'Rating Good'),
-            'condition_id' => Yii::t('app', 'Condition good'),
+            'rating_service' => Yii::t('app', 'Rating Service'),
             'payment_methods_id' => Yii::t('app', 'Payment methods'),
-            'delivery_methods_id' => Yii::t('app', 'Delivery methods'),
-            'account_id' => Yii::t('app', 'Account ID'),
+            'account_id' => Yii::t('app', 'Account'),
             'category_type_id' => Yii::t('app', 'Category Type'),
-            'category_id' => Yii::t('app', 'Category good'),
+            'category_id' => Yii::t('app', 'Category'),
             'date_created' => Yii::t('app', 'Date Created'),
             'show_main' => Yii::t('app', 'Show main'),
-            'photo_id' => Yii::t('app', 'Photo good'),
+            'photo_id' => Yii::t('app', 'Photo'),
             'measure_id' => Yii::t('app', 'Measure'),
             'currency_id' => Yii::t('app', 'Currency'),
         ];
@@ -104,9 +92,9 @@ class Goods extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCondition()
+    public function getPaymentMethods()
     {
-        return $this->hasOne(Condition::className(), ['id' => 'condition_id']);
+        return $this->hasOne(PaymentMethods::className(), ['id' => 'payment_methods_id']);
     }
 
     /**
@@ -141,28 +129,13 @@ class Goods extends \yii\db\ActiveRecord
         return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDeliveryMethods()
-    {
-        return $this->hasOne(DeliveryMethods::className(), ['id' => 'delivery_methods_id']);
-    }
-
+    
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getMeasure()
     {
         return $this->hasOne(Measure::className(), ['id' => 'measure_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPaymentMethods()
-    {
-        return $this->hasOne(PaymentMethods::className(), ['id' => 'payment_methods_id']);
     }
 
     /**

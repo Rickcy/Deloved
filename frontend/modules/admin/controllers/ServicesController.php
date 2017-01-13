@@ -4,45 +4,40 @@ namespace app\modules\admin\controllers;
 
 use common\controllers\AuthController;
 use common\models\Account;
-use common\models\Category;
-use common\models\Condition;
 use common\models\Currency;
-use common\models\DeliveryMethods;
 use common\models\Measure;
 use common\models\PaymentMethods;
 use common\models\User;
-use frontend\models\UploadForm;
 use Yii;
-use common\models\Goods;
-use common\models\search\GoodsSearch;
-use yii\web\Controller;
+use common\models\Services;
+use common\models\search\ServicesSearch;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
+
 
 /**
- * GoodsController implements the CRUD actions for Goods model.
+ * ServicesController implements the CRUD actions for Services model.
  */
-class GoodsController extends AuthController
+class ServicesController extends AuthController
 {
 
+
     public $layout = '/admin';
+
     /**
-     * Lists all Goods models.
+     * Lists all Services models.
      * @return mixed
      * @throws ForbiddenHttpException
      */
     public function actionIndex()
     {
-
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
-            $goods = Goods::find()->all();
+            $services = Services::find()->all();
 
         }elseif (User::checkRole(['ROLE_USER'])){
 
             $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
-            $goods = Goods::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
+            $services = Services::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
 
 
         }else{
@@ -50,15 +45,12 @@ class GoodsController extends AuthController
         }
 
         return $this->render('index', [
-            'goods'=>$goods
+            'services'=>$services
         ]);
-
-
     }
 
-
     /**
-     * Creates a new Goods model.
+     * Creates a new Services model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      * @throws ForbiddenHttpException
@@ -69,39 +61,30 @@ class GoodsController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-        $model = new Goods();
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1])->all();
+
+        $model = new Services();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>2])->all();
         $currency = Currency::find()->all();
-        $conditions = Condition::find()->all();
-        $deliveryMethods = DeliveryMethods::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
         $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
         $myCategory =$account->getCategory()->all();
-
-
 
         if ($model->load(Yii::$app->request->post())) {
 
             $model->date_created = time();
             $model->account_id = $account->id;
-            $model->category_type_id = 1;
+            $model->category_type_id = 2;
             $model->show_main = 0;
 
             $model->save();
 
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
-        }
-       
-
-        
-        else {
+        } else {
             return $this->render('create', [
                 'model' => $model,
                 'measure'=>$measure,
                 'currency'=>$currency,
-                'conditions'=>$conditions,
-                'deliveryMethods'=>$deliveryMethods,
                 'paymentMethods'=>$paymentMethods,
                 'myCategory'=>$myCategory,
                 'account'=>$account
@@ -109,28 +92,8 @@ class GoodsController extends AuthController
         }
     }
 
-    
-    
-    public function actionUpload(){
-        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
-            throw new ForbiddenHttpException('Доступ запрещен');
-        }
-        $model = new Goods();
-    if (Yii::$app->request->isAjax){
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if ($model->image) {
-                Yii::$app->session->addFlash('success', 'You has Image');
-                return $this->refresh();
-            }
-        return $this->refresh();
-        }
-        
-        
-    }
-    
-    
     /**
-     * Updates an existing Goods model.
+     * Updates an existing Services model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -139,35 +102,34 @@ class GoodsController extends AuthController
      */
     public function actionUpdate($id)
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
+
+        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
         $model = $this->findModel($id);
 
-
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1])->all();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>2])->all();
         $currency = Currency::find()->all();
-        $conditions = Condition::find()->all();
-        $deliveryMethods = DeliveryMethods::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
         $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
         $myCategory =Account::findOne($model->account_id)->getCategory()->where('account_id=:account_id',[':account_id'=>$model->account_id])->all();
+
+
 
 
         if ($model->load(Yii::$app->request->post())) {
 
             $model->save();
 
-            Yii::$app->session->addFlash('success', 'Good Update!');
+            Yii::$app->session->addFlash('success', 'Service Update!');
+
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
                 'model' => $model,
                 'measure'=>$measure,
                 'currency'=>$currency,
-                'conditions'=>$conditions,
-                'deliveryMethods'=>$deliveryMethods,
                 'paymentMethods'=>$paymentMethods,
                 'myCategory'=>$myCategory,
                 'account'=>$account
@@ -176,7 +138,7 @@ class GoodsController extends AuthController
     }
 
     /**
-     * Deletes an existing Goods model.
+     * Deletes an existing Services model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -185,24 +147,27 @@ class GoodsController extends AuthController
      * @throws \Exception
      */
     public function actionDelete($id)
-    { if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
+    {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
         throw new ForbiddenHttpException('Доступ запрещен');
     }
+
+
         $this->findModel($id)->delete();
-        Yii::$app->session->addFlash('success', 'Good Delete!');
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Goods model based on its primary key value.
+     * Finds the Services model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Goods the loaded model
+     * @return Services the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Goods::findOne($id)) !== null) {
+        if (($model = Services::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

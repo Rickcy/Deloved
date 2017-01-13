@@ -18,6 +18,9 @@
 .btn-blue{
     background-color: #4b7bbe;
 }
+.lang{
+    cursor: pointer;
+}
 .btn-blue,.btn-green{
 
     width: 50%;

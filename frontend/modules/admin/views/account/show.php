@@ -456,35 +456,7 @@ $this->title = 'Мои данные';
                                 <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                     <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
-                                        <ul>
-                                            <?foreach ($category as $c):?>
-
-                                                <?if ($c->parent_id===$cat->id):?>
-
-                                                    <li id="<?=$c->id?>" data-jstree=<?=$c->equelsVar($c->id,$myCategory)?>><?=$c->name?>
-                                                        <ul>
-                                                            <?foreach ($category as $item):?>
-                                                                <?if ($item->parent_id===$c->id):?>
-                                                                    <li id="<?=$item->id?>" data-jstree=<?=$item->equelsVar($item->id,$myCategory)?>><?=$item->name?></li>
-
-                                                                    <ul>
-                                                                        <?foreach ($category as $it):?>
-                                                                            <?if ($it->parent_id===$item->id):?>
-                                                                                <li id="<?=$it->id?>" data-jstree=<?=$it->equelsVar($it->id,$myCategory)?> ><?=$it->name?></li>
-                                                                            <?endif;?>
-                                                                        <?endforeach;?>
-                                                                    </ul>
-                                                                <?endif;?>
-                                                            <?endforeach;?>
-                                                        </ul>
-                                                    </li>
-                                                <?endif?>
-
-
-
-
-                                            <?endforeach;?>
-                                        </ul>
+                                    
                                     </li>
 
 
@@ -500,11 +472,13 @@ $this->title = 'Мои данные';
                     <script>
                         $(function () {
                             $('#<?=$catType->code?>') .on('changed.jstree', function (e, data) {
-                                var i, j, r = [];
+                                var i, j, r = [],h =[];
                                 for(i = 0, j = data.selected.length; i < j; i++) {
                                     r.push(data.instance.get_node(data.selected[i]).id);
+
                                 }
                                 $('#<?=$catType->code=='GOOD'?'account_category_goods':'account_category_service'?>').val(r.join(','));
+
 
                                 if($("#saveCategory").hide()){
                                     $("#saveCategory").show()
@@ -518,8 +492,9 @@ $this->title = 'Мои данные';
                                             "variant" : "large"
                                         }
                                     },
-                                    "checkbox" : {
-                                        "keep_selected_style" : true
+                                    "checkbox": {
+                                        "three_state": false,
+                                        "cascade": "undetermined"
                                     },
                                     "plugins" : [ "checkbox","wholerow" ]
                                 });
@@ -539,8 +514,8 @@ $this->title = 'Мои данные';
 
 
 </div>
-<input id="account_category_goods" class="hidden"/>
-<input id="account_category_service" class="hidden"/>
+<input id="account_category_goods" class="w"/>
+<input id="account_category_service" class="w"/>
 
 <script>
     $(document).ready(function() {

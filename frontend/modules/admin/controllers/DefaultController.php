@@ -30,21 +30,7 @@ class DefaultController extends AuthController
             ],
         ];
     }
-    public function actionChangeLanguage($lang){
-
-        $session = Yii::$app->session;
-        if (Yii::$app->request->isPost) {
-            if ($lang == 'RU') {
-                $session->set('lang', 'ru-RU');
-
-            } elseif ($lang == 'EN') {
-                $session->set('lang', 'en-US');
-
-            }
-            return $this->refresh();
-        }
-
-    }
+   
 
     public function actionIndex()
     {  $user = User::findOne(Yii::$app->user->id);

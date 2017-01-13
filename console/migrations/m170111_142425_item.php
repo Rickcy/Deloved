@@ -64,6 +64,25 @@ class m170111_142425_item extends Migration
         ],$tableOptions);
 
 
+        $this->createTable('{{%services}}',[
+            'id'=>$this->primaryKey(),
+            'name'=>$this->string()->notNull(),
+            'price'=>$this->double(),
+            'description'=>$this->text(),
+            'rating_count'=>$this->integer()->defaultValue(0),
+            'rating_service'=>$this->integer()->defaultValue(0),
+            'payment_methods_id'=>$this->integer(),
+            'account_id'=>$this->integer()->notNull(),
+            'category_type_id'=>$this->integer()->notNull(),
+            'category_id'=>$this->integer()->notNull(),
+            'date_created'=>$this->integer(),
+            'show_main'=>$this->integer()->defaultValue(0),
+            'photo_id'=>$this->integer(),
+            'measure_id'=>$this->integer()->notNull(),
+            'currency_id'=>$this->integer()->notNull()
+
+        ],$tableOptions);
+
         $this->createIndex('fk_good_currency_id','{{%goods}}','currency_id');
         $this->addForeignKey('fk_good_currency_id','{{%goods}}','currency_id','{{%currency}}','id','CASCADE','CASCADE');
 
@@ -109,6 +128,49 @@ class m170111_142425_item extends Migration
 
         $this->createIndex('fk_good_condition_id','{{%goods}}','condition_id');
         $this->addForeignKey('fk_good_condition_id','{{%goods}}','condition_id','{{%condition}}','id','CASCADE','CASCADE');
+
+
+
+
+
+
+
+        $this->createIndex('fk_service_currency_id','{{%services}}','currency_id');
+        $this->addForeignKey('fk_service_currency_id','{{%services}}','currency_id','{{%currency}}','id','CASCADE','CASCADE');
+
+
+
+
+        $this->createIndex('fk_service_measure_id','{{%services}}','measure_id');
+        $this->addForeignKey('fk_service_measure_id','{{%services}}','measure_id','{{%measure}}','id','CASCADE','CASCADE');
+
+
+
+        $this->createIndex('fk_service_photo_id','{{%services}}','photo_id');
+        $this->addForeignKey('fk_service_photo_id','{{%services}}','photo_id','{{%photo}}','id','CASCADE','CASCADE');
+
+
+
+
+        $this->createIndex('fk_service_category_id','{{%services}}','category_id');
+        $this->addForeignKey('fk_service_category_id','{{%services}}','category_id','{{%category}}','id','CASCADE','CASCADE');
+
+
+
+
+        $this->createIndex('fk_service_category_type_id','{{%services}}','category_type_id');
+        $this->addForeignKey('fk_service_category_type_id','{{%services}}','category_type_id','{{%category_type}}','id','CASCADE','CASCADE');
+
+
+
+        $this->createIndex('fk_service_account_id','{{%services}}','account_id');
+        $this->addForeignKey('fk_service_account_id','{{%services}}','account_id','{{%account}}','id','CASCADE','CASCADE');
+
+
+
+        $this->createIndex('fk_service_payment_methods_id','{{%services}}','payment_methods_id');
+        $this->addForeignKey('fk_service_payment_methods_id','{{%services}}','payment_methods_id','{{%payment_methods}}','id','CASCADE','CASCADE');
+
 
 
     }
