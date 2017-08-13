@@ -53,7 +53,6 @@ class AccountForm extends Model
 
             [['org_form_id', 'public_status','show_main' ,'verify_status'], 'integer'],
             [['full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address','profile_name' ], 'string', 'max' => 100],
-            [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
             [['description','keywords'], 'string', 'max' => 2055],
         ];
     }
@@ -65,6 +64,7 @@ class AccountForm extends Model
         if (!$this->validate()){
             return null;
         }
+
 
         $account->full_name=$this->full_name;
         $account->brand_name=$this->brand_name;
@@ -104,7 +104,7 @@ class AccountForm extends Model
 
             }
         }
-        
+
         
     }
     

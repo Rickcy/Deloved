@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h3 class="text_reg_1">Данные предприятия/предпринимателя</h3>
 
             <div class="signup_desc">Заполните поля в соответствии с данными ЕГРЮЛ/ЕГРИП. Обратите внимание на примеры </div>
-            <? $items = ArrayHelper::map($org_forms,'id','name');
+            <?php $items = ArrayHelper::map($org_forms,'id','name');
             $params = [
                 'prompt' => 'Не выбрано'
             ];
@@ -133,102 +133,6 @@ $this->params['breadcrumbs'][] = $this->title;
                  <?= $form->field($model, 'description')->textarea(['rows'=>6])->label('Описание') ?>
 
             <?= $form->field($model, 'keywords')->textarea(['rows'=>6])->label('Ключевые слова') ?>
-
-
-            <hr>
-            <h3 class="text_reg_1">Категории деятельности</h3>
-
-            <div class="signup_desc">Отметьте галочками ветки категорий товаров и услуг, которые относятся к виду вашей деятельности.</div>
-
-
-
-
-            <div class="col-sm-9 col-sm-offset-3">
-                
-
-                <div class="tab-pane" id="cat" >
-                    <ul class="nav nav-pills" style="margin-bottom: 20px">
-                        <?
-                        $i=0;
-                        foreach ($categoryType as $catType ):?>
-
-                            <li style="font-size: 16pt;" class="<?=$i==0?"active":""?>"><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code=='GOOD'?'Категория  товаров':'Категория услуг'?></a></li>
-
-                        <?
-                        $i++;
-                        endforeach;?>
-                    </ul>
-
-                    <div class="tab-content ">
-                        <?
-                        $i=0;
-                        foreach ($categoryType as $catType ):?>
-
-                        <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
-
-
-
-                                        <ul>
-                                    <?foreach ($category as $cat):?>
-
-                                    <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
-
-                                            <li id="<?=$cat->id?>"><?=$cat->name?>
-                                               
-                                            </li>
-
-
-                                        <?endif;?>
-
-
-                                    <?endforeach;?>
-                                        </ul>
-
-
-
-                        </div>
-                            <script>
-                                $(function () {
-                                    $('#<?=$catType->code?>').jstree({
-                                        "core" : {
-                                            "themes" : {
-                                                "variant" : "large"
-                                            }
-                                        },
-                                        "checkbox" : {
-                                            "keep_selected_style" : true
-                                        },
-                                        "plugins" : [ "checkbox","wholerow" ]
-                                    });
-                                    $('#<?=$catType->code?>') .on('changed.jstree', function (e, data) {
-                                        var i, j, r = [];
-                                        for(i = 0, j = data.selected.length; i < j; i++) {
-                                            r.push(data.instance.get_node(data.selected[i]).id);
-                                        }
-                                        $('#<?=$catType->code=='GOOD'?'account_category_goods':'account_category_service'?>').val(r.join(', '));
-                                  
-
-
-                                    })
-                                })
-                            </script>
-                        <?
-                            $i++;
-                        endforeach;?>
-
-                    </div>
-
-                </div>
-
-                
-
-            </div>
-
-
-            <?= $form->field($model, 'account_category_goods')->hiddenInput(['id'=>'account_category_goods'])->label('') ?>
-
-
-            <?= $form->field($model, 'account_category_service')->hiddenInput(['id'=>'account_category_service'])->label('') ?>
 
 
             <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [

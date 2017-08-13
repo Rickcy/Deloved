@@ -5,6 +5,7 @@
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\captcha\Captcha;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 /**@var $model frontend\models\ContactForm**/
 ?>
@@ -26,7 +27,8 @@ use yii\helpers\Url;
 
         <?= $form->field($model, 'email')->label('')->textInput(['class'=>'contact_form-control form-control','placeholder'=>'E-mail'])?>
 
-        <?= $form->field($model, 'subject')->dropDownList(['Вопросы по регистрации'=>'Вопросы по регистрации','Реклама'=>'Реклама', 'Сотрудничество'=>'Сотрудничество','Другое'=>'Другое'],['class'=>'contact_form-control form-control','prompt'=>'Выбирите тему'])->label('') ?>
+        <?php $items = ArrayHelper::map($suggestion_cat,'id','name');
+        echo $form->field($model, 'subject')->dropDownList($items,['class'=>'contact_form-control form-control','prompt'=>Yii::t('app', 'Select category')])->label('') ?>
 
         <?= $form->field($model, 'body')->textarea(['rows' => 4,'class'=>'contact_form-control form-control','placeholder'=>'Сообщение'])->label('') ?>
 
@@ -39,7 +41,7 @@ use yii\helpers\Url;
             <?= Html::submitButton('Отправить', ['class' => 'btn btn-lg btn-blue btn-block', 'name' => 'contact-button']) ?>
         </div>
 
-        <?ActiveForm::end()?>
+        <?php ActiveForm::end()?>
 </div>
 
 

@@ -9,14 +9,14 @@ use yii\helpers\Html;
 /* @var $model common\models\Goods */
 /* @var $cat common\models\AccountCategory */
 
-$this->title = Yii::t('app', 'Create goods');
+$this->title = Yii::t('app', 'Create good');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Goods'), 'url' => ['index']];
 Yii::$app->formatter->timeZone = 'UTC';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="goods-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 
     <div class="goods-create">
 
@@ -33,14 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'price',['template' => '<div class="col-sm-5 control-label">{label}</div><div class="col-sm-7">{input}</div><div class="col-sm-7 col-sm-offset-5">{error}</div>',])->textInput() ?>
             </div>
             <div class="col-sm-4">
-            <?$items = ArrayHelper::map($currency,'id','code');
-            echo $form->field($model, 'currency_id',['template' => '<div class="col-sm-1"></div><div class="col-sm-8">{input}</div><div class="col-sm-9 col-sm-offset-1">{error}</div>',])->dropDownList($items) ?>
+            <?php $items = ArrayHelper::map($currency,'id','code');
+            echo $form->field($model, 'currency_id',['template' => '<div class="col-sm-1"></div><div class="col-sm-8">{input}</div><div class="col-sm-9 col-sm-offset-1">{error}</div>'])->dropDownList($items) ?>
             </div>
 
         </div>
 
 
-        <? $items = ArrayHelper::map($measure,'id','full_name');
+        <?php $items = ArrayHelper::map($measure,'id','full_name');
 
         echo $form->field($model, 'measure_id')->dropDownList($items)?>
 
@@ -69,19 +69,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
         <hr>
-        <?$items = ArrayHelper::map($conditions,'id','name');
+        <?php $items = ArrayHelper::map($conditions,'id','name');
 
         echo $form->field($model, 'condition_id')->dropDownList($items) ?>
 
-        <?$items = ArrayHelper::map($paymentMethods,'id','name');
+        <?php $items = ArrayHelper::map($paymentMethods,'id','name');
         echo $form->field($model, 'payment_methods_id')->dropDownList($items) ?>
 
-        <?$items = ArrayHelper::map($deliveryMethods,'id','name');
+        <?php $items = ArrayHelper::map($deliveryMethods,'id','name');
         echo $form->field($model, 'delivery_methods_id')->dropDownList($items) ?>
         <hr>
       
-        
-        <?= $form->field($model, 'photo_id')->fileInput(['id'=>'imgInput']) ?>
+
+        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg']) ?>
+        <?= $form->field($model, 'photo')->fileInput(['id'=>'imgInput']) ?>
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
         
@@ -90,35 +91,35 @@ $this->params['breadcrumbs'][] = $this->title;
         
         <div id="myCat">
             <ul>
-                <?foreach ($myCategory as $cat):?>
-                <?if ($cat->getCategory()->one()->getCategorytype()->one()->id==1&&$cat->getCategory()->one()->parent_id!=1&&$cat->getCategory()->one()->getParent()->one()->parent_id==1):?>
-                <li id="<?=$cat->getCategory()->one()->id?>"><?=$cat->getCategory()->one()->name?>
+                <?php foreach ($myCategory as $cat):?>
+                    <?php if ($cat->category->categorytype->id==1227 && $cat->category->parent_id !=1 && $cat->category->parent->parent_id==1227):?>
+                <li id="<?=$cat->category->id?>"><?=$cat->category->name?>
                         <ul>
-                <?if ($cat->getCategory()->one()->getChild()->all()):?>
-                    <?foreach ($cat->getCategory()->one()->getChild()->all() as $child):?>
+                <?php if ($cat->category->getChild()->all()):?>
+                    <?php foreach ($cat->category->getChild()->all() as $child):?>
                 <li id="<?=$child->id?>">
                     <?=$child->name?>
                     <ul>
 
-                        <?if ($child->getChild()->all()):?>
+                        <?php if ($child->getChild()->all()):?>
 
-                            <?foreach ($child->getChild()->all() as $c):?>
+                            <?php foreach ($child->getChild()->all() as $c):?>
                         <li id="<?=$c->id?>"><?=$c->name?></li>
-                            <?endforeach;?>
+                            <?php endforeach;?>
 
 
-                        <?endif;?>
+                        <?php endif;?>
                     </ul>
                 </li>
 
-                    <?endforeach;?>
+                    <?php endforeach;?>
 
-                    <?endif;?>
+                    <?php endif;?>
                         </ul>
                         </li>
-                    <?endif;?>
+                    <?php endif;?>
 
-                <?endforeach;?>
+                <?php endforeach;?>
 
             </ul>
         </div>

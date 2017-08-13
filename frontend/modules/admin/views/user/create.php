@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
 
-    <? $items = ArrayHelper::map($role,'id','role_name');
+    <?php  $items = ArrayHelper::map($role,'id','role_name');
 
     echo $form->field($model, 'role')->dropDownList($items)->label('Role')?>
 

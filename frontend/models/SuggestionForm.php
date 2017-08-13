@@ -32,6 +32,15 @@ class SuggestionForm extends Model
 
     }
 
+    public function attributeLabels()
+    {
+        return[
+            'suggestion_cat'=>Yii::t('app', 'Theme'),
+            'content'=>Yii::t('app', 'Message Area'),
+        ];
+    }
+
+
     public function createSug(){
         if (!$this->validate()){
             return null;
@@ -39,9 +48,9 @@ class SuggestionForm extends Model
         $user = User::findOne(Yii::$app->user->id);
         $suggestion = new Suggestion();
         $suggestion->content =$this->content;
-        $suggestion->date_published =time();
+        $suggestion->date_published = time();
         $suggestion->sug_category_id =$this->suggestion_cat;
-        $suggestion->author_id =$user->getProfile()->one()->id;
+        $suggestion->author_id =$user->profile->id;
         $suggestion->save();
         if ($suggestion->save()){
             return true;

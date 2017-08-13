@@ -8,29 +8,22 @@ class m170111_142425_item extends Migration
     public function safeUp()
     {
 
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
-
-
 
         $this->createTable('{{%delivery_methods}}',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()
-        ],$tableOptions);
+        ]);
 
 
         $this->createTable('{{%condition}}',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{%payment_methods}}',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()
-        ],$tableOptions);
+        ]);
 
 
 
@@ -38,7 +31,7 @@ class m170111_142425_item extends Migration
             'id'=>$this->primaryKey(),
             'image_name'=>$this->string(),
             'file'=>$this->string()
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{%goods}}',[
             'id'=>$this->primaryKey(),
@@ -55,13 +48,13 @@ class m170111_142425_item extends Migration
             'account_id'=>$this->integer()->notNull(),
             'category_type_id'=>$this->integer()->notNull(),
             'category_id'=>$this->integer()->notNull(),
-            'date_created'=>$this->integer(),
+            'date_created'=>$this->dateTime(),
             'show_main'=>$this->integer()->defaultValue(0),
             'photo_id'=>$this->integer(),
             'measure_id'=>$this->integer()->notNull(),
             'currency_id'=>$this->integer()->notNull()
 
-        ],$tableOptions);
+        ]);
 
 
         $this->createTable('{{%services}}',[
@@ -75,13 +68,13 @@ class m170111_142425_item extends Migration
             'account_id'=>$this->integer()->notNull(),
             'category_type_id'=>$this->integer()->notNull(),
             'category_id'=>$this->integer()->notNull(),
-            'date_created'=>$this->integer(),
+            'date_created'=>$this->dateTime(),
             'show_main'=>$this->integer()->defaultValue(0),
             'photo_id'=>$this->integer(),
             'measure_id'=>$this->integer()->notNull(),
             'currency_id'=>$this->integer()->notNull()
 
-        ],$tableOptions);
+        ]);
 
         $this->createIndex('fk_good_currency_id','{{%goods}}','currency_id');
         $this->addForeignKey('fk_good_currency_id','{{%goods}}','currency_id','{{%currency}}','id','CASCADE','CASCADE');

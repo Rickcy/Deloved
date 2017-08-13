@@ -2,19 +2,19 @@
 $i=0;
 ?>
 
-<?if (Yii::$app->session->getAllFlashes()):?>
+<?php if (Yii::$app->session->getAllFlashes()):?>
 <?php foreach(Yii::$app->session->getAllFlashes() as $type => $messages): ?>
-        <?if (is_array($messages)):?>
-        <? foreach ($messages as $message):?>
+        <?php if (is_array($messages)):?>
+        <?php foreach ($messages as $message):?>
         <div style="top:<?=$i+=10?>%" class="flash-message flash-alert alert alert-<?=$type ?>" role="alert">
             <?= $message ?>
         </div>
-        <?endforeach;?>
-        <?endif;?>
+        <?php endforeach?>
+        <?php endif?>
 
 
 <?php endforeach ?>
-<?endif?>
+<?php endif?>
 <div id="flash-message" class="flash-alert alert alert-info" hidden></div>
 <script>
 

@@ -16,7 +16,7 @@ $user = User::findIdentity(Yii::$app->user->id);
     <h3><?= Html::encode($this->title) ?></h3>
 
 
-    <? $form =ActiveForm::begin()?>
+    <?php  $form =ActiveForm::begin()?>
 
     <?=$form->field($model,'old_password')->passwordInput()?>
     

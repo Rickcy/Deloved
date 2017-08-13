@@ -8,6 +8,7 @@ use common\models\Region;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use yii\db\Exception;
 use yii\helpers\Url;
 
 /**
@@ -84,85 +85,69 @@ class SignupForm extends Model
      * @return User|null the saved model or null if saving fails
      * @throws \yii\base\InvalidParamException
      */
-    public function signup()
+    public function signUp()
     {
         if (!$this->validate()) {
             return null;
         }
-        $user = new User();
-        $profile =new Profile();
-        $account =new Account();
 
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailConfirmToken();
-        $user->save();
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
 
-        $profile->fio=$this->fio;
-        $profile->chargeTill=null;
-        $profile->chargeStatus=0;
-        $profile->city_id=$profile->returnCity_id($this->profile_city);
-        $profile->email=$user->email;
-        $profile->user_id=$user->id;
-        $profile->created_at=time();
-        $profile->updated_at=time();
-        $profile->save();
+            $user = new User();
+            $profile =new Profile();
+            $account =new Account();
 
-        $account->full_name=$this->full_name;
-        $account->address=$this->address;
-        $account->brand_name=$this->brand_name;
-        $account->city_id=$account->returnCity_id($this->city_name);
-        $account->date_reg=$account->returnDate($this->date);
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
+            $user->generateEmailConfirmToken();
+            $user->save();
 
-        $account->description=$this->description;
-        $account->director=$this->director;
-        $account->fax=$this->fax;
-        $account->inn=$this->inn;
-        $account->keywords=$this->keywords;
-        $account->ogrn=$this->ogrn;
-        $account->legal_address=$this->legal_address;
-        $account->org_form_id=$this->org_form_id;
-        $account->phone1=$this->phone1;
-        $account->show_main=0;
-        $account->public_status=0;
-        $account->verify_status=0;
-        $account->web_address=$this->web_address;
-        $account->work_time=$this->work_time;
-        $account->email=$this->email;
-        $account->created_at=time();
-        $account->updated_at=time();
-        $account->profile_id=$profile->id;
+            $profile->fio=$this->fio;
+            $profile->chargeTill=null;
+            $profile->chargeStatus=0;
+            $profile->city_id=$profile->returnCity_id($this->profile_city);
+            $profile->email=$user->email;
+            $profile->user_id=$user->id;
+            $profile->created_at=time();
+            $profile->updated_at=time();
+            $profile->save();
 
+            $account->full_name=$this->full_name;
+            $account->address=$this->address;
+            $account->brand_name=$this->brand_name;
+            $account->city_id=$account->returnCity_id($this->city_name);
+            $account->date_reg=$account->returnDate($this->date);
 
-        $account->save();
-        if($this->account_category_goods!=null||$this->account_category_service!=null){
-            foreach ($account->returnCategoties_id($this->account_category_goods,$this->account_category_service) as $item){
-                $category =new AccountCategory();
+            $account->description=$this->description;
+            $account->director=$this->director;
+            $account->fax=$this->fax;
+            $account->inn=$this->inn;
+            $account->keywords=$this->keywords;
+            $account->ogrn=$this->ogrn;
+            $account->legal_address=$this->legal_address;
+            $account->org_form_id=$this->org_form_id;
+            $account->phone1=$this->phone1;
+            $account->show_main=0;
+            $account->public_status=0;
+            $account->verify_status=0;
+            $account->web_address=$this->web_address;
+            $account->work_time=$this->work_time;
+            $account->email=$this->email;
+            $account->created_at=time();
+            $account->updated_at=time();
+            $account->profile_id=$profile->id;
 
-                $category->category_id=$item;
-                $category->account_id=$account->id;
-
-                $category->save();
-
-            }
-        }
-
-
-        if ($user->save()&&$profile->save()&&$account->save()) {
-          
-
-            if (!$user) {
-                return false;
-            }
+            $account->save();
             Yii::$app->common->sendMailEmailConfirm($this->email,$user);
-
-
-
-            
-        return $user;
+            $transaction->commit();
+            return $user;
+        }catch (Exception $e){
+            $transaction->rollBack();
+            return null;
         }
-        return null;
+
     }
 }

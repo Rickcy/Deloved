@@ -57,12 +57,20 @@ return [
     'Payment methods' => 'Способы оплаты',
     'Delivery methods' => 'Способы доставки',
 
+
+    'Select category'=>'Выберите тему',
+
     //Goods
 
 
     'GOOD' => 'Категория товаров',
     'SERVICE' => 'Категория услуг',
     'Create Currency' => 'Создать Валюту',
+    'Create Tariff' => 'Создать Тариф',
+    'Create good' => 'Создать товар',
+    'Edit good' => 'Редактировать товар',
+    'Create service' => 'Создать услугу',
+    'Edit service' => 'Редактировать услугу',
     'Code' => 'Атрибут',
     'Name' => 'Название',
     'Cancel' => 'Отмена',

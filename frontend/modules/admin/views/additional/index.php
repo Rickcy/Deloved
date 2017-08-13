@@ -33,7 +33,7 @@ Yii::$app->formatter->timeZone = 'UTC';
                 </tr>
                 </thead>
                 <tbody>
-                <?
+                <?php
                 $i=0;
                 foreach ($conditions as $condition):?>
                     <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -51,7 +51,7 @@ Yii::$app->formatter->timeZone = 'UTC';
                         </td>
 
                     </tr>
-                    <?
+                    <?php
                     $i++;
                 endforeach;?>
                 </tbody>
@@ -82,7 +82,7 @@ Yii::$app->formatter->timeZone = 'UTC';
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $i=0;
             foreach ($deliveryMethods as $deliveryMethod):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -100,7 +100,7 @@ Yii::$app->formatter->timeZone = 'UTC';
                     </td>
 
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>
@@ -131,7 +131,7 @@ Yii::$app->formatter->timeZone = 'UTC';
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $i=0;
             foreach ($payMethods as $payMethod):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -149,7 +149,7 @@ Yii::$app->formatter->timeZone = 'UTC';
                     </td>
 
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>

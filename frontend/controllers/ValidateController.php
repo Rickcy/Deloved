@@ -5,7 +5,6 @@ use common\models\Currency;
 use common\models\LoginForm;
 use common\models\Measure;
 use common\models\Profile;
-use common\models\Subscribe;
 use common\models\SuggestionCat;
 use common\models\Tariffs;
 use frontend\models\ContactForm;
@@ -134,7 +133,5 @@ class ValidateController extends Controller{
 //
 //
 //    }
-
-
 
 }

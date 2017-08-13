@@ -110,7 +110,7 @@ $this->title = Yii::t('app', 'Create Account');
 
             <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
 
-            <? $items = ArrayHelper::map($org_forms,'id','name');
+            <?php $items = ArrayHelper::map($org_forms,'id','name');
 
             echo $form->field($model, 'org_form_id')->dropDownList($items)->label('Организационно-правовая форма')?>
 
@@ -182,19 +182,19 @@ $this->title = Yii::t('app', 'Create Account');
 
                 <div class="tab-pane" id="cat" >
                     <ul class="nav nav-pills" style="margin-bottom: 20px">
-                        <?
+                        <?php
                         $i=0;
                         foreach ($categoryType as $catType ):?>
 
                             <li style="font-size: 16pt;" class="<?=$i==0?"active":""?>"><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code=='GOOD'?'Категория  товаров':'Категория услуг'?></a></li>
 
-                            <?
+                            <?php
                             $i++;
                         endforeach;?>
                     </ul>
 
                     <div class="tab-content ">
-                        <?
+                        <?php
                         $i=0;
                         foreach ($categoryType as $catType ):?>
 
@@ -203,19 +203,19 @@ $this->title = Yii::t('app', 'Create Account');
 
 
                                 <ul>
-                                    <?foreach ($category as $cat):?>
+                                    <?php foreach ($category as $cat):?>
 
-                                        <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
+                                        <?php if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>"><?=$cat->name?>
                                               
                                             </li>
 
 
-                                        <?endif;?>
+                                        <?php endif;?>
 
 
-                                    <?endforeach;?>
+                                    <?php endforeach;?>
                                 </ul>
 
 
@@ -246,7 +246,7 @@ $this->title = Yii::t('app', 'Create Account');
                                     })
                                 })
                             </script>
-                            <?
+                            <?php
                             $i++;
                         endforeach;?>
 

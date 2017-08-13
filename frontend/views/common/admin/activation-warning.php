@@ -4,7 +4,7 @@ use yii\bootstrap\Html;
 
 $user = User::findIdentity(Yii::$app->user->id);
 ?>
-<?if ($user->checkRole(['ROLE_NONE'])):?>
+<?php if ($user->checkRole(['ROLE_NONE'])):?>
 
 <div class="alert alert-info" style="padding: 10px; margin-bottom: 10px">
 		<button type="button" class="close" id="cActWarn" style="outline: none">&times;</button>
@@ -37,4 +37,4 @@ $(document).ready(function() {
 });
 	</script>
 
-<?endif;?>
+<?php endif;?>

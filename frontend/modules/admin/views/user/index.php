@@ -31,15 +31,15 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
 
-                <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td><?=Yii::t('app', 'Enabled')?></td>
 
-                <?endif;?>
+                <?php endif;?>
                 <td><?=Yii::t('app', 'Role')?></td>
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $i=0;
             foreach ($users as $item):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -47,16 +47,16 @@ $user = User::findIdentity(Yii::$app->user->id);
                     <td>
                         <?= Html::encode($item->username) ?>
                     </td>
-                    <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                    <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td id="gridRow<?=$item->id?>ps">
                             <?=$this->render("status",['status'=>$item->status==1?true:false,'statusClass'=>'publicStatus','iconFalse'=>'glyphicon-lock'])?>
                         </td>
 
-                    <?endif;?>
+                    <?php endif;?>
 
                     <td id="<?=$item->id?>"><?=$item->role->role_name?></td>
 
-                    <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                    <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
                             <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
                                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -64,16 +64,16 @@ $user = User::findIdentity(Yii::$app->user->id);
                             ],])?>
 
                         </td>
-                    <?endif;?>
+                    <?php endif;?>
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>
         </table>
     </div>
 </div>
-<?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+<?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
     <script type="application/javascript">
         $(function () {
 
@@ -100,4 +100,4 @@ $user = User::findIdentity(Yii::$app->user->id);
 
         });
     </script>
-<?endif;?>
+<?php endif;?>

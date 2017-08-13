@@ -14,7 +14,7 @@ use yii\helpers\Url;
 
 
 <div class="modal-body">
-    <?$form = ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
+    <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
         'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
         'labelOptions' => ['class' => 'col-sm-3 control-label']], 'enableAjaxValidation' => true,
         'validationUrl' => Url::to(['/validate/tariff']),
@@ -24,7 +24,7 @@ use yii\helpers\Url;
     <?=$form->field($tariff , 'name')->textInput()?>
     <?=$form->field($tariff , 'price')->textInput()?>
 
-    <? $items = ArrayHelper::map($currency,'id','code');
+    <?php  $items = ArrayHelper::map($currency,'id','code');
 
     echo $form->field($tariff, 'currency_id')->dropDownList($items)->label(Yii::t('app', 'Currency'))?>
 

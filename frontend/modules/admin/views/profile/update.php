@@ -23,10 +23,10 @@ use yii\widgets\ActiveForm;
     <ul class="nav nav-tabs">
         <li class="active"><a href="#main" data-toggle="tab">Общие данные</a></li>
 
-        <?if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
+        <?php if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
 
             <li><a href="#region" data-toggle="tab">Присвоенные Регионы</a></li>
-        <?endif;?>
+        <?php endif;?>
 
     </ul>
     <div class="tab-content">
@@ -45,11 +45,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'email')->textInput(['maxlength' => true,'id'=>'profile-email']) ?>
 
 
-    <?if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
+    <?php if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
 
         <?= $form->field($model, 'experience')->textInput(['id'=>'profile-exp','value'=>$model->getExperience()->one()->experience]) ?>
 
-    <?endif;?>
+    <?php endif;?>
 
     <?= $form->field($model, 'city_name')->widget(
         AutoComplete::className(), [
@@ -105,38 +105,38 @@ use yii\widgets\ActiveForm;
 
 </div>
 
-        <?if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
+        <?php if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
 
         <div class="tab-pane" id="region">
 
             <ul>
-                <?foreach ($regions as $region):?>
+                <?php foreach ($regions as $region):?>
 
-                    <?if ($region->parent_id!=null&&$region->getParent()->one()->parent_id==null):?>
+                    <?php if ($region->parent_id!=null&&$region->getParent()->one()->parent_id==null):?>
 
                         <li id="<?=$region->id?>" data-jstree=<?=$region->equelsVar($region->id,$myRegions)?>><?=$region->name?>
                             <ul>
-                                <?foreach ($regions as $c):?>
+                                <?php foreach ($regions as $c):?>
 
-                                    <?if ($c->parent_id===$region->id):?>
+                                    <?php if ($c->parent_id===$region->id):?>
 
                                         <li id="<?=$c->id?>" data-jstree=<?=$c->equelsVar($c->id,$myRegions)?>><?=$c->name?>
 
                                         </li>
-                                    <?endif?>
+                                    <?php endif?>
 
 
 
 
-                                <?endforeach;?>
+                                <?php endforeach;?>
                             </ul>
                         </li>
 
 
-                    <?endif;?>
+                    <?php endif;?>
 
 
-                <?endforeach;?>
+                <?php endforeach;?>
             </ul>
 
         </div>
@@ -169,7 +169,7 @@ use yii\widgets\ActiveForm;
             </script>
 
             <input id="region_values" class="hidden"/>
-        <?endif;?>
+        <?php endif;?>
 
 
 <div class="modal-footer">

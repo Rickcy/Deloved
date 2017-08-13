@@ -6,15 +6,11 @@ class m130524_201442_init extends Migration
 {
     public function safeUp()
     {
-        $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
-            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
-        }
+
         $this->createTable('{{%role}}',[
             'id'=>$this->primaryKey(),
             'role_name'=>$this->string()
-        ],$tableOptions);
+        ]);
 
 
 
@@ -32,7 +28,7 @@ class m130524_201442_init extends Migration
             'role_id'=>$this->integer()->defaultValue(1),
 
 
-        ], $tableOptions);
+        ]);
 
 
 
@@ -47,7 +43,7 @@ class m130524_201442_init extends Migration
             'chargeTill'=>$this->integer(),
             'user_id'=>$this->integer(),
 
-        ],$tableOptions);
+        ]);
 
 
 
@@ -79,23 +75,23 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
 
-        ],$tableOptions);
+        ]);
 
 
         $this->createTable('{{%org_form}}',[
             'id'=>$this->primaryKey(),
             'code'=>$this->string(),
             'name'=>$this->string(),
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{%logo}}',[
             'id'=>$this->primaryKey(),
-            'created_at' => $this->integer()->notNull(),
+            'created_at' => $this->dateTime()->notNull(),
             'image_name'=>$this->string(),
             'file'=>$this->string(),
             'main_image'=>$this->integer()->defaultValue(0),
             'user_id'=>$this->integer()
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{affiliate}}',[
             'id'=>$this->primaryKey(),
@@ -104,13 +100,13 @@ class m130524_201442_init extends Migration
             'email'=>$this->string(),
             'phone'=>$this->string(),
             'account_id'=>$this->integer()
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{%experience}}',[
             'id'=>$this->primaryKey(),
             'profile_id'=>$this->integer(),
             'experience'=>$this->string()
-        ],$tableOptions);
+        ]);
         
         
         
@@ -119,7 +115,7 @@ class m130524_201442_init extends Migration
             'id'=>$this->primaryKey(),
             'code'=>$this->string()->notNull(),
             'name'=>$this->string()->notNull(),
-        ],$tableOptions);
+        ]);
 
 
         $this->createTable('{{%tariffs}}',[
@@ -128,7 +124,7 @@ class m130524_201442_init extends Migration
             'name'=>$this->string()->notNull(),
             'price'=>$this->double()->notNull(),
             'currency_id'=>$this->integer()->notNull()
-        ],$tableOptions);
+        ]);
 
 
 
@@ -136,21 +132,21 @@ class m130524_201442_init extends Migration
             'id'=>$this->primaryKey(),
             'profile_id'=>$this->integer(),
             'region_id'=>$this->integer()
-        ],$tableOptions);
+        ]);
 
 
         $this->createTable('{{%suggestion_cat}}',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()->notNull()
-        ],$tableOptions);
+        ]);
 
         $this->createTable('{{%suggestion}}',[
             'id'=>$this->primaryKey(),
             'content'=>$this->text()->notNull(),
-            'date_published'=>$this->integer()->notNull(),
+            'date_published'=>$this->dateTime()->notNull(),
             'author_id'=>$this->integer()->notNull(),
             'sug_category_id'=>$this->integer()->notNull(),
-        ],$tableOptions);
+        ]);
 
 
         $this->createIndex('fk_suggestion_author_id','{{%suggestion}}','author_id');

@@ -36,6 +36,7 @@ use Yii;
  * 
  * @property Region $city
  * @property Profile $profile
+ * @property Category $category
  * @property OrgForm $orgForm
  * @property Logo[] $logos
  */

@@ -35,7 +35,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $i=0;
             foreach ($profiles as $profile):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -55,7 +55,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>

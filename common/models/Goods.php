@@ -40,7 +40,7 @@ use Yii;
 class Goods extends \yii\db\ActiveRecord
 {
 
-    public $image;
+    public $photo;
     /**
      * @inheritdoc
      */
@@ -68,8 +68,8 @@ class Goods extends \yii\db\ActiveRecord
             [['delivery_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => DeliveryMethods::className(), 'targetAttribute' => ['delivery_methods_id' => 'id']],
             [['measure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Measure::className(), 'targetAttribute' => ['measure_id' => 'id']],
             [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
-            [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
-            ['image', 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg']
+            [['photo_id'], 'exist', 'skipOnError' => false, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
+            ['photo', 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg']
         ];
     }
 

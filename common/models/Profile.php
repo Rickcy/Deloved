@@ -20,6 +20,7 @@ use Yii;
  * @property Region $city
  * @property Experience $experience
  * @property User $user
+ * @property Account $account
  * @property ProfileRegion $region
  */
 class Profile extends \yii\db\ActiveRecord

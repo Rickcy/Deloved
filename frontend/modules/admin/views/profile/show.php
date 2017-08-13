@@ -46,7 +46,7 @@ $timeZone = $session->get('timeZone');
             <label for="city">City</label>
         </div>
         <div class="col-sm-7 col-xs-10 ft ">
-            <?
+            <?php
             echo AutoComplete::widget([
                 'name'=>'profile_city',
                 'value'=>isset($profile->city->name)?$profile->city->name:'',
@@ -87,7 +87,7 @@ $timeZone = $session->get('timeZone');
     </div>
 
 
-    <?if (in_array($user->role->role_name, ['ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
+    <?php if (in_array($user->role->role_name, ['ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
         <div class="row">
             <div class="col-sm-3 label-col ft  col-sm-offset-1">
                 <label for="experience">Experience</label>
@@ -99,7 +99,7 @@ $timeZone = $session->get('timeZone');
             </div>
 
         </div>
-    <?endif;?>
+    <?php endif;?>
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
@@ -115,7 +115,7 @@ $timeZone = $session->get('timeZone');
         </div>
     </div>
 
-    <?if (User::checkRole(['ROLE_USER'])):?>
+    <?php if (User::checkRole(['ROLE_USER'])):?>
 
         <div class="row">
             <div class="col-sm-3 label-col ft  col-sm-offset-1">
@@ -129,7 +129,7 @@ $timeZone = $session->get('timeZone');
         </div>
 
 
-    <?endif;?>
+    <?php endif;?>
 
 </div>
 

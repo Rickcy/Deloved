@@ -11,7 +11,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 <div class="suggestion-list">
     <h3><?= Html::encode($this->title) ?></h3>
     <hr>
-    <?foreach ($suggestions as $suggestion):?>
+    <?php foreach ($suggestions as $suggestion):?>
         <div class="table-responsive">
             <div style="margin: 10px 10px 10px 0; border: 1px solid silver; background-color: #f2f2f2; padding: 10px; border-radius: 4px">
 
@@ -44,5 +44,5 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             </div>
         </div>
-    <?endforeach;?>
+    <?php endforeach;?>
 </div>

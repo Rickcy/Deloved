@@ -30,18 +30,18 @@ $profile =$user->getProfile()->one();
 		<div class="hperson">
 
 			<img id="hperson-avatar" src="/images/admin/avatar.jpg"/>
-            <?if ($profile):?>
+            <?php if ($profile):?>
                 <span id="hperson-name"><?=$profile->fio?></span>
-            <?elseif (!$profile):?>
+            <?php elseif (!$profile):?>
             <span id="hperson-name"><?=$user->username?></span>
-            <?endif;?>
+            <?php endif;?>
             <div id="info">
 
 				<a href="/admin/profile/show" class="info-menu" ><?=Yii::t('app', 'My Profile')?></a>
 
-                <?if ($user->checkRole(['ROLE_USER'])):?>
+                <?php if ($user->checkRole(['ROLE_USER'])):?>
 					<a href="#" class="info-menu"><?=Yii::t('app', 'Personal Invoice')?></a>
-				<?endif;?>
+				<?php endif;?>
 				<a href="/admin/default/logout" data-method="post" class="info-menu"><?=Yii::t('app', 'Logout')?></a>
 
 

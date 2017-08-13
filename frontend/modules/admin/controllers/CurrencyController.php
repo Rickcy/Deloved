@@ -33,7 +33,7 @@ class CurrencyController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-       // $type = CategoryType::find()->all();
+        $type = CategoryType::find()->all();
         $currency = new Currency();
         if ($currency->load(Yii::$app->request->post())){
             $currency->save();
@@ -41,7 +41,7 @@ class CurrencyController extends AuthController
             return $this->redirect(['index']);
         }
         return $this->render('create',[
-            'currency'=>$currency,//'type'=>$type
+            'currency'=>$currency,'type'=>$type
         ]);
 
     }

@@ -26,24 +26,18 @@ use yii\helpers\Url;
                     Укажите Ваши предложения, замечания или отзывы о работе портала, заполнив поля ниже.
                 </div>
 
-                <?
+                <?php
                 $items = ArrayHelper::map($suggestion_cat,'id','name');
                 echo $form->field($model, 'suggestion_cat')->label('')->dropDownList($items,['class'=>'contact_form-control form-control','prompt' => Yii::t('app', 'Select category')])?>
 
-
-
-
                 <?= $form->field($model, 'content')->textarea(['rows' => 10,'class'=>'contact_form-control form-control','placeholder'=>'Сообщение'])->label('') ?>
-
-
 
                 <div class="form-group">
                     <?= Html::submitButton('Отправить', ['class' => 'btn btn-lg btn-blue btn-block', 'name' => 'contact-button']) ?>
                 </div>
 
-                <?ActiveForm::end()?>
+                <?php ActiveForm::end()?>
             </div>
-
 
         </div>
     </div>

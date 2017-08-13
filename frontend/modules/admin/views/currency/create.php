@@ -14,7 +14,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
     <h3><?= Html::encode($this->title) ?></h3>
 
-    <?$form =ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
+    <?php $form =ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
         'template' => '{label}<div class="col-sm-9">{input}</div><div class="col-sm-9 col-sm-offset-3">{error}</div>',
         'labelOptions' => ['class' => 'col-sm-3 control-label'],
     ]])?>
@@ -23,9 +23,9 @@ $user = User::findIdentity(Yii::$app->user->id);
     <?=$form->field($currency , 'code')->textInput()?>
 
 
-<!---->
-<!-- --><?// $items = ArrayHelper::map($type,'id','code');
-//
+
+ <?php $items = ArrayHelper::map($type,'id','code');
+
 //    echo $form->field($currency, 'type_id')->dropDownList($items)->label('Категория')?>
 
 
@@ -35,5 +35,5 @@ $user = User::findIdentity(Yii::$app->user->id);
 
     </div>
 
-    <?ActiveForm::end()?>
+    <?php ActiveForm::end()?>
 </div>

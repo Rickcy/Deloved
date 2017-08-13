@@ -248,8 +248,8 @@ class AccountController extends AuthController
         $category = Category::find()->all();
         
         $user=User::findOne(Yii::$app->user->id);
-        $account=$user->getProfile()->one()->getAccount()->one();
-        $model=new Logo();
+        $account=$user->profile->account;
+
 
         $level_id=18;
         $city_list=Region::find()
@@ -261,38 +261,13 @@ class AccountController extends AuthController
         $logo=null;
         $affiliate =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
-        $myCategory =$account->getCategory()->all();
-        
-        if ($model->load(Yii::$app->request->post())){
+        $myCategory =$account->category;
 
-            $file =$model->file=UploadedFile::getInstance($model,'file');
-            $logo = $file;
-            if ($file){
-
-                if($account->getMainImage()){
-                    Logo::findOne($account->getMainImage()->id)->delete();
-                    $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
-                    BaseFileHelper::removeDirectory($path2);
-                }
-
-                $path = Yii::getAlias('@frontend/web/uploads/accounts/'.$account->id.'/general');
-                BaseFileHelper::createDirectory($path);
-                $model->created_at=time();
-                $model->user_id=$account->id;
-                $name =$logo->baseName.'.'.$logo->extension;
-                $model->image_name=$name;
-                $model->main_image=1;
-                $model->file='uploads/accounts/'.$account->id.'/general/'.$name;
-                $logo->saveAs($path .DIRECTORY_SEPARATOR .$name);
-
-            }
-            $model->save();
-        }
 
             return $this->render('show',[
                 'account'=>$account,
-                'model'=>$model,
-                isset($logo)?:'logo'=>$logo,
+//                'model'=>$model,
+//                isset($logo)?:'logo'=>$logo,
                 'category'=>$category,
                 'categoryType'=>$categoryType,
                 'myCategory'=>$myCategory,

@@ -63,21 +63,18 @@ class ServicesController extends AuthController
 
 
         $model = new Services();
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>2])->all();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1342])->all();
         $currency = Currency::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
-        $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
-        $myCategory =$account->getCategory()->all();
+        $account = User::findOne(Yii::$app->user->id)->profile->account;
+        $myCategory =$account->category;
+        $model->date_created = time();
+        $model->account_id = $account->id;
+        $model->category_type_id = 1342;
+        $model->show_main = 0;
 
         if ($model->load(Yii::$app->request->post())) {
-
-            $model->date_created = time();
-            $model->account_id = $account->id;
-            $model->category_type_id = 2;
-            $model->show_main = 0;
-
             $model->save();
-
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
         } else {
@@ -106,24 +103,17 @@ class ServicesController extends AuthController
         if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-
         $model = $this->findModel($id);
 
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>2])->all();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1342])->all();
         $currency = Currency::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
-        $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
-        $myCategory =Account::findOne($model->account_id)->getCategory()->where('account_id=:account_id',[':account_id'=>$model->account_id])->all();
-
-
-
+        $account = User::findOne(Yii::$app->user->id)->profile->account;
+        $myCategory =Account::findOne($model->account_id)->getCategory()->where(['account_id'=>$model->account_id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
-
             $model->save();
-
             Yii::$app->session->addFlash('success', 'Service Update!');
-
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -151,8 +141,6 @@ class ServicesController extends AuthController
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
         throw new ForbiddenHttpException('Доступ запрещен');
     }
-
-
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

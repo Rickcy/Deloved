@@ -1,4 +1,4 @@
-<? use common\models\User;
+<?php use common\models\User;
 use yii\bootstrap\Html;
 /**@var $role common\models\Role**/
 /**@var $user common\models\User**/

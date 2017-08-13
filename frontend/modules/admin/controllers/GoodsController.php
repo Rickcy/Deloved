@@ -70,32 +70,23 @@ class GoodsController extends AuthController
         }
 
         $model = new Goods();
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1])->all();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1227])->all();
         $currency = Currency::find()->all();
         $conditions = Condition::find()->all();
         $deliveryMethods = DeliveryMethods::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
-        $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
-        $myCategory =$account->getCategory()->all();
+        $account = User::findOne(Yii::$app->user->id)->profile->account;
+        $myCategory = $account->category;
+        $model->date_created = time();
+        $model->account_id = $account->id;
+        $model->category_type_id = 1227;
+        $model->show_main = 0;
 
-
-
-        if ($model->load(Yii::$app->request->post())) {
-
-            $model->date_created = time();
-            $model->account_id = $account->id;
-            $model->category_type_id = 1;
-            $model->show_main = 0;
-
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->save();
-
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
         }
-       
-
-        
-        else {
             return $this->render('create', [
                 'model' => $model,
                 'measure'=>$measure,
@@ -106,19 +97,18 @@ class GoodsController extends AuthController
                 'myCategory'=>$myCategory,
                 'account'=>$account
             ]);
-        }
+
     }
 
-    
-    
+
     public function actionUpload(){
         if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $model = new Goods();
     if (Yii::$app->request->isAjax){
-            $model->image = UploadedFile::getInstance($model, 'image');
-            if ($model->image) {
+            $model->photo = UploadedFile::getInstance($model, 'photo');
+            if ($model->photo) {
                 Yii::$app->session->addFlash('success', 'You has Image');
                 return $this->refresh();
             }
@@ -142,23 +132,18 @@ class GoodsController extends AuthController
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-
         $model = $this->findModel($id);
 
-
-        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1])->all();
+        $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1227])->all();
         $currency = Currency::find()->all();
         $conditions = Condition::find()->all();
         $deliveryMethods = DeliveryMethods::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
-        $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
-        $myCategory =Account::findOne($model->account_id)->getCategory()->where('account_id=:account_id',[':account_id'=>$model->account_id])->all();
-
+        $account = User::findOne(Yii::$app->user->id)->profile->account;
+        $myCategory = Account::findOne($model->account_id)->getCategory()->where('account_id=:account_id',[':account_id'=>$model->account_id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
-
             $model->save();
-
             Yii::$app->session->addFlash('success', 'Good Update!');
             return $this->redirect(['index']);
         } else {

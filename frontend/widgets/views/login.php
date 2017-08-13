@@ -11,8 +11,6 @@ use yii\helpers\Url;
             'template' => '{input}{error}',
             'labelOptions' => ['class' => 'col-sm-3 control-label']
                 ],
-            'enableAjaxValidation' => true,
-            'validationUrl' => Url::to(['/validate/login']),
         ])
         ?>
         <h3 ><?=Yii::t('app', 'The entrance to personal Cabinet')?></h3>
@@ -29,7 +27,7 @@ use yii\helpers\Url;
         <div class="clearfix"></div>
         <?=Html::submitButton(Yii::t('app', 'Login'),['class'=>'btn btn-lg btn-green btn-block ','id'=>'sendBtn'])?>
 
-        <?ActiveForm::end()?>
+        <?php ActiveForm::end()?>
 
 
 

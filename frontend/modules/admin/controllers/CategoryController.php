@@ -38,7 +38,7 @@ class CategoryController extends AuthController
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $categoryType = Category::find()->where('parent_id=:parent_id',['parent_id'=>1])->all();
+        $categoryType = Category::find()->where('parent_id=:parent_id',['parent_id'=>1227])->all();
 
         return $this->render('index', [
             'categoryType'=>$categoryType

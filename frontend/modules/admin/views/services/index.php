@@ -16,19 +16,19 @@ $timeZone = $session->get('timeZone');
 
     <h3><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?if ($user->checkRole(['ROLE_USER'])):?>
+    <?php if ($user->checkRole(['ROLE_USER'])):?>
         <div class="buttons">
             <?= Html::a(Yii::t('app', 'Create service'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-    <?endif;?>
+    <?php endif;?>
     <div class="table-responsive">
         <table border="0" class="table table-striped">
             <thead class="thead-main">
             <tr>
 
-                <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td><?=Yii::t('app', 'Accounts')?></td>
-                <?endif;?>
+                <?php endif;?>
 
                 <td><?=Yii::t('app', 'Name')?></td>
 
@@ -42,15 +42,15 @@ $timeZone = $session->get('timeZone');
             </tr>
             </thead>
             <tbody>
-            <?
+            <?php
             $i=0;
             foreach ($services as $service):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
-                    <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                    <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
-                            <?=$service->getAccount()->one()->full_name ?>
+                            <?=$service->account->full_name ?>
                         </td>
-                    <?endif;?>
+                    <?php endif;?>
                     <td>
                         <?= Html::a($service->name, ['update', 'id' => $service->id]) ?>
                     </td>
@@ -69,7 +69,7 @@ $timeZone = $session->get('timeZone');
                     </td>
 
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>

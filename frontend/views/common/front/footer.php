@@ -1,4 +1,4 @@
-<?
+<?php
 use frontend\widgets\ChangePassword;
 use frontend\widgets\Contact;
 use frontend\widgets\Login;
@@ -20,25 +20,25 @@ use frontend\widgets\Suggestion;
                 <li><a href="#">Соглашение</a></li>
                 
                 <!--Если пользователь является гостем-->
-                <?  if(Yii::$app->user->isGuest):?>
+                <?php  if(Yii::$app->user->isGuest):?>
                     <li><a href="#" data-target="#Contact" data-toggle="modal">Связаться с нами</a></li>
-                <?endif?>
+                <?php endif?>
                 
                 <!--Если пользователь не является гостем-->
-                <?if(!Yii::$app->user->isGuest):?>
+                <?php if(!Yii::$app->user->isGuest):?>
                     <li><a href="/#">Связаться с нами</a></li>
-                <?endif;?>
+                <?php endif?>
 
 
                 <!--Если пользователь является гостем-->
-                <?  if(Yii::$app->user->isGuest):?>
+                <?php  if(Yii::$app->user->isGuest):?>
                     <li><a href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
-                <?endif?>
+                <?php endif?>
 
                 <!--Если пользователь не является гостем-->
-                <?if(!Yii::$app->user->isGuest):?>
+                <?php if(!Yii::$app->user->isGuest):?>
                     <li><a href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
-                <?endif;?>
+                <?php endif;?>
 
 
             </ul>
@@ -65,22 +65,15 @@ use frontend\widgets\Suggestion;
     </div>
 
 </div>
-<?if(Yii::$app->user->isGuest) {
+<?php if(Yii::$app->user->isGuest) {
     echo Login::widget();
-}
-?>
-<?if(Yii::$app->user->isGuest) {
+    echo PasswordReset::widget();
     echo Contact::widget();
 }
 ?>
-<?if(Yii::$app->user->isGuest) {
-    echo PasswordReset::widget();
-}
-?>
-<?if(!Yii::$app->user->isGuest) {
+<?php if(!Yii::$app->user->isGuest){
     echo Suggestion::widget();
-}
-?>
+}?>
     <script>
         function noAuth() {
             $('#Login').modal('show');

@@ -37,7 +37,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             </tr>
             </thead>
             <tbody class="tbody-category">
-            <?
+            <?php
             $i=0;
             foreach ($suggestion_cat as $item):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -58,7 +58,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                         </td>
                     
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>

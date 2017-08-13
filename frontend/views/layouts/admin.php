@@ -41,7 +41,7 @@ if ($session->has('lang')){
 <div class="row" style="margin: 0">
 <div class=" col-lg-3 col-md-4" style="padding: 0 10px 0 0" id="asd">
     <div class="left-block"  >
-        <?
+        <?php
         echo Menu::widget([
             'items' => [
                 ['label' => Yii::t('app', 'Home'), 'url' => ['/admin/default/index']],
@@ -54,15 +54,15 @@ if ($session->has('lang')){
         ?>
 
 
-        <?if ($user->checkRole(['ROLE_ADMIN'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN'])):?>
 
             <h1 class="ft"><?=Yii::t('app', 'Information')?></h1>
 
             <div class="ug"></div>
 
 
-                <?
-                echo Menu::widget([
+                <?php
+            echo Menu::widget([
                     'items' => [
                         ['label' => Yii::t('app', 'Categories'), 'url' => ['/admin/category/index']],
                         ['label' => Yii::t('app', 'Measure'), 'url' => ['/admin/measure/index']],
@@ -80,16 +80,16 @@ if ($session->has('lang')){
 
 
 
-        <?endif;?>
+        <?php endif;?>
         
-        <?if ($user->checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])):?>
 
 
             <h1 class="ft"><?=Yii::t('app', 'Feedback')?></h1>
             <div class="ug"></div>
 
-                <?
-                $menuItemsFeedback = [];
+                <?php
+            $menuItemsFeedback = [];
             $menuItemsFeedback[]=['label' => Yii::t('app', 'Contact us'), 'url' => ['/admin/suggestion/show']];
                 if ($user->checkRole(['ROLE_ADMIN'])){
 
@@ -106,9 +106,9 @@ if ($session->has('lang')){
                 ?>
 
 
-        <?endif;?>
+        <?php endif;?>
 
-        <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
 
 
 
@@ -118,7 +118,7 @@ if ($session->has('lang')){
 
             <div class="ug"></div>
 
-            <?
+            <?php
             echo Menu::widget([
                 'items' => [
                     ['label' => Yii::t('app', 'Users list'), 'url' => ['/admin/user/index']],
@@ -132,15 +132,15 @@ if ($session->has('lang')){
             ?>
 
 
-        <?endif;?>
+        <?php endif;?>
 
 
-        <?if ($user->checkRole(['ROLE_ADMIN'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN'])):?>
 
             <h1 class="ft"><?=Yii::t('app', 'Billing')?></h1>
 
             <div class="ug"></div>
-            <?
+            <?php
             echo Menu::widget([
                 'items' => [
                     ['label' => Yii::t('app', 'Invoices for payment'), 'url' => ['/#']]
@@ -152,9 +152,9 @@ if ($session->has('lang')){
             ]);
             ?>
 
-        <?endif;?>
+        <?php endif;?>
 
-        <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])):?>
 
 
 
@@ -164,8 +164,8 @@ if ($session->has('lang')){
 
 
 
-                <?
-                $menuItemsBusiness = [];
+                <?php
+            $menuItemsBusiness = [];
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])){
 
@@ -184,8 +184,8 @@ if ($session->has('lang')){
                     'activeCssClass'=>'active-item',
                 ]);
                 ?>
-                <?
-                $menuItemsBusiness2 = [];
+                <?php
+            $menuItemsBusiness2 = [];
                 $link = null;
                 if ($user->freeUser()){
                     $link.= '<a href="{url}">{label}<span class="badge badge_green badge_pro">pro</span></a>';
@@ -215,8 +215,8 @@ if ($session->has('lang')){
                 ]);
                 ?>
 
-                <?
-                $menuItemsBusiness4 = [];
+                <?php
+            $menuItemsBusiness4 = [];
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
@@ -235,8 +235,8 @@ if ($session->has('lang')){
                 ?>
 
 
-                <?
-                $menuItemsBusiness3 = [];
+                <?php
+            $menuItemsBusiness3 = [];
                 $link2 = null;
                 if ($user->freeUser()){
                     $link2.= '<a href="{url}">{label}<span class="badge badge_green badge_pro">pro</span></a>';
@@ -264,15 +264,15 @@ if ($session->has('lang')){
 
 
 
-        <?endif;?>
+        <?php endif;?>
 
-        <?if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST','ROLE_JUDGE'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST','ROLE_JUDGE'])):?>
 
 
             <h1 class="ft"><?=Yii::t('app', 'Jurisprudence')?></h1>
             <div class="ug"></div>
             <ul class="admin_menu">
-                <?
+                <?php
                 $menuItemsJurist3 = [];
                 $link3 = null;
                 if ($user->freeUser()){
@@ -311,8 +311,8 @@ if ($session->has('lang')){
                 ?>
 
 
-                <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])):?>
-                    <?
+                <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])):?>
+                    <?php
                     echo Menu::widget([
                         'items' => [
                             ['label' => Yii::t('app', 'Forms of documents'), 'url' => ['/#']]
@@ -324,18 +324,18 @@ if ($session->has('lang')){
                     ]);
                     ?>
 
-                <?endif;?>
+                <?php endif;?>
 
 
             </ul>
-    <?endif;?>
+    <?php endif?>
 
-        <?if ($user->checkRole(['ROLE_MANAGER','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_JURIST','ROLE_USER'])):?>
+        <?php if ($user->checkRole(['ROLE_MANAGER','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_JURIST','ROLE_USER'])):?>
 
 
             <h1 class="ft"><?=Yii::t('app', 'Support')?></h1>
             <div class="ug"></div>
-            <?
+            <?php
             echo Menu::widget([
                 'items' => [
                     ['label' => Yii::t('app', 'Technical support'), 'url' => ['/#']]
@@ -346,7 +346,7 @@ if ($session->has('lang')){
                 'activeCssClass'=>'active-item',
             ]);
             ?>
-        <?endif;?>
+        <?php endif;?>
 
 
 

@@ -15,7 +15,7 @@ $this->title = 'Повторный запрос на почту'
 
         <span style="text-align: left; font-weight: bold;">Повторный запрос письма с инструкциями по активации учетной записи</span>
 
-        <? $form = ActiveForm::begin(['id'=>'formResend'])?>
+        <?php  $form = ActiveForm::begin(['id'=>'formResend'])?>
             <?=$form->field($model,'email')->textInput(['value' => $user->email])?>
         <div class="form-group">
             <?= Html::submitButton('Выслать', ['class' => 'btn btn-primary']) ?>
@@ -25,6 +25,6 @@ $this->title = 'Повторный запрос на почту'
             'captchaAction'=>Url::to(['/admin/default/captcha'])
         ])->label('') ?>
 
-        <? ActiveForm::end()?>
+        <?php  ActiveForm::end()?>
     </div>
 </div>

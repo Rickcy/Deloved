@@ -99,8 +99,6 @@ class FrontController extends Controller
      */
     public function actionLogin()
     {
-
-
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -116,10 +114,6 @@ class FrontController extends Controller
             ]);
         }
     }
-
-
-
-   
 
 
     /**
@@ -180,32 +174,25 @@ class FrontController extends Controller
      */
     public function actionSignup()
     {
-
       $categoryType = CategoryType::find()->all();
       $category = Category::find()->all();
         
-       $level_id=18;
-       $org_forms =OrgForm::find()->all();
-        $city_list=Region::find()
+       $level_id = 18;
+       $org_forms = OrgForm::find()->all();
+        $city_list= Region::find()
            ->select(['name as  label','name as value','name as name'])
             ->where('level_id=:level_id',[':level_id'=>$level_id])
            ->asArray()
            ->all();
 
         $model = new SignupForm();
-
         if ($model->load(Yii::$app->request->post())) {
-
-
-            if ($user = $model->signup()) {
-               
-
+            if ($user = $model->signUp()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->redirect('/admin');
                 }
             }
         }
-
         return $this->render('signup', [
             'model' => $model,'city_list'=>$city_list,'org_forms'=>$org_forms,'categoryType'=>$categoryType,'category'=>$category
         ]);

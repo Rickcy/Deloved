@@ -50,13 +50,13 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 <td>Действие</td>
 
-                <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td></td>
-                <?endif;?>
+                <?php endif;?>
             </tr>
             </thead>
             <tbody class="tbody-category">
-            <?
+            <?php
             $i=0;
             foreach ($category as $cat):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
@@ -71,7 +71,7 @@ $user = User::findIdentity(Yii::$app->user->id);
                     <td><?=Html::a('Развернуть', ['view', 'id' => $cat->id])?></td>
 
 
-                    <?if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
+                    <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
                             <?= Html::a('', ['delete', 'id' => $cat->id,'parent_id'=>$model->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
                                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
@@ -79,9 +79,9 @@ $user = User::findIdentity(Yii::$app->user->id);
                             ],])?>
 
                         </td>
-                    <?endif;?>
+                    <?php endif;?>
                 </tr>
-                <?
+                <?php
                 $i++;
             endforeach;?>
             </tbody>

@@ -25,7 +25,7 @@ if ($aff):
             </div>
             <div class="col-md-9">
 <!--                <input id="aff--><?//=$i?><!--city" class="form-control" value="--><?//=$aff->city_id?><!--" style="width: 100%"/>-->
-                <?
+                <?php
                 echo AutoComplete::widget([
                     'value'=>$aff->getCity()->one()->name,
                     'id'=>'aff'.$i.'city',
@@ -124,9 +124,9 @@ if ($aff):
             })
         }
     </script>
-    <?$i++?>
-    <?endif;?>
-<?if (!$aff):?>
+    <?php $i++?>
+    <?php endif;?>
+<?php if (!$aff):?>
     <div id="aff<?=$count?>" class="tab-pane affiliate <?=$active == true ? 'active' : ''?>">
 
         <div name="affiliateBlock" style="width: 100%">
@@ -148,7 +148,7 @@ if ($aff):
                 </div>
                 <div class="col-md-9">
 <!--                    <input id="aff--><?//=$count?><!--city" class="form-control" value="" style="width: 100%"/>-->
-                    <?
+                    <?php
                     echo AutoComplete::widget([
                         'name' => 'country',
                         'id' => 'aff'.$count.'city',
@@ -218,4 +218,4 @@ if ($aff):
 
         }
     </script>
-<?endif?>
+<?php endif?>

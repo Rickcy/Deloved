@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                 },
             ]); ?>
 
-            <? $items = ArrayHelper::map($profiles,'id','fio');
+            <?php  $items = ArrayHelper::map($profiles,'id','fio');
 
             echo $form->field($model, 'profile_id')->dropDownList($items)->label('Профиль')?>
 
@@ -108,12 +108,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
                 <div class="col-sm-9">
 
-            <?if ($model->getMainImage($model->id)):?>
+            <?php if ($model->getMainImage($model->id)):?>
                 <img width="40%" src="/<?=$model->getMainImage($model->id)->file?>" class="img-thumbnail" alt="<?=$model->getMainImage($model->id)->image_name?>">
-            <?endif;?>
-            <?if (!$model->getMainImage($model->id)):?>
+            <?php endif;?>
+            <?php if (!$model->getMainImage($model->id)):?>
                 <img width="40%" src="/uploads/default/logo_default.png" class="img-thumbnail" alt="logo_default">
-            <?endif;?>
+            <?php endif;?>
         
                 </div>
         <?= $form->field($model, 'file')->fileInput()->label('') ?>
@@ -129,7 +129,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
             <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
 
-            <? $items = ArrayHelper::map($org_forms,'id','name');
+            <?php  $items = ArrayHelper::map($org_forms,'id','name');
 
             echo $form->field($model, 'org_form_id')->dropDownList($items)->label('Организационно-правовая форма')?>
 
@@ -194,10 +194,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 
                     <ul id="affTabNav" class="nav nav-pills">
-                        <?$i=0;
+                        <?php $i=0;
                         foreach ($myAffiliates as $aff):?>
                             <li class="<?=$i==0?'active':''?>"><a id="hrefaff<?=$i?>" data-toggle="tab" href="#aff<?=$i?>"><?=$i+1?></a></li>
-                            <?$i++;
+                            <?php $i++;
                         endforeach;?>
 
                     </ul>
@@ -206,10 +206,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 
                         <div id="affTabContent" class="tab-content">
-                            <?$i=0;
+                            <?php $i=0;
                             foreach ($myAffiliates as $aff):?>
                                 <?=$this->render("affiliate",['myAccount'=>$model,'i'=>$i,'aff'=>$aff,'count'=>$count,'active'=>false,'city_list'=>$city_list])?>
-                                <?$i++;
+                                <?php $i++;
                             endforeach;?>
 
                         </div>
@@ -242,19 +242,19 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
                 <div class="tab-pane" id="cat" >
                     <ul class="nav nav-pills" style="margin-bottom: 20px">
-                        <?
+                        <?php
                         $i=0;
                         foreach ($categoryType as $catType ):?>
 
                             <li style="font-size: 16pt;" class="<?=$i==0?"active":""?>"><a href="#<?=$catType->code?>" data-toggle="tab"><?=$catType->code=='GOOD'?'Категория  товаров':'Категория услуг'?></a></li>
 
-                            <?
+                            <?php
                             $i++;
                         endforeach;?>
                     </ul>
 
                     <div class="tab-content ">
-                        <?$i=0;
+                        <?php $i=0;
                         foreach ($categoryType as $catType ):?>
 
                             <div  class="tab-pane <?=$i==0?"active":""?>" id="<?=$catType->code?>">
@@ -262,19 +262,19 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
 
                                 <ul>
-                                    <?foreach ($category as $cat):?>
+                                    <?php foreach ($category as $cat):?>
 
-                                        <?if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
+                                        <?php if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
 
                                             <li id="<?=$cat->id?>" data-jstree=<?=$cat->equelsVar($cat->id,$myCategory)?>><?=$cat->name?>
                                               
                                             </li>
 
 
-                                        <?endif;?>
+                                        <?php endif;?>
 
 
-                                    <?endforeach;?>
+                                    <?php endforeach;?>
                                 </ul>
 
 
@@ -308,7 +308,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                                         });
                                 })
                             </script>
-                            <?
+                            <?php
                             $i++;
                         endforeach;?>
                     </div>
