@@ -29,6 +29,7 @@ use frontend\models\ContactForm;
  */
 class FrontController extends Controller
 {
+    public $layout='/front';
     /**
      * @inheritdoc
      */

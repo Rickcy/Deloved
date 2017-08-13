@@ -1,6 +1,7 @@
 <?php
 return [
     //MENU
+    'Business-portal Deloved'=>'Бизнес-портал Деловед',
     'Home' => 'Главная страница',
     'Sign Up' => 'Регистрация',
     'Login' => 'Войти',

@@ -8,13 +8,7 @@ $(document).ready(function(){
     }
 
 
-   
-
-
-
-
-
-        var a=function(){
+        var a = function(){
             var a=$("#myTabExample > li"),
                 b=a.filter(".active")
                 ,c=b.next("li").length?b.next("li").find("a"):a.filter(":first-child").find("a");

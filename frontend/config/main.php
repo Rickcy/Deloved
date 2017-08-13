@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
 
-    'defaultRoute'=>'front',
+    'defaultRoute'=>'main',
     'controllerNamespace' => 'frontend\controllers',
     'modules' => [
         'admin' => [
