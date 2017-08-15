@@ -3,6 +3,9 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Exception;
+use yii\helpers\BaseFileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "goods".
@@ -21,7 +24,7 @@ use Yii;
  * @property integer $account_id
  * @property integer $category_type_id
  * @property integer $category_id
- * @property integer $date_created
+ * @property string $date_created
  * @property integer $show_main
  * @property integer $photo_id
  * @property integer $measure_id
@@ -39,8 +42,10 @@ use Yii;
  */
 class Goods extends \yii\db\ActiveRecord
 {
-
-    public $photo;
+    /**
+     * @var $photoFile UploadedFile
+     */
+    public $photoFile;
     /**
      * @inheritdoc
      */
@@ -58,7 +63,8 @@ class Goods extends \yii\db\ActiveRecord
             [['name', 'availability', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id','price'], 'required'],
             [['price'], 'number'],
             [['description'], 'string'],
-            [['availability', 'rating_count', 'rating_good', 'condition_id', 'payment_methods_id', 'delivery_methods_id', 'account_id', 'category_type_id', 'category_id', 'date_created', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
+            [['date_created'], 'safe'],
+            [['availability', 'rating_count', 'rating_good', 'condition_id', 'payment_methods_id', 'delivery_methods_id', 'account_id', 'category_type_id', 'category_id', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
             [['name', 'model'], 'string', 'max' => 255],
             [['condition_id'], 'exist', 'skipOnError' => true, 'targetClass' => Condition::className(), 'targetAttribute' => ['condition_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
@@ -171,5 +177,29 @@ class Goods extends \yii\db\ActiveRecord
     public function getPhoto()
     {
         return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
+    }
+
+    public function saveImage(){
+        if(!is_dir('@uploadDir')){
+            BaseFileHelper::createDirectory('@uploadDir');
+        }
+        $url =Yii::$app->security->generateRandomString(10).'.'.$this->photoFile->extension;
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+
+        $photo = new Photo();
+        $photo->file = '/uploads/'.$url;
+        $photo->image_name = $this->photoFile->name;
+        $photo->save();
+        umask( 0002 );
+        $this->photoFile->saveAs('uploads/'.$url);
+
+        $transaction->commit();
+
+        }catch (Exception $exception){
+
+            $transaction->rollBack();
+        }
+        return $photo->file;
     }
 }

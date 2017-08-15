@@ -5,6 +5,13 @@
  * Date: 13.08.17
  * Time: 21:22
  */
+use frontend\widgets\Contact;
+use frontend\widgets\PasswordReset;
+use frontend\widgets\SignUp;
+use frontend\widgets\Suggestion;
+use frontend\widgets\Login;
+use yii\helpers\Url;
+
 $this->title = Yii::t('app', 'Business-portal Deloved');
 ?>
 <div id="site_wrapper1">
@@ -28,7 +35,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                             <div class="blk-data ie_css3 clearfix">
                                                 <div class="blk_image_data_wrap no_sel r_text">
                                                     <div class="img_container">
-                                                        <g:link controller="frontnew" action="index"><img style="width: 186px; border-radius: 0px" src="/images/main/7cd568bf1a88f3d6cca37207d74301ec.gif" ></g:link>
+                                                        <a  href="/"><img style="width: 186px; border-radius: 0px" src="/images/main/7cd568bf1a88f3d6cca37207d74301ec.gif" ></a>
 
 
                                                     </div>
@@ -62,17 +69,15 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         <div class="blk    blk_button " id="0542c9465b82469c9343c1acc8ca95e7" blk_class="blk_button" type_id="5" pos="1" data-id="b-0542c9465b82469c9343c1acc8ca95e7" style="opacity: 1;">
 
                                                             <div class="blk-data ie_css3 clearfix"><div class="blk_button_data_wrap c_text ">
+                                                                    <?php if(!Yii::$app->user->isGuest):?>
+                                                                        <a href="<?=Url::to(['/admin']) ?>" class="btn-new ie_css3" ><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>В Кабинет<span class="badge badge_red newIt" ></span></a>
 
-                                                                        <a class="btn-new ie_css3"  controller="panel" action="index"><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>В Кабинет<span class="badge badge_red newIt" ></span></a>
+                                                                        <a class="btn-new ie_css3" href="<?=Url::to(['/front/logout']) ?>" data-method="post">Выйти</a>
+                                                                    <?php endif?>
+                                                                    <?php if(Yii::$app->user->isGuest):?>
+                                                                        <a href="#" class="btn-new ie_css3" data-target="#Login" data-toggle="modal"><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>Личный Кабинет</a>
 
-                                                                        <form id="logoutForm" url="[controller: 'logout', action: 'index']" method="POST"></form>
-                                                                        <a class="btn-new ie_css3" href="javascript:void(0)" onclick="$('#logoutForm').submit()"><span style="margin-right: 3px" class="glyphicon glyphicon-off"  ></span>Выйти</a>
-
-                                                                        <a  class="btn-new ie_css3" controller="login" action="auth"
-                                                                                data-toggle="modal"
-                                                                                data-remote="${createLink(controller:'login' , action: 'auth"
-                                                                                data-target="#myModal"><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>Личный Кабинет</a>
-
+                                                                    <?php endif?>
 
 
                                                                 </div></div>
@@ -126,8 +131,8 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                         <div class="blk    blk_form  blk-no-bg blk-no-border" id="74db5d09fab04093b77e3766750a23b7" blk_class="blk_form" type_id="6" pos="3" data-id="b-74db5d09fab04093b77e3766750a23b7">
 
                                             <div class="blk-data ie_css3 clearfix"><div class="blk_form_wrap r_text is_popover ">
+                                                    <a href="#" class="btn-new ie_css3 btn-form-popover" data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 
-                                                        <a href="javascript:void(0)" class="btn-new ie_css3 btn-form-popover" id="registration">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 
                                                 </div></div>
                                         </div>
@@ -935,19 +940,23 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                         <div class="blk-data ie_css3 clearfix"><div class="blk_form_wrap c_text is_popover ">
 
+                                <!--Если пользователь является гостем-->
+                                <?php  if(Yii::$app->user->isGuest):?>
+                                    <a class="btn-new ie_css3 btn-form-popover" href="#" data-target="#Contact" data-toggle="modal">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                <?php endif?>
 
-                                    <a class="btn-new ie_css3 btn-form-popover getCaptcha" id="createSuggestion" href="javascript:void(0)">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                <!--Если пользователь не является гостем-->
+                                <?php if(!Yii::$app->user->isGuest):?>
+                                    <a class="btn-new ie_css3 btn-form-popover"  href="/#">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                <?php endif?>
+
 
                                     <script>
                                         $(document).ready(function(){
-
-
-
-
-                                            $('[name=inn]').change(function () {
-                                                if ($('[name=inn]').val().length === 10){
+                                            $('#signupform-inn').change(function () {
+                                                if ($('#signupform-inn').val().length === 10){
                                                     console.log('10');
-                                                    var inn = $('[name=inn]').val();
+                                                    var inn = $('#signupform-inn').val();
                                                     $.ajax({
                                                         type:'POST',
                                                         data:{
@@ -972,7 +981,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         success:function (data) {
 
 
-                                                            var data = $(data).find('record')[0]
+                                                            var data = $(data).find('record')[0];
                                                             if(data){
                                                                 $('.div_hidden').hide()
 
@@ -980,61 +989,59 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                                 if(!ogrn){
                                                                     $('.div_hidden').show('fast');
                                                                 }
-                                                                console.log(ogrn)
-                                                                $('[name=regNumber]').val(ogrn.text());
+                                                                $('#signupform-ogrn').val(ogrn.text());
                                                                 var organization_name = $(data).find('organization_name');//
-                                                                $('[name=fullName]').val(organization_name.text())
+                                                                $('#signupform-full_name').val(organization_name.text())
                                                                 console.log(organization_name)
-                                                                $('[name=brandName]').val(organization_name.text())
+                                                                $('#signupform-brand_name').val(organization_name.text())
 
-                                                                var short_name = $(data).find('short_name');//
-                                                                console.log(short_name)
-                                                                $('[name=name]').val(short_name.text())
                                                                 var address = $(data).find('address');//
-                                                                $('[name=legalAddress]').val(address.text())
+                                                                $('#signupform-legal_address]').val(address.text())
                                                                 var phone = $(data).find('phone');//
-                                                                $('[name=phone1]').val(phone.text())
+                                                                $('#signupform-phone1').val(phone.text())
 
                                                                 var fax = $(data).find('fax');//
-                                                                $('[name=fax1]').val(fax.text())
+                                                                $('#signupform-fax').val(fax.text());
                                                                 var opf = $(data).find('opf');
                                                                 if(opf.text() ==='Общества с ограниченной ответственностью' ){
-                                                                    $('[name=orgForm]').val(1214)
+                                                                    $('#signupform-org_form_id').val(2)
                                                                 }
                                                                 if(opf.text() ==='Открытые акционерные общества' ){
-                                                                    $('[name=orgForm]').val(1215)
+                                                                    $('#signupform-org_form_id').val(3)
                                                                 }
                                                                 if(opf.text() ==='Закрытые акционерные общества' ){
-                                                                    $('[name=orgForm]').val(1216)
+                                                                    $('#signupform-org_form_id').val(5)
                                                                 }
                                                                 if(opf.text() ==='Публичные акционерные общества' ){
-                                                                    $('[name=orgForm]').val(9678)
+                                                                    $('#signupform-org_form_id').val(4)
                                                                 }
-                                                                if(opf.text() ==='Публичные акционерные общества' ){
-                                                                    $('[name=orgForm]').val(9678)
+                                                                if(opf.text() ==='Индивидуальный предприниматель' ){
+                                                                    $('#signupform-org_form_id').val(1)
                                                                 }
                                                                 var head_fio = $(data).find('head_fio');//
                                                                 var place = $(data).find('place');
-                                                                $('[name=address]').val(place.text());
-                                                                $('[name=manager]').val(head_fio.first().text());
+
+                                                                $('#signupform-address').val(place.text());
+
+                                                                $('#signupform-director').val(head_fio.first().text());
+
 
                                                                 var registration_date = $(data).find('registration_date');//
                                                                 var date = registration_date.text().split('.');
-                                                                var reg_day = date[0];
-                                                                var reg_month = date[1];
-                                                                var reg_year = date[2].substr(0,4);
-                                                                $('[name=regDate_day]').val(Number(reg_day));
-                                                                $('[name=regDate_month]').val(Number(reg_month));
-                                                                $('[name=regDate_year]').val(reg_year);
-                                                                $('[name=workTime]').val('ПН-ПТ: 9:30 - 18.00, СБ, ВС: Выходной');
+
+                                                                var full_date = date[1]+'/'+date[0]+'/'+date[2]
+                                                                $('#signupform-date').val(full_date);
+
+                                                                $('#signupform-work_time').val('ПН-ПТ: 9:30 - 18.00, СБ, ВС: Выходной');
 
                                                             }else{
                                                                 $('.div_hidden').show()
                                                             }
                                                         },
                                                         error:function (err) {
-                                                            console.log(err)
                                                             $('.div_hidden').show()
+                                                            console.log(err);
+
                                                         }
 
                                                     });
@@ -1062,7 +1069,8 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                     </script>
 
 
-                            </div></div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -1085,13 +1093,22 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                         <div class="row bottom_menu blk-data ie_css3 clearfix" style="padding:0px;"><p style="text-align: center;"><span style="font-size:18px;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><span style="color:#FFFFFF;">
                             <div class="col-xs-12">
                                 <ul style="padding: 0;text-align: center;">
-                                    <li style="margin:0 15px 0 15px;"><g:link style="font-size: 1.3em;" controller="article" action="ticket">Статьи</g:link></li>
-                                    <li style="margin:0 15px 0 15px;"><g:link style="font-size: 1.3em;" controller="front" action="about">О Портале</g:link></li>
-                                    <li style="margin:0 15px 0 15px;"><g:link style="font-size: 1.3em;" controller="front" action="sogl">Соглашение</g:link></li>
-                                    <li style="margin:0 15px 0 15px;"><g:link style="font-size: 1.3em;" controller="goods" action="index">Товары</g:link></li>
-                                    <li style="margin:0 15px 0 15px;"><g:link style="font-size: 1.3em;" controller="services" action="index">Услуги</g:link></li>
-                                    <li style="margin:0 15px 0 15px;"><g:render template="/layouts/1create-suggestion" model="[]"/></li>
+                                       <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Статьи</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">О портале</a></li>
 
+
+                                    <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Товары</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Услуги</a></li>
+
+                                    <!--Если пользователь является гостем-->
+                                    <?php  if(Yii::$app->user->isGuest):?>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
+                                    <?php endif?>
+
+                                    <!--Если пользователь не является гостем-->
+                                    <?php if(!Yii::$app->user->isGuest):?>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
+                                    <?php endif;?>
                                 </ul>
                             </div>
                             </span></span></span></p></div>
@@ -1220,4 +1237,44 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
     <div id="popup_list"></div>
     <!--end-popup-list view-->
 </div>
+<?php if(Yii::$app->user->isGuest) {
+    echo Login::widget();
+    echo SignUp::widget();
+    echo PasswordReset::widget();
+    echo Contact::widget();
+}
+?>
+<?php if(!Yii::$app->user->isGuest){
+    echo Suggestion::widget();
+}?>
+<script>
+    function noAuth() {
+        $('#Login').modal('show');
+    }
+
+
+    $(function () {
+        var hash = window.location.hash;
+        if(hash == '#loginmodal'){
+
+            $('#Login').modal('show');
+
+
+        }
+        $('.lang').click(function () {
+            var $lang =$(this).text();
+            $.ajax({
+                type:'POST',
+                url:'/admin/account/change-language?lang='+$lang,
+                success:function () {
+                    window.location.reload();
+                },
+                error:function () {
+
+                }
+            });
+
+        })
+    })
+</script>
 

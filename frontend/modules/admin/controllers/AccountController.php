@@ -129,7 +129,21 @@ class AccountController extends AuthController
      */
     public function actionUpdate($id)
     {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
         $model = $this->findModel($id);
+
+        $profile = User::findOne(Yii::$app->user->id)->profile;
+        if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            Yii::$app->db
+                ->createCommand('DELETE FROM new_account 
+                    WHERE for_profile_id =:profile_id 
+                      AND new_account_id =:account_id', [':profile_id' => $profile->id, 'account_id' => $model->id])
+                ->execute();
+        }
+
         $org_forms =OrgForm::find()->all();
         $profiles =Profile::find()->all();
         $level_id=18;

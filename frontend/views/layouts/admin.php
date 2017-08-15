@@ -90,12 +90,12 @@ if ($session->has('lang')){
 
                 <?php
             $menuItemsFeedback = [];
-            $menuItemsFeedback[]=['label' => Yii::t('app', 'Contact us'), 'url' => ['/admin/suggestion/show']];
+            $menuItemsFeedback[]=['label' => Yii::t('app', 'Contact us'),'options'=>['id'=>'suggestions'] , 'url' => ['/admin/suggestion/show']];
                 if ($user->checkRole(['ROLE_ADMIN'])){
 
                     $menuItemsFeedback[]= ['label' => Yii::t('app', 'Category communication'), 'url' => ['/admin/suggestion/index']];
                 }
-            $menuItemsFeedback[]= ['label' => Yii::t('app', 'Support'), 'url' => ['/#']];
+            $menuItemsFeedback[]= ['label' => Yii::t('app', 'Support'),'options'=>['id'=>'support'],  'url' => ['/#']];
 
                 echo Menu::widget([
                     'items' =>$menuItemsFeedback ,
@@ -143,7 +143,7 @@ if ($session->has('lang')){
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => Yii::t('app', 'Invoices for payment'), 'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Invoices for payment'),'options'=>['id'=>'payments'],  'url' => ['/#']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],
@@ -169,7 +169,7 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])){
 
-                    $menuItemsBusiness[]= ['label' => Yii::t('app', 'Accounts'), 'url' => ['/admin/account/index']];
+                    $menuItemsBusiness[]= ['label' => Yii::t('app', 'Accounts'),'options'=>['id'=>'account'] ,'url' => ['/admin/account/index']];
                 }
 
                 if ($user->checkRole(['ROLE_USER'])){
@@ -196,13 +196,13 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Deals'), 'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Deals'),'options'=>['id'=>'deals'], 'url' => ['/#']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Reviews'), 'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Reviews'),'options'=>['id'=>'reviews'] ,'url' => ['/#']];
 
                 }
 
@@ -220,8 +220,8 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'), 'url' => ['/admin/goods/index']];
-                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'), 'url' => ['/admin/services/index']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Goods'),'options'=>['id'=>'goods'], 'url' => ['/admin/goods/index']];
+                    $menuItemsBusiness4[]= ['label' => Yii::t('app', 'Services'),'options'=>['id'=>'services'], 'url' => ['/admin/services/index']];
                 }
 
 
@@ -239,15 +239,15 @@ if ($session->has('lang')){
             $menuItemsBusiness3 = [];
                 $link2 = null;
                 if ($user->freeUser()){
-                    $link2.= '<a href="{url}">{label}<span class="badge badge_green badge_pro">pro</span></a>';
+                    $link2= '<a href="{url}">{label}<span class="badge badge_green badge_pro">pro</span></a>';
                 }else{
-                    $link2.= '<a href="{url}">{label}</a>';
+                    $link2= '<a href="{url}">{label}</a>';
                 }
 
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])){
 
-                    $menuItemsBusiness3[]= ['label' => Yii::t('app', 'Advertising material'), 'url' => ['/#']];
+                    $menuItemsBusiness3[]= ['label' => Yii::t('app', 'Advertising material'),'options'=>['id'=>'advertising'], 'url' => ['/#']];
 
                 }
 
@@ -284,20 +284,20 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Disputes'), 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Disputes'), 'options'=>['id'=>'disputes'],'url' => ['/#']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JUDGE','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Claims'), 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Claims'),'options'=>['id'=>'claims'], 'url' => ['/#']];
 
                 }
 
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JURIST','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Legal advice'), 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Legal advice'),'options'=>['id'=>'advice'] ,'url' => ['/#']];
 
                 }
 
@@ -338,7 +338,7 @@ if ($session->has('lang')){
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => Yii::t('app', 'Technical support'), 'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Technical support'),'options'=>['id'=>'support'], 'url' => ['/#']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],

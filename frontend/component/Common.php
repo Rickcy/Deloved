@@ -2,6 +2,10 @@
 
 namespace frontend\component;
 
+use common\models\NewAccount;
+use common\models\NewGood;
+use common\models\NewService;
+use common\models\NewSuggestion;
 use Yii;
 use yii\base\Component;
 use yii\helpers\BaseFileHelper;
@@ -20,6 +24,28 @@ class Common extends Component {
             
             ->send();
         //$this->trigger(self::EVENT_NOTIFY);
+    }
+
+    public function getLenta($profile_id){
+        $lenta =[];
+        $new_accounts = NewAccount::findAll(['for_profile_id'=>$profile_id]);
+        $new_goods = NewGood::findAll(['for_profile_id'=>$profile_id]);
+        $new_services = NewService::findAll(['for_profile_id'=>$profile_id]);
+        $new_suggestions = NewSuggestion::findAll(['for_profile_id'=>$profile_id]);
+        if($new_accounts){
+            $lenta['accounts'] = $new_accounts;
+        }
+        if($new_goods){
+            $lenta['goods'] = $new_goods;
+        }
+        if($new_services){
+            $lenta['services'] = $new_services;
+        }
+        if($new_suggestions){
+            $lenta['suggestions'] = $new_suggestions;
+        }
+        return $lenta;
+
     }
 
     public function sendMailResetPassword($emailTo,$user){

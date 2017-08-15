@@ -60,7 +60,7 @@ return [
 
 
     'Select category'=>'Выберите тему',
-
+    'Type communication'=>'Тип связи',
     //Goods
 
 
@@ -78,5 +78,8 @@ return [
     'Fill in all the fields!'=>'Заполните все поля!',
     'New Currency created'=>'Новая Валюта создана',
     'Select the number of months'=>'Выбирите количество месяцев',
+
+
+    'ROLE_NONE'=>'Без роли'
 
 ];

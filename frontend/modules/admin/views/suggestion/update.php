@@ -4,6 +4,7 @@
 use common\models\User;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'Contact us');
@@ -26,6 +27,8 @@ $user = User::findIdentity(Yii::$app->user->id);
     ?>
 
     <?=$form->field($model , 'name')->textInput(['id'=>'category-name'])?>
+    <?php $items = ArrayHelper::map([['id'=>1,'name'=>'Внутренняя связь'],['id'=>2,'name'=>'Внешняя связь']],'id','name');
+    echo $form->field($model, 'type')->dropDownList($items,['id'=>'category-type'])->label('')?>
 
 
 
@@ -39,24 +42,27 @@ $user = User::findIdentity(Yii::$app->user->id);
 </div>
 <script>
     function editCategory() {
-        var id,name;
+        var id,name,type,type_name;
         id =<?=$model->id?>;
         name = $('#category-name').val();
-       
+        type = $('#category-type').val();
+        type_name = Number(type)===1?'Внутренняя связь':'Внешняя связь';
         console.log(id);
         console.log(name);
-       
+        console.log(type);
+
 
         $.ajax({
             type:'POST',
-            url:'/admin/suggestion/edit-category?id='+id+'&name='+name,
+            url:'/admin/suggestion/edit-category?id='+id+'&name='+name+'&type='+type,
             success:function (data) {
                 var obj = $.parseJSON(data);
 
                 if (obj.success) {
 
                     $('#name<?=$model->id?>').text(name);
-                    
+                    $('#type<?=$model->id?>').text(type_name);
+
 
                     $('#myModal').modal('hide');
                     showMessage('success', obj.success);

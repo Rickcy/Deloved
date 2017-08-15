@@ -17,6 +17,8 @@ class MainAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/login.css',
+        'css/bottom_menu.css',
         'css/main/style_view.css',
         'css/main/module_button_up.css',
         'css/main/css.css',

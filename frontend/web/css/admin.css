@@ -28,7 +28,17 @@
     color: white;
 }
 .badge{
-    margin-left: 5px;
+    margin-left: 6px;
+    padding: 4px;
+    font-size: 0.8em;
+}
+.badge_green{
+    background-color: #82ae36;
+    color: white;
+}
+.badge_red{
+    background-color: #d31000;
+    color: white;
 }
 .btn-green:hover{
     background-color: #82ae36;

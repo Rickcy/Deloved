@@ -79,8 +79,7 @@ use frontend\widgets\Suggestion;
             $('#Login').modal('show');
         }
 
-    </script>
-    <script>
+
         $(function () {
             $('.lang').click(function () {
                     var $lang =$(this).text();

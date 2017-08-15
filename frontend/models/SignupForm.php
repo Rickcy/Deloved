@@ -3,8 +3,10 @@ namespace frontend\models;
 
 use common\models\Account;
 use common\models\AccountCategory;
+use common\models\NewAccount;
 use common\models\Profile;
 use common\models\Region;
+use common\models\Role;
 use Yii;
 use yii\base\Model;
 use common\models\User;
@@ -16,6 +18,9 @@ use yii\helpers\Url;
  */
 class SignupForm extends Model
 {
+
+
+
     public $username;
     public $email;
     public $password;
@@ -60,7 +65,7 @@ class SignupForm extends Model
         return [
             
             [['username','password','email','full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio'], 'trim'],
-            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','city_name','address','date','legal_address','director','phone1'], 'required'],
+            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','address','date','profile_city','legal_address','director','phone1'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -95,8 +100,9 @@ class SignupForm extends Model
         try{
 
             $user = new User();
-            $profile =new Profile();
-            $account =new Account();
+            $profile = new Profile();
+            $account = new Account();
+
 
             $user->username = $this->username;
             $user->email = $this->email;
@@ -105,10 +111,10 @@ class SignupForm extends Model
             $user->generateEmailConfirmToken();
             $user->save();
 
-            $profile->fio=$this->fio;
+            $profile->fio = $this->fio;
             $profile->chargeTill=null;
             $profile->chargeStatus=0;
-            $profile->city_id=$profile->returnCity_id($this->profile_city);
+            $profile->city_id= $profile->returnCity_id($this->profile_city);
             $profile->email=$user->email;
             $profile->user_id=$user->id;
             $profile->created_at=time();
@@ -118,7 +124,7 @@ class SignupForm extends Model
             $account->full_name=$this->full_name;
             $account->address=$this->address;
             $account->brand_name=$this->brand_name;
-            $account->city_id=$account->returnCity_id($this->city_name);
+            $account->city_id=$this->city_name == null ? $profile->returnCity_id($this->profile_city) : $account->returnCity_id($this->city_name);
             $account->date_reg=$account->returnDate($this->date);
 
             $account->description=$this->description;
@@ -139,8 +145,28 @@ class SignupForm extends Model
             $account->created_at=time();
             $account->updated_at=time();
             $account->profile_id=$profile->id;
-
             $account->save();
+
+            $new_account = new NewAccount();
+            $new_account->for_profile_id = Profile::ID_PROFILE_ADMIN;
+            $new_account->new_account_id = $account->id;
+            $new_account->date_created = date('Y-m-d H:i');
+            $new_account->save();
+
+            $query = 'SELECT * FROM profile WHERE user_id IN (SELECT id FROM "user" WHERE "user".role_id =:role_id) AND id IN (SELECT profile_id FROM profile_region WHERE region_id =:region_id)';
+            $profile_managers = Yii::$app->db->createCommand($query,[
+                ':region_id'=>$account->city_id,
+                ':role_id'=>ROLE::ROLE_MANAGER
+            ])->queryAll();
+
+            foreach ($profile_managers as $profile){
+                $new_account = new NewAccount();
+                $new_account->for_profile_id = $profile['id'];
+                $new_account->new_account_id = $account->id;
+                $new_account->date_created = date('Y-m-d H:i');
+                $new_account->save();
+            }
+
             Yii::$app->common->sendMailEmailConfirm($this->email,$user);
             $transaction->commit();
             return $user;

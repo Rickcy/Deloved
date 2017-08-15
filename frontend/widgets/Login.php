@@ -17,7 +17,6 @@ class Login extends Widget
         if($model->load(Yii::$app->request->post()) && $model->login()){
             Yii::$app->controller->redirect('/admin');
         }
-
         return $this->render('login',['model'=>$model]);
 
     }

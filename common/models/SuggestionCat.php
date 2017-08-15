@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $type
  *
  * @property Suggestion[] $suggestions
  */
@@ -40,6 +41,7 @@ class SuggestionCat extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
+            'type' => Yii::t('app', 'Type communication'),
             'name' => Yii::t('app', 'Name'),
         ];
     }

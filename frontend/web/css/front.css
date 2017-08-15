@@ -83,27 +83,7 @@ div.required label.control-label:after {
 .nav-pills > li.active > a{
     background-color:#94c43d!important;
 }
-.bottom_block{
-    margin-top: 1%;
-}
-.bottom_menu{
-    background-color:#94c43d;
-    padding:15px 5px 5px 5px;
 
-    font-size:100%
-}
-.bottom_menu ul li{
-    display:inline;
-    list-style:none
-}
-.bottom_menu ul li a{
-    color:white;
-    margin-left:20px;
-    text-decoration:none !important;
-    font-size:11pt
-}
-.bottom_menu ul li a:hover{
-    color:#d9dfe3}
 .about-del{
     float: right;
     color: #428BCA;
@@ -186,86 +166,7 @@ div.required label.control-label:after {
 a:hover {
     text-decoration: none !important;
 }
-.form-signin{
-    width: 90%;
-    margin: 0 auto;
-    background-color: white;
-    padding: 30px;
-    -webkit-border-radius:15px;
-    -moz-border-radius:15px;
-    border-radius:15px;
-}
-.form-signin h3{
-    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-}
-.form-signin h5{
-    font-family: Georgia, serif;;
-}
-.user_form-control{
-    width: 70%;
-    margin-left: 17%;
-    height: auto;
-    font-size: 16px;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    padding: 10px;
-}
 
-.btn-green{
-    margin-top: 5%!important;
-    background-color: #94c43d;
-}
-.btn-blue{
-    background-color: #4b7bbe;
-}
-.btn-blue,.btn-green{
 
-    width: 50%;
-    margin: 0 auto;
-    color: white;
-}
-.btn-green:hover{
-    background-color: #82ae36;
-    color: white
-}
-.btn-blue:hover{
-    background-color: #3b6197;
-    color: white
-}
 
-.form-contact{
 
-    margin: 0 auto;
-    background-color: white;
-    padding: 10px;
-    -webkit-border-radius:10px;
-    -moz-border-radius:10px;
-    border-radius:10px;
-}
-.form-contact h3{
-    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
-}
-.form-contact h5{
-    font-family: Georgia, serif;;
-}
-.contact_form-control{
-    width: 65%;
-    margin-left: 17%;
-    height: auto;
-    font-size: 12px;
-    -webkit-border-radius:5px;
-    -moz-border-radius:5px;
-    border-radius:5px;
-    padding: 10px;
-}
-.text_reg_1 {
-    color: #4b7bbe;
-}
-.signup_desc {
-    font-size: 13pt;
-    color: #565656;
-    margin-left: 40px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}

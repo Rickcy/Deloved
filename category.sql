@@ -1,5 +1,6 @@
-INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1228,  'Категории товаров', null, 1227);
-INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1343,  'Категории услуг', null, 1342);
+INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1227,  'Категории', null, null );
+INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1228,  'Категории товаров', 1227, 1227);
+INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1343,  'Категории услуг', 1227, 1342);
 INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1229,  'Автосервис/Автотовары', 1228, 1227);
 INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (1248,  'Медицина/Здоровье/Красота.', 1228, 1227);
 INSERT INTO public.category (id,  name, parent_id, categorytype_id) VALUES (6470,  'Оборудование/Инструмент', 1228, 1227);

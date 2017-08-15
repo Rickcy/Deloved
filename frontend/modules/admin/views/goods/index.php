@@ -12,10 +12,9 @@ $this->title = Yii::t('app', 'Goods');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
 $session = Yii::$app->session;
-$timeZone = $session->get('timeZone');
+$timeZone = $session->get('timeZone')/60;
 ?>
 <div class="goods-index">
-
     <h3><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php if ($user->checkRole(['ROLE_USER'])):?>
@@ -50,7 +49,7 @@ $timeZone = $session->get('timeZone');
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
                     <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td>
-                        <?=$good->getAccount()->one()->full_name ?>
+                        <?=$good->account->brand_name ?>
                     </td>
                     <?php endif;?>
                     <td>
@@ -58,10 +57,10 @@ $timeZone = $session->get('timeZone');
                     </td>
 
                     <td>
-                        <?=$good->price ?> <?=$good->getCurrency()->one()->name?>/<?=$good->getMeasure()->one()->full_name?>
+                        <?=$good->price ?> <?=$good->currency->name?>/<?=$good->measure->full_name?>
                     </td>
                   
-                    <td><?=Yii::$app->formatter->asDatetime($good->date_created+($timeZone*60), "php:d.m.Y H:i:s");?></td>
+                    <td><?=(new DateTime($good->date_created))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></td>
 
                     <td>
                         <?= Html::a('', ['delete', 'id' => $good->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

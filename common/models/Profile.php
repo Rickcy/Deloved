@@ -28,6 +28,7 @@ class Profile extends \yii\db\ActiveRecord
     public $date;
     public $city_name;
     public $experience;
+    const ID_PROFILE_ADMIN = 1;
 
     /**
      * @inheritdoc

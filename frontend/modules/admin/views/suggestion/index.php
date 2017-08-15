@@ -16,7 +16,10 @@ $user = User::findIdentity(Yii::$app->user->id);
 
         <div class="col-sm-5">
             <input type="text" name="name" required id="category_name" class="form-control">
-            
+            <select class="form-control" name="type" id="category_type">
+                <option value="1">Внутренняя связь</option>
+                <option value="2">Внешняя связь</option>
+            </select>
         </div>
         <div class="col-sm-5">
             <a href="javascript:void(0)" class="btn btn-md btn-success" id="create-category" style="margin-top:5px"><?=Yii::t('app', 'Create ')?></a>
@@ -33,6 +36,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
                 <td><?=Yii::t('app', 'Name')?></td>
+                <td><?=Yii::t('app', 'Type communication')?></td>
                 <td></td>
             </tr>
             </thead>
@@ -48,7 +52,8 @@ $user = User::findIdentity(Yii::$app->user->id);
                            data-remote="/admin/suggestion/update/?id=<?=$item->id?>"
                            data-target="#myModal"><?=$item->name?></a>
                     </td>
-                    
+                    <td><span id="type<?=$item->id?>" ><?=$item->type==1?'Внутренняя связь':'Внешняя связь'?></span></td>
+
                         <td>
                             <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [
                                 'confirm' => Yii::t('app', 'Are you sure you want to delete this suggestion?'),
@@ -71,14 +76,14 @@ $user = User::findIdentity(Yii::$app->user->id);
 <script>
     $(document).ready(function () {
         $("#create-category").click(function () {
-            var cat_name;
+            var cat_name,cat_type;
             cat_name = $("#category_name").val();
-       
-
+            cat_type = $("#category_type").val();
+            var cat_type_name = Number(cat_type)===1?'Внутренняя связь':'Внешняя связь';
 
             $.ajax({
                 type:'POST',
-                url:'/admin/suggestion/create-category/?cat_name='+cat_name,
+                url:'/admin/suggestion/create-category/?cat_name='+cat_name+'&cat_type='+cat_type,
                 success:function (data) {
 
                     var obj = $.parseJSON(data);
@@ -86,8 +91,9 @@ $user = User::findIdentity(Yii::$app->user->id);
                     if (obj[0].success) {
                         showMessage('success', obj[0].success);
                         $("#category_name").val('');
+
                         $(".tbody-category").append("<tr class='odd'><td>" +
-                            "<a href='/admin/suggestion/update?id="+obj['id_model']+"' data-remote='/admin/suggestion/update/?id="+obj['id_model']+"' data-target='#myModal' data-toggle='modal'>"+cat_name+"</a></td><td><a class='glyphicon glyphicon-trash status' href='/admin/suggestion/delete?id="+obj['id_model']+"' data-confirm='Are you sure you want to delete this item?' data-method='post'></a> </td> </tr>");
+                            "<a href='/admin/suggestion/update?id="+obj['id_model']+"' data-remote='/admin/suggestion/update/?id="+obj['id_model']+"' data-target='#myModal' data-toggle='modal'>"+cat_name+"</a></td><td>"+cat_type_name+"</td><td><a class='glyphicon glyphicon-trash status' href='/admin/suggestion/delete?id="+obj['id_model']+"' data-confirm='Are you sure you want to delete this item?' data-method='post'></a> </td> </tr>");
 
                     }
                     if (obj[0].danger) {

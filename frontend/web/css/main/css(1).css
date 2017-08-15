@@ -1,4 +1,10 @@
 /* cyrillic-ext */
+
+#form-signup{
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

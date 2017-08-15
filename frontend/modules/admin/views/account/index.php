@@ -54,7 +54,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
                 <td>
-                    <?= Html::a($item->full_name, ['update', 'id' => $item->id]) ?>
+                    <?= Html::a($item->brand_name, ['update', 'id' => $item->id]) ?>
                 </td>
                 <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td id="gridRow<?=$item->id?>ps">
@@ -68,7 +68,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 <td id="gridRow<?=$item->id?>city"><?=$item->city->name?></td>
 
-                <td><?=Yii::$app->formatter->asDatetime($item->created_at, "php:d.m.Y");?></td>
+                <td><?=Yii::$app->formatter->asDatetime($item->created_at, "php:Y-m-d  H:i");?></td>
                 <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td>
                         <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

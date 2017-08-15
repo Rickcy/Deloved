@@ -81,8 +81,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <hr>
       
 
-        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg']) ?>
-        <?= $form->field($model, 'photo')->fileInput(['id'=>'imgInput']) ?>
+        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg'])->label('') ?>
+        <?= $form->field($model, 'photo')->fileInput(['multiple' => true, 'accept' => 'image/*','id'=>'imgGoodsInput'])->label('Фото') ?>
+        <div id="image-template"></div>
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
         

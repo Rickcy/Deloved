@@ -6,11 +6,15 @@ use common\controllers\AuthController;
 use common\models\Account;
 use common\models\Currency;
 use common\models\Measure;
+use common\models\NewService;
 use common\models\PaymentMethods;
+use common\models\Profile;
+use common\models\Role;
 use common\models\User;
 use Yii;
 use common\models\Services;
 use common\models\search\ServicesSearch;
+use yii\base\Exception;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -36,7 +40,7 @@ class ServicesController extends AuthController
 
         }elseif (User::checkRole(['ROLE_USER'])){
 
-            $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
+            $account = User::findOne(Yii::$app->user->id)->profile->account;
             $services = Services::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
 
 
@@ -61,20 +65,48 @@ class ServicesController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-
         $model = new Services();
         $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1342])->all();
         $currency = Currency::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
         $account = User::findOne(Yii::$app->user->id)->profile->account;
         $myCategory =$account->category;
-        $model->date_created = time();
+        $model->date_created = date('Y-m-d H:i');
         $model->account_id = $account->id;
         $model->category_type_id = 1342;
         $model->show_main = 0;
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->save();
+            $transaction = \Yii::$app->db->beginTransaction();
+            try{
+                $query = 'SELECT * FROM profile WHERE user_id IN (SELECT id FROM "user" WHERE "user".role_id =:role_id) AND id IN (SELECT profile_id FROM profile_region WHERE region_id =:region_id)';
+                $profile_managers = Yii::$app->db->createCommand($query,[
+                    ':region_id'=>$account->city_id,
+                    ':role_id'=>ROLE::ROLE_MANAGER
+                ])->queryAll();
+                $model->save();
+
+                $service = new NewService();
+                $service->for_profile_id = Profile::ID_PROFILE_ADMIN;
+                $service->account_id = $account->id;
+                $service->new_service_id = $model->id;
+                $service->date_created = date('Y-m-d H:i');
+                $service->save();
+
+                foreach ($profile_managers as $profile){
+                    $service = new NewService();
+                    $service->account_id = $account->id;
+                    $service->for_profile_id = $profile['id'];
+                    $service->new_service_id = $model->id;
+                    $service->date_created = date('Y-m-d H:i');
+                    $service->save();
+                }
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                Yii::$app->session->addFlash('success', $e->getMessage());
+                return $this->redirect(['index']);
+            }
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
         } else {
@@ -104,7 +136,14 @@ class ServicesController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $model = $this->findModel($id);
-
+        $profile = User::findOne(Yii::$app->user->id)->profile;
+        if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+            Yii::$app->db
+                ->createCommand('DELETE FROM new_service 
+                    WHERE for_profile_id =:profile_id 
+                      AND new_service_id =:service_id', [':profile_id' => $profile->id, 'service_id' => $model->id])
+                ->execute();
+        }
         $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1342])->all();
         $currency = Currency::find()->all();
         $paymentMethods = PaymentMethods::find()->all();
@@ -112,6 +151,7 @@ class ServicesController extends AuthController
         $myCategory =Account::findOne($model->account_id)->getCategory()->where(['account_id'=>$model->account_id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->date_created = date('Y-m-d H:i');
             $model->save();
             Yii::$app->session->addFlash('success', 'Service Update!');
             return $this->redirect(['index']);

@@ -1,0 +1,82 @@
+.form-signin{
+    width: 90%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    -webkit-border-radius:15px;
+    -moz-border-radius:15px;
+    border-radius:15px;
+}
+.user_form-control{
+    width: 70%;
+    margin-left: 17%;
+    height: auto!important;
+    font-size: 16px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding: 10px;
+}
+
+.form-signin h3{
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.form-signin h5{
+    font-family: Georgia, serif;;
+}
+.btn-green{
+    margin-top: 5%!important;
+    background-color: #94c43d;
+}
+.btn-blue{
+    background-color: #4b7bbe;
+}
+.btn-blue,.btn-green{
+
+    width: 50%;
+    margin: 0 auto;
+    color: white;
+}
+.btn-green:hover{
+    background-color: #82ae36;
+    color: white
+}
+.btn-blue:hover{
+    background-color: #3b6197;
+    color: white
+}
+.form-contact{
+
+    margin: 0 auto;
+    background-color: white;
+    padding: 10px;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}
+.form-contact h3{
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+.form-contact h5{
+    font-family: Georgia, serif;;
+}
+.contact_form-control{
+    width: 65%;
+    margin-left: 17%;
+    height: auto;
+    font-size: 12px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding: 10px;
+}
+.text_reg_1 {
+    color: #4b7bbe;
+}
+.signup_desc {
+    font-size: 13pt;
+    color: #565656;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}

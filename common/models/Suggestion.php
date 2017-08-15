@@ -9,7 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $content
- * @property integer $date_published
+ * @property string $date_published
  * @property integer $author_id
  * @property integer $sug_category_id
  *
@@ -34,7 +34,8 @@ class Suggestion extends \yii\db\ActiveRecord
         return [
             [['content', 'date_published', 'author_id', 'sug_category_id'], 'required'],
             [['content'], 'string'],
-            [['date_published', 'author_id', 'sug_category_id'], 'integer'],
+            [['date_published'], 'safe'],
+            [['author_id', 'sug_category_id'], 'integer'],
             [['sug_category_id'], 'exist', 'skipOnError' => true, 'targetClass' => SuggestionCat::className(), 'targetAttribute' => ['sug_category_id' => 'id']],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['author_id' => 'id']],
         ];

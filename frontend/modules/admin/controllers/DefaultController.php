@@ -6,6 +6,7 @@ use common\controllers\AuthController;
 use common\models\User;
 use frontend\models\RepeatEmailConfirm;
 use Yii;
+use yii\web\Response;
 
 
 /**
@@ -33,11 +34,15 @@ class DefaultController extends AuthController
    
 
     public function actionIndex()
-    {  $user = User::findOne(Yii::$app->user->id);
-       $profile = $user->getProfile()->one();
-       $account = $profile->getAccount()->one();
-       $role =$user->getRole()->one();
-        return $this->render('index',['user'=>$user,'profile'=>$profile,'account'=>$account,'role'=>$role]);
+    {
+        $user = User::findOne(Yii::$app->user->id);
+       $profile = $user->profile;
+       $account = $profile->account;
+       $role =$user->role;
+       $lenta = Yii::$app->common->getLenta($profile->id);
+
+       return $this->render('index',['lenta'=>$lenta,'user'=>$user,'profile'=>$profile,'account'=>$account,'role'=>$role]);
+
     }
     
     public function actionRepeatEmail()
@@ -56,6 +61,12 @@ class DefaultController extends AuthController
 
     }
 
+    public function actionGetLenta(){
+        $user = User::findOne(Yii::$app->user->id);
+        $profile = $user->profile;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return Yii::$app->common->getLenta($profile->id);
+    }
 
 
     /**

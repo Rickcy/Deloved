@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Services');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
 $session = Yii::$app->session;
-$timeZone = $session->get('timeZone');
+$timeZone = $session->get('timeZone')/60;
 ?>
 <div class="services-index">
 
@@ -48,7 +48,7 @@ $timeZone = $session->get('timeZone');
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
                     <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
-                            <?=$service->account->full_name ?>
+                            <?=$service->account->brand_name ?>
                         </td>
                     <?php endif;?>
                     <td>
@@ -59,7 +59,7 @@ $timeZone = $session->get('timeZone');
                         <?=$service->price ?> <?=$service->getCurrency()->one()->name?>/<?=$service->getMeasure()->one()->full_name?>
                     </td>
 
-                    <td><?=Yii::$app->formatter->asDatetime($service->date_created+($timeZone*60), "php:d.m.Y H:i:s");?></td>
+                    <td><?=(new DateTime($service->date_created))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></td>
 
                     <td>
                         <?= Html::a('', ['delete', 'id' => $service->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

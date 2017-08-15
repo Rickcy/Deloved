@@ -29,7 +29,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Create Currency'), ['class' =>  'btn create-btn btn-md btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Create Measure'), ['class' =>  'btn create-btn btn-md btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Cancel'), ['index'],['class' =>  'btn create-btn btn-md btn-default']) ?>
 
     </div>

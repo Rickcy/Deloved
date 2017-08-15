@@ -18,7 +18,7 @@ class Suggestion extends Widget
 {
     public function run()
     {
-        $suggestion_cat = SuggestionCat::find()->all();
+        $suggestion_cat = SuggestionCat::find()->where(['type'=>1])->all();
         $model = new SuggestionForm();
             if ($model->load(Yii::$app->request->post()) && $model->createSug()){
 

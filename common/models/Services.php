@@ -17,7 +17,7 @@ use Yii;
  * @property integer $account_id
  * @property integer $category_type_id
  * @property integer $category_id
- * @property integer $date_created
+ * @property string $date_created
  * @property integer $show_main
  * @property integer $photo_id
  * @property integer $measure_id
@@ -51,8 +51,9 @@ class Services extends \yii\db\ActiveRecord
         return [
             [['name', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id'], 'required'],
             [['price'], 'number'],
+            [['date_created'], 'safe'],
             [['description'], 'string'],
-            [['rating_count', 'rating_service', 'payment_methods_id',  'account_id', 'category_type_id', 'category_id', 'date_created', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
+            [['rating_count', 'rating_service', 'payment_methods_id',  'account_id', 'category_type_id', 'category_id', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],

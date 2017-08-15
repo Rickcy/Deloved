@@ -1,4 +1,4 @@
-<?
+<?php
 namespace frontend\controllers;
 
 use common\models\Currency;

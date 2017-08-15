@@ -15,6 +15,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/style.min.css',
         'css/front.css',
+        'css/login.css',
+        'css/bottom_menu.css',
         'css/flash-alerts.css'
     ];
     public $js = [

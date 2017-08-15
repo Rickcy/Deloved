@@ -3,10 +3,14 @@
 namespace app\modules\admin\controllers;
 
 use common\controllers\AuthController;
+use common\models\NewSuggestion;
+use common\models\Profile;
+use common\models\Role;
 use common\models\Suggestion;
 use common\models\SuggestionCat;
 use common\models\User;
 use Yii;
+use yii\base\Exception;
 use yii\helpers\Json;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -16,32 +20,31 @@ class SuggestionController extends AuthController
 
     public $layout = '/admin';
 
-    public function actionCreateCategory($cat_name)
+    public function actionCreateCategory($cat_name,$cat_type)
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+        if (!User::checkRole(['ROLE_ADMIN'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        if (empty($cat_name)){
+        if (empty($cat_name)||empty($cat_type)){
             Yii::$app->session->addFlash('danger', Yii::t('app','NO'));
         }else{
             $model = new SuggestionCat();
             $model->name=$cat_name;
+            $model->type=$cat_type;
             $model->save();
             $id_model = $model->id;
             Yii::$app->session->addFlash('success', 'Category Created');
         }
         $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
         return Json::encode($mes);
-
     }
 
     public function actionIndex()
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        
-        
+
         $suggestion_cat = SuggestionCat::find()->all();
 
         return $this->render('index',['suggestion_cat'=>$suggestion_cat]);
@@ -49,11 +52,17 @@ class SuggestionController extends AuthController
 
     public function actionShow()
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-
-        $suggestions = Suggestion::find()->all();
+        $profile = User::findOne(Yii::$app->user->id)->profile;
+        if (User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
+            Yii::$app->db
+                ->createCommand('DELETE FROM new_suggestion 
+                    WHERE for_profile_id =:profile_id', [':profile_id' => $profile->id])
+                ->execute();
+        }
+        $suggestions = Suggestion::find()->orderBy(['date_published'=>SORT_DESC])->all();
 
 
         return $this->render('show',['suggestions'=>$suggestions]);
@@ -61,7 +70,7 @@ class SuggestionController extends AuthController
 
     public function actionUpdate($id)
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
@@ -78,18 +87,20 @@ class SuggestionController extends AuthController
     }
 
 
-    public function actionEditCategory($id,$name){
-        if (empty($name)){
+    public function actionEditCategory($id,$name,$type){
+        if (empty($name)||empty($type)){
             Yii::$app->session->addFlash('danger', 'Empty');
         }else{
             $model = SuggestionCat::findOne($id);
             $model->name = $name;
+            $model->type = $type;
             $model->save();
             Yii::$app->session->addFlash('success', 'Category Updater');
         }
 
         return json_encode(Yii::$app->session->getAllFlashes());
     }
+
 
 
 

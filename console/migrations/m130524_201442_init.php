@@ -78,6 +78,8 @@ class m130524_201442_init extends Migration
         ]);
 
 
+
+
         $this->createTable('{{%org_form}}',[
             'id'=>$this->primaryKey(),
             'code'=>$this->string(),
@@ -137,13 +139,14 @@ class m130524_201442_init extends Migration
 
         $this->createTable('{{%suggestion_cat}}',[
             'id'=>$this->primaryKey(),
-            'name'=>$this->string()->notNull()
+            'name'=>$this->string()->notNull(),
+            'type'=>$this->integer(),
         ]);
 
         $this->createTable('{{%suggestion}}',[
             'id'=>$this->primaryKey(),
             'content'=>$this->text()->notNull(),
-            'date_published'=>$this->dateTime()->notNull(),
+            'date_published'=>$this->dateTime(),
             'author_id'=>$this->integer()->notNull(),
             'sug_category_id'=>$this->integer()->notNull(),
         ]);
@@ -213,8 +216,10 @@ class m130524_201442_init extends Migration
         $this->insert('user',['id'=>1,'username'=>'admin','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
         'email_confirm_token'=>null,'email'=>'admin@yandex.ru','status'=>1,'role_id'=>3]);
         $this->insert('profile',['id'=>1,'fio'=>'Администратор','email'=>'admin@yandex.ru','city_id'=>null,'created_at'=>time()+60*60,'updated_at'=>time(),'chargeStatus'=>1,'chargeTill'=>null,'user_id'=>1]);
+
         $this->insert('experience',['id'=>1,'profile_id'=>1,'experience'=>null]);
         $this->insert('profile_region',['id'=>1,'profile_id'=>1,'region_id'=>null]);
+
         //  MANAGER
         $this->insert('user',['id'=>2,'username'=>'manager','auth_key'=>Yii::$app->security->generateRandomString(),'password_hash'=>Yii::$app->security->generatePasswordHash('delo22221111ved'),'password_reset_token'=>null,
             'email_confirm_token'=>null,'email'=>'manager@yandex.ru','status'=>1,'role_id'=>4]);
@@ -222,27 +227,14 @@ class m130524_201442_init extends Migration
         $this->insert('experience',['id'=>2,'profile_id'=>2,'experience'=>null]);
         $this->insert('profile_region',['id'=>2,'profile_id'=>2,'region_id'=>null]);
 
+
+
+
     }
 
     public function safeDown()
     {
-        $this->dropColumn('profile',2);
-        $this->dropColumn('user',2);
-        $this->dropColumn('profile',1);
-        $this->dropColumn('user',1);
-        $this->dropColumn('org_form',5);
-        $this->dropColumn('org_form',4);
-        $this->dropColumn('org_form',3);
-        $this->dropColumn('org_form',2);
-        $this->dropColumn('org_form',1);
-        $this->dropColumn('role',8);
-        $this->dropColumn('role',7);
-        $this->dropColumn('role',6);
-        $this->dropColumn('role',5);
-        $this->dropColumn('role',4);
-        $this->dropColumn('role',3);
-        $this->dropColumn('role',2);
-        $this->dropColumn('role',1);
+
         $this->dropTable('{{%affiliate}}');
         $this->dropTable('{{%logo}}');
         $this->dropTable('{{%org_form}}');

@@ -20,7 +20,7 @@ class Contact extends Widget
     public function run()
     {
      $model = new ContactForm();
-        $suggestion_cat = SuggestionCat::find()->all();
+        $suggestion_cat = SuggestionCat::find()->where(['type'=>2])->all();
         if ($model->load(Yii::$app->request->post()) && $model->validate()){
             $body ='<div>'.$model->body.'</div>';
             $body .='<p><div>Имя отправителя : '.$model->name.'</div><br>';

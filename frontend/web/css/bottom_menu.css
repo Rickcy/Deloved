@@ -1,0 +1,22 @@
+.bottom_block{
+    margin-top: 1%;
+}
+.bottom_menu{
+    background-color:#94c43d;
+    padding:15px 5px 5px 5px;
+
+    font-size:100%
+}
+.bottom_menu ul li{
+    display:inline;
+    list-style:none
+}
+.bottom_menu ul li a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none !important;
+    font-size:11pt
+}
+.bottom_menu ul li a:hover{
+    color:#d9dfe3
+}

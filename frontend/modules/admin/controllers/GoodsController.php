@@ -9,16 +9,21 @@ use common\models\Condition;
 use common\models\Currency;
 use common\models\DeliveryMethods;
 use common\models\Measure;
+use common\models\NewGood;
 use common\models\PaymentMethods;
+use common\models\Profile;
+use common\models\Role;
 use common\models\User;
 use frontend\models\UploadForm;
 use Yii;
 use common\models\Goods;
 use common\models\search\GoodsSearch;
+use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -77,13 +82,44 @@ class GoodsController extends AuthController
         $paymentMethods = PaymentMethods::find()->all();
         $account = User::findOne(Yii::$app->user->id)->profile->account;
         $myCategory = $account->category;
-        $model->date_created = time();
+        $model->date_created = date('Y-m-d H:i');
         $model->account_id = $account->id;
         $model->category_type_id = 1227;
         $model->show_main = 0;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $model->save();
+            $transaction = \Yii::$app->db->beginTransaction();
+            try{
+                $query = 'SELECT * FROM profile WHERE user_id IN (SELECT id FROM "user" WHERE "user".role_id =:role_id) AND id IN (SELECT profile_id FROM profile_region WHERE region_id =:region_id)';
+                $profile_managers = Yii::$app->db->createCommand($query,[
+                    ':region_id'=>$account->city_id,
+                    ':role_id'=>ROLE::ROLE_MANAGER
+                ])->queryAll();
+                $model->save();
+
+                $good = new NewGood();
+                $good->for_profile_id = Profile::ID_PROFILE_ADMIN;
+                $good->account_id = $account->id;
+                $good->new_good_id = $model->id;
+                $good->date_created = date('Y-m-d H:i');
+                $good->save();
+
+                foreach ($profile_managers as $profile){
+                    $good = new NewGood();
+                    $good->for_profile_id = $profile['id'];
+                    $good->account_id = $account->id;
+                    $good->new_good_id = $model->id;
+                    $good->date_created = date('Y-m-d H:i');
+                    $good->save();
+
+                }
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                Yii::$app->session->addFlash('success', $e->getMessage());
+                return $this->redirect(['index']);
+            }
+
             Yii::$app->session->addFlash('success', 'Good Created!');
             return $this->redirect(['index']);
         }
@@ -101,18 +137,16 @@ class GoodsController extends AuthController
     }
 
 
-    public function actionUpload(){
+    public function actionUploadPhoto(){
         if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-        $model = new Goods();
-    if (Yii::$app->request->isAjax){
-            $model->photo = UploadedFile::getInstance($model, 'photo');
-            if ($model->photo) {
-                Yii::$app->session->addFlash('success', 'You has Image');
-                return $this->refresh();
-            }
-        return $this->refresh();
+            $model = new Goods();
+         if (Yii::$app->request->isAjax){
+            $model->photoFile = UploadedFile::getInstancesByName('photoGoodsFile')[0];
+            $upl_file = $model->saveImage();
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $upl_file;
         }
         
         
@@ -133,7 +167,14 @@ class GoodsController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $model = $this->findModel($id);
-
+        $profile = User::findOne(Yii::$app->user->id)->profile;
+        if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
+                Yii::$app->db
+                    ->createCommand('DELETE FROM new_good 
+                    WHERE for_profile_id =:profile_id 
+                      AND new_good_id =:good_id', [':profile_id' => $profile->id, 'good_id' => $model->id])
+                    ->execute();
+        }
         $measure = Measure::find()->where('type_id=:type_id',[':type_id'=>1227])->all();
         $currency = Currency::find()->all();
         $conditions = Condition::find()->all();
@@ -143,6 +184,7 @@ class GoodsController extends AuthController
         $myCategory = Account::findOne($model->account_id)->getCategory()->where('account_id=:account_id',[':account_id'=>$model->account_id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->date_created = date('Y-m-d H:i');
             $model->save();
             Yii::$app->session->addFlash('success', 'Good Update!');
             return $this->redirect(['index']);

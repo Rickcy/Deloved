@@ -9,8 +9,11 @@ use yii\helpers\Url;
 
         <?php $form=ActiveForm::begin(['id' => 'form-signin', 'options' => ['class' => 'form-signin text-center'], 'fieldConfig' => [
             'template' => '{input}{error}',
-            'labelOptions' => ['class' => 'col-sm-3 control-label']
+            'labelOptions' => ['class' => 'col-sm-3 control-label'],
+
                 ],
+            'enableAjaxValidation' => true,
+            'validationUrl' => Url::to(['/validate/login']),
         ])
         ?>
         <h3 ><?=Yii::t('app', 'The entrance to personal Cabinet')?></h3>
