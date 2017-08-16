@@ -27,10 +27,19 @@ class m170111_142425_item extends Migration
 
 
 
-        $this->createTable('{{%photo}}',[
+        $this->createTable('{{%photo_good}}',[
             'id'=>$this->primaryKey(),
-            'image_name'=>$this->string(),
-            'file'=>$this->string()
+            'filePath'=>$this->string(),
+            'account_id'=>$this->integer(),
+            'item_id'=>$this->integer(),
+
+        ]);
+
+        $this->createTable('{{%photo_service}}',[
+            'id'=>$this->primaryKey(),
+            'filePath'=>$this->string(),
+            'account_id'=>$this->integer(),
+            'item_id'=>$this->integer(),
         ]);
 
         $this->createTable('{{%goods}}',[
@@ -50,7 +59,6 @@ class m170111_142425_item extends Migration
             'category_id'=>$this->integer()->notNull(),
             'date_created'=>$this->dateTime(),
             'show_main'=>$this->integer()->defaultValue(0),
-            'photo_id'=>$this->integer(),
             'measure_id'=>$this->integer()->notNull(),
             'currency_id'=>$this->integer()->notNull()
 
@@ -70,11 +78,26 @@ class m170111_142425_item extends Migration
             'category_id'=>$this->integer()->notNull(),
             'date_created'=>$this->dateTime(),
             'show_main'=>$this->integer()->defaultValue(0),
-            'photo_id'=>$this->integer(),
             'measure_id'=>$this->integer()->notNull(),
             'currency_id'=>$this->integer()->notNull()
 
         ]);
+
+
+        $this->createIndex('fk_photo_item_goods_item_id','{{%photo_good}}','item_id');
+
+        $this->createIndex('fk_photo_item_service_item_id','{{%photo_service}}','item_id');
+
+        $this->addForeignKey('fk_photo_item_goods_item_id','{{%photo_good}}','item_id','{{%goods}}','id','CASCADE','CASCADE');
+        $this->addForeignKey('fk_photo_item_service_item_id','{{%photo_service}}','item_id','{{%services}}','id','CASCADE','CASCADE');
+
+
+
+
+
+
+
+
 
         $this->createIndex('fk_good_currency_id','{{%goods}}','currency_id');
         $this->addForeignKey('fk_good_currency_id','{{%goods}}','currency_id','{{%currency}}','id','CASCADE','CASCADE');
@@ -85,10 +108,6 @@ class m170111_142425_item extends Migration
         $this->createIndex('fk_good_measure_id','{{%goods}}','measure_id');
         $this->addForeignKey('fk_good_measure_id','{{%goods}}','measure_id','{{%measure}}','id','CASCADE','CASCADE');
 
-
-
-        $this->createIndex('fk_good_photo_id','{{%goods}}','photo_id');
-        $this->addForeignKey('fk_good_photo_id','{{%goods}}','photo_id','{{%photo}}','id','CASCADE','CASCADE');
 
 
 
@@ -138,9 +157,6 @@ class m170111_142425_item extends Migration
         $this->addForeignKey('fk_service_measure_id','{{%services}}','measure_id','{{%measure}}','id','CASCADE','CASCADE');
 
 
-
-        $this->createIndex('fk_service_photo_id','{{%services}}','photo_id');
-        $this->addForeignKey('fk_service_photo_id','{{%services}}','photo_id','{{%photo}}','id','CASCADE','CASCADE');
 
 
 

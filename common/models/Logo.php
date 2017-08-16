@@ -20,7 +20,7 @@ use yii\helpers\BaseFileHelper;
 class Logo extends \yii\db\ActiveRecord
 {
 
-
+    public $logo;
 
 
     /**

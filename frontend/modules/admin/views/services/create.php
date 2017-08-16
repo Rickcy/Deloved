@@ -56,8 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <hr>
 
 
-        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg']) ?>
-        <?= $form->field($model, 'photo')->fileInput(['id'=>'imgInput']) ?>
+        <div class="col-sm-3"></div><div class="col-sm-7" id="image-template"></div>
+
+        <?= $form->field($model, 'photos[]')->hiddenInput(['id'=>'imgServiceInput'])->label('Фото') ?>
+
+        <div class="col-sm-3"></div><div class="col-sm-7"><input type="file" accept="image/*,image/jpeg" id="imgService"></div>
+
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория услуги') ?>
         <div id="myCat">

@@ -38,14 +38,13 @@ use yii\web\UploadedFile;
  * @property DeliveryMethods $deliveryMethods
  * @property Measure $measure
  * @property PaymentMethods $paymentMethods
- * @property Photo $photo
+ * @property PhotoGood[] $photo
  */
 class Goods extends \yii\db\ActiveRecord
 {
-    /**
-     * @var $photoFile UploadedFile
-     */
-    public $photoFile;
+
+    public $photos;
+
     /**
      * @inheritdoc
      */
@@ -63,8 +62,8 @@ class Goods extends \yii\db\ActiveRecord
             [['name', 'availability', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id','price'], 'required'],
             [['price'], 'number'],
             [['description'], 'string'],
-            [['date_created'], 'safe'],
-            [['availability', 'rating_count', 'rating_good', 'condition_id', 'payment_methods_id', 'delivery_methods_id', 'account_id', 'category_type_id', 'category_id', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
+            [['date_created','photos'], 'safe'],
+            [['availability', 'rating_count', 'rating_good', 'condition_id', 'payment_methods_id', 'delivery_methods_id', 'account_id', 'category_type_id', 'category_id', 'show_main',  'measure_id', 'currency_id'], 'integer'],
             [['name', 'model'], 'string', 'max' => 255],
             [['condition_id'], 'exist', 'skipOnError' => true, 'targetClass' => Condition::className(), 'targetAttribute' => ['condition_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
@@ -74,8 +73,7 @@ class Goods extends \yii\db\ActiveRecord
             [['delivery_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => DeliveryMethods::className(), 'targetAttribute' => ['delivery_methods_id' => 'id']],
             [['measure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Measure::className(), 'targetAttribute' => ['measure_id' => 'id']],
             [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
-            [['photo_id'], 'exist', 'skipOnError' => false, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
-            ['photo', 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg']
+
         ];
     }
 
@@ -101,7 +99,6 @@ class Goods extends \yii\db\ActiveRecord
             'category_id' => Yii::t('app', 'Category good'),
             'date_created' => Yii::t('app', 'Date Created'),
             'show_main' => Yii::t('app', 'Show main'),
-            'photo_id' => Yii::t('app', 'Photo good'),
             'measure_id' => Yii::t('app', 'Measure'),
             'currency_id' => Yii::t('app', 'Currency'),
         ];
@@ -176,30 +173,18 @@ class Goods extends \yii\db\ActiveRecord
      */
     public function getPhoto()
     {
-        return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
+        return $this->hasMany(PhotoGood::className(), ['item_id' => 'id']);
     }
 
-    public function saveImage(){
-        if(!is_dir('@uploadDir')){
-            BaseFileHelper::createDirectory('@uploadDir');
+    public function saveGoodsPhoto(){
+        $imagesPaths = explode(',',$this->photos[0]);
+        foreach ($imagesPaths as $path){
+            $photo = new PhotoGood();
+            $photo->account_id = $this->account_id;
+            $photo->item_id = $this->id;
+            $photo->filePath = $path;
+            $photo->save();
         }
-        $url =Yii::$app->security->generateRandomString(10).'.'.$this->photoFile->extension;
-        $transaction = Yii::$app->db->beginTransaction();
-        try{
 
-        $photo = new Photo();
-        $photo->file = '/uploads/'.$url;
-        $photo->image_name = $this->photoFile->name;
-        $photo->save();
-        umask( 0002 );
-        $this->photoFile->saveAs('uploads/'.$url);
-
-        $transaction->commit();
-
-        }catch (Exception $exception){
-
-            $transaction->rollBack();
-        }
-        return $photo->file;
     }
 }

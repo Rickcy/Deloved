@@ -99,10 +99,18 @@ $user = User::findIdentity(Yii::$app->user->id);
         echo $form->field($model, 'delivery_methods_id')->dropDownList($items) ?>
         <hr>
 
+        <div class="col-sm-3"></div><div class="col-sm-7" id="image-template">
+            <?php if($photos !=null):?>
+            <?php foreach ($photos as $photo):?>
+                    <span><img style='max-width: 25%;margin: 10px' src="<?=$photo['filePath']?>" /><span style="cursor:pointer;" class='deletePhotoGood' path='<?=$photo['filePath']?>' >X</span></span>
+            <?php endforeach;?>
+            <?php endif;?>
+        </div>
 
-        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg']) ?>
-        <?= $form->field($model, 'photo')->fileInput(['id'=>'imgInput']) ?>
-
+        <?= $form->field($model, 'photos[]')->hiddenInput(['id'=>'imgGoodsInput'])->label('Фото') ?>
+        <?php if ($user->checkRole(['ROLE_USER'])):?>
+        <div class="col-sm-3"></div><div class="col-sm-7"><input type="file" accept="image/*,image/jpeg" id="imgGoods"></div>
+        <?php endif;?>
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
         <div id="myCat">

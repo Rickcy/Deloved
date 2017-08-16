@@ -205,7 +205,7 @@ $this->title = Yii::t('app', 'Create Account');
                                 <ul>
                                     <?php foreach ($category as $cat):?>
 
-                                        <?php if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1):?>
+                                        <?php if ($cat->categorytype_id==$catType->id&&$cat->parent_id!=1&&$cat->getParent()->one()->parent_id==1227):?>
 
                                             <li id="<?=$cat->id?>"><?=$cat->name?>
                                               

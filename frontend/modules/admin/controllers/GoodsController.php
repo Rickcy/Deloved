@@ -11,6 +11,8 @@ use common\models\DeliveryMethods;
 use common\models\Measure;
 use common\models\NewGood;
 use common\models\PaymentMethods;
+use common\models\PhotoGood;
+use common\models\PhotoItem;
 use common\models\Profile;
 use common\models\Role;
 use common\models\User;
@@ -88,14 +90,17 @@ class GoodsController extends AuthController
         $model->show_main = 0;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
             $transaction = \Yii::$app->db->beginTransaction();
             try{
+                $model->save();
+                $model->saveGoodsPhoto();
                 $query = 'SELECT * FROM profile WHERE user_id IN (SELECT id FROM "user" WHERE "user".role_id =:role_id) AND id IN (SELECT profile_id FROM profile_region WHERE region_id =:region_id)';
                 $profile_managers = Yii::$app->db->createCommand($query,[
                     ':region_id'=>$account->city_id,
                     ':role_id'=>ROLE::ROLE_MANAGER
                 ])->queryAll();
-                $model->save();
+
 
                 $good = new NewGood();
                 $good->for_profile_id = Profile::ID_PROFILE_ADMIN;
@@ -116,7 +121,7 @@ class GoodsController extends AuthController
                 $transaction->commit();
             }catch (Exception $e){
                 $transaction->rollBack();
-                Yii::$app->session->addFlash('success', $e->getMessage());
+                Yii::$app->session->addFlash('danger', $e->getMessage());
                 return $this->redirect(['index']);
             }
 
@@ -141,15 +146,27 @@ class GoodsController extends AuthController
         if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-            $model = new Goods();
+            $model = new PhotoGood();
          if (Yii::$app->request->isAjax){
             $model->photoFile = UploadedFile::getInstancesByName('photoGoodsFile')[0];
-            $upl_file = $model->saveImage();
+            $upl_file = $model->uploadImage();
             Yii::$app->response->format = Response::FORMAT_JSON;
             return $upl_file;
         }
-        
-        
+    }
+
+    public function actionDeletePhotoGood(){
+        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
+        $path  = Yii::$app->request->post('path');
+        $photo = PhotoGood::findOne(['filePath'=>$path]);
+        if($photo){
+            $photo->delete();
+        }
+        unlink(Yii::getAlias('@frontend').'/web'.$path);
+        return true;
     }
     
     
@@ -167,6 +184,7 @@ class GoodsController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $model = $this->findModel($id);
+        $photos = PhotoGood::findAll(['item_id'=>$model->id]);
         $profile = User::findOne(Yii::$app->user->id)->profile;
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
                 Yii::$app->db
@@ -186,6 +204,7 @@ class GoodsController extends AuthController
         if ($model->load(Yii::$app->request->post())) {
             $model->date_created = date('Y-m-d H:i');
             $model->save();
+            $model->saveGoodsPhoto();
             Yii::$app->session->addFlash('success', 'Good Update!');
             return $this->redirect(['index']);
         } else {
@@ -197,7 +216,8 @@ class GoodsController extends AuthController
                 'deliveryMethods'=>$deliveryMethods,
                 'paymentMethods'=>$paymentMethods,
                 'myCategory'=>$myCategory,
-                'account'=>$account
+                'account'=>$account,
+                'photos'=>$photos
             ]);
         }
     }

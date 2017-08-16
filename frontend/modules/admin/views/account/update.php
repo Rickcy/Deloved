@@ -108,16 +108,18 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
                 <div class="col-sm-9">
 
-            <?php if ($model->getMainImage($model->id)):?>
-                <img width="40%" src="/<?=$model->getMainImage($model->id)->file?>" class="img-thumbnail" alt="<?=$model->getMainImage($model->id)->image_name?>">
-            <?php endif;?>
-            <?php if (!$model->getMainImage($model->id)):?>
-                <img width="40%" src="/uploads/default/logo_default.png" class="img-thumbnail" alt="logo_default">
-            <?php endif;?>
+                    <div  id="image-template">
+                        <?php if ($logo):?>
+                            <?php foreach ($logo as $logo):?>
+                                <img style='max-width: 25%;margin: 10px' src="<?=$logo['file']?>" /><span style="cursor: pointer" class='deleteLogo' >X</span>
+                            <?php endforeach;?>
+                        <?php endif;?>
+                        <?php if (!$logo):?>
+                            <img style='max-width: 25%;margin: 10px' src="/uploads/default/logo_default.png" />
+                        <?php endif;?>
+                    </div>
         
                 </div>
-        <?= $form->field($model, 'file')->fileInput()->label('') ?>
-
 
     </div>
 

@@ -6,6 +6,7 @@ namespace frontend\models;
 
 use common\models\Account;
 use common\models\AccountCategory;
+use yii\base\Exception;
 use yii\base\Model;
 
 class AccountForm extends Model
@@ -65,45 +66,50 @@ class AccountForm extends Model
             return null;
         }
 
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $account->full_name=$this->full_name;
+            $account->brand_name=$this->brand_name;
+            $account->public_status=$this->public_status==null?0:$this->public_status;
+            $account->verify_status=$this->verify_status==null?0:$this->verify_status;
+            $account->address=$this->address;
+            $account->city_id=$account->returnCity_id($this->city_name);
+            $account->date_reg=$account->returnDate($this->date);
+            $account->created_at=time();
+            $account->updated_at=time();
+            $account->description=$this->description;
+            $account->keywords=$this->keywords;
+            $account->legal_address=$this->legal_address;
+            $account->director=$this->director;
+            $account->email=$this->email;
+            $account->phone1=$this->phone1;
+            $account->fax=$this->fax;
+            $account->inn=$this->inn;
+            $account->ogrn=$this->ogrn;
+            $account->org_form_id=$this->org_form_id;
+            $account->show_main=$this->show_main==null?0:$this->show_main;
+            $account->profile_id=$account->returnProfile_id($this->profile_name);
+            $account->web_address=$this->web_address;
+            $account->rating=100;
+            $account->work_time=$this->work_time;
+            $account->save();
+            if($this->account_category_goods!=null||$this->account_category_service!=null){
+                foreach ($account->returnCategoties_id($this->account_category_goods,$this->account_category_service) as $item){
+                    $category =new AccountCategory();
 
-        $account->full_name=$this->full_name;
-        $account->brand_name=$this->brand_name;
-        $account->public_status=$this->public_status==null?0:$this->public_status;
-        $account->verify_status=$this->verify_status==null?0:$this->verify_status;
-        $account->address=$this->address;
-        $account->city_id=$account->returnCity_id($this->city_name);
-        $account->date_reg=$account->returnDate($this->date);
-        $account->created_at=time();
-        $account->updated_at=time();
-        $account->description=$this->description;
-        $account->keywords=$this->keywords;
-        $account->legal_address=$this->legal_address;
-        $account->director=$this->director;
-        $account->email=$this->email;
-        $account->phone1=$this->phone1;
-        $account->fax=$this->fax;
-        $account->inn=$this->inn;
-        $account->ogrn=$this->ogrn;
-        $account->org_form_id=$this->org_form_id;
-        $account->show_main=$this->show_main==null?0:$this->show_main;
-        $account->profile_id=$account->returnProfile_id($this->profile_name);
-        $account->web_address=$this->web_address;
-        $account->rating=100;
-        $account->work_time=$this->work_time;
+                    $category->category_id=$item;
+                    $category->account_id=$account->id;
 
+                    $category->save();
 
-        $account->save();
-        if($this->account_category_goods!=null||$this->account_category_service!=null){
-            foreach ($account->returnCategoties_id($this->account_category_goods,$this->account_category_service) as $item){
-            $category =new AccountCategory();
-
-            $category->category_id=$item;
-            $category->account_id=$account->id;
-
-            $category->save();
-
+                }
             }
+            $transaction->commit();
+        }catch (Exception $exception){
+             $transaction->rollBack();
+             return $exception->getMessage();
         }
+
 
         
     }

@@ -79,11 +79,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $items = ArrayHelper::map($deliveryMethods,'id','name');
         echo $form->field($model, 'delivery_methods_id')->dropDownList($items) ?>
         <hr>
-      
+        <div class="col-sm-3"></div><div class="col-sm-7" id="image-template"></div>
 
-        <?= $form->field($model, 'photo_id')->hiddenInput(['id'=>'idImg'])->label('') ?>
-        <?= $form->field($model, 'photo')->fileInput(['multiple' => true, 'accept' => 'image/*','id'=>'imgGoodsInput'])->label('Фото') ?>
-        <div id="image-template"></div>
+        <?= $form->field($model, 'photos[]')->hiddenInput(['id'=>'imgGoodsInput'])->label('Фото') ?>
+
+        <div class="col-sm-3"></div><div class="col-sm-7"><input type="file" accept="image/*,image/jpeg" id="imgGoods"></div>
 
         <?= $form->field($model, 'category_id')->hiddenInput(['id'=>'cat'])->label('Категория товара') ?>
         

@@ -19,7 +19,6 @@ use Yii;
  * @property integer $category_id
  * @property string $date_created
  * @property integer $show_main
- * @property integer $photo_id
  * @property integer $measure_id
  * @property integer $currency_id
  *
@@ -29,12 +28,13 @@ use Yii;
  * @property CategoryType $categoryType
  * @property Currency $currency
  * @property Measure $measure
- * @property Photo $photo
+ * @property PhotoService[] $photo
  */
 class Services extends \yii\db\ActiveRecord
 {
 
-    public $image;
+    public $photos;
+
     /**
      * @inheritdoc
      */
@@ -51,9 +51,9 @@ class Services extends \yii\db\ActiveRecord
         return [
             [['name', 'account_id', 'category_type_id', 'category_id', 'measure_id', 'currency_id'], 'required'],
             [['price'], 'number'],
-            [['date_created'], 'safe'],
+            [['date_created','photos'], 'safe'],
             [['description'], 'string'],
-            [['rating_count', 'rating_service', 'payment_methods_id',  'account_id', 'category_type_id', 'category_id', 'show_main', 'photo_id', 'measure_id', 'currency_id'], 'integer'],
+            [['rating_count', 'rating_service', 'payment_methods_id',  'account_id', 'category_type_id', 'category_id', 'show_main',  'measure_id', 'currency_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['payment_methods_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethods::className(), 'targetAttribute' => ['payment_methods_id' => 'id']],
             [['account_id'], 'exist', 'skipOnError' => true, 'targetClass' => Account::className(), 'targetAttribute' => ['account_id' => 'id']],
@@ -61,8 +61,6 @@ class Services extends \yii\db\ActiveRecord
             [['category_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoryType::className(), 'targetAttribute' => ['category_type_id' => 'id']],
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'id']],
             [['measure_id'], 'exist', 'skipOnError' => true, 'targetClass' => Measure::className(), 'targetAttribute' => ['measure_id' => 'id']],
-            [['photo_id'], 'exist', 'skipOnError' => true, 'targetClass' => Photo::className(), 'targetAttribute' => ['photo_id' => 'id']],
-            ['image', 'file', 'skipOnEmpty' => true, 'extensions' => 'png,jpg']
         ];
     }
 
@@ -84,7 +82,6 @@ class Services extends \yii\db\ActiveRecord
             'category_id' => Yii::t('app', 'Category'),
             'date_created' => Yii::t('app', 'Date Created'),
             'show_main' => Yii::t('app', 'Show main'),
-            'photo_id' => Yii::t('app', 'Photo'),
             'measure_id' => Yii::t('app', 'Measure'),
             'currency_id' => Yii::t('app', 'Currency'),
         ];
@@ -144,6 +141,18 @@ class Services extends \yii\db\ActiveRecord
      */
     public function getPhoto()
     {
-        return $this->hasOne(Photo::className(), ['id' => 'photo_id']);
+        return $this->hasMany(PhotoService::className(), ['item_id' => 'id']);
+    }
+
+    public function saveServicePhoto(){
+        $imagesPaths = explode(',',$this->photos[0]);
+        foreach ($imagesPaths as $path){
+            $photo = new PhotoService();
+            $photo->account_id = $this->account_id;
+            $photo->item_id = $this->id;
+            $photo->filePath = $path;
+            $photo->save();
+        }
+
     }
 }

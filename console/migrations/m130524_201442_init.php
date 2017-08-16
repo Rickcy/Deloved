@@ -189,10 +189,11 @@ class m130524_201442_init extends Migration
         $this->createIndex('fk_user_logo_id','{{%logo}}','user_id');
         
         $this->addForeignKey('fk_user_logo_id','{{%logo}}','user_id','{{%account}}','id','CASCADE','CASCADE');
-        
 
-       
-        
+
+
+
+
         $this->createIndex('fk_user_id','{{%profile}}','user_id');
         $this->addForeignKey('fk_user_id','{{%profile}}','user_id','{{%user}}','id','CASCADE','CASCADE');
 

@@ -62,9 +62,13 @@ function getLenta() {
     })
 }
 
+
+
+
 $(function () {
-    $('#imgGoodsInput').change(function () {
-        var input =$("#imgGoodsInput");
+    var photoPath = []
+    $('#imgGoods').change(function () {
+        var input =$("#imgGoods");
         var files = input[0].files;
 
         var data = new FormData();
@@ -80,10 +84,133 @@ $(function () {
             processData: false,
             contentType: false,
             success:function (data) {
-                $('#image-template').append('<img src="'+data+'" />')
+                photoPath.push(data);
+                $('#image-template').append("<span><img style='max-width: 25%;margin: 10px' src="+data+" /><span style='cursor:pointer;' class='deletePhotoGood' path='"+data+"' >X</span></span>")
+                $('#imgGoodsInput').val(photoPath);
             },
             error:function () {
                 console.log('Error')
+            }
+        })
+    });
+
+    $('#imgService').change(function () {
+        var input =$("#imgService");
+        var files = input[0].files;
+
+        var data = new FormData();
+        $.each( files, function( key, value ){
+            data.append('photoServiceFile', value )
+        });
+        $.ajax({
+            type:'POST',
+            url:'/admin/services/upload-photo',
+            data:data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success:function (data) {
+                photoPath.push(data);
+                $('#image-template').append("<span><img style='max-width: 25%;margin: 10px' src="+data+" /><span class='deletePhotoService' style='cursor:pointer;' path='"+data+"' >X</span></span>")
+                $('#imgServiceInput').val(photoPath);
+            },
+            error:function () {
+                console.log('Error')
+            }
+        })
+    });
+
+
+    $('#imgLogo').change(function () {
+        var input =$("#imgLogo");
+        var files = input[0].files;
+
+        var data = new FormData();
+        $.each( files, function( key, value ){
+            data.append('logoFile', value )
+        });
+        $.ajax({
+            type:'POST',
+            url:'/admin/account/upload-logo',
+            data:data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success:function (data) {
+
+                $('#image-template').children().remove();
+                $('#image-template').append("<img style='max-width: 25%;margin: 10px' src="+data+" /><span class='deleteLogo' style='cursor:pointer;' path='"+data+"' >X</span>")
+            },
+            error:function () {
+                console.log('Error')
+            }
+        })
+    });
+
+    $(document).on('click','.deleteLogo',function () {
+        var path = $(this).prev().attr('src');
+        var self = $(this);
+        $.ajax({
+            type:'POST',
+            url:'/admin/account/delete-logo',
+            data:{'path':path},
+            success:function (data) {
+                if(data){
+                    $(self).parent().children().remove();
+                    $('#image-template').append("<img style='max-width: 25%;margin: 10px' src='/uploads/default/logo_default.png' />")
+                }
+            },
+            error:function () {
+                console.log('error')
+            }
+        })
+    });
+
+
+    $(document).on('click','.deletePhotoGood',function () {
+        var path = $(this).attr('path');
+        var self = $(this);
+        $.ajax({
+            type:'POST',
+            url:'/admin/goods/delete-photo-good',
+            data:{'path':path},
+            success:function (data) {
+                if(data){
+                    $(self).parent().remove();
+
+                    photoPath.indexOf(path)
+                    photoPath.splice(photoPath.indexOf(path), 1)
+                    $('#imgGoodsInput').val(photoPath);
+
+                }
+            },
+            error:function () {
+                console.log('error')
+            }
+        })
+    });
+
+
+
+    $(document).on('click','.deletePhotoService',function () {
+        var path = $(this).attr('path');
+        var self = $(this);
+        $.ajax({
+            type:'POST',
+            url:'/admin/services/delete-photo-service',
+            data:{'path':path},
+            success:function (data) {
+                if(data){
+                    $(self).parent().remove();
+                    photoPath.indexOf(path)
+                    photoPath.splice(photoPath.indexOf(path), 1)
+                    $('#imgServiceInput').val(photoPath);
+                }
+            },
+            error:function () {
+                console.log('error')
             }
         })
     });

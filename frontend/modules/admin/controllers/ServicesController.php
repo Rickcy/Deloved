@@ -8,6 +8,7 @@ use common\models\Currency;
 use common\models\Measure;
 use common\models\NewService;
 use common\models\PaymentMethods;
+use common\models\PhotoService;
 use common\models\Profile;
 use common\models\Role;
 use common\models\User;
@@ -17,6 +18,8 @@ use common\models\search\ServicesSearch;
 use yii\base\Exception;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 
 /**
@@ -85,6 +88,7 @@ class ServicesController extends AuthController
                     ':role_id'=>ROLE::ROLE_MANAGER
                 ])->queryAll();
                 $model->save();
+                $model->saveServicePhoto();
 
                 $service = new NewService();
                 $service->for_profile_id = Profile::ID_PROFILE_ADMIN;
@@ -104,10 +108,10 @@ class ServicesController extends AuthController
                 $transaction->commit();
             }catch (Exception $e){
                 $transaction->rollBack();
-                Yii::$app->session->addFlash('success', $e->getMessage());
+                Yii::$app->session->addFlash('danger', $e->getMessage());
                 return $this->redirect(['index']);
             }
-            Yii::$app->session->addFlash('success', 'Good Created!');
+            Yii::$app->session->addFlash('success', 'Service Created!');
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -120,6 +124,21 @@ class ServicesController extends AuthController
             ]);
         }
     }
+
+
+    public function actionUploadPhoto(){
+        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+        $model = new PhotoService();
+        if (Yii::$app->request->isAjax){
+            $model->photoFile = UploadedFile::getInstancesByName('photoServiceFile')[0];
+            $upl_file = $model->uploadImage();
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $upl_file;
+        }
+    }
+
 
     /**
      * Updates an existing Services model.
@@ -136,6 +155,7 @@ class ServicesController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $model = $this->findModel($id);
+        $photos = PhotoService::findAll(['item_id'=>$model->id]);
         $profile = User::findOne(Yii::$app->user->id)->profile;
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             Yii::$app->db
@@ -151,8 +171,18 @@ class ServicesController extends AuthController
         $myCategory =Account::findOne($model->account_id)->getCategory()->where(['account_id'=>$model->account_id])->all();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->date_created = date('Y-m-d H:i');
-            $model->save();
+            $transaction = \Yii::$app->db->beginTransaction();
+            try{
+                $model->date_created = date('Y-m-d H:i');
+                $model->save();
+                $model->saveServicePhoto();
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                Yii::$app->session->addFlash('danger', $e->getMessage());
+                return $this->redirect(['index']);
+            }
+
             Yii::$app->session->addFlash('success', 'Service Update!');
             return $this->redirect(['index']);
         } else {
@@ -162,9 +192,25 @@ class ServicesController extends AuthController
                 'currency'=>$currency,
                 'paymentMethods'=>$paymentMethods,
                 'myCategory'=>$myCategory,
-                'account'=>$account
+                'account'=>$account,
+                'photos'=>$photos
             ]);
         }
+    }
+
+
+    public function actionDeletePhotoService(){
+        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
+        $path  = Yii::$app->request->post('path');
+        $photo = PhotoService::findOne(['filePath'=>$path]);
+        if($photo){
+            $photo->delete();
+        }
+        unlink(Yii::getAlias('@frontend').'/web'.$path);
+        return true;
     }
 
     /**

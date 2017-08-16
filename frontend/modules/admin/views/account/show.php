@@ -75,7 +75,17 @@ $this->title = 'Мои данные';
         </div>
         <div class="col-sm-7 ft ">
             <div name="logo">
-
+                <div  id="image-template">
+                    <?php if ($logo):?>
+                        <?php foreach ($logo as $logo):?>
+                            <img style='max-width: 25%;margin: 10px' src="<?=$logo['file']?>" /><span style="cursor: pointer" class='deleteLogo' >X</span>
+                        <?php endforeach;?>
+                    <?php endif;?>
+                    <?php if (!$logo):?>
+                        <img style='max-width: 25%;margin: 10px' src="/uploads/default/logo_default.png" />
+                    <?php endif;?>
+                </div>
+                <input type="file" accept="image/*,image/jpeg" id="imgLogo">
             </div>
         </div>
         <div class="action-col ft">

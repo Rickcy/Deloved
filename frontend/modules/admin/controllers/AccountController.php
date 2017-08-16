@@ -17,11 +17,13 @@ use Yii;
 use common\models\Account;
 use common\models\search\AccountSearch;
 
+use yii\base\Exception;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 
 /**
@@ -32,7 +34,6 @@ class AccountController extends AuthController
 
 
     public $layout = '/admin';
-
 
     /**
      * Lists all Account models.
@@ -135,6 +136,7 @@ class AccountController extends AuthController
 
         $model = $this->findModel($id);
 
+
         $profile = User::findOne(Yii::$app->user->id)->profile;
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             Yii::$app->db
@@ -152,14 +154,12 @@ class AccountController extends AuthController
             ->where('level_id=:level_id',[':level_id'=>$level_id])
             ->asArray()
             ->all();
-
         $categoryType = CategoryType::find()->all();
         $category = Category::find()->all();
         $myAffiliates=$model->getAffiliates()->all();
         $myCategory =$model->getCategory()->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$model->id])->count();
-        $logo = new Logo();
-
+        $logo = Account::findOne($id)->logos;
 
 
         if ($model->load(Yii::$app->request->post())) {
@@ -167,37 +167,10 @@ class AccountController extends AuthController
             $model->city_id=$model->returnCity_id($model->city_name);
             $model->date_reg = $model->returnDate($model->date);
             $model->save();
-            $file =$model->file=UploadedFile::getInstance($model,'file');
-            if ($file){
-
-                if($model->getMainImage($model->id)){
-                    Logo::findOne($model->getMainImage($model->id)->id)->delete();
-                    $path2 = Yii::getAlias('@frontend/web/uploads/accounts/'.$model->id.'/general');
-                    BaseFileHelper::removeDirectory($path2);
-                }
-
-                $path = Yii::getAlias('@frontend/web/uploads/accounts/'.$model->id.'/general');
-                BaseFileHelper::createDirectory($path);
-                $logo->created_at=time();
-                $logo->user_id=$model->id;
-                $name =$file->baseName.'.'.$file->extension;
-                $logo->image_name=$name;
-                $logo->main_image=1;
-                $logo->file='uploads/accounts/'.$model->id.'/general/'.$name;
-                $file->saveAs($path .DIRECTORY_SEPARATOR .$name);
-
-            }
-            $logo->save();
-            
-            
-            
-            
-            
-
             Yii::$app->session->addFlash('success', 'Account Update!');
             return $this->redirect(['index']);
 
-        }  else {
+        }
             return $this->render('update', [
 
                 'model' => $model,
@@ -208,9 +181,10 @@ class AccountController extends AuthController
                 'categoryType'=>$categoryType,
                 'category'=>$category,
                 'myCategory'=>$myCategory,
-                'count'=>$count
+                'count'=>$count,
+                'logo'=>$logo
             ]);
-        }
+
     }
 
     /**
@@ -253,7 +227,6 @@ class AccountController extends AuthController
         }
     }
 
-
     public function actionShow(){
         if (!User::checkRole(['ROLE_USER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
@@ -261,9 +234,9 @@ class AccountController extends AuthController
         $categoryType = CategoryType::find()->all();
         $category = Category::find()->all();
         
-        $user=User::findOne(Yii::$app->user->id);
+        $user= User::findOne(Yii::$app->user->id);
         $account=$user->profile->account;
-
+        $logo = $account->logos;
 
         $level_id=18;
         $city_list=Region::find()
@@ -272,7 +245,6 @@ class AccountController extends AuthController
             ->asArray()
             ->all();
 
-        $logo=null;
         $affiliate =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
         $count =Affiliate::find()->where('account_id=:account_id',[':account_id'=>$account->id])->count();
         $myCategory =$account->category;
@@ -280,17 +252,81 @@ class AccountController extends AuthController
 
             return $this->render('show',[
                 'account'=>$account,
-//                'model'=>$model,
-//                isset($logo)?:'logo'=>$logo,
                 'category'=>$category,
                 'categoryType'=>$categoryType,
                 'myCategory'=>$myCategory,
                 'affiliate'=>$affiliate,
                 'count'=>$count,
-                'city_list'=>$city_list
+                'city_list'=>$city_list,
+                'logo'=>$logo
             ]);
 
     }
+
+
+
+    public function actionUploadLogo(){
+        if (!User::checkRole(['ROLE_USER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+        $model = new Logo();
+        $account = User::findOne(Yii::$app->user->id)->profile->account;
+        if (Yii::$app->request->isAjax){
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $model->logo = UploadedFile::getInstancesByName('logoFile')[0];
+                if(!is_dir(Yii::getAlias('@uploadDir'))){
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir'),0777);
+
+                }
+                if(!is_dir(Yii::getAlias('@uploadDir').'/acc_logos/')){
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir').'/acc_logos/',0777);
+                }
+                if(!is_dir(Yii::getAlias('@uploadDir').'/acc_logos/'.$account->id.'/')){
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir').'/acc_logos/'.$account->id.'/',0777);
+                }
+
+                $url = Yii::$app->security->generateRandomString(10).'.'.$model->logo->extension;
+                $model->logo->saveAs(Yii::getAlias('@uploadDir').'/acc_logos/'.$account->id.'/'.$url);
+                chmod(Yii::getAlias('@uploadDir').'/acc_logos/'.$account->id.'/'.$url,0777);
+
+                $logo = new Logo();
+                $logo->created_at = date('Y-m-d H:i');
+                $logo->image_name = $model->logo->name;
+                $logo->file = '/uploads/acc_logos/'.$account->id.'/'.$url;
+                $logo->main_image = true;
+                $logo->user_id = $account->id;
+                $logo->save();
+
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                return false;
+            }
+
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return '/uploads/acc_logos/'.$account->id.'/'.$url;
+        }
+    }
+
+
+
+    public function actionDeleteLogo(){
+        if (!User::checkRole(['ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'])) {
+            throw new ForbiddenHttpException('Доступ запрещен');
+        }
+
+        $path = Yii::$app->request->post('path');
+
+        $photo = Logo::findOne(['file'=>$path]);
+        if($photo){
+            $photo->delete();
+        }
+        unlink(Yii::getAlias('@frontend').'/web'.$photo->file);
+        return true;
+    }
+
+
 
     public function actionAddAffiliate(){
         $level_id=18;
