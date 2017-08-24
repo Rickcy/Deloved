@@ -78,12 +78,9 @@ if ($session->has('lang')){
                 ]);
                 ?>
 
-
-
         <?php endif;?>
-        
-        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])):?>
 
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_SUPPORT'])):?>
 
             <h1 class="ft"><?=Yii::t('app', 'Feedback')?></h1>
             <div class="ug"></div>
@@ -95,7 +92,7 @@ if ($session->has('lang')){
 
                     $menuItemsFeedback[]= ['label' => Yii::t('app', 'Category communication'), 'url' => ['/admin/suggestion/index']];
                 }
-            $menuItemsFeedback[]= ['label' => Yii::t('app', 'Support'),'options'=>['id'=>'support'],  'url' => ['/#']];
+            $menuItemsFeedback[]= ['label' => Yii::t('app', 'Support'),'options'=>['id'=>'support'],  'url' => ['/admin/ticket/show-all']];
 
                 echo Menu::widget([
                     'items' =>$menuItemsFeedback ,
@@ -105,14 +102,9 @@ if ($session->has('lang')){
                 ]);
                 ?>
 
-
         <?php endif;?>
 
         <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-
-
-
-
 
             <h1 class="ft"><?=Yii::t('app', 'Users')?></h1>
 
@@ -330,7 +322,7 @@ if ($session->has('lang')){
             </ul>
     <?php endif?>
 
-        <?php if ($user->checkRole(['ROLE_MANAGER','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_JURIST','ROLE_USER'])):?>
+        <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_JURIST','ROLE_USER'])):?>
 
 
             <h1 class="ft"><?=Yii::t('app', 'Support')?></h1>
@@ -338,7 +330,7 @@ if ($session->has('lang')){
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => Yii::t('app', 'Technical support'),'options'=>['id'=>'support'], 'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Technical support'),'options'=>['id'=>'support'], 'url' => ['/admin/ticket/index']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],

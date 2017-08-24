@@ -110,7 +110,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                                                     <?php foreach ($child->getChild()->all() as $c):?>
                                                         <li id="<?=$c->id?>"  data-jstree=<?=$c->equelsVar($c->id,$model)?>><?=$c->name?></li>
-                                                    <?php endforeach;?>
+                                                    <?php endforeach;?>10264
 
 
                                                 <?php endif;?>

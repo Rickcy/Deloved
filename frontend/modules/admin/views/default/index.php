@@ -58,6 +58,15 @@ $timeZone = $session->get('timeZone')/60;
                         <?php endforeach;?>
                     <?php endif;?>
 
+                     <?php if(isset($lenta['tickets'])):?>
+                         <?php foreach ($lenta['tickets'] as $ticket):?>
+                             <li class="list-group-item">
+                                 <div class="time"><?=(new DateTime($ticket['date_created']))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></div>
+                                 Новое <a href="/admin/ticket/show-ticket?id=<?=$ticket['new_ticket_id']?>">обращение в Службу поодержки</a>
+                             </li>
+                         <?php endforeach;?>
+                     <?php endif;?>
+
 <!--                -->
 <!---->
 <!---->

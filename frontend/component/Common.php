@@ -6,6 +6,7 @@ use common\models\NewAccount;
 use common\models\NewGood;
 use common\models\NewService;
 use common\models\NewSuggestion;
+use common\models\NewTicket;
 use Yii;
 use yii\base\Component;
 use yii\helpers\BaseFileHelper;
@@ -32,6 +33,7 @@ class Common extends Component {
         $new_goods = NewGood::findAll(['for_profile_id'=>$profile_id]);
         $new_services = NewService::findAll(['for_profile_id'=>$profile_id]);
         $new_suggestions = NewSuggestion::findAll(['for_profile_id'=>$profile_id]);
+        $new_tickets = NewTicket::findAll(['for_profile_id'=>$profile_id]);
         if($new_accounts){
             $lenta['accounts'] = $new_accounts;
         }
@@ -43,6 +45,9 @@ class Common extends Component {
         }
         if($new_suggestions){
             $lenta['suggestions'] = $new_suggestions;
+        }
+        if($new_tickets){
+            $lenta['tickets'] = $new_tickets;
         }
         return $lenta;
 
