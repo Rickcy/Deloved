@@ -38,7 +38,7 @@ use Yii;
  * @property Profile $profile
  * @property Category $category
  * @property OrgForm $orgForm
- * @property Logo[] $logos
+ * @property Logo $logos
  */
 class Account extends \yii\db\ActiveRecord
 {
@@ -189,7 +189,7 @@ class Account extends \yii\db\ActiveRecord
      */
     public function getLogos()
     {
-        return $this->hasMany(Logo::className(), ['user_id' => 'id']);
+        return $this->hasOne(Logo::className(), ['user_id' => 'id']);
     }
 
     public function getCategory(){

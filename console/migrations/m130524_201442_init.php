@@ -77,7 +77,7 @@ class m130524_201442_init extends Migration
 
         ]);
 
-
+        $this->execute("ALTER TABLE account ALTER COLUMN description TYPE TEXT USING description::TEXT;");
 
 
         $this->createTable('{{%org_form}}',[
@@ -150,6 +150,8 @@ class m130524_201442_init extends Migration
             'author_id'=>$this->integer()->notNull(),
             'sug_category_id'=>$this->integer()->notNull(),
         ]);
+
+        $this->execute("ALTER TABLE suggestion ALTER COLUMN content TYPE TEXT USING content::TEXT;");
 
 
         $this->createIndex('fk_suggestion_author_id','{{%suggestion}}','author_id');

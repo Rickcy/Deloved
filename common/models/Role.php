@@ -22,7 +22,7 @@ class Role extends \yii\db\ActiveRecord
     const ROLE_JURIST = 5;
     const ROLE_JUDGE = 6;
     const ROLE_MEDIATOR = 7;
-    const ROLE_SUPPORT = 7;
+    const ROLE_SUPPORT = 8;
 
     /**
      * @inheritdoc

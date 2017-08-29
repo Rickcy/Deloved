@@ -167,7 +167,7 @@ class SignupForm extends Model
                 $new_account->save();
             }
 
-            Yii::$app->common->sendMailEmailConfirm($this->email,$user);
+//            Yii::$app->common->sendMailEmailConfirm($this->email,$user);
             $transaction->commit();
             return $user;
         }catch (Exception $e){

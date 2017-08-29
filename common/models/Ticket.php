@@ -17,6 +17,7 @@ use Yii;
  * @property Profile $profile
  * @property Profile $support
  * @property TicketPost[] $ticketPosts
+
  */
 class Ticket extends \yii\db\ActiveRecord
 {
@@ -26,12 +27,35 @@ class Ticket extends \yii\db\ActiveRecord
     const STATUS_CLOSED = 20;
 
 
+    public $detailText;
+
     public static function getNameStatus($status){
         $statusList = [
             self::STATUS_NEW => Yii::t('app','New'),
             self::STATUS_PROCESSING => Yii::t('app','In Processing'),
             self::STATUS_CLOSED => Yii::t('app','Closed'),
         ];
+        return $statusList[$status];
+    }
+
+    public static function getAllAllowedStatuses(){
+        $statusList = [
+            self::STATUS_NEW => Yii::t('app','New'),
+            self::STATUS_PROCESSING => Yii::t('app','In Processing'),
+            self::STATUS_CLOSED => Yii::t('app','Closed'),
+        ];
+
+        return $statusList;
+    }
+    public static function getNextAllowedStatuses($status){
+        $statusList = [
+            self::STATUS_NEW => [
+                self::STATUS_PROCESSING => Yii::t('app','In Processing'),
+                self::STATUS_CLOSED => Yii::t('app','Closed')
+            ],
+            self::STATUS_PROCESSING => [self::STATUS_CLOSED => Yii::t('app','Closed')]
+        ];
+
         return $statusList[$status];
     }
     /**
@@ -50,8 +74,10 @@ class Ticket extends \yii\db\ActiveRecord
         return [
             [['date_created'], 'safe'],
             [['profile_id', 'status', 'support_id'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 40],
+            [['name'], 'required'],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
+            [['support_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];
     }
 
@@ -62,7 +88,8 @@ class Ticket extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Topic of the appeal'),
+            'detailText' => Yii::t('app', 'Detail subscribe'),
             'date_created' => Yii::t('app', 'Date Created'),
             'profile_id' => Yii::t('app', 'Profile ID'),
             'status' => Yii::t('app', 'Status'),

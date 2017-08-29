@@ -18,12 +18,12 @@ $user = User::findIdentity(Yii::$app->user->id);
 
     <?php  $form =ActiveForm::begin()?>
 
-    <?=$form->field($model,'old_password')->passwordInput()?>
+    <?=$form->field($model,'old_password')->passwordInput()->label(Yii::t('app','Old password'))?>
     
-    <?=$form->field($model,'new_password')->passwordInput()?>
+    <?=$form->field($model,'new_password')->passwordInput()->label(Yii::t('app','New password'))?>
     
-    <?=$form->field($model,'repeat_new_password')->passwordInput()?>
+    <?=$form->field($model,'repeat_new_password')->passwordInput()->label(Yii::t('app','Repeat password'))?>
 
-    <?=Html::submitButton('Change password',['class'=>'btn btn-lg btn-success '])?>
-    <?ActiveForm::end()?>
+    <?=Html::submitButton(Yii::t('app', 'Change password'),['class'=>'btn btn-lg btn-success '])?>
+    <?php ActiveForm::end()?>
 </div>

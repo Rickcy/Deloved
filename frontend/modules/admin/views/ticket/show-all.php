@@ -8,7 +8,7 @@
 use common\models\Ticket;
 use common\models\User;
 use yii\bootstrap\Html;
-$this->title = Yii::t('app', 'Tickets');
+$this->title = Yii::t('app', 'Technical support');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
 $session = Yii::$app->session;
@@ -46,13 +46,12 @@ $timeZone = $session->get('timeZone')/60;
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
 
                     <td>
-                        <?= $ticket->profile->account->brand_name ?>
+                        <?= $ticket->profile->account ? $ticket->profile->account->brand_name : $ticket->profile->fio ?>
 
                     </td>
 
                     <td>
-                        <?= Html::a($ticket->name, ['update', 'id' => $ticket->id]) ?>
-
+                        <?= Html::a($ticket->name, ['show', 'id' => $ticket->id]) ?>
                     </td>
                     <td>
                         <?= Ticket::getNameStatus($ticket->status) ?>

@@ -57,18 +57,25 @@ class AccountController extends AuthController
         }
 
         if (Yii::$app->request->isAjax) {
-            $account =Account::findOne($id);
+            $account = Account::findOne($id);
             if ($type =='ps') {
                 $publicStatus = $account->public_status == 0 ? $account->public_status = 1 : $account->public_status = 0;
                 $account->save();
                 return $this->renderAjax('status', ['status' => $publicStatus==1?true:false, 'statusClass' => 'publicStatus', 'iconFalse' => 'glyphicon-lock']);
             } if ($type =='vs') {
+                if($account->verify_status == 0){
+                    $user = $account->profile->user;
+                    $email = $user->email;
+                    try{
+                        Yii::$app->common->sendMailEmailConfirm($email,$user);
+                    }catch (Exception $exception){
+                        return false;
+                    }
 
+                }
                 $verifyStatus = $account->verify_status == 0 ? $account->verify_status = 1 : $account->verify_status = 0;
                 $account->save();
                 return $this->renderAjax('status', ['status' => $verifyStatus==1?true:false, 'statusClass' => 'verifyStatus']);
-            } else {
-
             }
 
         }
@@ -136,8 +143,8 @@ class AccountController extends AuthController
 
         $model = $this->findModel($id);
 
-
         $profile = User::findOne(Yii::$app->user->id)->profile;
+
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             Yii::$app->db
                 ->createCommand('DELETE FROM new_account 
@@ -163,11 +170,22 @@ class AccountController extends AuthController
 
 
         if ($model->load(Yii::$app->request->post())) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $model->city_id=$model->returnCity_id($model->city_name);
+                $model->date_reg = $model->returnDate($model->date);
+                $model->save();
+                if($model->verify_status == 1){
+                    Yii::$app->common->sendMailEmailConfirm($model->profile->user->email,$model->profile->user);
+                }
+                Yii::$app->session->addFlash('success', 'Account Update!');
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                Yii::$app->session->addFlash('danger', 'Account not Update!');
+            }
 
-            $model->city_id=$model->returnCity_id($model->city_name);
-            $model->date_reg = $model->returnDate($model->date);
-            $model->save();
-            Yii::$app->session->addFlash('success', 'Account Update!');
+
             return $this->redirect(['index']);
 
         }

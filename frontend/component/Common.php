@@ -7,6 +7,7 @@ use common\models\NewGood;
 use common\models\NewService;
 use common\models\NewSuggestion;
 use common\models\NewTicket;
+use common\models\NewTicketPost;
 use Yii;
 use yii\base\Component;
 use yii\helpers\BaseFileHelper;
@@ -16,9 +17,9 @@ class Common extends Component {
 
     const EVENT_NOTIFY = 'notify_admin';
 
-    public function sendMail($subject,$text,$emailFrom='kuden.and.ko@gmail.com',$nameFrom='Deloved'){
+    public function sendMail($subject,$text,$emailFrom='deloved.info@gmail.com',$nameFrom='Deloved'){
         Yii::$app->mail->compose()
-            ->setFrom(['Rickcy@yandex.ru'=>'Deloved'])
+            ->setFrom(['admin@deloved.ru'=>'Deloved'])
             ->setTo([$emailFrom=> $nameFrom])
             ->setSubject($subject)
             ->setTextBody($text)
@@ -34,6 +35,7 @@ class Common extends Component {
         $new_services = NewService::findAll(['for_profile_id'=>$profile_id]);
         $new_suggestions = NewSuggestion::findAll(['for_profile_id'=>$profile_id]);
         $new_tickets = NewTicket::findAll(['for_profile_id'=>$profile_id]);
+        $new_tickets_posts = NewTicketPost::findAll(['for_profile_id'=>$profile_id]);
         if($new_accounts){
             $lenta['accounts'] = $new_accounts;
         }
@@ -49,6 +51,9 @@ class Common extends Component {
         if($new_tickets){
             $lenta['tickets'] = $new_tickets;
         }
+        if($new_tickets_posts){
+            $lenta['tickets_posts'] = $new_tickets_posts;
+        }
         return $lenta;
 
     }
@@ -58,7 +63,7 @@ class Common extends Component {
             ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
             ['user' => $user]
         )
-            ->setFrom(['Rickcy@yandex.ru'=>'Deloved'])
+            ->setFrom(['admin@deloved.ru'=>'Deloved'])
             ->setTo([$emailTo])
             ->setSubject('Password reset for Deloved.ru')
             ->send();
@@ -70,7 +75,7 @@ class Common extends Component {
             ['html' => 'emailConfirmToken-html', 'text' => 'emailConfirmToken-text'],
             ['user' => $user]
         )
-            ->setFrom(['Rickcy@yandex.ru'=>'Deloved'])
+            ->setFrom(['admin@deloved.ru'=>'Deloved'])
             ->setTo([$emailTo])
             ->setSubject('Email Confirm for Deloved.ru')
             ->send();

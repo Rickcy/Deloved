@@ -27,12 +27,13 @@ class m170817_073347_ticket extends Migration
         $this->createTable('{{%ticket_post}}',[
            'id'=>$this->primaryKey(),
             'profile_id'=>$this->integer(),
-            'support_id'=>$this->integer(),
             'post'=>$this->string(),
             'date_created'=>$this->dateTime(),
             'status'=>$this->integer(),
             'ticket_id'=>$this->integer()
         ]);
+
+        $this->execute("ALTER TABLE ticket_post ALTER COLUMN post TYPE TEXT USING post::TEXT;");
 
         $this->createTable('{{%ticket_post_attach}}',[
             'id'=>$this->primaryKey(),
@@ -73,9 +74,6 @@ class m170817_073347_ticket extends Migration
         $this->createIndex('fk_ticket_post_profile_id','{{%ticket_post}}','profile_id');
         $this->addForeignKey('fk_ticket_post_profile_id','{{%ticket_post}}','profile_id','{{%profile}}','id','CASCADE','CASCADE');
 
-
-        $this->createIndex('fk_ticket_post_support_id','{{%ticket_post}}','support_id');
-        $this->addForeignKey('fk_ticket_post_support_id','{{%ticket_post}}','support_id','{{%profile}}','id','CASCADE','CASCADE');
 
         $this->createIndex('fk_ticket_post_ticket_id','{{%ticket_post}}','ticket_id');
         $this->addForeignKey('fk_ticket_post_ticket_id','{{%ticket_post}}','ticket_id','{{%ticket}}','id','CASCADE','CASCADE');

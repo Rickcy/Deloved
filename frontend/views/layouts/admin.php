@@ -25,6 +25,7 @@ if ($session->has('lang')){
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="button" href="/images/mCSB_buttons.png">
 </head>
 <body style="background-color: #e2e2e9">
 <div style="width: 93%;margin:0 auto;padding-top: 15px">
@@ -261,7 +262,7 @@ if ($session->has('lang')){
         <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST','ROLE_JUDGE'])):?>
 
 
-            <h1 class="ft"><?=Yii::t('app', 'Jurisprudence')?></h1>
+            <h1 class="ft"><?=Yii::t('app', 'Legal aid')?></h1>
             <div class="ug"></div>
             <ul class="admin_menu">
                 <?php
@@ -273,6 +274,11 @@ if ($session->has('lang')){
                     $link3.= '<a href="{url}">{label}</a>';
                 }
 
+                if ($user->checkRole(['ROLE_ADMIN','ROLE_JUDGE','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST'])){
+
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Extended validation'),'options'=>['id'=>'extended-validation'], 'url' => ['/#']];
+
+                }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR'])){
 
@@ -330,7 +336,7 @@ if ($session->has('lang')){
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => Yii::t('app', 'Technical support'),'options'=>['id'=>'support'], 'url' => ['/admin/ticket/index']]
+                    ['label' => Yii::t('app', 'Technical support'),'options'=>['id'=>'technical_support'], 'url' => ['/admin/ticket/index']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],

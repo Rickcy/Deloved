@@ -26,7 +26,7 @@ use frontend\widgets\Suggestion;
                 
                 <!--Если пользователь не является гостем-->
                 <?php if(!Yii::$app->user->isGuest):?>
-                    <li><a href="/#">Связаться с нами</a></li>
+                    <li><a href="/admin/ticket/create">Связаться с нами</a></li>
                 <?php endif?>
 
 

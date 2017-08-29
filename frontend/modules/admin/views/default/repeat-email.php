@@ -13,10 +13,10 @@ $this->title = 'Повторный запрос на почту'
 
 
 
-        <span style="text-align: left; font-weight: bold;">Повторный запрос письма с инструкциями по активации учетной записи</span>
+        <span style="text-align: left; font-weight: bold;">Повторный запрос на проверку модератором или на смену почтового ящика</span>
 
         <?php  $form = ActiveForm::begin(['id'=>'formResend'])?>
-            <?=$form->field($model,'email')->textInput(['value' => $user->email])?>
+            <?=$form->field($model,'email')->textInput(['value' => $user->email])->label('')?>
         <div class="form-group">
             <?= Html::submitButton('Выслать', ['class' => 'btn btn-primary']) ?>
         </div>

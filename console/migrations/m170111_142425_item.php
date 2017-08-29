@@ -65,6 +65,8 @@ class m170111_142425_item extends Migration
         ]);
 
 
+        $this->execute("ALTER TABLE goods ALTER COLUMN description TYPE TEXT USING description::TEXT;");
+
         $this->createTable('{{%services}}',[
             'id'=>$this->primaryKey(),
             'name'=>$this->string()->notNull(),
@@ -83,6 +85,7 @@ class m170111_142425_item extends Migration
 
         ]);
 
+        $this->execute("ALTER TABLE services ALTER COLUMN description TYPE TEXT USING description::TEXT;");
 
         $this->createIndex('fk_photo_item_goods_item_id','{{%photo_good}}','item_id');
 

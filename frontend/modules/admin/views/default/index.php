@@ -62,7 +62,16 @@ $timeZone = $session->get('timeZone')/60;
                          <?php foreach ($lenta['tickets'] as $ticket):?>
                              <li class="list-group-item">
                                  <div class="time"><?=(new DateTime($ticket['date_created']))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></div>
-                                 Новое <a href="/admin/ticket/show-ticket?id=<?=$ticket['new_ticket_id']?>">обращение в Службу поодержки</a>
+                                 Новое <a href="/admin/ticket/show?id=<?=$ticket['new_ticket_id']?>">обращение в Службу поддержки</a>
+                             </li>
+                         <?php endforeach;?>
+                     <?php endif;?>
+
+                     <?php if(isset($lenta['tickets_posts'])):?>
+                         <?php foreach ($lenta['tickets_posts'] as $tickets_posts):?>
+                             <li class="list-group-item">
+                                 <div class="time"><?=(new DateTime($tickets_posts['date_created']))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></div>
+                                 Новое <a href="/admin/ticket/show?id=<?=$tickets_posts['ticket_id']?>">сообщение в обращении в Службу поддержки</a>
                              </li>
                          <?php endforeach;?>
                      <?php endif;?>

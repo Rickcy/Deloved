@@ -19,6 +19,7 @@ return [
     'Advanced search' => 'Расширенный поиск',
     'Information' => 'Справочники',
     'Feedback' => 'Обратная связь',
+    'Change status' => 'Изменить статус',
     'Contact us' => 'Связаться с нами',
     'Category communication' => 'Категории связи',
     'Support' => 'Служба поддержки',
@@ -33,10 +34,18 @@ return [
     'My Account' => 'Мои данные',
     'Deals' => 'Сделки',
     'Reviews' => 'Отзывы',
+    'Topic of the appeal'=>'Тема обращения',
+    'Change password'=>'Сменить пароль',
+    'Old password'=>'Старый пароль',
+    'Repeat password'=>'Повторите пароль',
+    'New password'=>'Новый пароль',
+    'Detail subscribe'=>'Детальное описание обращения',
+    'Create a support appeal' =>'Cоздать обращение в службу поддержки',
     'Goods' => 'Товары',
     'Services' => 'Услуги',
     'Advertising material' => 'Рекламный материал',
-    'Jurisprudence' => 'Юриспруденция',
+    'Legal aid' => 'Правовая помощь',
+    'Extended validation' => 'Расширенная проверка',
     'Disputes' => 'Споры',
     'Claims' => 'Иски',
     'Legal advice' => 'Помощь юриста',
@@ -62,6 +71,12 @@ return [
     'Select category'=>'Выберите тему',
     'Type communication'=>'Тип связи',
     //Goods
+
+    //Cтатусы
+    'New'=>'Новый',
+    'In Processing'=>'В процессе',
+    'Closed'=>'Закрыт',
+    'Closer'=>'Закрыть',
 
 
     'GOOD' => 'Категория товаров',

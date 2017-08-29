@@ -8,7 +8,7 @@
 use common\models\Ticket;
 use common\models\User;
 use yii\bootstrap\Html;
-$this->title = Yii::t('app', 'Tickets');
+$this->title = Yii::t('app', 'Support');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
 $session = Yii::$app->session;
@@ -19,7 +19,7 @@ $timeZone = $session->get('timeZone')/60;
     <h3><?= Html::encode($this->title) ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
         <div class="buttons">
-            <?= Html::a(Yii::t('app', 'Create ticket'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Create a support appeal'), ['create'], ['class' => 'btn btn-success']) ?>
         </div>
     <div class="table-responsive">
         <table border="0" class="table table-striped">
@@ -53,7 +53,7 @@ $timeZone = $session->get('timeZone')/60;
                         </td>
 
                     <td>
-                        <?= Html::a($ticket->name, ['update', 'id' => $ticket->id]) ?>
+                        <?= Html::a($ticket->name, ['show', 'id' => $ticket->id]) ?>
 
                     </td>
                     <td>

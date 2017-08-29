@@ -81,19 +81,6 @@ class DefaultController extends AuthController
         return $this->goHome();
     }
     
-    
-//    public function actionAddFlash(){
-//        Yii::$app->session->addFlash('success', 'Повторный запрос отправлен!');
-//        Yii::$app->session->addFlash('danger', 'Запрос отправлен!');
-//
-//    }
-//    public function actionGetFlash(){
-//
-//        return json_encode(Yii::$app->session->getAllFlashes());
-//    }
- 
-
-
 
 
 }

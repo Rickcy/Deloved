@@ -40,9 +40,10 @@ function getLenta() {
         url:'/admin/default/get-lenta',
         success:function (data) {
             var lenta = data;
+            console.log(data);
             if (lenta.length!==null){
+                $(".badge_red").remove();
                 if(lenta['accounts']){
-
                     $('#account >a').append('<span class="badge badge_red" >+'+lenta['accounts'].length+'</span>')
                 }
                 if(lenta['goods']){
@@ -53,6 +54,14 @@ function getLenta() {
                 }
                 if(lenta['suggestions']){
                     $('#suggestions >a').append('<span class="badge badge_red" >+'+lenta['suggestions'].length+'</span>')
+                }
+                if(lenta['tickets']){
+                    $('#support >a').append('<span class="badge badge_red" >+'+lenta['tickets'].length+'</span>')
+
+                }
+                if(lenta['tickets_posts']){
+                    $('#support >a').append('<span class="badge badge_red" >+'+lenta['tickets_posts'].length+'</span>')
+                    $('#technical_support >a').append('<span class="badge badge_red" >+'+lenta['tickets_posts'].length+'</span>')
                 }
             }
         },
@@ -214,6 +223,6 @@ $(function () {
             }
         })
     });
-
-    setInterval(getLenta(),60000)
+    getLenta();
+    setInterval(getLenta,60000)
 });

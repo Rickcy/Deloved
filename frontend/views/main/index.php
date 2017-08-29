@@ -70,9 +70,9 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                                                             <div class="blk-data ie_css3 clearfix"><div class="blk_button_data_wrap c_text ">
                                                                     <?php if(!Yii::$app->user->isGuest):?>
-                                                                        <a href="<?=Url::to(['/admin']) ?>" class="btn-new ie_css3" ><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>В Кабинет<span class="badge badge_red newIt" ></span></a>
+                                                                        <a href="<?=Url::to(['/admin']) ?>"  class="btn-new ie_css3" ><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>В Кабинет<span class="badge badge_red newIt" ></span></a>
 
-                                                                        <a class="btn-new ie_css3" href="<?=Url::to(['/front/logout']) ?>" data-method="post">Выйти</a>
+                                                                        <a class="btn-new ie_css3" style="margin-top: 10px;" href="<?=Url::to(['/front/logout']) ?>" data-method="post">Выйти</a>
                                                                     <?php endif?>
                                                                     <?php if(Yii::$app->user->isGuest):?>
                                                                         <a href="#" class="btn-new ie_css3" data-target="#Login" data-toggle="modal"><span style="margin-right: 3px" class="glyphicon glyphicon-user"  ></span>Личный Кабинет</a>
@@ -130,11 +130,16 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                         </div>
                                         <div class="blk    blk_form  blk-no-bg blk-no-border" id="74db5d09fab04093b77e3766750a23b7" blk_class="blk_form" type_id="6" pos="3" data-id="b-74db5d09fab04093b77e3766750a23b7">
 
-                                            <div class="blk-data ie_css3 clearfix"><div class="blk_form_wrap r_text is_popover ">
+                                            <?php if(Yii::$app->user->isGuest):?>
+                                            <div class="blk-data ie_css3 clearfix">
+                                                <div class="blk_form_wrap r_text is_popover ">
                                                     <a href="#" class="btn-new ie_css3 btn-form-popover" data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 
 
-                                                </div></div>
+                                                </div>
+                                            </div>
+                                            <?php endif;?>
+
                                         </div>
 
                                         <div class="blk-container__del-cell"><i class="fa fa-trash-o"></i></div>
@@ -947,7 +952,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                                 <!--Если пользователь не является гостем-->
                                 <?php if(!Yii::$app->user->isGuest):?>
-                                    <a class="btn-new ie_css3 btn-form-popover"  href="/#">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                    <a class="btn-new ie_css3 btn-form-popover"  href="<?= Url::to(['/admin/ticket/create'])?>">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
                                 <?php endif?>
 
 

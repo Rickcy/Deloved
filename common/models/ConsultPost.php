@@ -5,31 +5,27 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "ticket_post".
+ * This is the model class for table "consult_post".
  *
  * @property integer $id
  * @property integer $profile_id
  * @property string $post
  * @property string $date_created
  * @property integer $status
- * @property integer $ticket_id
+ * @property integer $consult_id
  *
+ * @property Consult $consult
  * @property Profile $profile
- * @property Ticket $ticket
- * @property TicketPostAttach[] $ticketPostAttaches
+ * @property ConsultPostAttach[] $consultPostAttaches
  */
-class TicketPost extends \yii\db\ActiveRecord
+class ConsultPost extends \yii\db\ActiveRecord
 {
-
-    public $last_post_id;
-
-
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'ticket_post';
+        return 'consult_post';
     }
 
     /**
@@ -38,13 +34,11 @@ class TicketPost extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id', 'ticket_id'], 'integer'],
-            [['date_created','status','last_post_id'], 'safe'],
-            [['post'], 'string', 'max' => 255],
-            [['post'], 'required'],
-            ['status', 'in', 'range' => array_keys(Ticket::getAllAllowedStatuses())],
+            [['profile_id', 'status', 'consult_id'], 'integer'],
+            [['post'], 'string'],
+            [['date_created'], 'safe'],
+            [['consult_id'], 'exist', 'skipOnError' => true, 'targetClass' => Consult::className(), 'targetAttribute' => ['consult_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
-            [['ticket_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ticket::className(), 'targetAttribute' => ['ticket_id' => 'id']],
         ];
     }
 
@@ -59,11 +53,17 @@ class TicketPost extends \yii\db\ActiveRecord
             'post' => Yii::t('app', 'Post'),
             'date_created' => Yii::t('app', 'Date Created'),
             'status' => Yii::t('app', 'Status'),
-            'ticket_id' => Yii::t('app', 'Ticket ID'),
+            'consult_id' => Yii::t('app', 'Consult ID'),
         ];
     }
 
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConsult()
+    {
+        return $this->hasOne(Consult::className(), ['id' => 'consult_id']);
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -76,16 +76,8 @@ class TicketPost extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTicket()
+    public function getConsultPostAttaches()
     {
-        return $this->hasOne(Ticket::className(), ['id' => 'ticket_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTicketPostAttaches()
-    {
-        return $this->hasMany(TicketPostAttach::className(), ['ticket_post_id' => 'id']);
+        return $this->hasMany(ConsultPostAttach::className(), ['consult_post_id' => 'id']);
     }
 }

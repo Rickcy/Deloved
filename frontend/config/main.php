@@ -54,8 +54,8 @@ return [
                 'port'       => '465',
                 'smtpsecure' => 'ssl',
                 'smtpauth'   => true,
-                'username'   => 'Rickcy@yandex.ru',
-                'password'   => 'Rickcy27',
+                'username'   => 'admin@deloved.ru',
+                'password'   => 'Delo2016ved',
                 'isHtml'     => true,
                 'charset'    => 'UTF-8'
             ]
