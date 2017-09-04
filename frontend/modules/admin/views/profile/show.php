@@ -18,7 +18,7 @@ $timeZone = $session->get('timeZone');
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
-            <label for="fio">Fio</label>
+            <label for="fio"><?= Yii::t('app','Fio')?></label>
         </div>
         <div class="col-sm-7 ft ">
             <input id="fio" name="fio" class="form-control" type="text" readonly value="<?=Html::encode($profile->fio)?>"
@@ -34,7 +34,7 @@ $timeZone = $session->get('timeZone');
             <label for="profile_date"></label>
         </div>
 
-            <a class="value-col ft change-pass" href="/admin/profile/password" > Change Password</a>
+            <a class="value-col ft change-pass" href="/admin/profile/password" ><?= Yii::t('app','Change Password')?> </a>
 
 
 
@@ -43,7 +43,7 @@ $timeZone = $session->get('timeZone');
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
-            <label for="city">City</label>
+            <label for="city"><?= Yii::t('app','City')?></label>
         </div>
         <div class="col-sm-7 col-xs-10 ft ">
             <?php
@@ -76,7 +76,7 @@ $timeZone = $session->get('timeZone');
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
-            <label for="email">Email</label>
+            <label for="email"><?= Yii::t('app','Email')?></label>
         </div>
         <div class="col-sm-7 ft ">
             <input id="email" name="email"  class="form-control" type="text" readonly value="<?=Html::encode($profile->email)?>"
@@ -90,7 +90,7 @@ $timeZone = $session->get('timeZone');
     <?php if (in_array($user->role->role_name, ['ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
         <div class="row">
             <div class="col-sm-3 label-col ft  col-sm-offset-1">
-                <label for="experience">Experience</label>
+                <label for="experience"><?= Yii::t('app','Experience')?></label>
             </div>
             <div class="col-sm-7 ft ">
                 <input id="experience"  class="form-control" name="experience" type="text" readonly value="<?=Html::encode($profile->getExperience()->one()->experience)?>"
@@ -103,7 +103,7 @@ $timeZone = $session->get('timeZone');
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
-            <label for="date_reg">Date registration</label>
+            <label for="date_reg"><?= Yii::t('app','Date registration')?></label>
         </div>
         <div class="col-sm-7 ft ">
             <input id="date_reg"  class="form-control" name="date_reg" type="text" readonly value="<?=Yii::$app->formatter->asDatetime($profile->created_at+$timeZone*60, "php:d.m.Y H:i:s")?>"

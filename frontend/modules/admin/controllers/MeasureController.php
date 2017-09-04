@@ -7,6 +7,7 @@ use common\models\CategoryType;
 use common\models\Measure;
 use common\models\User;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -22,9 +23,18 @@ class MeasureController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-        $measures = Measure::find()->all();
-
-        return $this->render('index',['measures'=>$measures]);
+        $query = Measure::find();
+        $dataProvider = new ActiveDataProvider([
+            'query'      => $query,
+            'pagination' => [
+                'pageSize' => 7,
+            ]
+        ]);
+        $query->all();
+        return $this->render('index',[
+            'measures'=>$dataProvider->models,
+            'dataProvider' => $dataProvider
+        ]);
     }
 
 

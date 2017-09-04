@@ -3,6 +3,7 @@ use frontend\widgets\ChangePassword;
 use frontend\widgets\Contact;
 use frontend\widgets\Login;
 use frontend\widgets\PasswordReset;
+use frontend\widgets\SignUp;
 use frontend\widgets\Suggestion;
 
 ?>
@@ -15,9 +16,9 @@ use frontend\widgets\Suggestion;
             <div class="row">
                  <ul style="padding: 0;text-align: center">
                 <li><a href="#">Статьи</a></li>
-                <li><a href="#">О портале</a></li>
-                <li><a href="#">Цены</a></li>
-                <li><a href="#">Соглашение</a></li>
+                <li><a href="/front/about">О портале</a></li>
+                <li><a href="/front/tariffs">Цены</a></li>
+                <li><a href="/front/sogl">Соглашение</a></li>
                 
                 <!--Если пользователь является гостем-->
                 <?php  if(Yii::$app->user->isGuest):?>
@@ -69,6 +70,8 @@ use frontend\widgets\Suggestion;
     echo Login::widget();
     echo PasswordReset::widget();
     echo Contact::widget();
+    echo SignUp::widget();
+
 }
 ?>
 <?php if(!Yii::$app->user->isGuest){
@@ -85,9 +88,11 @@ use frontend\widgets\Suggestion;
                     var $lang =$(this).text();
                 $.ajax({
                     type:'POST',
-                    url:'/admin/account/change-language?lang='+$lang,
-                    success:function () {
-                        window.location.reload();
+                    url:'/front/change-language?lang='+$lang,
+                    success:function (data) {
+                        if(data){
+                            window.location.reload();
+                        }
                     },
                     error:function () {
 

@@ -16,9 +16,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 
 /* @var $form yii\widgets\ActiveForm */
-$this->title = Yii::t('app', 'Update {modelClass}  ', [
-    'modelClass' => 'Account',
-]) . $model->full_name;
+$this->title =  $model->full_name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Accounts'), 'url' => ['index']];
 
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
@@ -79,8 +77,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
             ]); ?>
 
             <?php  $items = ArrayHelper::map($profiles,'id','fio');
-
-            echo $form->field($model, 'profile_id')->dropDownList($items)->label('Профиль')?>
+            $params = [
+                'prompt' => 'Не выбрано'
+            ];
+            echo $form->field($model, 'profile_id')->dropDownList($items,$params)->label('Профиль')?>
 
 
             <?= $form->field($model, 'show_main',[

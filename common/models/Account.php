@@ -42,13 +42,38 @@ use Yii;
  */
 class Account extends \yii\db\ActiveRecord
 {
-    const  DEFAULT_RATING =100;
+    const  DEFAULT_RATING = 100;
 
     public $date;
     public $city_name;
     public $file;
     public $account_category_goods;
     public $account_category_service;
+
+
+
+    public static function getRating($rating){
+
+        if ($rating === 100){
+            return 'Наивысший уровень надежности';
+        }
+        elseif (100 > $rating && $rating < 80){
+            return 'Высокий уровень надежности';
+        }
+        elseif (80 > $rating && $rating < 60){
+            return 'Средний уровень надежности';
+        }
+        elseif (60 > $rating && $rating < 40){
+            return 'Средний уровень надежности';
+        }
+        elseif (40 > $rating && $rating < 20){
+            return 'Средний уровень надежности';
+        }
+        elseif (20 > $rating && $rating < 0){
+            return 'Низкий уровень надежности';
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -109,7 +134,9 @@ class Account extends \yii\db\ActiveRecord
 
         ];
     }
-  
+
+
+
 
 
     public function getMainImage($id=null){

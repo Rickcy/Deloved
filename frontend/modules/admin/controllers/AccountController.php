@@ -18,6 +18,7 @@ use common\models\Account;
 use common\models\search\AccountSearch;
 
 use yii\base\Exception;
+use yii\data\ActiveDataProvider;
 use yii\helpers\BaseFileHelper;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -44,9 +45,19 @@ class AccountController extends AuthController
         if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
-      $account = Account::find()->all();
+        $query = Account::find();
+        $dataProvider = new ActiveDataProvider([
+            'query'      => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ]
+        ]);
+        $query->orderBy(['created_at'=>SORT_DESC]);
+        $query->all();
+
         return $this->render('index', [
-            'account' => $account,
+            'account' => $dataProvider->models,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -176,7 +187,11 @@ class AccountController extends AuthController
                 $model->date_reg = $model->returnDate($model->date);
                 $model->save();
                 if($model->verify_status == 1){
-                    Yii::$app->common->sendMailEmailConfirm($model->profile->user->email,$model->profile->user);
+                    if($model->profile_id){
+                        if($model->profile->user_id){
+                            Yii::$app->common->sendMailEmailConfirm($model->profile->user->email,$model->profile->user);
+                        }
+                    }
                 }
                 Yii::$app->session->addFlash('success', 'Account Update!');
                 $transaction->commit();
@@ -364,21 +379,7 @@ class AccountController extends AuthController
     }
 
 
-    public function actionChangeLanguage($lang){
 
-        $session = Yii::$app->session;
-        if (Yii::$app->request->isPost) {
-            if ($lang == 'RU') {
-                $session->set('lang', 'ru-RU');
-
-            } elseif ($lang == 'EN') {
-                $session->set('lang', 'en-US');
-
-            }
-           return true;
-        }
-
-    }
 
     public function actionSaveNewAffiliate($address,$city,$email,$phone){
 

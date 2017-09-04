@@ -133,7 +133,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                             <?php if(Yii::$app->user->isGuest):?>
                                             <div class="blk-data ie_css3 clearfix">
                                                 <div class="blk_form_wrap r_text is_popover ">
-                                                    <a href="#" class="btn-new ie_css3 btn-form-popover" data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+                                                    <a href="javascript:void(0)" class="btn-new ie_css3 btn-form-popover" data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 
 
                                                 </div>
@@ -914,7 +914,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                     </div><div class="blk    blk_text blk-no-bg-lpm-449" id="1ff997558c1b40f98ca88e435e276716" blk_class="blk_text" type_id="1" pos="4" data-id="b-1ff997558c1b40f98ca88e435e276716" style="opacity: 0;">
 
-                        <div class="blk-data ie_css3 clearfix" style="padding:0px;"><p style="text-align: center;"><u><span style="font-size:32px;"><font color="#000066" face="verdana, geneva, sans-serif"><g:link style="color:#000066" controller="front" action="tariffs">Узнать подробнее</g:link></font></span></u></p></div>
+                        <div class="blk-data ie_css3 clearfix" style="padding:0px;"><p style="text-align: center;"><u><span style="font-size:32px;"><font color="#000066" face="verdana, geneva, sans-serif"><a href="/front/tariffs" style="color:#000066" >Узнать подробнее</a></font></span></u></p></div>
                     </div>
 
                 </div>
@@ -1098,21 +1098,22 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                         <div class="row bottom_menu blk-data ie_css3 clearfix" style="padding:0px;"><p style="text-align: center;"><span style="font-size:18px;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><span style="color:#FFFFFF;">
                             <div class="col-xs-12">
                                 <ul style="padding: 0;text-align: center;">
-                                       <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Статьи</a></li>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">О портале</a></li>
+                                       <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="#">Статьи</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/about">О портале</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/sogl">Соглашение</a></li>
 
 
-                                    <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Товары</a></li>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#">Услуги</a></li>
+                                    <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/goods/index">Товары</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/services/index">Услуги</a></li>
 
                                     <!--Если пользователь является гостем-->
                                     <?php  if(Yii::$app->user->isGuest):?>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
                                     <?php endif?>
 
                                     <!--Если пользователь не является гостем-->
                                     <?php if(!Yii::$app->user->isGuest):?>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.3em" href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
                                     <?php endif;?>
                                 </ul>
                             </div>
@@ -1270,9 +1271,11 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
             var $lang =$(this).text();
             $.ajax({
                 type:'POST',
-                url:'/admin/account/change-language?lang='+$lang,
-                success:function () {
-                    window.location.reload();
+                url:'/front/change-language?lang='+$lang,
+                success:function (data) {
+                    if(data){
+                        window.location.reload();
+                    }
                 },
                 error:function () {
 

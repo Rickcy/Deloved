@@ -8,9 +8,11 @@ use common\models\OrgForm;
 use common\models\Profile;
 use common\models\Region;
 use common\models\Role;
+use common\models\Tariffs;
 use common\models\User;
 use Faker\Provider\DateTime;
 use frontend\models\EmailConfirmForm;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -167,6 +169,46 @@ class FrontController extends Controller
         return $this->render('about');
     }
 
+
+    public function actionSogl(){
+        return $this->render('sogl');
+    }
+
+
+    public function actionTariffs(){
+        $session = Yii::$app->session;
+        $lang = $session->get('lang');
+        if($lang === 'ru-RU'){
+            $tariffs = Tariffs::find()->where(['currency_id'=>1])->all();
+        }
+        elseif ($lang === 'en-US'){
+            $tariffs = Tariffs::find()->where(['currency_id'=>2])->all();
+        }
+        else{
+            $tariffs = Tariffs::find()->where(['currency_id'=>1])->all();
+        }
+
+       return $this->render('tariffs',['tariffs'=>$tariffs]);
+    }
+
+
+    public function actionChangeLanguage($lang){
+
+        $session = Yii::$app->session;
+        if (Yii::$app->request->isPost) {
+            if ($lang == 'RU') {
+                $session->set('lang', 'ru-RU');
+
+            } elseif ($lang == 'EN') {
+                $session->set('lang', 'en-US');
+
+            }
+            return true;
+        }
+
+    }
+
+
     /**
      * Signs user up.
      *
@@ -200,28 +242,6 @@ class FrontController extends Controller
     }
 
 
-    public function actionEmailConfirm($token)
-    {
-        try {
-            $model = new EmailConfirmForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($user =$model->confirmEmail()) {
-            if (Yii::$app->getUser()->login($user)) {
-                Yii::$app->session->addFlash('success', 'Спасибо! Ваш Email успешно подтверждён.');
-                return $this->redirect('/admin');
-            }
-            return $this->goHome();
-        } else {
-            Yii::$app->session->addFlash('error', 'Ошибка подтверждения Email.');
-        }
-
-        return $this->goHome();
-    }
-    
-    
     
     /**
      * Requests password reset.
@@ -231,6 +251,8 @@ class FrontController extends Controller
      */
     public function actionRequestPasswordReset()
     {
+
+
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -247,30 +269,4 @@ class FrontController extends Controller
         ]);
     }
 
-    /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
-     * @throws \yii\base\InvalidParamException
-     * @throws BadRequestHttpException
-     */
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->addFlash('success', 'Новый пароль сохранен!');
-
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
 }

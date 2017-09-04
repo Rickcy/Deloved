@@ -18,7 +18,7 @@ use yii\helpers\Url;
         ?>
         <h3 ><?=Yii::t('app', 'The entrance to personal Cabinet')?></h3>
         <h5 ><?=Yii::t('app', 'To manage your company, and also to conduct transactions, you need to log into the system. If you have not yet registered can do so ')?>
-            <?= Html::a(Yii::t('app', 'here'), ['/front/signup/']) ?> </h5>
+            <a href="javascript:void(0)" data-target="#SignUp" data-toggle="modal"><?= Yii::t('app', 'here')?></a> </h5>
         <?=$form->field($model,'username')->label('')->textInput(['class'=>'user_form-control form-control','placeholder'=>Yii::t('app', 'Username')]) ?>
 
         <?=$form->field($model,'password')->passwordInput(['class'=>'user_form-control form-control','placeholder'=>Yii::t('app', 'Password')])->label('') ?>

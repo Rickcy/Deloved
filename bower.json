@@ -1,0 +1,22 @@
+{
+  "name": "deloved.yii",
+  "homepage": "https://github.com/Rickcy/deloved",
+  "authors": [
+    "marvel"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
+    "bxslider-4": "^4.2.12"
+  }
+}

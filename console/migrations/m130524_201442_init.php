@@ -125,6 +125,7 @@ class m130524_201442_init extends Migration
             'months'=>$this->integer()->notNull(),
             'name'=>$this->string()->notNull(),
             'price'=>$this->double()->notNull(),
+            'sale'=>$this->integer()->notNull(),
             'currency_id'=>$this->integer()->notNull()
         ]);
 

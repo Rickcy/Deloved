@@ -15,7 +15,30 @@
 #scrollContent >div {
     padding: 20px;
 }
-
+.pdf-control{
+    padding: 5px;
+    line-height: 130%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+textarea.pdf-control{
+    width:100%;
+    min-width: 300px;
+}
+.contract-for-services .row{
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 20px;
+}
+.delivery-contract .row{
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 20px;
+}
+.pdf-number{
+    width: 24%;
+}
 .thread-avatar img{
     margin-top: 18px;
     width:100%;
@@ -308,6 +331,27 @@ ul{
     padding: 6px 6px 6px 25px;
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
+}
+.rating {
+    background-color: gray;
+    color: white;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.panel-success {
+    border: 1px solid #94c43d!important;
+}
+.panel-heading>h3{
+    color: white;
+}
+.panel-success .panel-heading {
+    background-color: #94c43d!important;
 }
 .ft {
     font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;

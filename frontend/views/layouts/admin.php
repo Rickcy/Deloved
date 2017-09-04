@@ -18,7 +18,7 @@ if ($session->has('lang')){
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language=$lang ?>">
+<html lang="<?= Yii::$app->language =$lang ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,7 +67,7 @@ if ($session->has('lang')){
                     'items' => [
                         ['label' => Yii::t('app', 'Categories'), 'url' => ['/admin/category/index']],
                         ['label' => Yii::t('app', 'Measure'), 'url' => ['/admin/measure/index']],
-                        ['label' => Yii::t('app', 'Content-blocks'), 'url' => ['/#']],
+                        ['label' => Yii::t('app', 'Content-blocks'), 'url' => ['/admin/content/index']],
                         ['label' => Yii::t('app', 'Currency'), 'url' => ['/admin/currency/index']],
                         ['label' => Yii::t('app', 'Tariffs'), 'url' => ['/admin/tariffs/index']],
                         ['label' => Yii::t('app', 'Additional'), 'url' => ['/admin/additional/index']],
@@ -136,7 +136,7 @@ if ($session->has('lang')){
             <?php
             echo Menu::widget([
                 'items' => [
-                    ['label' => Yii::t('app', 'Invoices for payment'),'options'=>['id'=>'payments'],  'url' => ['/#']]
+                    ['label' => Yii::t('app', 'Invoices for payment'),'options'=>['id'=>'payments'],  'url' => ['/admin/billing/index']]
 
                 ],
                 'options' => [ 'class'=>'admin_menu'],
@@ -189,13 +189,13 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Deals'),'options'=>['id'=>'deals'], 'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Deals'),'options'=>['id'=>'deals'], 'url' => ['/admin/deal/index']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])){
 
-                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Reviews'),'options'=>['id'=>'reviews'] ,'url' => ['/#']];
+                    $menuItemsBusiness2[]= ['label' => Yii::t('app', 'Reviews'),'options'=>['id'=>'reviews'] ,'url' => ['/admin/review/index']];
 
                 }
 
@@ -276,26 +276,26 @@ if ($session->has('lang')){
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JUDGE','ROLE_USER','ROLE_MEDIATOR','ROLE_JURIST'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Extended validation'),'options'=>['id'=>'extended-validation'], 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Extended validation'),'options'=>['id'=>'extended-validation'], 'url' => ['/admin/information/index']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_USER','ROLE_MEDIATOR'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Disputes'), 'options'=>['id'=>'disputes'],'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Disputes'), 'options'=>['id'=>'disputes'],'url' => ['/admin/dispute/index']];
 
                 }
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JUDGE','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Claims'),'options'=>['id'=>'claims'], 'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Claims'),'options'=>['id'=>'claims'], 'url' => ['/admin/claim/index']];
 
                 }
 
 
                 if ($user->checkRole(['ROLE_ADMIN','ROLE_JURIST','ROLE_USER'])){
 
-                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Legal advice'),'options'=>['id'=>'advice'] ,'url' => ['/#']];
+                    $menuItemsJurist3[]= ['label' => Yii::t('app', 'Legal advice'),'options'=>['id'=>'advice'] ,'url' => ['/admin/consult/index']];
 
                 }
 
@@ -313,7 +313,7 @@ if ($session->has('lang')){
                     <?php
                     echo Menu::widget([
                         'items' => [
-                            ['label' => Yii::t('app', 'Forms of documents'), 'url' => ['/#']]
+                            ['label' => Yii::t('app', 'Forms of documents'), 'url' => ['/admin/document/index']]
 
                         ],
                         'options' => [ 'class'=>'admin_menu'],

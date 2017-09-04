@@ -19,7 +19,7 @@ use yii\helpers\Url;
 class SignupForm extends Model
 {
 
-
+    public $sogl;
 
     public $username;
     public $email;
@@ -65,14 +65,14 @@ class SignupForm extends Model
         return [
             
             [['username','password','email','full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio'], 'trim'],
-            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','address','date','profile_city','legal_address','director','phone1'], 'required'],
+            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','address','date','profile_city','legal_address','director','phone1','sogl'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'email'],
             ['password', 'string', 'min' => 4],
             ['repassword', 'compare','compareAttribute'=>'password'],
-
+            ['sogl', 'boolean'],
             [['org_form_id', 'public_status','show_main' ,'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
             [['full_name','city_name','profile_city','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email',  'director', 'work_time', 'address', 'fio' ], 'string', 'max' => 100],
             [['account_category_goods','account_category_service'], 'string', 'max' => 1055],
@@ -101,7 +101,14 @@ class SignupForm extends Model
 
             $user = new User();
             $profile = new Profile();
-            $account = new Account();
+            $twinAccount = Account::find()->where(['inn'=>$this->inn])->andWhere(['ogrn'=>$this->ogrn])->one();
+            if($twinAccount){
+                $account = $twinAccount;
+            }
+            else{
+                $account = new Account();
+            }
+
 
 
             $user->username = $this->username;
@@ -113,19 +120,19 @@ class SignupForm extends Model
 
             $profile->fio = $this->fio;
             $profile->chargeTill=null;
-            $profile->chargeStatus=0;
+            $profile->chargeStatus= 0;
             $profile->city_id= $profile->returnCity_id($this->profile_city);
             $profile->email=$user->email;
             $profile->user_id=$user->id;
-            $profile->created_at=time();
-            $profile->updated_at=time();
+            $profile->created_at= time();
+            $profile->updated_at= time();
             $profile->save();
 
             $account->full_name=$this->full_name;
             $account->address=$this->address;
             $account->brand_name=$this->brand_name;
             $account->city_id=$this->city_name == null ? $profile->returnCity_id($this->profile_city) : $account->returnCity_id($this->city_name);
-            $account->date_reg=$account->returnDate($this->date);
+            $account->date_reg = $account->returnDate($this->date);
 
             $account->description=$this->description;
             $account->director=$this->director;

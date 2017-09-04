@@ -67,6 +67,9 @@ $user = User::findIdentity(Yii::$app->user->id);
             endforeach;?>
             </tbody>
         </table>
+        <?php echo \yii\widgets\LinkPager::widget([
+            'pagination' => $dataProvider->pagination
+        ]) ?>
     </div>
 
 </div>

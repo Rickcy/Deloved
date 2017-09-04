@@ -25,7 +25,7 @@ class Contact extends Widget
             $body ='<div>'.$model->body.'</div>';
             $body .='<p><div>Имя отправителя : '.$model->name.'</div><br>';
             $body .='<div>E-mail : '.$model->email.'</div><br></p>';
-            Yii::$app->common->sendMail($model->subject,$body);
+            Yii::$app->common->sendMail(ContactForm::getTheme($model->subject),$body);
             Yii::$app->session->addFlash('success', 'Спасибо за ваше письмо. Мы свяжемся с вами в ближайшее время.');
             Yii::$app->controller->refresh();
         }

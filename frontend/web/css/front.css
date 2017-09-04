@@ -3,12 +3,305 @@ body {
     padding: 0!important;
     overflow-x: hidden;
 }
-@media (min-width:1200px){
-.container{width:90%!important;}
-}
+
 div.required label.control-label:after {
     content: " *";
     color: red;
+}
+.tablet{
+    font-size:80% !important
+}
+.minicart .img_left {
+    padding-top: 20px;
+    float: left;
+    width: 100%;
+}
+
+.rating {
+    background-color: gray;
+    color: white;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    text-transform: uppercase;
+    text-align: center;
+}
+.minicart ul.cont {
+    margin-left: -40px;
+    margin-top: 15px;
+    font-size: 13pt;
+    list-style: none;
+}
+.img-thumbnail {
+    display: inline-block;
+    width: 100% \9;
+    max-width: 100%;
+    height: auto;
+    padding: 4px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+.description {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 10pt;
+}
+.minicart .description {
+    color: #333;
+}
+.minicart .name {
+    font-size: 16pt;
+}
+.tablet{
+    background-color: white;
+    display:inline-block;
+    min-width:159px!important;
+    width:23%;
+    height:205px;
+    text-align:center !important;
+    vertical-align:middle;
+    border:1px solid #dedede;
+    border-radius:10px;
+    margin:10px;
+    box-shadow:0 0 15px #dcdcdc;
+    font-size:85% !important}
+.deal_button {
+    display: block;
+    border-radius: 50px;
+    padding: 11px 10px 11px 40px;
+    width: 100%;
+    min-width: 194px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+    background: #94c43d url(/images/front/deal_ico.png) no-repeat center left 10px;
+    box-shadow: 0 0 5px #c5c5c5;
+}
+.left_block{
+    background-color:#f3f3f3;
+    border-radius:15px;
+    box-shadow:0 0 15px #939393;
+    border:0 solid black
+}  .left_block .head{
+       background-color:#4b7bbe;
+       color:white;
+       border-top-left-radius:15px;
+       border-top-right-radius:15px;
+       font-size:16pt;padding:10px
+   }
+ul.directory{
+    padding:0;
+    text-align:center
+}
+.left_block .category{
+    padding:10px
+}
+.directory li a.active{
+    background-color:#78b8df;
+    display:block;
+    color:white;
+    padding-bottom:10px;
+    padding-top:10px;
+    font-size:11pt
+}
+.directory li a.active:hover{
+    background-color:#78b8df;
+    display:block;
+    color:white;
+    font-size:11pt
+}
+.directory li a{display:block;
+    text-decoration:none !important;
+    font-size:11pt
+}
+.directory li a:hover{
+    display:block;
+    text-shadow:0 0 25px #3ec5f0;
+    text-decoration:none !important;
+    font-size:11pt;color:#6397ff
+}  .left_block h3{
+       color:gray;
+       font-size:13pt;
+       margin-top:10px;
+       margin-bottom:10px
+   }
+.directory li{
+    margin-bottom:20px;
+    list-style:none;
+    text-align:center
+}
+
+.directory li:hover{
+    list-style:none;
+    text-align:center;
+    background-color:#f1f1f1
+}
+
+.minicart .description {
+    color: #333;
+}
+.price {
+    color: #94c43d;
+    font-weight: bold;
+    font-size: 14pt;
+}
+.date_create {
+    color: gray;
+    font-size: 9pt;
+}
+.gray_block {
+    background-color: #f3f3f3;
+    padding: 10px 10px 20px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+    border-radius: 20px;
+}
+
+.minicart {
+    border: 1px solid #eeeeee;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    box-shadow: 0 0 25px #dedee8;
+    border-radius: 20px;
+}
+
+a.podr {
+    background-color: #94c43d;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 10pt;
+    float: right;
+    padding: 3px 20px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+.availability {
+    background-color: #94c43d;
+    color: white;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 2px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 5px;
+}
+#form-signup {
+     background-color: white;
+     padding: 20px;
+     border-radius: 10px;
+}
+.podp_blue {
+    background-color: #4b7bbe;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+.podp_green {
+    background-color: #94c43d;
+    color: white;
+    font-weight: bold;
+    font-size: 20pt;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.tarifs_list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: -30px;
+}
+.price_block {
+    background-color: white;
+    border: 2px solid #94c43d;
+    border-radius: 6px;
+    min-height: 150px;
+}
+.price_block .head {
+    background-color: #94c43d;
+    color: white;
+    display: block;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 16pt;
+    text-align: center;
+}
+.price_block .price {
+    margin: 10px;
+    font-size: 14pt;
+    display: block;
+    text-align: center;
+}
+.price {
+    color: #94c43d;
+    font-weight: bold;
+    font-size: 14pt;
+}
+.price_block .comment {
+    margin: 10px;
+    font-size: 14pt;
+    display: block;
+    color: white;
+    background-color: #94c43d;
+    border-radius: 4px;
+    text-align: center;
+
+}
+a.oplata {
+    color: white;
+    background: #4b7bbe url(/images/front/t_ico1.png) no-repeat left;
+    border-radius: 4px;
+    padding: 20px 20px 20px 80px;
+    font-size: 15pt;
+    font-weight: bold;
+}
+.tarifs_list li {
+    list-style-type: none;
+    padding-left: 40px;
+    margin-bottom: 10px;
+    font-size: 14pt;
+    line-height: 20px;
+    background: url(/images/front/list.png) no-repeat left top;
+}
+.tarifss_list {
+    margin: 20px 70px 20px -40px;
+    padding: 0;
+}
+.tarifss_list li {
+    list-style-type: none;
+    padding-left: 40px;
+    margin-bottom: 10px;
+    font-size: 14pt;
+    line-height: 20px;
+}
+.tarifss_list1 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: -40px;
+    padding: 0;
+}
+.tarifss_list1 li {
+    list-style-type: none;
+    text-align: right;
+    padding-left: 40px;
+    margin-bottom: 10px;
+    font-size: 14pt;
+    line-height: 20px;
 }
 .lang{
     cursor: pointer;

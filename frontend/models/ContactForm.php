@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\SuggestionCat;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Url;
@@ -51,10 +52,24 @@ class ContactForm extends Model
 
     /**
      * Sends an email to the specified email address using the information collected by this model.
-     *
-     * @param string $email the target email address
-     * @return bool whether the email was sent
+     * @param $subject
+     * @return string
      */
+
+    public static function getTheme($subject){
+       if ($subject){
+           $theme =  SuggestionCat::findOne($subject);
+       }
+       else{
+           $theme['name'] = '';
+       }
+
+
+       return $theme['name'];
+    }
+
+
+
     public function sendEmail($email)
     {
         return Yii::$app->mailer->compose()

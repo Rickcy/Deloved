@@ -9,8 +9,14 @@
 namespace frontend\controllers;
 
 
+use frontend\models\EmailConfirmForm;
+use frontend\models\ResetPasswordForm;
+use PhpOffice\PhpWord\PhpWord;
+use Yii;
+use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 class MainController extends Controller
@@ -69,7 +75,62 @@ class MainController extends Controller
 
     public function actionIndex(){
 
+
+
         return $this->render('index');
     }
+
+    public function actionEmailConfirm($token)
+    {
+        try {
+            $model = new EmailConfirmForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($user = $model->confirmEmail()) {
+            if (Yii::$app->getUser()->login($user)) {
+                Yii::$app->session->addFlash('success', 'Спасибо! Ваш Email успешно подтверждён.');
+                return $this->redirect('/admin');
+            }
+            return $this->goHome();
+        } else {
+            Yii::$app->session->addFlash('error', 'Ошибка подтверждения Email.');
+        }
+
+        return $this->goHome();
+    }
+
+
+
+    /**
+     * Resets password.
+     *
+     * @param string $token
+     * @return mixed
+     * @throws \yii\base\InvalidParamException
+     * @throws BadRequestHttpException
+     */
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->addFlash('success', 'Новый пароль сохранен!');
+
+            return $this->goHome();
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
+
+
+
 
 }

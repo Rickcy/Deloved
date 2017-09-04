@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $user common\models\User */
 /* @var $profile common\models\Profile */
 $profile =$user->getProfile()->one();
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['front/reset-password', 'token' => $user->password_reset_token]);
+$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['main/reset-password', 'token' => $user->password_reset_token]);
 ?>
 <div class="password-reset">
     <p>Здравствуйте <?= Html::encode($profile->fio) ?>,</p>

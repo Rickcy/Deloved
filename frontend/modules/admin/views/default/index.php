@@ -1,11 +1,83 @@
-<?php use common\models\User;
+<?php use common\models\Account;
+use common\models\User;
 use yii\bootstrap\Html;
 /**@var $role common\models\Role**/
 /**@var $user common\models\User**/
+/**@var $account common\models\Account**/
 $this->title = 'Главная';
 $session = Yii::$app->session;
 $timeZone = $session->get('timeZone')/60;
 ?>
+
+
+
+<?php if (User::checkRole(['ROLE_USER'])):?>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title ft">Рейтинг и мои данные</h3>
+                </div>
+
+                <div class="panel-body">
+                   <?php if ($user->freeUser()):?>
+                        Доступно для платной подписки
+                    <?php else:?>
+                       <h4 class="ft">Рейтинг (<?=$account->rating?>%)</h4>
+                       <span class=rating><?=Account::getRating($account->rating)?></span>
+
+                       <ul style="margin-left: 20px">
+                           <li>Положительных отзовов 0</li>
+                           <li>Отрицательных отзовов 0</li>
+                           <li>Товаров в базе 0</li>
+                           <li>Услуг в базе 0</li>
+                           <li>Совершенных сделок 0</li>
+                           <li>Активных сделок 0</li>
+                           <li>Открытых споров 0</li>
+                           <li>Проигранных споров 0</li>
+                           <li>Открытых исков 0</li>
+                           <li>Проигранных исков 0</li>
+                       </ul>
+                    <?php endif;?>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title ft">Посещаемость</h3>
+                </div>
+
+                <div class="panel-body">
+                    <?php if ($user->freeUser()):?>
+                        Доступно для платной подписки
+                    <?php else:?>
+
+
+                        <h3 class="ft">В текущем месяце</h3>
+                        <ul style="margin-left: 20px">
+                            <li>Просмотры карточки 0</li>
+                            <li>Просмотры товаров 0</li>
+                            <li>Просмотры услуг 0</li>
+                        </ul>
+
+                        <h3 class="ft">За все время</h3>
+                        <ul style="margin-left: 20px">
+                            <li>Просмотры карточки 0</li>
+                            <li>Просмотры товаров 0</li>
+                            <li>Просмотры услуг 0</li>
+                        </ul>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif;?>
+
 
 <?php if(count($lenta) > 0):?>
 <div class="panel panel-default">

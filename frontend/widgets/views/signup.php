@@ -27,11 +27,11 @@ use yii\jui\AutoComplete;
 			height: 2px;"></div></h3>
 
 
-        <?= $form->field($model, 'fio')->textInput(['autofocus' => true])->label('Ф.И.О') ?>
+        <?= $form->field($model, 'fio')->textInput(['autofocus' => true])->label(Yii::t('app','Fio')) ?>
 
         <?= $form->field($model, 'inn')->textInput()->label('ИНН') ?>
 
-        <?= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain'])->label('Адрес эл. почты') ?>
+        <?= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain'])->label(Yii::t('app','E-mail address')) ?>
 
         <?= $form->field($model, 'profile_city')->widget(
             AutoComplete::className(), [
@@ -43,20 +43,20 @@ use yii\jui\AutoComplete;
             'options'=>[
                 'class'=>'form-control'
             ],
-        ])->label('Ваш город');
+        ])->label(Yii::t('app','City'));
         ?>
         <div class="text-center">
             <h3 class="text_reg_1">Данные пользователя для авторизации</h3>
         </div>
 
-        <?= $form->field($model, 'username')->textInput()->label('Введите логин') ?>
+        <?= $form->field($model, 'username')->textInput()->label(Yii::t('app','Enter login')) ?>
 
-        <?= $form->field($model, 'password')->passwordInput()->label('Введите пароль') ?>
+        <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('app','Enter password')) ?>
 
-        <?= $form->field($model,'repassword')->passwordInput()->label('Повторите пароль') ?>
+        <?= $form->field($model,'repassword')->passwordInput()->label(Yii::t('app','Repeat password')) ?>
 
 
-<div class="div_hidden hidden">
+<div class="div_hidden">
         <hr>
     <div class="text-center">
         <h3 class="text_reg_1">Данные предприятия/предпринимателя</h3>
@@ -64,21 +64,21 @@ use yii\jui\AutoComplete;
         <div class="signup_desc">Заполните поля в соответствии с данными ЕГРЮЛ/ЕГРИП. Обратите внимание на примеры </div>
         <?php $items = ArrayHelper::map($org_forms,'id','name');
         $params = [
-            'prompt' => 'Не выбрано'
+            'prompt' => Yii::t('app','No select')
         ];
-        echo $form->field($model, 'org_form_id')->dropDownList($items,$params)->label('Организационно-правовая форма')?>
+        echo $form->field($model, 'org_form_id')->dropDownList($items,$params)->label(Yii::t('app','Organizational and legal form'))?>
 
-        <?= $form->field($model, 'full_name')->textInput()->label('Полное наименование') ?>
+        <?= $form->field($model, 'full_name')->textInput()->label(Yii::t('app','Full name')) ?>
 
-        <?= $form->field($model, 'brand_name')->textInput()->label('Фирменное название') ?>
-
-
-
-        <?= $form->field($model, 'ogrn')->textInput()->label('ОГРН (ОГРНИП)') ?>
+        <?= $form->field($model, 'brand_name')->textInput()->label(Yii::t('app','Brand name')) ?>
 
 
 
-        <?= $form->field($model, 'legal_address')->textInput()->label('Юридический адрес') ?>
+        <?= $form->field($model, 'ogrn')->textInput()->label(Yii::t('app','OGRN (OGRN)')) ?>
+
+
+
+        <?= $form->field($model, 'legal_address')->textInput()->label(Yii::t('app','Legal address')) ?>
 
         <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-4">{input}{error}{hint}</div>'])->widget(
             DatePicker::className(), [
@@ -88,7 +88,7 @@ use yii\jui\AutoComplete;
                 'format' => 'mm/dd/yyyy',
 
             ]
-        ])->label('Дата регистрации');?>
+        ])->label(Yii::t('app','Date registration'));?>
 
 
         <div class="col-sm-11 col-sm-offset-1">
@@ -112,7 +112,7 @@ use yii\jui\AutoComplete;
 
         </div>
 
-        <?= $form->field($model, 'director')->textInput()->label('Руководство') ?>
+        <?= $form->field($model, 'director')->textInput()->label(Yii::t('app','Date registration')) ?>
 
         <?= $form->field($model, 'phone1')->textInput()->label('Основной номер телефона') ?>
 
@@ -133,6 +133,7 @@ use yii\jui\AutoComplete;
             'captchaAction'=>Url::to(['/front/captcha'])
         ])->label('') ?>
 
+        <?=$form->field($model,'sogl')->checkbox()->label('Я согласен с пользовательским соглашением',['style'=>'float:right'])?>
 
         <div class="form-group" style="text-align: right">
             <?= Html::submitButton('Завершить регистрацию', ['class' => 'btn btn-md btn-success registr-btn', 'name' => 'signup-button']) ?>

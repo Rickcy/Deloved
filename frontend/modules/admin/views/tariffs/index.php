@@ -32,7 +32,10 @@ $user = User::findIdentity(Yii::$app->user->id);
 
 
                 <td><?=Yii::t('app', 'Price')?></td>
+
                 <td><?=Yii::t('app', 'Currency')?></td>
+                <td><?=Yii::t('app', 'Sale')?></td>
+
                 <td></td>
             </tr>
             </thead>
@@ -49,11 +52,12 @@ $user = User::findIdentity(Yii::$app->user->id);
                            data-target="#myModal"><?= $tariff->name?></a>
                     </td>
 
+
                     <td id="price<?=$tariff->id?>"><?=$tariff->price?></td>
 
 
                     <td id="code<?=$tariff->id?>"><?=Yii::t('app', $tariff->currency->code)?></td>
-
+                    <td id="price<?=$tariff->id?>"><?=$tariff->sale?>%</td>
 
                     <td>
                         <?= Html::a('', ['delete', 'id' => $tariff->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

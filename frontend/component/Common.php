@@ -20,7 +20,7 @@ class Common extends Component {
     public function sendMail($subject,$text,$emailFrom='deloved.info@gmail.com',$nameFrom='Deloved'){
         Yii::$app->mail->compose()
             ->setFrom(['admin@deloved.ru'=>'Deloved'])
-            ->setTo([$emailFrom=> $nameFrom])
+            ->setTo([$emailFrom => $nameFrom])
             ->setSubject($subject)
             ->setTextBody($text)
             

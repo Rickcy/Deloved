@@ -21,10 +21,11 @@ $user = User::findIdentity(Yii::$app->user->id);
     ]])?>
     <?= $form->field($tariff , 'name')->textInput()?>
     <?= $form->field($tariff , 'price')->textInput()?>
+    <?= $form->field($tariff , 'sale')->textInput()?>
 
 
 
-    <?php  $items = ArrayHelper::map($currency,'id','code');
+    <?php  $items = ArrayHelper::map($currency,'id','name');
 
     echo $form->field($tariff, 'currency_id')->dropDownList($items)->label(Yii::t('app', 'Currency'))?>
 

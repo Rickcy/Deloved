@@ -82,8 +82,12 @@ $user = User::findIdentity(Yii::$app->user->id);
        <?php
            $i++;
        endforeach;?>
+
         </tbody>
     </table>
+        <?php echo \yii\widgets\LinkPager::widget([
+            'pagination' => $dataProvider->pagination
+        ]) ?>
 </div>
 </div>
 <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>

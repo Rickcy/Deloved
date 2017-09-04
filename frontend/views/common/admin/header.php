@@ -12,13 +12,13 @@ $profile =$user->getProfile()->one();
 	<div class="col-xs-12 col-sm-10">
 
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Home')?></a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/"><?=Yii::t('app', 'Home')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Companies')?></a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/companies/index"><?=Yii::t('app', 'Companies')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="#"><?=Yii::t('app', 'Goods')?></a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/goods/index"><?=Yii::t('app', 'Goods')?></a>
 
-		<a class="hmenu" style="font-family: Georgia, serif;" href="#"><?=Yii::t('app', 'Services')?></a>
+		<a class="hmenu" style="font-family: Georgia, serif;" href="/services/index"><?=Yii::t('app', 'Services')?></a>
 
 
 

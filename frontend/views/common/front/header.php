@@ -23,8 +23,8 @@ use yii\bootstrap\Nav;
                 <?php $guest = Yii::$app->user->isGuest;
                 $menuItems = [];
                 if($guest) {
-                    $menuItems[]=['label' => Yii::t('app', 'Sign Up'), 'url' => ['/front/signup']];
-                    $menuItems[]= ['label' => Yii::t('app', 'Login'), 'url' => '#', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => 'modal']];
+                    $menuItems[]=['label' => Yii::t('app', 'Sign Up'), 'url' => 'javascript:void(0)', 'linkOptions' => ['data-target' => '#SignUp', 'data-toggle' => 'modal']];
+                    $menuItems[]= ['label' => Yii::t('app', 'Login'), 'url' => 'javascript:void(0)', 'linkOptions' => ['data-target' => '#Login', 'data-toggle' => 'modal']];
                 }else{
                     $menuItems[]=['label' => Yii::t('app', 'Cabinet'), 'url' => ['/admin/']];
                     $menuItems[]= ['label' => Yii::t('app', 'Logout'), 'url' => ['/front/logout'], 'linkOptions' => ['data-method' => 'post']];
@@ -58,11 +58,11 @@ use yii\bootstrap\Nav;
 <div class="row">
 
                  <div class=layer>
-                     <a href="#" class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span><?=Yii::t('app', 'Companies')?> </a>
-                     <a href="#" class="" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Goods')?></a>
-                     <a href="#"	class="" ><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Services')?></a>
-                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'About Us')?></a>
-                     <a href="#"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Tariffs')?></a>
+                     <a href="/companies/index" class=""><span class="glyphicon glyphicon-briefcase" style="margin-right: 3%;font-size: 14pt" > </span><?=Yii::t('app', 'Companies')?> </a>
+                     <a href="/goods/index" class="" ><span class="glyphicon glyphicon-shopping-cart" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Goods')?></a>
+                     <a href="/services/index"	class="" ><span class="glyphicon glyphicon-wrench" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Services')?></a>
+                     <a href="/front/about"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'About Us')?></a>
+                     <a href="/front/tariffs"	class="about" ><span class="glyphicon glyphicon-comment" style="margin-right: 3%;font-size: 14pt" ></span> <?=Yii::t('app', 'Tariffs')?></a>
 
                  </div>
 

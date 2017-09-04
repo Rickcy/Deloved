@@ -11,6 +11,7 @@ use Yii;
  * @property integer $months
  * @property string $name
  * @property double $price
+ * @property integer $sale
  * @property integer $currency_id
  *
  * @property Currency $currency
@@ -31,8 +32,8 @@ class Tariffs extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['months', 'currency_id'], 'integer'],
-            [['months', 'currency_id','price','name'], 'required'],
+            [['months', 'currency_id','sale'], 'integer'],
+            [['months', 'currency_id','price','name','sale'], 'required'],
             [['price'], 'number'],
             [['name'], 'string', 'max' => 255],
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'id']],
@@ -49,6 +50,7 @@ class Tariffs extends \yii\db\ActiveRecord
             'months' => Yii::t('app', 'Months'),
             'name' => Yii::t('app', 'Name'),
             'price' => Yii::t('app', 'Price'),
+            'sale' => Yii::t('app', 'Sale'),
             'currency_id' => Yii::t('app', 'Currency ID'),
         ];
     }
