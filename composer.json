@@ -21,7 +21,8 @@
         "yiisoft/yii2-jui": "^2.0",
         "zyx/zyx-phpmailer": "@stable",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "phpoffice/phpword": "^0.13.0"
+        "phpoffice/phpword": "^0.13.0",
+        "yiisoft/yii2-httpclient": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

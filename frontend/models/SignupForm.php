@@ -65,12 +65,13 @@ class SignupForm extends Model
         return [
             
             [['username','password','email','full_name','city_name','date', 'brand_name', 'inn', 'ogrn', 'legal_address', 'phone1', 'fax', 'web_address', 'email', 'description', 'director', 'work_time', 'address', 'keywords','fio'], 'trim'],
-            [['username','password','inn', 'ogrn','org_form_id','email','full_name','fio','address','date','profile_city','legal_address','director','phone1','sogl'], 'required'],
+            [['password','inn', 'ogrn','org_form_id','email','full_name','fio','date','profile_city','director','sogl'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя занято.'],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email занят'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'email'],
             ['password', 'string', 'min' => 4],
+            ['inn', 'string', 'min' => 10,'max'=>12],
             ['repassword', 'compare','compareAttribute'=>'password'],
             ['sogl', 'boolean'],
             [['org_form_id', 'public_status','show_main' ,'verify_status',  'chargeStatus', 'chargeTill', ], 'integer'],
@@ -111,8 +112,8 @@ class SignupForm extends Model
 
 
 
-            $user->username = $this->username;
             $user->email = $this->email;
+            $user->username = $this->username ? $this->username : $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
             $user->generateEmailConfirmToken();
@@ -132,7 +133,7 @@ class SignupForm extends Model
             $account->address=$this->address;
             $account->brand_name=$this->brand_name;
             $account->city_id=$this->city_name == null ? $profile->returnCity_id($this->profile_city) : $account->returnCity_id($this->city_name);
-            $account->date_reg = $account->returnDate($this->date);
+            $account->date_reg = $account->getDate($this->date);
 
             $account->description=$this->description;
             $account->director=$this->director;

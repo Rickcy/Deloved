@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="category">
                 <ul class="directory" style="overflow-y: scroll;height: 630px">
                     <?php foreach ($categories as $category):?>
-                        <li><?=$category->name?></li>
+                        <li><a href="/services/index?cat=<?=$category->id?>"><?=$category->name?></a></li>
                     <?php endforeach;?>
                 </ul>
 
@@ -127,10 +127,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/goods/item?id=<?=$item->id?>">
                                     <?php if(count($item->photo) >0):?>
 
-                                        <img class="img-thumbnail" style="border: none"
+                                        <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
                                              src="<?=$item->photo[0]->filePath?>"/>
                                     <?php else:?>
-                                        <img class="img-thumbnail img_left" src="/uploads/default/goods.png" style="border: none"/>
+                                        <img class="img-thumbnail img_left" src="/uploads/default/goods.png" style="border: none;width: 171px;max-height: 171px"/>
                                     <?php endif;?>
                                     <br>
                                     <span><?=$item->name?><br>
@@ -172,10 +172,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/goods/item?id=<?=$item->id?>">
                                     <?php if(count($item->photo)>0):?>
 
-                                        <img class="img-thumbnail" style="border: none"
+                                        <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
                                              src="<?=$item->photo[0]->filePath?>"/>
                                     <?php else:?>
-                                        <img class="img-thumbnail img_left" src="/uploads/default/goods.png" style="border: none"/>
+                                        <img class="img-thumbnail img_left" src="/uploads/default/goods.png" style="border: none;width: 171px;max-height: 171px"/>
                                     <?php endif;?>
                                     <br>
                                     <span>

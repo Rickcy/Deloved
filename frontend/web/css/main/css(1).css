@@ -5,6 +5,9 @@
   padding: 20px;
   border-radius: 10px;
 }
+.field-signupform-sogl > .checkbox{
+  text-align: center;
+}
 @font-face {
   font-family: 'Roboto';
   font-style: normal;

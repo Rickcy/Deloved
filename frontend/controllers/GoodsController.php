@@ -67,7 +67,7 @@ class GoodsController extends Controller
         ];
     }
 
-    public function actionIndex(){
+    public function actionIndex(int $cat = null){
         $goods_show_main = Goods::findAll(['show_main'=>1]);
         $query = Goods::find();
         $dataProvider = new ActiveDataProvider([
@@ -76,6 +76,14 @@ class GoodsController extends Controller
                 'pageSize' => 7,
             ]
         ]);
+
+        $activeCat = null;
+
+        if($cat){
+            $activeCat = Category::findOne($cat);
+            $cat = Goods::getCategories($activeCat);
+            $query->where(['in', 'category_id', $cat]);
+        }
         $query->orderBy(['date_created'=>SORT_DESC]);
         $query->all();
         $categories = Category::findAll(['parent_id'=>1228]);
@@ -89,8 +97,8 @@ class GoodsController extends Controller
     }
 
     public function actionItem($id){
-
-        return $this->render('item');
+        $good = Goods::findOne($id);
+        return $this->render('item',['good'=>$good]);
     }
 
 }

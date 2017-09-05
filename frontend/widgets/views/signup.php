@@ -29,7 +29,7 @@ use yii\jui\AutoComplete;
 
         <?= $form->field($model, 'fio')->textInput(['autofocus' => true])->label(Yii::t('app','Fio')) ?>
 
-        <?= $form->field($model, 'inn')->textInput()->label('ИНН') ?>
+        <?= $form->field($model, 'inn')->textInput(['maxlength' => 12])->label('ИНН') ?>
 
         <?= $form->field($model, 'email')->textInput(['placeholder'=>'name@domain'])->label(Yii::t('app','E-mail address')) ?>
 
@@ -49,14 +49,14 @@ use yii\jui\AutoComplete;
             <h3 class="text_reg_1">Данные пользователя для авторизации</h3>
         </div>
 
-        <?= $form->field($model, 'username')->textInput()->label(Yii::t('app','Enter login')) ?>
+        <?= $form->field($model, 'username')->textInput(['placeholder'=>'По умоланию используется email'])->label(Yii::t('app','Enter login')) ?>
 
         <?= $form->field($model, 'password')->passwordInput()->label(Yii::t('app','Enter password')) ?>
 
         <?= $form->field($model,'repassword')->passwordInput()->label(Yii::t('app','Repeat password')) ?>
 
 
-<div class="div_hidden">
+<div class="div_hidden" style="display: none;">
         <hr>
     <div class="text-center">
         <h3 class="text_reg_1">Данные предприятия/предпринимателя</h3>
@@ -85,7 +85,7 @@ use yii\jui\AutoComplete;
             'value' => '12/31/2010',
             'pluginOptions' => [
                 'autoclose'=>true,
-                'format' => 'mm/dd/yyyy',
+                'format' => 'dd.mm.yyyy',
 
             ]
         ])->label(Yii::t('app','Date registration'));?>
@@ -112,7 +112,7 @@ use yii\jui\AutoComplete;
 
         </div>
 
-        <?= $form->field($model, 'director')->textInput()->label(Yii::t('app','Date registration')) ?>
+        <?= $form->field($model, 'director')->textInput()->label(Yii::t('app','Director')) ?>
 
         <?= $form->field($model, 'phone1')->textInput()->label('Основной номер телефона') ?>
 
@@ -133,7 +133,7 @@ use yii\jui\AutoComplete;
             'captchaAction'=>Url::to(['/front/captcha'])
         ])->label('') ?>
 
-        <?=$form->field($model,'sogl')->checkbox()->label('Я согласен с пользовательским соглашением',['style'=>'float:right'])?>
+        <?=$form->field($model,'sogl')->checkbox(['class'=>'text-center'])->label('Я согласен с пользовательским соглашением')?>
 
         <div class="form-group" style="text-align: right">
             <?= Html::submitButton('Завершить регистрацию', ['class' => 'btn btn-md btn-success registr-btn', 'name' => 'signup-button']) ?>

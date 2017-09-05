@@ -958,119 +958,76 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                                     <script>
                                         $(document).ready(function(){
-                                            $('#signupform-inn').change(function () {
-                                                if ($('#signupform-inn').val().length === 10){
-                                                    console.log('10');
-                                                    var inn = $('#signupform-inn').val();
+                                            $('#signupform-inn').focusout(function () {
+                                                var inn = $(this).val();
+                                                if ($(this).val().length === 10){
                                                     $.ajax({
-                                                        type:'POST',
-                                                        data:{
-                                                            'go':9031,
-                                                            'agent_id':53,
-                                                            'agent_pass':'MZcaHpC3',
-                                                            'user_login':'Aiding',
-                                                            'user_pass':'CCloCgO3',
-                                        //                'msp_type':1,
-                                        //                'branchs':2,
-                                                            'list_count_page':500,
-                                                            'status':1,
-                                                            'list_current_page':1,
-                                                            'inn':inn,
-                                                            'resource_id':7,
-                                                            'forms[]':8,
-                                                            'return_type_info':3,
-                                                            'list_query_id':0
-                                                        },
-                                                        dataType: "xml",
-                                                        url:'http://api2-s1.1clicom.ru/services.php',
+                                                        type:'post',
+                                                        url:'/main/get-date-by-inn-or-ogrn',
+                                                        data:{'innOrOgrn':inn},
                                                         success:function (data) {
+                                                            if (!data){
+                                                                $('.div_hidden').show();
+                                                                return false;
+                                                            }
+                                                            $('#signupform-legal_address').val(data['Адрес']);
+                                                            $('#signupform-date').val(data['ДатаОГРН']);
+                                                            $('#signupform-full_name').val(data['НаимЮЛПолн']);
+                                                            $('#signupform-brand_name').val(data['НаимЮЛСокр']);
+                                                            $('#signupform-ogrn').val(data['ОГРН']);
+                                                            $('#signupform-director').val(data['Руководители'][0]['fl']);
+                                                            $('#signupform-description').val(data['НаимОКВЭД']);
 
+                                                            if(data['НаимЮЛПолн'].indexOf('АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
+                                                                $('#signupform-org_form_id').val(3)
+                                                            }
+                                                            if(data['НаимЮЛПолн'].indexOf('ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ') !==-1){
+                                                                $('#signupform-org_form_id').val(2)
+                                                            }
+                                                            if(data['НаимЮЛПолн'].indexOf('ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
+                                                                $('#signupform-org_form_id').val(5)
+                                                            }
 
-                                                            var data = $(data).find('record')[0];
-                                                            if(data){
-                                                                $('.div_hidden').hide()
-
-                                                                var ogrn = $(data).find('ogrn'); //
-                                                                if(!ogrn){
-                                                                    $('.div_hidden').show('fast');
-                                                                }
-                                                                $('#signupform-ogrn').val(ogrn.text());
-                                                                var organization_name = $(data).find('organization_name');//
-                                                                $('#signupform-full_name').val(organization_name.text())
-                                                                console.log(organization_name)
-                                                                $('#signupform-brand_name').val(organization_name.text())
-
-                                                                var address = $(data).find('address');//
-                                                                $('#signupform-legal_address]').val(address.text())
-                                                                var phone = $(data).find('phone');//
-                                                                $('#signupform-phone1').val(phone.text())
-
-                                                                var fax = $(data).find('fax');//
-                                                                $('#signupform-fax').val(fax.text());
-                                                                var opf = $(data).find('opf');
-                                                                if(opf.text() ==='Общества с ограниченной ответственностью' ){
-                                                                    $('#signupform-org_form_id').val(2)
-                                                                }
-                                                                if(opf.text() ==='Открытые акционерные общества' ){
-                                                                    $('#signupform-org_form_id').val(3)
-                                                                }
-                                                                if(opf.text() ==='Закрытые акционерные общества' ){
-                                                                    $('#signupform-org_form_id').val(5)
-                                                                }
-                                                                if(opf.text() ==='Публичные акционерные общества' ){
-                                                                    $('#signupform-org_form_id').val(4)
-                                                                }
-                                                                if(opf.text() ==='Индивидуальный предприниматель' ){
-                                                                    $('#signupform-org_form_id').val(1)
-                                                                }
-                                                                var head_fio = $(data).find('head_fio');//
-                                                                var place = $(data).find('place');
-
-                                                                $('#signupform-address').val(place.text());
-
-                                                                $('#signupform-director').val(head_fio.first().text());
-
-
-                                                                var registration_date = $(data).find('registration_date');//
-                                                                var date = registration_date.text().split('.');
-
-                                                                var full_date = date[1]+'/'+date[0]+'/'+date[2]
-                                                                $('#signupform-date').val(full_date);
-
-                                                                $('#signupform-work_time').val('ПН-ПТ: 9:30 - 18.00, СБ, ВС: Выходной');
-
-                                                            }else{
-                                                                $('.div_hidden').show()
+                                                            if(data['НаимЮЛПолн'].indexOf('ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
+                                                                $('#signupform-org_form_id').val(3)
+                                                            }
+                                                            if(data['НаимЮЛПолн'].indexOf('ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
+                                                                $('#signupform-org_form_id').val(4)
                                                             }
                                                         },
-                                                        error:function (err) {
-                                                            $('.div_hidden').show()
-                                                            console.log(err);
-
+                                                        error:function () {
+                                                            $('.div_hidden').show();
                                                         }
-
                                                     });
+                                                }
+                                                if ($(this).val().length === 12){
+                                                    $.ajax({
+                                                        type:'post',
+                                                        url:'/main/get-date-by-inn-or-ogrn',
+                                                        data:{'innOrOgrn':inn},
+                                                        success:function (data) {
+                                                            if (!data){
+                                                                $('.div_hidden').show();
+                                                                return false;
+                                                            }
+                                                            $('#signupform-legal_address').val(data['Адрес']);
+                                                            $('#signupform-date').val(data['ДатаОГРНИП']);
+                                                            $('#signupform-full_name').val(data['НаимВидИП']+' '+data['ФИО']);
+                                                            $('#signupform-brand_name').val('ИП '+data['ФИО']);
+                                                            $('#signupform-ogrn').val(data['ОГРНИП']);
+                                                            $('#signupform-director').val(data['ФИО']);
+                                                            $('#signupform-description').val(data['НаимОКВЭД']);
+                                                            $('#signupform-org_form_id').val(1)
 
+                                                        },
+                                                        error:function () {
+                                                            $('.div_hidden').show();
+                                                        }
+                                                    });
                                                 }
                                             });
 
                                         });
-                                        function renderSuccess(data) {
-                                            window.location.href = data['urlString']
-                                        }
-                                        function renderError(XMLHttpRequest) {
-                                            $('.error-temp').remove();
-                                            console.log(XMLHttpRequest['responseJSON']['errors']);
-                                            $.each(XMLHttpRequest['responseJSON']['errors'],function (key,value) {
-                                                if(value['field'] === "agreement"){
-
-                                                }
-                                                else {
-                                                    var span = $('<span>',{class:'error-temp',style:'color:red'});
-                                                    $("[name="+value['field']+"]").after(span.text('Не корректно введен или такой уже имеется'))
-                                                }
-                                            })
-                                        }
                                     </script>
 
 

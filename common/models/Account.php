@@ -203,6 +203,13 @@ class Account extends \yii\db\ActiveRecord
         $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
         return $timestamp;
     }
+
+    public function getDate($date){
+        $date_registration =$date;
+        $date = explode(".", $date_registration);
+        $timestamp = mktime(0, 0, 0, $date['0'], $date['1'], $date['2']);
+        return $timestamp;
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -16,8 +16,11 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
+use yii\httpclient\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\Response;
 
 class MainController extends Controller
 {
@@ -128,6 +131,28 @@ class MainController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+
+    public function actionGetDateByInnOrOgrn(){
+        $innOrOgrn = (int)Yii::$app->request->post('innOrOgrn');
+        if (is_int($innOrOgrn)){
+        $httpClient = new Client();
+        $data = $httpClient->createRequest()
+            ->setMethod('post')
+            ->setUrl('https://zachestnyibiznesapi.ru/demo/data/search')
+            ->setData(['api_key'=>'lkAJe4TBlAsb3Z76Uhl8Ids8f-XGA7uI','string'=>$innOrOgrn])
+            ->send();
+        if ($data->isOk){
+            $response = $httpClient->createRequest()
+                ->setMethod('post')
+                ->setUrl('https://zachestnyibiznesapi.ru/demo/data/card')
+                ->setData(['api_key'=>'lkAJe4TBlAsb3Z76Uhl8Ids8f-XGA7uI','id'=>$data->data['docs'][0]['id']])
+                ->send();
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return $response->data;
+            }
+        }
     }
 
 

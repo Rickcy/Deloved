@@ -69,7 +69,7 @@ class CompaniesController extends Controller
     }
 
 
-    public function actionIndex($cat = null){
+    public function actionIndex(int $cat = null){
         $company_show_main = Account::findAll(['show_main'=>1]);
         $query = Account::find();
         $dataProvider = new ActiveDataProvider([
@@ -90,8 +90,9 @@ class CompaniesController extends Controller
         $categoriesServices = Category::findAll(['parent_id'=>[1343]]);
 
         return $this->render('index',
-            ['categoriesGoods'=>$categoriesGoods,
-            'categoriesServices'=>$categoriesServices,
+            [
+                'categoriesGoods'=>$categoriesGoods,
+                'categoriesServices'=>$categoriesServices,
                 'activeCat'=>$activeCat,
                 'company_show_main'=>$company_show_main,
                 'companies'=>$dataProvider->models,

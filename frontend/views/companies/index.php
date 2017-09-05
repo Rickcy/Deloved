@@ -134,10 +134,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/goods/item?id=<?=$item->id?>">
                                     <?php if($item->logos):?>
 
-                                        <img class="img-thumbnail" style="border: none"
+                                        <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
                                              src="<?=$item->logos->file?>"/>
                                     <?php else:?>
-                                        <img class="img-thumbnail img_left" src="/uploads/default/logo_default.png" style="border: none"/>
+                                        <img class="img-thumbnail img_left" src="/uploads/default/logo_default.png" style="border: none;width: 171px;max-height: 171px"/>
                                     <?php endif;?>
                                     <br>
                                     <span><?=$item->brand_name?><br>
@@ -179,10 +179,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <a href="/goods/item?id=<?=$item->id?>">
                                     <?php if($item->logos):?>
 
-                                        <img class="img-thumbnail" style="border: none"
+                                        <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
                                              src="<?=$item->logos->file?>"/>
                                     <?php else:?>
-                                        <img class="img-thumbnail img_left" src="/uploads/default/logo_default.png" style="border: none"/>
+                                        <img class="img-thumbnail img_left" src="/uploads/default/logo_default.png" style="border: none;width: 171px;max-height: 171px"/>
                                     <?php endif;?>
                                     <br>
                                     <span>

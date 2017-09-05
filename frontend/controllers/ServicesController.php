@@ -90,7 +90,7 @@ class ServicesController extends Controller
 
 
     public function actionItem($id){
-
-        return $this->render('item');
+        $service = Services::findOne($id);
+        return $this->render('item',['service'=>$service]);
     }
 }
