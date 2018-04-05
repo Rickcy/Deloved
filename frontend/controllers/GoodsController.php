@@ -10,15 +10,22 @@ namespace frontend\controllers;
 
 
 use common\models\Category;
+use common\models\CountView;
 use common\models\Goods;
+use common\models\Region;
+use common\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 
 class GoodsController extends Controller
 {
     public $layout='/front';
+
+    public $group = 'companies';
     /**
      * @inheritdoc
      */
@@ -45,6 +52,7 @@ class GoodsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'search' => ['post'],
 
                 ],
             ],
@@ -67,6 +75,57 @@ class GoodsController extends Controller
         ];
     }
 
+
+    public function actionSearch(){
+        $level_id = 18;
+        $cats = Category::find()->filterWhere(['!=','parent_id',null])->andFilterWhere(['!=','parent_id','1227'])->all();
+        $city_list= Region::find()
+            ->select(['name as  label','name as value','name as name'])
+            ->where('level_id=:level_id',[':level_id'=>$level_id])
+            ->asArray()
+            ->all();
+        $search = Yii::$app->request->post('search');
+        $city = Yii::$app->request->post('city');
+        $cat = Yii::$app->request->post('cat');
+        $priceMax = Yii::$app->request->post('priceMax');
+        $priceMin = Yii::$app->request->post('priceMin');
+        $acc = [];
+        if($search){
+            if($city){
+                $city = Region::findOne(['name'=>$city]);
+                $a = Goods::find()
+                    ->orFilterWhere(['like','name','%'.$search.'%'])
+                    ->orFilterWhere(['like','description','%'.$search.'%'])
+                    ->orFilterWhere(['like','model','%'.$search.'%'])->all();
+                foreach ($a as $q){
+                    if($q->account->city_id == $city->id){
+                        $a[] = $q;
+                    }
+
+                }
+            }
+            else{
+                $a = Goods::find()
+                    ->orFilterWhere(['like','name','%'.$search.'%'])
+                    ->orFilterWhere(['like','description','%'.$search.'%'])
+                    ->orFilterWhere(['like','model','%'.$search.'%'])->all();
+
+            }
+            if($cat){
+                $a = Goods::find()
+                    ->orFilterWhere(['like','name','%'.$search.'%'])
+                    ->orFilterWhere(['like','description','%'.$search.'%'])
+                    ->orFilterWhere(['like','model','%'.$search.'%'])->andWhere(['category_id'=>$cat])->all();
+            }
+            $acc[] = $a;
+
+        }
+        return $this->render('search', ['search' =>$search, 'city_list' => $city_list, 'cats' => $cats, 'acc' => $acc]);
+
+    }
+
+
+
     public function actionIndex(int $cat = null){
         $goods_show_main = Goods::findAll(['show_main'=>1]);
         $query = Goods::find();
@@ -81,24 +140,63 @@ class GoodsController extends Controller
 
         if($cat){
             $activeCat = Category::findOne($cat);
-            $cat = Goods::getCategories($activeCat);
-            $query->where(['in', 'category_id', $cat]);
+            $categs = Goods::getCategories($activeCat);
+            $query->where(['in', 'category_id', $categs]);
         }
         $query->orderBy(['date_created'=>SORT_DESC]);
         $query->all();
-        $categories = Category::findAll(['parent_id'=>1228]);
+        if($cat){
+            $categories = Category::findAll(['parent_id'=>$cat]);
+        }
+        else{
+            $categories = Category::findAll(['parent_id'=>1228]);
+        }
 
         return $this->render('index',
-            ['categories'=>$categories,
+            [   'activeCat'=>$activeCat,
+                'categories'=>$categories,
                 'goods_show_main'=>$goods_show_main,
                 'goods'=>$dataProvider->models,
-                'dataProvider'=>$dataProvider
+                'dataProvider'=>$dataProvider,
+
             ]);
     }
 
     public function actionItem($id){
-        $good = Goods::findOne($id);
-        return $this->render('item',['good'=>$good]);
+        $good = Goods::findOne((int)$id);
+
+        if (!$good){
+            throw new ForbiddenHttpException('Нет такого товара');
+        }
+
+        $account = $good->account;
+        if(Yii::$app->user->isGuest){
+            $count = CountView::findOne(['account_id'=>$account->id]);
+            if(!$count){
+                $count = new CountView();
+                $count->account_id = $account->id;
+            }
+            $count->count_goods_for_all = $count->count_goods_for_all+1;
+            $count->count_goods_for_month = $count->count_goods_for_month+1;
+            $count->save();
+        }
+        else {
+            if (!in_array((User::findOne(Yii::$app->user->id))->role_id, [1, 3, 4, 5, 6, 7])) {
+                $myAccount = (User::findOne(Yii::$app->user->id)->profile->account);
+                if ($myAccount->id != $account->id) {
+                    $count = CountView::findOne(['account_id' => $account->id]);
+                    if (!$count) {
+                        $count = new CountView();
+                        $count->account_id = $account->id;
+                    }
+                    $count->count_goods_for_all = $count->count_goods_for_all + 1;
+                    $count->count_goods_for_month = $count->count_goods_for_month + 1;
+
+                    $count->save();
+                }
+            }
+        }
+        return $this->render('item',['good' => $good, ]);
     }
 
 }

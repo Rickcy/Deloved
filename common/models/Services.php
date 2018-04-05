@@ -87,6 +87,53 @@ class Services extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getCategories($activeCat){
+        $categories = [];
+        $cats = Category::findAll(['parent_id'=>$activeCat->id]);
+        if(count($cats) >0 ){
+            foreach ($cats as $cat){
+                $categories[]=$cat->id;
+                $items = Category::findAll(['parent_id'=>$cat->id]);
+                if(count($items) >0 ){
+                    foreach ($items as $item){
+                        $categories[]=$item->id;
+                        $categs = Category::findAll(['parent_id'=>$item->id]);
+                        if(count($categs) > 0 ){
+                            foreach ($categs as $categ){
+                                $categories[]=$categ->id;
+                                $c = Category::findAll(['parent_id'=>$categ->id]);
+                                if(count($c) > 0 ){
+                                    foreach ($c as $cs){
+                                        $categories[]=$cs->id;
+                                        $s = Category::findAll(['parent_id'=>$cs->id]);
+                                        if(count($s) > 0 ){
+                                            foreach ($s as $w){
+                                                $categories[]=$w->id;
+                                                $c = Category::findAll(['parent_id'=>$w->id]);
+                                                if(count($c) > 0 ){
+                                                    foreach ($c as $cs){
+                                                        $categories[]=$cs->id;
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+        else{
+            $categories[]=$activeCat->id;
+        }
+        return $categories;
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -145,6 +192,7 @@ class Services extends \yii\db\ActiveRecord
     }
 
     public function saveServicePhoto(){
+        if($this->photos[0]){
         $imagesPaths = explode(',',$this->photos[0]);
         foreach ($imagesPaths as $path){
             $photo = new PhotoService();
@@ -152,6 +200,7 @@ class Services extends \yii\db\ActiveRecord
             $photo->item_id = $this->id;
             $photo->filePath = $path;
             $photo->save();
+        }
         }
 
     }

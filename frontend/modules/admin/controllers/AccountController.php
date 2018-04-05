@@ -11,6 +11,7 @@ use common\models\Logo;
 use common\models\OrgForm;
 use common\models\Profile;
 use common\models\Region;
+use common\models\Role;
 use common\models\User;
 use frontend\models\AccountForm;
 use Yii;
@@ -77,11 +78,17 @@ class AccountController extends AuthController
                 if($account->verify_status == 0){
                     $user = $account->profile->user;
                     $email = $user->email;
-                    try{
-                        Yii::$app->common->sendMailEmailConfirm($email,$user);
-                    }catch (Exception $exception){
-                        return false;
+                    if($account->profile->user->role_id == Role::ROLE_NONE){
+                        try{
+                            Yii::$app->common->sendMailEmailConfirm($email,$user);
+                            $account->profile->chargeTill =  time() + (30 * 24 * 60 * 60);
+                            $account->profile->save();
+                        }catch (Exception $exception){
+                            return false;
+                        }
+
                     }
+
 
                 }
                 $verifyStatus = $account->verify_status == 0 ? $account->verify_status = 1 : $account->verify_status = 0;
@@ -106,8 +113,6 @@ class AccountController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
-
-
         $categoryType = CategoryType::find()->all();
         $category = Category::find()->all();
         $level_id=18;
@@ -129,7 +134,7 @@ class AccountController extends AuthController
         
         if ($model->load(Yii::$app->request->post())) {
             $model->createAccount();
-            Yii::$app->session->addFlash('success', 'Account Create!');
+            Yii::$app->session->addFlash('success', 'Предприятие создано');
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -193,11 +198,11 @@ class AccountController extends AuthController
                         }
                     }
                 }
-                Yii::$app->session->addFlash('success', 'Account Update!');
+                Yii::$app->session->addFlash('success', 'Предприятие обнавлено');
                 $transaction->commit();
             }catch (Exception $e){
                 $transaction->rollBack();
-                Yii::$app->session->addFlash('danger', 'Account not Update!');
+                Yii::$app->session->addFlash('danger', 'Предприятие не обнавлено');
             }
 
 
@@ -235,7 +240,7 @@ class AccountController extends AuthController
         }
 
         $this->findModel($id)->delete();
-        Yii::$app->session->addFlash('success', 'Account Delete!');
+        Yii::$app->session->addFlash('success', 'Предприятие удалено');
         return $this->redirect(['index']);
     }
 
@@ -261,7 +266,7 @@ class AccountController extends AuthController
     }
 
     public function actionShow(){
-        if (!User::checkRole(['ROLE_USER'])) {
+        if (!User::checkRole(['ROLE_USER']) || (User::findOne(Yii::$app->user->id))->profile->isManager()) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $categoryType = CategoryType::find()->all();
@@ -487,7 +492,7 @@ class AccountController extends AuthController
                     Yii::$app->session->addFlash('danger', 'Такого города нет в списке');
                 }
             }else{
-            $account->$prop =$value;
+            $account[$prop] =$value;
                 $account->save();
                 Yii::$app->session->addFlash('success', 'Успешно изменен');
             }

@@ -11,8 +11,6 @@ $i=0;
         </div>
         <?php endforeach?>
         <?php endif?>
-
-
 <?php endforeach ?>
 <?php endif?>
 <div id="flash-message" class="flash-alert alert alert-info" hidden></div>

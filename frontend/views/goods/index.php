@@ -1,24 +1,26 @@
 <?php
 /**
  * @var $category \common\models\Category;
+ * @var $activeCat \common\models\Category;
  * @var $good \common\models\Goods;
  */
+use yii\helpers\StringHelper;
+
 $this->title = Yii::t('app', 'Goods');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="show-all">
 
-
         <div class="col-md-3 col-lg-3" style="">
-
-
 
             <div class=left_block>
                 <div class=head style="text-align: center">Категории товаров</div>
 
-
                 <div class="category">
-                    <ul class="directory" style="overflow-y: scroll;height: 630px">
+                    <ul class="directory" >
+                        <?php if ($activeCat):?>
+                            <li><a class="active" href="/goods/index?cat=<?=$activeCat->id?>"><?=$activeCat->name?></a></li>
+                        <?php endif;?>
                         <?php foreach ($categories as $category):?>
                             <li><a href="/goods/index?cat=<?=$category->id?>"><?=$category->name?></a></li>
                         <?php endforeach;?>
@@ -26,20 +28,36 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 </div>
 
-
-
             </div>
         </div>
 
         <div class="col-md-6 col-lg-6 ndblock" style="min-height: 800px">
 
 
-
-                <h1 style="padding-bottom: 15px" class="text-center">Товары</h1>
+            <?php if ($activeCat):?>
+                <h2 style="padding-bottom: 15px" class="text-center">
+                    <?=$activeCat->name?>
+                </h2>
+                <ol class="breadcrumb" style="margin-top: 20px">
+                    <?php if ($activeCat):?>
+                        <li><a href="/goods/index">Главная</a></li>
+                    <?php endif;?>
+                    <?php if ($activeCat->parent_id):?>
+                        <?php if ($activeCat->parent_id != 1228 && $activeCat->parent_id != 1343):?>
+                            <li><a href="/goods/index?cat=<?=$activeCat->parent->id?>"><?= $activeCat->parent->name?></a></li>
+                        <?php endif;?>
+                    <?php endif;?>
+                    <li><?=$activeCat->name?></li>
+                </ol>
+            <?php else:?>
+                <h2 style="padding-bottom: 15px" class="text-center">
+                    Товары
+                </h2>
+            <?php endif;?>
                 <?php if ($goods):?>
                     <?php foreach ($goods as $good):?>
                         <div class="row minicart lc">
-                            <div class="col-xs-4 col-sm-3" style=" text-align: center;">
+                            <div class="col-xs-4 col-sm-3" style=" text-align: center;margin-top: 20px;">
                                 <?php if(count($good->photo) >0 ):?>
 
                                     <img class="img-thumbnail" style="border: none"
@@ -56,15 +74,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             </div>
 
-                            <div class="col-sm-4 col-xs-8" >
+                            <div class="col-sm-4 col-xs-8" style="margin-top: 20px;">
 
                                 <a href="/goods/item/?id=<?=$good->id?>"><?=$good->name?></a>
 
 
-
-
-
-                                <div class="description"><?=$good->description?></div>
+                                <div class="description"><?=StringHelper::truncateWords($good->description,10,'...')?></div>
 
                                 <div class=price><?=$good->price?> Рублей</div>
 
@@ -86,10 +101,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-
-
-
-
                                             <br>Город: <?= $good->account->city->name?>
 
 
@@ -97,8 +108,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                     <br><br>
-
-                                        <button class="deal_button" style="border: none;min-width: 143px;background-color: grey; text-align: left" >Предложить сделку</button>
+                                        <?php if (!Yii::$app->user->isGuest):?>
+                                         <?php if (!$good->account->verify_status):?>
+                                                <button class="deal_button" style="border: none; background-color: grey; text-align: left" data-toggle="popover">Предложить сделку</button>
+                                          <?php else:?>
+                                                <a href="/admin/deal/create?good=<?=$good->id?>" class="deal_button" style="border: none;min-width: 143px; text-align: left" >Предложить сделку</a>
+                                            <?php endif;?>
+                                        <?php else:?>
+                                            <a href="javascript:void(0)" onclick="noAuth()" class="deal_button" >Предложить сделку</a>
+                                        <?php endif;?>
 
 
                                 </div>
@@ -200,3 +218,24 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 <?php endif;?>
     </div>
+<script>
+    $(document).ready(function(){
+        var template = ['<div class="timePickerWrapper popover">',
+            '<div class="arrow"></div>',
+            '<div class="popover-content">',
+            '</div>',
+            '</div>'].join('');
+        var  content = ['<div>Данный пользователь не авторизован</div>'
+        ].join('');
+        $('[data-toggle="popover"]').popover({
+            template: template,
+            content: content,
+            html: true
+        });
+
+        $('[data-toggle="popover"]').on('click', function (e) {
+            $('[data-toggle="popover"]').not(this).popover('hide');
+        });
+
+    });
+</script>

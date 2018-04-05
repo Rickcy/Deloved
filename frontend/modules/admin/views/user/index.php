@@ -12,6 +12,8 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
+$session = Yii::$app->session;
+$timeZone = $session->get('timeZone')/60;
 ?>
 <div class="user-index">
 
@@ -36,6 +38,8 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                 <?php endif;?>
                 <td><?=Yii::t('app', 'Role')?></td>
+                <td><?=Yii::t('app', 'Date Created')?></td>
+                <td>Активность</td>
             </tr>
             </thead>
             <tbody>
@@ -54,8 +58,11 @@ $user = User::findIdentity(Yii::$app->user->id);
 
                     <?php endif;?>
 
-                    <td id="<?=$item->id?>"><?=$item->role->role_name?></td>
+                    <td id="<?=$item->id?>"><?=Yii::t('app', $item->role->role_name)?></td>
 
+                    <td><?=(new DateTime(Yii::$app->formatter->asDatetime($item->profile->created_at, "php:Y-m-d  H:i")))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></td>
+
+                    <td><?=(new DateTime(Yii::$app->formatter->asDatetime($item->profile->updated_at, "php:Y-m-d  H:i")))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></td>
                     <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                         <td>
                             <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

@@ -27,7 +27,7 @@ class TariffsController extends \yii\web\Controller
 
         if ($tariff->load(Yii::$app->request->post())){
             $tariff->save();
-            Yii::$app->session->addFlash('success', "Tariff Created");
+            Yii::$app->session->addFlash('success', "Тариф создан");
             return $this->redirect(['index']);
         }
 
@@ -75,14 +75,14 @@ class TariffsController extends \yii\web\Controller
         $model = Tariffs::findOne($id);
 
         if (empty($name)||empty($price)||empty($months)||empty($currency_id)){
-            Yii::$app->session->addFlash('danger', "Fields is Empty");
+            Yii::$app->session->addFlash('danger', "Поля пустые");
         }else{
             $model->name = $name;
             $model->price = $price;
             $model ->months = $months;
             $model->currency_id = $currency_id;
             $model->save();
-            Yii::$app->session->addFlash('success', "Tariff Update");
+            Yii::$app->session->addFlash('success', "Тариф обновлен");
 
         }
 
@@ -106,7 +106,7 @@ class TariffsController extends \yii\web\Controller
         }
 
         Tariffs::findOne($id)->delete();
-        Yii::$app->session->addFlash('success', 'Tariff Delete!');
+        Yii::$app->session->addFlash('success', 'Тариф удален');
         return $this->redirect(['index']);
 
     }

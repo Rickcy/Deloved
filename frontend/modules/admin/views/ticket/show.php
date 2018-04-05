@@ -5,11 +5,11 @@
  */
 use common\models\Ticket;
 use common\models\User;
-use frontend\assets\ChatAsset;
+use frontend\assets\TicketChatAsset;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
-ChatAsset::register($this);
+TicketChatAsset::register($this);
 $session = Yii::$app->session;
 $timeZone = $session->get('timeZone')/60;
 $user = User::findOne(Yii::$app->user->id);
@@ -24,11 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-sm-12" style="font-size: 1.2em">
                 <div class="col-sm-6 text-left">
 
-                    <?php if ($myProfile->id != $ticket->profile_id):?>
-                        Консультация с  <?=$ticket->profile->account ?$ticket->profile->account->brand_name : $ticket->profile->fio ?>
-                    <?php endif;?>
-                    <?php if (($myProfile->id == $ticket->profile_id) && $ticket->support_id):?>
-                        Консультирует <?=$ticket->profile->fio?>
+                    <?php if($ticket->support_id):?>
+                        <?php if($ticket->support_id == $myProfile->id):?>
+                            Консультация с  <?=$ticket->profile->account->brand_name?>
+                        <?php else:;?>
+                            Консультирует  <?=$ticket->support->fio?>
+                        <?php endif;?>
                     <?php endif;?>
                 </div>
                 <div class="col-sm-6 text-right">
@@ -82,18 +83,17 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?php if ($post->ticketPostAttaches):?>
                                 <div align="left">
                                     <?php foreach ($post->ticketPostAttaches as $attach):?>
-                                    <table style="display: inline-block; margin: 5px" id="<?= $attach->id?>">
-                                        <tr>
-                                            <td style="padding-right: 10px" rowspan="2">
-                                                <a style="text-decoration: none" href="<?=Url::to([$attach->attachment->filePath])?>"
-                                                    download="<?=$attach->attachment->filePath?>" data-gallery>
-                                                </a>
-                                            </td>
-                                            <td>
-                                               Файл
-                                            </td>
-                                        </tr>
-                                    </table>
+                                        <table style="display: inline-block; margin: 5px" id="<?= $attach->id?>">
+                                            <tr>
+                                                <td style="padding-right: 10px" rowspan="2">
+                                                    <a style="text-decoration: none" href="<?=Url::to([$attach->attachment->filePath])?>"
+                                                       download="<?=$attach->attachment->filePath?>" data-gallery>
+                                                        <img src="/uploads/default/file.png" alt="">
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                        </table>
                                     <?php endforeach;?>
                                 </div>
                             <?php endif;?>
@@ -147,6 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
     <?php endif;?>
+    <?php if ($user->checkRole(['ROLE_MANAGER','ROLE_SUPPORT','ROLE_ADMIN']) || $ticket->profile_id == $myProfile->id):?>
     <div id="form-ticket-post" style="display: <?=$ticket->status == Ticket::STATUS_NEW || $ticket->status == Ticket::STATUS_CLOSED  ? 'none' : 'block'?>">
         <?php $form = ActiveForm::begin(['id'=>'ticket-post-form','action'=>'/admin/ticket/send-message','options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
             'template' => '<div class="col-sm-10 col-sm-offset-1">{input}</div><div class="row"><div class="col-sm-4 col-sm-offset-4">{error}</div></div>',
@@ -154,19 +155,22 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
         <?= $form->field($model,'last_post_id')->hiddenInput(['id'=>'ticket-last-post-inpost'])->label('')?>
         <?= $form->field($model,'ticket_id')->hiddenInput(['value'=>$ticket->id])->label('')?>
-        <?= $form->field($model, 'post')->textarea(['rows'=>5,'maxlength'=>255,'placeholder'=>Yii::t('app','Your message')])->label('') ?>
+        <?= $form->field($model, 'post')->textarea(['rows'=>5,'maxlength'=>1000,'placeholder'=>Yii::t('app','Your message')])->label('') ?>
     <div class="row" >
         <div class="col-xs-12">
                 <div class="col-xs-6 col-xs-offset-0 col-sm-offset-1 text-left">
                     <?= Html::submitButton( Yii::t('app', 'Send') , ['class' =>  'btn create-btn btn-sm btn-success','id'=>'send-message' ]) ?>
                 </div>
                 <div class="col-xs-4 text-right">
-                    <?= Html::submitButton( Yii::t('app', 'Attach files') , ['class' =>  'btn create-btn btn-sm btn-success' ]) ?>
+                    <?= Html::button( Yii::t('app', 'Attach file') , ['class' =>  'noFile btn create-btn btn-sm btn-success' ]) ?>
+                    <input type="file" class="hidden" ticket-id =<?=$ticket->id?>  id="file">
                 </div>
         </div>
     </div>
+
         <?php ActiveForm::end(); ?>
     </div>
+        <?php endif;?>
     <?php endif;?>
 </div>
 

@@ -20,6 +20,31 @@ return [
                 ],
             ],
         ],
+        'mail' => [
+            'class'            => 'zyx\phpmailer\Mailer',
+            'viewPath'         => '@common/mail',
+            'useFileTransport' => false,
+            'config'           => [
+                'mailer'     => 'smtp',
+                'host'       => 'smtp.yandex.ru',
+                'port'       => '465',
+                'smtpsecure' => 'ssl',
+                'smtpauth'   => true,
+                'username'   => 'admin@deloved.ru',
+                'password'   => 'Delo2016ved',
+                'isHtml'     => true,
+                'charset'    => 'UTF-8'
+            ]
+        ],
+        'common' =>[
+            'class' => 'frontend\component\Common'
+        ],
+        'urlManager'=>[
+            'class'=>'yii\web\UrlManager',
+            'enablePrettyUrl'=>true,
+            'showScriptName'=>false
+        ]
+
     ],
     'params' => $params,
 ];

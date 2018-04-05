@@ -135,17 +135,20 @@ $this->title = 'Мои данные';
     </div>
 
 
+
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
-            <label for="legalAddress">Юридический адрес</label>
+            <label for="legal_address">Юридический адрес</label>
         </div>
-        <div class="col-sm-7 ft ">
-            <p id="legalAddress" class="form-control grey" name="legalAddress"><?=Html::encode($account->legal_address)?></p>
+        <div class="col-sm-7 col-xs-10 ft ">
+            <input id="legal_address" name="legal_address" class="form-control" type="text" readonly value="<?=Html::encode($account->legal_address)?>" data-old="<?=Html::encode($account->legal_address)?>"
+                   placeholder="Отсутствует"/>
         </div>
-        <div class="action-col">
-
+        <div class="col-sm-1 col-xs-1">
+            <span name="change" data-for="legal_address" class="glyphicon glyphicon-pencil pen label-col"></span>
         </div>
     </div>
+
 
     <div class="row">
         <div class="col-sm-3 label-col ft  col-sm-offset-1">
@@ -315,7 +318,7 @@ $this->title = 'Мои данные';
                 <textarea id="description" class="form-control" name="description" type="text" readonly data-old="<?=Html::encode($account->description)?>"
                           placeholder="Отсутствует"><?=Html::encode($account->description)?>
                 </textarea>
-            <div class="pods fr">Краткое описанеи вашей деятельности, основые направления деятельности, предлагаемые товары и услуги.</div>
+            <div class="pods fr">Краткое описание вашей деятельности, основные направления деятельности, предлагаемые товары и услуги.</div>
         </div>
         <div class="col-sm-1 col-xs-1">
             <span name="change" data-for="description" class="glyphicon glyphicon-pencil pen label-col"></span>
@@ -501,7 +504,8 @@ $this->title = 'Мои данные';
             </div>
         </div>
         </div>
-        <div class="col-sm-3">
+
+        <div class="col-sm-8 col-sm-offset-1" style="margin-top: 2rem">
             <a href="javascript:void(0)" class="btn btn-success" style="width:100%" id="saveCategory">Сохранить</a>
         </div>
     </div>
@@ -542,7 +546,7 @@ $this->title = 'Мои данные';
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    showMessage('danger', 'Ошибка соединения');
+                    showMessage('danger', 'Выбирите Категорию');
                  
                 }
             })

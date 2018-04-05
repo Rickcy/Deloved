@@ -22,9 +22,13 @@ if ($session->has('lang')){
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language = $lang ?>">
 <head>
+    <style type="text/css">
+        body,#site_wrapper1{min-width:1170px;}
+    </style>
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <?= Html::csrfMetaTags() ?>
+
     <title><?= Html::encode($this->title) ?></title>
 
 
@@ -177,6 +181,12 @@ if ($session->has('lang')){
     })(document, window, "yandex_metrika_callbacks");
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/42521619" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<script type='text/javascript'>
+    (function(){ var widget_id = 'MyqslMHMAm';var d=document;var w=window;function l(){
+        var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+</script>
+<!-- {/literal} END JIVOSITE CODE -->
 <!--Yandex.Metrika counter-->
 
 <?=$this->render("//common/flash-message")?>

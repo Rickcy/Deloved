@@ -1,18 +1,24 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: marvel
- * Date: 13.08.17
- * Time: 21:22
+ * @var $this \yii\web\View
  */
+
 use frontend\widgets\Contact;
 use frontend\widgets\PasswordReset;
+use frontend\widgets\Questions;
 use frontend\widgets\SignUp;
 use frontend\widgets\Suggestion;
 use frontend\widgets\Login;
 use yii\helpers\Url;
-
 $this->title = Yii::t('app', 'Business-portal Deloved');
+$this->registerCss('
+.btn_check_agent_modal:hover{
+    -webkit-transform: scale(1.06);
+    -moz-transform: scale(1.06);
+    -o-transform: scale(1.06);
+}
+');
 ?>
 <div id="site_wrapper1">
     <div id="sections_list"><div class="blk_section bg_type_image sprint4 " data-par-speed="" id="9b98b54f55374ddd90eb2516d7a29ef0" data-id="s-9b98b54f55374ddd90eb2516d7a29ef0" bg_type="image" pos="2" style="padding-bottom: 15px;padding-top: 20px;">
@@ -133,7 +139,8 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                             <?php if(Yii::$app->user->isGuest):?>
                                             <div class="blk-data ie_css3 clearfix">
                                                 <div class="blk_form_wrap r_text is_popover ">
-                                                    <a href="javascript:void(0)" class="btn-new ie_css3 btn-form-popover" data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+                                                    <a style="margin-right: 1rem" href="/demo-cabinet/index" class="btn-new ie_css3 btn-form-popover"  >Демо-Кабинет</a>
+                                                    <a  href="javascript:void(0)" class="btn-new ie_css3 btn-form-popover pulse_btn" onclick="yaCounter42521619.reachGoal('reggs'); return true;"  data-target="#SignUp" data-toggle="modal">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 
 
                                                 </div>
@@ -408,36 +415,14 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                             <div class="blk-data ie_css3 clearfix">
                                                 <div class="blk_image_data_wrap no_sel c_text">
                                                     <div class="img_container">
-                                                        <img id="checkAgent" style="width: 575px; border-radius: 0px" src="/images/main/file(4).png" >
-                                                        <div id="checkAgentModal" class="btn_check_agent_modal">Проверить <br> контрагента</div>
-                                                        <div  class="modal fade" style="z-index: 11">
+                                                        <img id="checkAgent" style="width: 575px; border-radius: 0" src="/images/main/file(4).png" >
+                                                        <div data-target="#checkAgentModal" data-toggle="modal" class="btn_check_agent_modal pulse_btn">Проверить <br> контрагента</div>
 
-                                                            <div class="modal-dialog text-center">
-
-                                                                <div class="modal-content" style="width: 90%;float: left;">
-
-
-
-                                                                    <div class="modal-body">
-                                                                        <form class="">
-                                                                            <input type="text" required="required" placeholder="Введите ИНН контрагента которого хотите проверить" name="search_for_inn" class="form-control" id="search_for_inn">
-
-                                                                                <a href=""  style="margin-top: 20px" class="btn btn-primary"  action="search">
-                                                                                    Проверить
-                                                                                </a>
-
-                                                                        </form>
-                                                                    </div>
-
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
                                                     </div>
 
-                                                </div></div>
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="blk-container__del-cell"><i class="fa fa-trash-o"></i></div>
@@ -529,9 +514,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                                 <div class="blk-data ie_css3 clearfix">
                                                                     <div class="blk_image_data_wrap no_sel r_text">
                                                                         <div class="img_container">
-                                                                            <a href=""><img style="width: 101px; border-radius: 0px" src="/images/main/file(5).png" ></a>
-
-
+                                                                            <a href="/front/deal-online"><img style="width: 101px; border-radius: 0px" src="/images/main/file(5).png" ></a>
 
                                                                         </div>
 
@@ -547,7 +530,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         <div class="cell v3 container_cell sortable_cell" id="0d1b2b7f4e574fecbfb4dc9012816065" style="border-radius:0px;padding:0px">
                                                             <div class="blk    blk_text blk-no-bg-lpm-449" id="c7f69bb66d9147bb8df8a5f2919ca852" blk_class="blk_text" type_id="1" pos="1" data-id="b-c7f69bb66d9147bb8df8a5f2919ca852" style="opacity: 0;">
 
-                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 13px 0px;"><p><span style="font-size:18px;"><strong><span style="color:#669933;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><g:link style="color:#669933" controller="article" action="deal_online">Сделки online</g:link></span></span></strong></span></p></div>
+                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 13px 0px;"><p><span style="font-size:18px;"><strong><span style="color:#669933;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><a href="/front/deal-online" style="color:#669933" >Сделки online</a></span></span></strong></span></p></div>
                                                             </div>
 
                                                             <div class="blk-container__del-cell"><i class="fa fa-trash-o"></i></div>
@@ -578,7 +561,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                                 <div class="blk-data ie_css3 clearfix">
                                                                     <div class="blk_image_data_wrap no_sel r_text">
                                                                         <div class="img_container">
-                                                                            <a  href=""><img style="width: 101px; border-radius: 0px" src="/images/main/file(6).png" ></a>
+                                                                            <a  href="/front/help-jurist"><img style="width: 101px; border-radius: 0px" src="/images/main/file(6).png" ></a>
 
 
 
@@ -596,7 +579,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         <div class="cell v3 container_cell sortable_cell" id="c71b4f36afbb4efbaea4fc8dc65875ab" style="border-radius:0px;padding:0px">
                                                             <div class="blk    blk_text blk-no-bg-lpm-449" id="b0bf90a90efd4c478e6a52c7e51c06c2" blk_class="blk_text" type_id="1" pos="1" data-id="b-b0bf90a90efd4c478e6a52c7e51c06c2" style="opacity: 0;">
 
-                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 8px 0px;"><p><span style="font-size:18px;"><strong><span style="color:#669933;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><g:link style="color:#669933" controller="article" action="jurist_service">Помощь юриста</g:link></span></span></strong></span></p></div>
+                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 8px 0px;"><p><span style="font-size:18px;"><strong><span style="color:#669933;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><a href="/front/help-jurist" style="color:#669933" >Помощь юриста</a></span></span></strong></span></p></div>
                                                             </div>
 
                                                             <div class="blk-container__del-cell"><i class="fa fa-trash-o"></i></div>
@@ -627,7 +610,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                                 <div class="blk-data ie_css3 clearfix">
                                                                     <div class="blk_image_data_wrap no_sel r_text">
                                                                         <div class="img_container">
-                                                                            <a href="" style="color:#669933" ><img style="width: 101px; border-radius: 0px" src="/images/main/file(7).png"  ></a>
+                                                                            <a href="/front/rating" style="color:#669933" ><img style="width: 101px; border-radius: 0px" src="/images/main/file(7).png"  ></a>
 
 
 
@@ -645,7 +628,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         <div class="cell v3 container_cell sortable_cell" id="b40ff04201ba4a628fe1c8121a774aa9" style="border-radius:0px;padding:0px">
                                                             <div class="blk    blk_text blk-no-bg-lpm-449" id="547d30e02938426a9c8318c3467da319" blk_class="blk_text" type_id="1" pos="1" data-id="b-547d30e02938426a9c8318c3467da319" style="opacity: 0;">
 
-                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 8px 0px;"><p><span style="font-size:18px;"><font color="#669933" face="verdana, geneva, sans-serif"><b><g:link style="color:#669933" controller="article" action="rating_system">Рейтинг</g:link></b></font></span></p></div>
+                                                                <div class="blk-data ie_css3 clearfix" style="padding:38px 0px 8px 0px;"><p><span style="font-size:18px;"><font color="#669933" face="verdana, geneva, sans-serif"><b><a href="/front/rating" style="color:#669933" >Рейтинг</a></b></font></span></p></div>
                                                             </div>
 
                                                             <div class="blk-container__del-cell"><i class="fa fa-trash-o"></i></div>
@@ -828,7 +811,7 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                                                         </div>
                                                         <div class="blk    blk_text blk-no-bg-lpm-449" id="2992c1d5453c45d7b4f9438894c1a05c" blk_class="blk_text" type_id="1" pos="3" data-id="b-2992c1d5453c45d7b4f9438894c1a05c" style="opacity: 0;">
 
-                                                            <div class="blk-data ie_css3 clearfix" style="padding:15px 0px 0px 0px;"><p><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><span style="font-style:normal;font-weight:400;font-size:16px;">Специалисты "Деловеда" обладают большим багажем знаний и опыта. "Деловед" - это универсальный гарант сделок в дистанционных продажах товаров и услуг, который надежно обеспечивает безопасность как покупателям, так и продавцам. </span></span></p></div>
+                                                            <div class="blk-data ie_css3 clearfix" style="padding:15px 0px 0px 0px;"><p><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><span style="font-style:normal;font-weight:400;font-size:16px;">Специалисты "Деловеда" обладают большим багажом знаний и опыта. "Деловед" - это универсальный гарант сделок в дистанционных продажах товаров и услуг, который надежно обеспечивает безопасность как покупателям, так и продавцам. </span></span></p></div>
                                                         </div>
 
                                                     </div>
@@ -947,88 +930,16 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
 
                                 <!--Если пользователь является гостем-->
                                 <?php  if(Yii::$app->user->isGuest):?>
-                                    <a class="btn-new ie_css3 btn-form-popover" href="#" data-target="#Contact" data-toggle="modal">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                    <a class="btn-new ie_css3 btn-form-popover pulse_btn" href="#" data-target="#Contact" data-toggle="modal">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
                                 <?php endif?>
 
                                 <!--Если пользователь не является гостем-->
                                 <?php if(!Yii::$app->user->isGuest):?>
-                                    <a class="btn-new ie_css3 btn-form-popover"  href="<?= Url::to(['/admin/ticket/create'])?>">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
+                                    <a class="btn-new ie_css3 btn-form-popover pulse_btn"  href="<?= Url::to(['/admin/ticket/create'])?>">ПОЛУЧИТЬ КОНСУЛЬТАЦИЮ</a>
                                 <?php endif?>
 
 
-                                    <script>
-                                        $(document).ready(function(){
-                                            $('#signupform-inn').focusout(function () {
-                                                var inn = $(this).val();
-                                                if ($(this).val().length === 10){
-                                                    $.ajax({
-                                                        type:'post',
-                                                        url:'/main/get-date-by-inn-or-ogrn',
-                                                        data:{'innOrOgrn':inn},
-                                                        success:function (data) {
-                                                            if (!data){
-                                                                $('.div_hidden').show();
-                                                                return false;
-                                                            }
-                                                            $('#signupform-legal_address').val(data['Адрес']);
-                                                            $('#signupform-date').val(data['ДатаОГРН']);
-                                                            $('#signupform-full_name').val(data['НаимЮЛПолн']);
-                                                            $('#signupform-brand_name').val(data['НаимЮЛСокр']);
-                                                            $('#signupform-ogrn').val(data['ОГРН']);
-                                                            $('#signupform-director').val(data['Руководители'][0]['fl']);
-                                                            $('#signupform-description').val(data['НаимОКВЭД']);
 
-                                                            if(data['НаимЮЛПолн'].indexOf('АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
-                                                                $('#signupform-org_form_id').val(3)
-                                                            }
-                                                            if(data['НаимЮЛПолн'].indexOf('ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ') !==-1){
-                                                                $('#signupform-org_form_id').val(2)
-                                                            }
-                                                            if(data['НаимЮЛПолн'].indexOf('ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
-                                                                $('#signupform-org_form_id').val(5)
-                                                            }
-
-                                                            if(data['НаимЮЛПолн'].indexOf('ОТКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
-                                                                $('#signupform-org_form_id').val(3)
-                                                            }
-                                                            if(data['НаимЮЛПолн'].indexOf('ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО') !==-1){
-                                                                $('#signupform-org_form_id').val(4)
-                                                            }
-                                                        },
-                                                        error:function () {
-                                                            $('.div_hidden').show();
-                                                        }
-                                                    });
-                                                }
-                                                if ($(this).val().length === 12){
-                                                    $.ajax({
-                                                        type:'post',
-                                                        url:'/main/get-date-by-inn-or-ogrn',
-                                                        data:{'innOrOgrn':inn},
-                                                        success:function (data) {
-                                                            if (!data){
-                                                                $('.div_hidden').show();
-                                                                return false;
-                                                            }
-                                                            $('#signupform-legal_address').val(data['Адрес']);
-                                                            $('#signupform-date').val(data['ДатаОГРНИП']);
-                                                            $('#signupform-full_name').val(data['НаимВидИП']+' '+data['ФИО']);
-                                                            $('#signupform-brand_name').val('ИП '+data['ФИО']);
-                                                            $('#signupform-ogrn').val(data['ОГРНИП']);
-                                                            $('#signupform-director').val(data['ФИО']);
-                                                            $('#signupform-description').val(data['НаимОКВЭД']);
-                                                            $('#signupform-org_form_id').val(1)
-
-                                                        },
-                                                        error:function () {
-                                                            $('.div_hidden').show();
-                                                        }
-                                                    });
-                                                }
-                                            });
-
-                                        });
-                                    </script>
 
 
                             </div>
@@ -1055,23 +966,25 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
                         <div class="row bottom_menu blk-data ie_css3 clearfix" style="padding:0px;"><p style="text-align: center;"><span style="font-size:18px;"><span f_id="verdana" style="font-family:verdana,geneva,sans-serif;"><span style="color:#FFFFFF;">
                             <div class="col-xs-12">
                                 <ul style="padding: 0;text-align: center;">
-                                       <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="#">Статьи</a></li>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/about">О портале</a></li>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/sogl">Соглашение</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/about"><?=Yii::t('app','About us')?></a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/tariffs">Тарифы</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/front/sogl"><?=Yii::t('app','Agreement')?></a></li>
+                                       <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/article/"><?=Yii::t('app','Articles')?></a></li>
 
 
-                                    <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/goods/index">Товары</a></li>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/services/index">Услуги</a></li>
+                                    <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/goods/index"><?=Yii::t('app','Goods')?></a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/services/index"><?=Yii::t('app','Services')?></a></li>
 
                                     <!--Если пользователь является гостем-->
                                     <?php  if(Yii::$app->user->isGuest):?>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="javascript:void(0)" onclick="noAuth()">Отзывы или предложения</a></li>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="javascript:void(0)" data-target="#Contact" data-toggle="modal">Связаться с нами</a></li>
                                     <?php endif?>
 
                                     <!--Если пользователь не является гостем-->
                                     <?php if(!Yii::$app->user->isGuest):?>
-                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="#" data-target="#Suggestion" data-toggle="modal">Отзывы или предложения</a></li>
-                                    <?php endif;?>
+                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="javascript:void(0)" data-target="#Suggestion" data-toggle="modal">Связаться с нами</a></li>
+<!--                                        <li style="margin:0 15px 0 15px;"><a style="font-size: 1.4em" href="/admin/ticket/create">Связаться с нами</a></li>-->
+                                    <?php endif?>
                                 </ul>
                             </div>
                             </span></span></span></p></div>
@@ -1200,11 +1113,65 @@ $this->title = Yii::t('app', 'Business-portal Deloved');
     <div id="popup_list"></div>
     <!--end-popup-list view-->
 </div>
+
+<div id="checkAgentModal"  class="modal fade" >
+    <div class="modal-dialog text-center">
+
+        <div class="modal-content" style="width:180%;float: left;position: absolute;left: -40%">
+
+
+
+            <h2 style="font-size: 3.5rem;letter-spacing: .1rem;color: #0086c4;font-family: 'Verdana', Verdana;
+            font-weight: 600;">Получить подробную информацию о контрагенте</h2>
+            <div class="col-sm-12" style="font-family: verdana,geneva,sans-serif;margin:10px;line-height: 200%;font-size: 1.2em;text-align: left!important;">
+                Вы в один клик можете просмотреть <b>Финансовую отчетность</b> , <b>Судебную практику</b> и т.д , а также вам будет доступна информация по <b>Аффилированности контрагента</b> .
+            </div>
+            <div class="col-sm-12" style="border-radius:10px;margin:10px;line-height: 200%;">
+
+                <div class="blk_video_data_wrap no_sel c_text">
+                    <div class="video_container" style="width: 100%">
+
+                        <div class="video" title="https://www.youtube.com/embed/1Lr8RoMxR58">
+                            <iframe width="100%" height="415" data-default_params="autoplay=0&amp;rel=0&amp;controls=1&amp;showinfo=1&amp;iv_load_policy=3" src="https://www.youtube.com/embed/Fnb9mGIgiao" data-thumb_src="https://img.youtube.com/vi/Fnb9mGIgiao/hqdefault.jpg" data-link="https://www.youtube.com/embed/Fnb9mGIgiao" data-width="810" data-video_id="Fnb9mGIgiao" style="width: 90%; height: 556px; "></iframe>
+                        </div>
+                    </div>
+                    <div class="video_empty"></div>
+                </div>
+            </div>
+
+            <br>
+            <div class="text-center" style="margin: 40px;">
+                <?php if(Yii::$app->user->isGuest):?>
+                    <div style="float: left;width: 100%;text-align: -webkit-center;margin-bottom: 20px">
+                        <div style="width: 40%;margin: 20px 0;">
+                            <a style="color: green;font-family: 'Verdana', Verdana;font-weight: 600;font-size: 1.5rem" href="javascript:void(0)" data-target="#Login" onclick="yaCounter42521619.reachGoal('provkont'); return true;"   data-dismiss="modal" data-toggle="modal" >Авторизоваться</a> | <a style="color: green;font-family: 'Verdana', Verdana;font-weight: 600;font-size: 1.5rem" href="javascript:void(0)" data-target="#SignUp" onclick="yaCounter42521619.reachGoal('provkont'); return true;"   data-dismiss="modal" data-toggle="modal" >Зарегистрироваться</a>
+                        </div>
+                        <div style="width: 40%;border: 2px dashed grey;border-radius: 30px;padding: 20px 30px;">Введите ИНН</div>
+                    </div>
+                    <button type="button" style="padding: 10px 15px;border-radius: 15px;background-color: grey"  class="btn btn-large btn-success disabled">Проверить контрагента</button>
+
+                <?php else:;?>
+                    <div style="float: left;width: 100%;text-align: -webkit-center;margin-bottom: 20px">
+                        <div style="width: 40%;border: 2px dashed green;border-radius: 30px;padding: 20px 30px;"><a style="text-decoration: none" href="/admin/information/index" onclick="yaCounter42521619.reachGoal('provkont'); return true;" >Введите ИНН</a></div>
+                    </div>
+                    <a href="/admin/information/index" onclick="yaCounter42521619.reachGoal('provkont'); return true;" style="padding: 10px 15px;border-radius: 15px"  class="btn btn-large btn-success ">Проверить контрагента</a>
+                <?php endif;?>
+            </div>
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
 <?php if(Yii::$app->user->isGuest) {
     echo Login::widget();
     echo SignUp::widget();
     echo PasswordReset::widget();
     echo Contact::widget();
+    echo Questions::widget();
 }
 ?>
 <?php if(!Yii::$app->user->isGuest){

@@ -10,18 +10,23 @@ namespace app\modules\admin\controllers;
 
 
 use common\controllers\AuthController;
+use common\models\Attachment;
+use common\models\Managers;
 use common\models\NewTicket;
 use common\models\NewTicketPost;
 use common\models\Profile;
 use common\models\Role;
 use common\models\Ticket;
 use common\models\TicketPost;
+use common\models\TicketPostAttach;
 use common\models\User;
 use Yii;
 use yii\base\Exception;
+use yii\helpers\BaseFileHelper;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 class TicketController extends AuthController
 {
@@ -34,7 +39,19 @@ class TicketController extends AuthController
             throw new ForbiddenHttpException('Доступ запрещен');
         }
             $profile = User::findOne(Yii::$app->user->id)->profile;
+
+        if (User::checkRole(['ROLE_USER']) && !$profile->isManager()) {
+            $managers = Managers::find()->select(['profile_id'])->where(['account_id'=>$profile->account->id])->all();
+            $ids =[];
+            foreach ($managers as $manager){
+                $ids[]= $manager->profile_id;
+            }
+            $tickets = Ticket::find()->where(['profile_id'=>$profile->id])->orWhere(['in','profile_id',$ids])->orderBy(['date_created'=>SORT_DESC])->all();
+        }
+        else{
             $tickets = Ticket::find()->where(['profile_id'=>$profile->id])->orderBy(['date_created'=>SORT_DESC])->all();
+        }
+
 
         return $this->render('index', [
             'tickets'=>$tickets,
@@ -43,11 +60,75 @@ class TicketController extends AuthController
 
     }
 
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function actionUploadFile($id){
+
+        $profile = User::findOne(Yii::$app->user->id)->profile;
+        $model = new Attachment();
+        if (Yii::$app->request->isAjax){
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->file = UploadedFile::getInstancesByName('File')[0];
+                if (!is_dir(Yii::getAlias('@uploadDir'))) {
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir'), 0777);
+
+                }
+                if (!is_dir(Yii::getAlias('@uploadDir') . '/ticketFile/')) {
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir') . '/ticketFile/', 0777);
+                }
+                if (!is_dir(Yii::getAlias('@uploadDir') . '/ticketFile/' . $id . '/')) {
+                    BaseFileHelper::createDirectory(Yii::getAlias('@uploadDir') . '/ticketFile/' . $id . '/', 0777);
+                }
+                $url = Yii::$app->security->generateRandomString(10) . '.' . $model->file->extension;
+                $model->file->saveAs(Yii::getAlias('@uploadDir') . '/ticketFile/' . $id . '/' . $url);
+                chmod(Yii::getAlias('@uploadDir') . '/ticketFile/' . $id . '/' . $url, 0777);
+                $model->filePath = '/uploads/ticketFile/' . $id . '/' . $url;
+
+                $ticketPost = new TicketPost();
+                $ticketPost->post = $model->file->baseName;
+                $ticketPost->profile_id = $profile->id;
+                $ticketPost->ticket_id = $id;
+                $ticketPost->date_created = date('Y-m-d H:i:s');
+                $ticketPost->save();
+
+                $model->save();
+                $ticketPostAtt = new TicketPostAttach();
+                $ticketPostAtt->profile_id = $profile->id;
+                $ticketPostAtt->ticket_id = (int)$id;
+                $ticketPostAtt->attachment_id = $model->id;
+                $ticketPostAtt->ticket_post_id = $ticketPost->id;
+                $ticketPostAtt->save();
+                $transaction->commit();
+
+            }catch (Exception $exception){
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                $transaction->rollBack();
+                return $exception->getMessage();
+            }
+        }
+    }
+
+
     public function actionShow($id){
 
         $profile = User::findOne(Yii::$app->user->id)->profile;
         $ticket = $this->findModel($id);
-        if($ticket->profile_id != $profile->id  && !User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_SUPPORT'])) {
+        $asManager = false;
+        if (User::checkRole(['ROLE_USER'])) {
+             if(!$profile->manager){
+
+                 $isManager = $ticket->profile->account;
+                 if($isManager){
+                     $asManager = $isManager->id == $profile->account->id;
+                 }
+             }
+        }
+
+        if(($ticket->profile_id != $profile->id && !$asManager)   && !User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_SUPPORT'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $ticketPost = $ticket->getTicketPosts()->orderBy(['date_created'=>SORT_ASC])->all();
@@ -84,7 +165,7 @@ class TicketController extends AuthController
             $asOwner = $profile->id == $ticket->profile_id;
 
              if (!$asOwner  && !User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_SUPPORT'])){
-                 throw new ForbiddenHttpException('Ticket not exist');
+                 throw new ForbiddenHttpException('Обращение не найдено');
              }
             NewTicketPost::deleteAll(['for_profile_id'=>$profile->id,'ticket_id'=>$ticketPost->ticket_id]);
             $transaction->commit();
@@ -108,7 +189,7 @@ class TicketController extends AuthController
                 try{
                     $ticket = Ticket::findOne($post->ticket_id);
                     if($ticket->status != Ticket::STATUS_PROCESSING){
-                        throw new ForbiddenHttpException('Ticket status is not in processing');
+                        throw new ForbiddenHttpException('Обращение не находится в процессе');
                     }
                     $asOwner = $profile->id == $ticket->profile_id;
                     $asSupport  = $ticket->support_id == $profile->id;
@@ -119,12 +200,18 @@ class TicketController extends AuthController
                         $for_profile_id = $ticket->profile_id;
                     }
                     elseif (!$asSupport && !$asOwner){
-                        throw new ForbiddenHttpException('Ticket not exist');
+                        throw new ForbiddenHttpException('Обращение не найдено');
                     }
+
+                    if ($asSupport && !$asOwner){
+                        if(!$ticket->profile->user->online){
+                            Yii::$app->common->sendMailNewMessageTicket($ticket->profile->user->email, $ticket->profile->user);
+                        }
+                    }
+
                         $post->save();
                         $new_post = new NewTicketPost();
                         $new_post->date_created = $post->date_created;
-                        $new_post->ticket_id = $ticket->id;
                         $new_post->ticket_id = $ticket->id;
                         $new_post->for_profile_id = $for_profile_id;
                         $new_post->save();
@@ -155,10 +242,10 @@ class TicketController extends AuthController
             try{
                 $ticket = Ticket::findOne($ticketPost->ticket_id);
                 if($ticket->status == Ticket::STATUS_CLOSED){
-                    throw new ForbiddenHttpException('Ticket status is closed');
+                    throw new ForbiddenHttpException('Обращение не найдено');
                 }
                 if($ticket->profile_id == $profile->id){
-                    throw new ForbiddenHttpException('Error in change status');
+                    throw new ForbiddenHttpException('Ошибка при смене статуса');
                 }
                 if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_SUPPORT'])) {
                     if($ticket->status == Ticket::STATUS_NEW){
@@ -171,11 +258,13 @@ class TicketController extends AuthController
                 }
 
                 $asSupport  = $ticket->support_id == $profile->id;
-
+                $otherProfile = $ticket->profile;
                 if (!$asSupport){
-                    throw new ForbiddenHttpException('Ticket not exist');
+                    throw new ForbiddenHttpException('Обращение не найдено');
                 }
-
+                if(!$otherProfile->user->online){
+                    Yii::$app->common->sendMailNewStatusTicket($otherProfile->user->email, $otherProfile->user);
+                }
 
                 $ticketPost->save();
                 $ticket->save();
@@ -233,11 +322,17 @@ class TicketController extends AuthController
                 $new_ticket->for_profile_id = Profile::ID_PROFILE_ADMIN;
                 $new_ticket->save();
 
+
                 $roles = [ROLE::ROLE_MANAGER,ROLE::ROLE_SUPPORT];
                 $query = 'SELECT * FROM profile WHERE user_id IN (SELECT id FROM "user" WHERE "user".role_id IN ('.implode(',',$roles).')) AND id IN (SELECT profile_id FROM profile_region WHERE region_id =:region_id)';
                 if ($profile->account){
                     $profile_managers = Yii::$app->db->createCommand($query,[
                         ':region_id'=>$profile->account->city_id,
+                    ])->queryAll();
+                }
+                elseif ($profile->city_id){
+                    $profile_managers = Yii::$app->db->createCommand($query,[
+                        ':region_id'=>$profile->city_id,
                     ])->queryAll();
                 }
                 else{
@@ -260,7 +355,7 @@ class TicketController extends AuthController
                 return $this->redirect(['index']);
             }
 
-            Yii::$app->session->addFlash('success', 'Ticket Created!');
+            Yii::$app->session->addFlash('success', Yii::t('app','Ticket created'));
             return $this->redirect(['index']);
 
         }
@@ -297,7 +392,7 @@ class TicketController extends AuthController
         throw new ForbiddenHttpException('Доступ запрещен');
     }
         $this->findModel($id)->delete();
-        Yii::$app->session->addFlash('success', 'Ticket Delete!');
+        Yii::$app->session->addFlash('success', 'Обращение удалено');
         return $this->redirect(['show-all']);
     }
 

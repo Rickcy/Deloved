@@ -425,9 +425,9 @@ class DocumentForm extends Model
         $document->setValue('number', $this->number);
         $document->setValue('place_signing', $this->place_signing);
         $document->setValue('date_signing', $this->date_signing);
-        $document->setValue('company_executor', $account_executor->orgForm->code.' '.$account_customer->brand_name);
+        $document->setValue('company_executor', $account_executor->orgForm->code.' '.Account::getTrimName($account_executor->brand_name));
         $document->setValue('fio_executor', $account_executor->director);
-        $document->setValue('company_customer', $account_customer->orgForm->code.' '.$account_customer->brand_name);
+        $document->setValue('company_customer', $account_customer->orgForm->code.' '.Account::getTrimName($account_customer->brand_name));
         $document->setValue('fio_customer', $account_customer->director);
         $document->setValue('service_list', $this->service_list);
         if($this->compensation_expenses ==1){
@@ -499,9 +499,9 @@ class DocumentForm extends Model
         $document->setValue('number', $this->number);
         $document->setValue('place_signing', $this->place_signing);
         $document->setValue('date_signing', $this->date_signing);
-        $document->setValue('company_executor', $account_executor->orgForm->code.' '.$account_customer->brand_name);
+        $document->setValue('company_executor', $account_executor->orgForm->code.' '.Account::getTrimName($account_executor->brand_name));
         $document->setValue('fio_executor', $account_executor->director);
-        $document->setValue('company_customer', $account_customer->orgForm->code.' '.$account_customer->brand_name);
+        $document->setValue('company_customer', $account_customer->orgForm->code.' '.Account::getTrimName($account_customer->brand_name));
         $document->setValue('fio_customer', $account_customer->director);
         $document->setValue('good_name', $this->good_name);
         $document->setValue('assort', $this->assort);

@@ -76,8 +76,13 @@ class DefaultController extends AuthController
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        $user = User::findOne(Yii::$app->user->id);
+        $user->online = $user::OFFLINE;
+        $user->save();
+        $session = Yii::$app->session;
+        $session->remove('timeZone');
 
+        Yii::$app->user->logout();
         return $this->goHome();
     }
     

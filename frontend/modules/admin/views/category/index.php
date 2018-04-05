@@ -7,7 +7,12 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$session = Yii::$app->session;
+if ($session->has('lang')){
+    $lang = $session->get('lang');
+}else{
+    $lang = Yii::$app->language;
+}
 $this->title = Yii::t('app', 'Categories');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);

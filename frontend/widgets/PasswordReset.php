@@ -35,7 +35,7 @@ class PasswordReset extends Widget
             }
             Yii::$app->common->sendMailResetPassword($model->email,$user);
             Yii::$app->session->addFlash('success', 'Вам на почту отрпавленно письмо с дальнейшими инструкциями!');
-            Yii::$app->controller->refresh();
+            Yii::$app->controller->redirect('/');
 
         }
         return $this->render('resetPassword',['model'=>$model]);

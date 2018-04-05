@@ -1,28 +1,49 @@
-'use strict'
+'use strict';
+var isHide = false;
 $(function () {
-    $('#ticket-last-post-inpost').val('');
-    $('#ticket-last-post-istatus').val('');
-    $("#scrollContent").mCustomScrollbar({
-        alwaysShowScrollbar: 1,
-        advanced:{
-            updateOnContentResize: true,
-            updateOnImageLoad: true
-        },
-        callbacks:{
-            whileScrolling: function () {
 
-            },
-            onInit: function() {
-                $('#scrollContent').mCustomScrollbar('scrollTo','bottom');
-            },
-            onUpdate: function(){
-                if (checkBottomEdge() == true) {
-                    $('#scrollContent').mCustomScrollbar('scrollTo','bottom');
-                }
-            }
-        }
+    $('.noFile').click(function () {
+        $('#file').click();
     });
 
+    $('#file').change(function () {
+        var input =$("#file");
+        var files = input[0].files;
+        var ticket_id = $(this).attr('ticket-id');
+        var data = new FormData();
+        $.each( files, function( key, value ){
+            data.append('File', value )
+        });
+        $.ajax({
+            type:'POST',
+            url:'/admin/ticket/upload-file?id='+ticket_id,
+            data:data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success:function (data) {
+                getUnreadPosts();
+            },
+            error:function () {
+                console.log('Error')
+            }
+        })
+    });
+
+
+
+    $('#ticket-last-post-inpost').val('');
+    $('#ticket-last-post-istatus').val('');
+
+
+
+
+    $('#ticketpost-post').keypress(function (event) {
+        if ( event.which == 13 ) {
+            $('#send-message').click();
+        }
+    })
 
     $('#ticket-post-form').on('beforeSubmit',function () {
         var post = $('#ticketpost-post').val();
@@ -31,7 +52,9 @@ $(function () {
         if(!post){
             return false;
         }
+
         var formData = $(this).serialize();
+        $('#ticketpost-post').val('');
         $.ajax({
             url:'/admin/ticket/send-message',
             method: $(this).attr('method'),
@@ -41,7 +64,6 @@ $(function () {
                     showMessage('danger',data['error'])
                 }
                 else {
-                    $('#ticketpost-post').val('');
                     $('#postArea').append(data);
                     $('#support > a > span.badge_red').remove();
                 }
@@ -69,7 +91,9 @@ $(function () {
                 else {
                     $('#postArea').append(data);
                     $('#status-10').parent().remove();
-                    $('#form-ticket-post').show();
+                    if(isHide === false){
+                        $('#form-ticket-post').show();
+                    }
                     $('#support > a > span.badge_red').remove();
                     $('#technical_support >a > span.badge_red').remove();
                 }
@@ -82,6 +106,35 @@ $(function () {
         return false;
     });
 
+
+
+    setInterval(getUnreadPosts,30000)
+});
+
+
+$(window).load(function(){
+    $("#scrollContent").mCustomScrollbar({
+        alwaysShowScrollbar: 1,
+        autoExpandScrollbar:true,
+        advanced:{
+            updateOnContentResize: true,
+            updateOnImageLoad: true
+        },
+        callbacks:{
+            whileScrolling: function () {
+
+            },
+            onCreate: function() {
+                $('#scrollContent').mCustomScrollbar('scrollTo','bottom');
+            },
+            onUpdate: function(){
+                if (checkBottomEdge() == true) {
+                    $('#scrollContent').mCustomScrollbar('scrollTo','bottom');
+                }
+            }
+        }
+    });
+
     function checkBottomEdge() {
         var scrollbar = $('#mCSB_1_scrollbar_vertical').height();
         var dragger = $('#mCSB_1_dragger_vertical').height();
@@ -90,9 +143,8 @@ $(function () {
         var psA =  49 / $('#postsArea3').height();
         return pctButton < psA;
     }
-
-    setInterval(getUnreadPosts,30000)
 });
+
 
 function getUnreadPosts() {
     var postId = $('[name=postId]').last().val();
@@ -106,8 +158,8 @@ function getUnreadPosts() {
             }
             else {
                 if(data){
-                    $('#ticketpost-post').val('');
                     $('#postArea').append(data);
+                    $('#form-ticket-post').show();
 
                 }
                 $('#support > a > span.badge_red').remove();
@@ -125,6 +177,7 @@ function setStatus(status) {
     $('#ticket-status-val').val(status);
     $('#ticket-status-form').submit();
     if(status === '20'){
+        isHide = true;
         $('#form-ticket-post').hide();
     }
 }

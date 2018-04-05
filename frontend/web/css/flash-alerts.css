@@ -6,12 +6,14 @@
     width:50%;
     margin-top:20px;
     border-left:35px solid;
-    z-index:1200}
+    z-index:1200
+}
 .flash-alert.alert-info{
     color:#57abf9;
     background-color:#d9edf7;
     border-color:#a4d4dd;
-    box-shadow:0 0 0.5em #a4d4dd}
+    box-shadow:0 0 0.5em #a4d4dd
+}
 .flash-alert.alert-success{
     color:#3c763d;
     background-color:#dff0d8;
@@ -27,3 +29,20 @@
     background-color:#fcf8e3;
     border-color:#faebcc;
     box-shadow:0 0 0.5em #faebcc}
+
+.flash-alert-demo{
+    position:relative;
+    top:15%;
+    left:25%;
+    right:25%;
+    width:50%;
+    margin-top:20px;
+    border-left:35px solid;
+    z-index:2
+}
+.flash-alert-demo.alert-info-demo{
+    color:#57abf9;
+    background-color:#d9edf7;
+    border-color:#a4d4dd;
+    box-shadow:0 0 0.5em #a4d4dd
+}

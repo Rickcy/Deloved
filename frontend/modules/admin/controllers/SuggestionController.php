@@ -33,7 +33,7 @@ class SuggestionController extends AuthController
             $model->type=$cat_type;
             $model->save();
             $id_model = $model->id;
-            Yii::$app->session->addFlash('success', 'Category Created');
+            Yii::$app->session->addFlash('success', 'Категория создана');
         }
         $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
         return Json::encode($mes);
@@ -52,11 +52,11 @@ class SuggestionController extends AuthController
 
     public function actionShow()
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
         $profile = User::findOne(Yii::$app->user->id)->profile;
-        if (User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
+        if (User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT','ROLE_MANAGER'])) {
             Yii::$app->db
                 ->createCommand('DELETE FROM new_suggestion 
                     WHERE for_profile_id =:profile_id', [':profile_id' => $profile->id])
@@ -70,7 +70,7 @@ class SuggestionController extends AuthController
 
     public function actionUpdate($id)
     {
-        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT'])) {
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_SUPPORT','ROLE_MANAGER'])) {
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
@@ -89,13 +89,13 @@ class SuggestionController extends AuthController
 
     public function actionEditCategory($id,$name,$type){
         if (empty($name)||empty($type)){
-            Yii::$app->session->addFlash('danger', 'Empty');
+            Yii::$app->session->addFlash('danger', 'Пустое');
         }else{
             $model = SuggestionCat::findOne($id);
             $model->name = $name;
             $model->type = $type;
             $model->save();
-            Yii::$app->session->addFlash('success', 'Category Updater');
+            Yii::$app->session->addFlash('success', 'Категория обновлена');
         }
 
         return json_encode(Yii::$app->session->getAllFlashes());
@@ -107,7 +107,7 @@ class SuggestionController extends AuthController
     public function actionSugDelete($id){
         Suggestion::findOne($id)->delete();
 
-        Yii::$app->session->addFlash('success', 'Suggestion Delete!');
+        Yii::$app->session->addFlash('success', 'Обращение удалено');
         return $this->redirect(['show']);
 
     }
@@ -115,7 +115,7 @@ class SuggestionController extends AuthController
     public function actionDelete($id){
         SuggestionCat::findOne($id)->delete();
 
-        Yii::$app->session->addFlash('success', 'Category Delete!');
+        Yii::$app->session->addFlash('success', 'Категория удалена');
         return $this->redirect(['index']);
 
     }

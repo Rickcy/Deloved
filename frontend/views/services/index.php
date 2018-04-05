@@ -14,13 +14,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
         <div class=left_block>
-            <div class=head style="text-align: center">Категории товаров</div>
+            <div class=head style="text-align: center">Категории услуг</div>
 
 
             <div class="category">
-                <ul class="directory" style="overflow-y: scroll;height: 630px">
+                <ul class="directory" >
+                    <?php if ($activeCat):?>
+                        <li><a class="active" href="/services/index?cat=<?=$activeCat->id?>"><?=$activeCat->name?></a></li>
+                    <?php endif;?>
                     <?php foreach ($categories as $category):?>
-                        <li><a href="/services/index?cat=<?=$category->id?>"><?=$category->name?></a></li>
+                        <li><a <?php if ($activeCat){
+                                echo $activeCat->id == $category->id ?"class=active":"";
+                            }
+                            ?> href="/services/index?cat=<?=$category->id?>"><?=$category->name?></a></li>
                     <?php endforeach;?>
                 </ul>
 
@@ -34,12 +40,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-6 col-lg-6 ndblock" style="min-height: 800px">
 
 
-
-        <h1 style="padding-bottom: 15px" class="text-center">Услуги</h1>
+        <?php if ($activeCat):?>
+            <h2 style="padding-bottom: 15px" class="text-center">
+                <?=$activeCat->name?>
+            </h2>
+            <ol class="breadcrumb" style="margin-top: 20px">
+                <?php if ($activeCat):?>
+                    <li><a href="/services/index">Главная</a></li>
+                <?php endif;?>
+                <?php if ($activeCat->parent_id):?>
+                    <?php if ($activeCat->parent_id != 1228 && $activeCat->parent_id != 1343):?>
+                        <li><a href="/services/index?cat=<?=$activeCat->parent->id?>"><?= $activeCat->parent->name?></a></li>
+                    <?php endif;?>
+                <?php endif;?>
+                <li><?=$activeCat->name?></li>
+            </ol>
+        <?php else:?>
+            <h2 style="padding-bottom: 15px" class="text-center">
+                Услуги
+            </h2>
+        <?php endif;?>
         <?php if ($services):?>
             <?php foreach ($services as $service):?>
                 <div class="row minicart lc">
-                    <div class="col-xs-4 col-sm-3" style=" text-align: center;">
+                    <div class="col-xs-4 col-sm-3" style=" text-align: center;margin-top: 20px;">
                         <?php if(count($service->photo) >0):?>
 
                             <img class="img-thumbnail" style="border: none"
@@ -52,9 +76,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </div>
 
-                    <div class="col-sm-4 col-xs-8" >
+                    <div class="col-sm-4 col-xs-8" style="margin-top: 20px;" >
 
-                        <a href="/goods/item/?id=<?=$service->id?>"><?=$service->name?></a>
+                        <a href="/services/item/?id=<?=$service->id?>"><?=$service->name?></a>
 
 
 
@@ -66,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <div class="date_create"><?=$service->date_created?></div>
 
-                        <a href="/goods/item?id=<?=$service->id?>" class="podr" style="text-align: center" >
+                        <a href="/services/item?id=<?=$service->id?>" class="podr" style="text-align: center" >
                             Подробнее
                         </a>
 
@@ -94,8 +118,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <br><br>
 
-                            <button class="deal_button" style="border: none;min-width: 143px;background-color: grey; text-align: left" >Предложить сделку</button>
-
+                            <?php if (!Yii::$app->user->isGuest):?>
+                                <?php if (!$service->account->verify_status):?>
+                                    <button class="deal_button" style="border: none; background-color: grey; text-align: left" data-toggle="popover">Предложить сделку</button>
+                                <?php else:?>
+                                    <a href="/admin/deal/create?service=<?=$service->id?>" class="deal_button" style="border: none;min-width: 143px; text-align: left" >Предложить сделку</a>
+                                <?php endif;?>
+                            <?php else:?>
+                                <a href="javascript:void(0)" onclick="noAuth()" class="deal_button" >Предложить сделку</a>
+                            <?php endif;?>
 
                         </div>
 
@@ -124,7 +155,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php foreach ($services_show_main as $item):?>
                             <li class="tablettt" style="width:50%;font-size: 90%;text-align: center;box-shadow: 0 0 10px #c8c8c8; border-radius: 10px;">
 
-                                <a href="/goods/item?id=<?=$item->id?>">
+                                <a href="/services/item?id=<?=$item->id?>">
                                     <?php if(count($item->photo) >0):?>
 
                                         <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
@@ -169,7 +200,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php foreach ($services_show_main as $item):?>
                             <li class="tablet" style="width:60%;font-size: 90%;">
 
-                                <a href="/goods/item?id=<?=$item->id?>">
+                                <a href="/services/item?id=<?=$item->id?>">
                                     <?php if(count($item->photo)>0):?>
 
                                         <img class="img-thumbnail" style="border: none;width: 171px;max-height: 171px"
@@ -196,3 +227,24 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     <?php endif;?>
 </div>
+<script>
+    $(document).ready(function(){
+        var template = ['<div class="timePickerWrapper popover">',
+            '<div class="arrow"></div>',
+            '<div class="popover-content">',
+            '</div>',
+            '</div>'].join('');
+        var  content = ['<div>Данный пользователь не авторизован</div>'
+        ].join('');
+        $('[data-toggle="popover"]').popover({
+            template: template,
+            content: content,
+            html: true
+        });
+
+        $('[data-toggle="popover"]').on('click', function (e) {
+            $('[data-toggle="popover"]').not(this).popover('hide');
+        });
+
+    });
+</script>

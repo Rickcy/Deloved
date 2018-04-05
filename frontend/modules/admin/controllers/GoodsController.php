@@ -42,14 +42,25 @@ class GoodsController extends AuthController
      */
     public function actionIndex()
     {
-
+        $accsess = false;
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             $goods = Goods::find()->all();
 
         }elseif (User::checkRole(['ROLE_USER'])){
 
-            $account = User::findOne(Yii::$app->user->id)->getProfile()->one()->getAccount()->one();
+            $account = User::findOne(Yii::$app->user->id)->profile->account;
             $goods = Goods::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
+
+            $accCategs = $account->category;
+            foreach ($accCategs as $accCateg){
+                /**
+                 * @var $accCateg \common\models\AccountCategory
+                 */
+               $cat = $accCateg->category;
+                if($cat->parent_id == 1228){
+                    $accsess = true;
+                }
+            }
 
 
         }else{
@@ -57,7 +68,7 @@ class GoodsController extends AuthController
         }
 
         return $this->render('index', [
-            'goods'=>$goods
+            'goods'=>$goods,'accsess'=>$accsess
         ]);
 
 
@@ -125,7 +136,7 @@ class GoodsController extends AuthController
                 return $this->redirect(['index']);
             }
 
-            Yii::$app->session->addFlash('success', 'Good Created!');
+            Yii::$app->session->addFlash('success', 'Товар создан');
             return $this->redirect(['index']);
         }
             return $this->render('create', [
@@ -205,7 +216,7 @@ class GoodsController extends AuthController
             $model->date_created = date('Y-m-d H:i');
             $model->save();
             $model->saveGoodsPhoto();
-            Yii::$app->session->addFlash('success', 'Good Update!');
+            Yii::$app->session->addFlash('success', 'Товар обновлен');
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [
@@ -231,12 +242,12 @@ class GoodsController extends AuthController
      * @throws NotFoundHttpException
      * @throws \Exception
      */
-    public function actionDelete($id)
-    { if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
+    public function actionDelete($id){
+        if (!User::checkRole(['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'])) {
         throw new ForbiddenHttpException('Доступ запрещен');
     }
         $this->findModel($id)->delete();
-        Yii::$app->session->addFlash('success', 'Good Delete!');
+        Yii::$app->session->addFlash('success', 'Товар удален');
         return $this->redirect(['index']);
     }
 

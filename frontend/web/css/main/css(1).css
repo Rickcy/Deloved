@@ -1,5 +1,107 @@
 /* cyrillic-ext */
 
+
+
+
+
+.container-l {
+  display: block;
+  position: relative;
+  padding-left: 45px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-weight: normal;
+  padding-top: 3px;
+}
+
+.container-l input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: white;
+  border-radius: 5px;
+  border: 2px solid #94c43d;
+}
+
+/* On mouse-over, add a grey background color */
+.container-l:hover input ~ .checkmark {
+  background-color: white;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-l input:checked ~ .checkmark {
+  background-color: white;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container-l input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-l .checkmark:after {
+  left: 5px;
+  top: -3px;
+  width: 7px;
+  height: 16px;
+  border: solid #94c43d;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #form-signup{
   background-color: white;
   padding: 20px;
@@ -7,6 +109,40 @@
 }
 .field-signupform-sogl > .checkbox{
   text-align: center;
+}
+.pulse_btn{
+  -webkit-animation: pulse_btn 1.5s linear infinite;
+  animation: pulse_btn 1.5s linear infinite;
+}
+@-webkit-keyframes pulse_btn {
+  0% { -webkit-transform: scale(1); }
+  50% { -webkit-transform: scale(1.03,1); }
+  100% { -webkit-transform: scale(1); }
+}
+
+@keyframes pulse_btn {
+  0% { -webkit-transform: scale(1); }
+  50% { -webkit-transform: scale(1.03,1); }
+  100% { -webkit-transform: scale(1); }
+}
+
+.btn_check_agent_modal {
+  font-family: verdana,geneva,sans-serif;
+  position: absolute;
+  line-height: 100%;
+  bottom: 7%;
+  right: 5%;
+  font-size: 3em;
+  cursor: pointer;
+  font-weight: 700;
+  color: white;
+  background-color: #7cc123;
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+  -webkit-transition: all .5s ease-out;
 }
 @font-face {
   font-family: 'Roboto';

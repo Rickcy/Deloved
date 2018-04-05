@@ -16,6 +16,7 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property boolean $online
  * @property string $auth_key
  * @property integer $status
  * @property string $password write-only password
@@ -31,6 +32,8 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 1;
     const ROLE_ID = 1;
 
+   const ONLINE = true;
+   const OFFLINE = false;
     /**
      * @inheritdoc
      */
@@ -52,7 +55,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DETECTED]],
-            ['role_id','default', 'value' => self::ROLE_ID]
+            ['role_id','default', 'value' => self::ROLE_ID],
+            ['online','boolean'],
         ];
     }
 
@@ -82,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         
         $user = User::findOne(Yii::$app->user->id);
-        $role = $user->getRole()->one();
+        $role = $user->role;
         $role_name = $role->role_name;
 
             if (in_array($role_name, $roles)) {

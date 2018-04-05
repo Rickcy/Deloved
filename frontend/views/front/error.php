@@ -8,10 +8,13 @@
 use yii\helpers\Html;
 
 $this->title = $message;
-$this->context->layout ='/admin'
+if(Yii::$app->user->isGuest){
+    $this->context->layout ='/front';
+}
+else{
+    $this->context->layout ='/admin';
+}
 ?>
-
-
 
 
     <div class="alert alert-danger">

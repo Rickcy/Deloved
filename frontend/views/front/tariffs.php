@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             <div class="row info_block" style="margin-right: 0!important;">
-                <div class="col-xs-12" style="margin-left:5%">
+                <div class="col-xs-12" >
                     <div class="col-xs-12 col-sm-6 block_text_info">
                         <div class="col-xs-12 col-sm-3" style="text-align:center; ">
                             <span class="glyphicon glyphicon-list-alt" style="color: #4B7BBE;font-size: 42pt"></span>

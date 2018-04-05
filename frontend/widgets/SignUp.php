@@ -27,7 +27,9 @@ class SignUp extends Widget
         $category = Category::find()->all();
 
         $level_id = 18;
+
         $org_forms = OrgForm::find()->all();
+
         $city_list= Region::find()
             ->select(['name as  label','name as value','name as name'])
             ->where('level_id=:level_id',[':level_id'=>$level_id])

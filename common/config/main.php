@@ -30,7 +30,10 @@ return [
         'urlManager'=>[
             'class'=>'yii\web\UrlManager',
             'enablePrettyUrl'=>true,
-            'showScriptName'=>false
+            'showScriptName'=>false,
+            'rules' => [
+                ['class' => 'frontend\modules\integration\UrlRule'],
+            ],
         ]
 
     ],

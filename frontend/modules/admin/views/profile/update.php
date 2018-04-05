@@ -47,7 +47,7 @@ use yii\widgets\ActiveForm;
 
     <?php if (in_array($model->user->role->role_name, ['ROLE_ADMIN','ROLE_MANAGER','ROLE_JURIST','ROLE_JUDGE','ROLE_MEDIATOR','ROLE_SUPPORT'])):?>
 
-        <?= $form->field($model, 'experience')->textInput(['id'=>'profile-exp','value'=>$model->getExperience()->one()->experience]) ?>
+        <?= $form->field($model, 'experience')->textInput(['id'=>'profile-exp','value'=>$model->getExperience()->one()->experience])->label(Yii::t('app','Experience')) ?>
 
     <?php endif;?>
 
@@ -71,13 +71,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'chargeStatus',[
     ])->radioList([
-        '0' => 'Starting',
-        '1' =>'Extended ',
+        '0' => Yii::t('app','Starting'),
+        '1' =>Yii::t('app','Extended'),
 
     ],  [
         'class' => 'btn-group ',
         'data-toggle' => 'buttons',
-        'unselect' => null,
         'item' => function ($index, $label, $name, $checked, $value) {
             return '<label class="btn btn-default ' . ($checked ? ' active ' : '') . '">' .
             Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';

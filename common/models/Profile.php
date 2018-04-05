@@ -18,9 +18,14 @@ use Yii;
  *  @property integer $city_id
  *
  * @property Region $city
+ * @property Deal[] $dealsAsSeller
+ * @property Deal[] $dealsAsBuyer
+ * @property Claim[] $claims
+ * @property Dispute[] $disputes
  * @property Experience $experience
  * @property User $user
  * @property Account $account
+ * @property Managers $manager
  * @property ProfileRegion $region
  */
 class Profile extends \yii\db\ActiveRecord
@@ -62,6 +67,7 @@ class Profile extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'fio' => Yii::t('app', 'Fio'),
             'email' => Yii::t('app', 'Email'),
+            'Experience' => Yii::t('app', 'Experience'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'chargeStatus' => Yii::t('app', 'Charge Status'),
@@ -90,7 +96,12 @@ class Profile extends \yii\db\ActiveRecord
         $name = $city_name;
         $region_id=[];
         $region_id[] = Region::find()->select('id')->where(['name'=>$name])->one();
-        return $region_id[0]['id'];
+        if(count($region_id) > 0){
+            return $region_id[0]['id'];
+        }
+        else{
+            return 666;
+        }
     }
 
     public function returnDate($date){
@@ -100,10 +111,40 @@ class Profile extends \yii\db\ActiveRecord
         return $timestamp;
     }
 
+
+
+    public function isManager($profile = null){
+        if(!$profile){
+            $user = User::findOne(Yii::$app->user->id);
+            $profile = $user->profile;
+        }
+        $isManager = $profile->manager;
+        if($isManager){
+            if($isManager->id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public function getAccount()
     {
-        return $this->hasOne(Account::className(), ['profile_id'=>'id']);
+
+        $account = $this->hasOne(Account::className(), ['profile_id'=>'id']);
+        if (in_array($this->user->role_id,[2])) {
+             if(!$account->one()){
+                 $account = (($this->hasOne(Managers::className(), ['profile_id'=>'id']))->one())->getAccount();
+             }
+        }
+        return $account;
     }
+
+
+    public function getManager(){
+        return $this->hasOne(Managers::className(), ['profile_id'=>'id']);
+    }
+
 
     public function getExperience()
     {
@@ -113,6 +154,29 @@ class Profile extends \yii\db\ActiveRecord
     public function getRegions()
     {
         return $this->hasMany(ProfileRegion::className(), ['profile_id' =>'id']);
+    }
+
+
+
+    public function getDealsAsBuyer()
+    {
+        return $this->hasMany(Deal::className(), ['buyer_id' =>'id']);
+    }
+
+
+    public function getDealsAsSeller()
+    {
+        return $this->hasMany(Deal::className(), ['seller_id' =>'id']);
+    }
+
+    public function getClaims()
+    {
+        return $this->hasMany(Claim::className(), ['profile_id' =>'id']);
+    }
+
+    public function getDisputes()
+    {
+        return $this->hasMany(Dispute::className(), ['profile_id' =>'id']);
     }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use common\models\User;
+use frontend\widgets\ChangeCategory;
 use yii\helpers\Html;
 use yii\grid\GridView;
 /* @var $this yii\web\View */
@@ -18,7 +19,12 @@ $timeZone = $session->get('timeZone')/60;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php if ($user->checkRole(['ROLE_USER'])):?>
         <div class="buttons">
-            <?= Html::a(Yii::t('app', 'Create service'), ['create'], ['class' => 'btn btn-success']) ?>
+
+            <?php if($accsess):?>
+                <?= Html::a(Yii::t('app', 'Create service'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?php else:?>
+                <a href="javascript:void(0)" data-target="#changeCat" class='btn btn-success' data-toggle="modal"><?=Yii::t('app', 'Create service')?></a>
+            <?php endif;?>
         </div>
     <?php endif;?>
     <div class="table-responsive">
@@ -45,9 +51,9 @@ $timeZone = $session->get('timeZone')/60;
             <?php
             $i=0;
             foreach ($services as $service):?>
-                <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
+                <tr class=<?=$i%2 == 0 ? 'even' : 'odd'?>>
                     <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-                        <td>
+                        <td class="service-<?=$service->id?>" >
                             <?=$service->account->brand_name ?>
                         </td>
                     <?php endif;?>
@@ -76,3 +82,7 @@ $timeZone = $session->get('timeZone')/60;
         </table>
     </div>
 </div>
+<?php if (User::checkRole(['ROLE_USER'])){
+    echo  ChangeCategory::widget(['urlRed'=>'/admin/services/create','isItem'=>'service']);
+}
+?>

@@ -9,6 +9,7 @@ use common\models\SuggestionCat;
 use common\models\Tariffs;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
+use frontend\models\QuestionsForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SuggestionForm;
 use yii\base\InvalidParamException;
@@ -38,6 +39,7 @@ class ValidateController extends Controller{
                     'measure' => ['get', 'post'],
                     'tariff' => ['get', 'post'],
                     'sug-cat' => ['get', 'post'],
+                    'question' => ['get', 'post'],
                 ],
             ],
         ];
@@ -63,6 +65,16 @@ class ValidateController extends Controller{
             return ActiveForm::validate($model);
         }
     }
+
+
+    public function actionQuestion(){
+        $model = new QuestionsForm();
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
 
     public function actionSugCat(){
         $model = new SuggestionCat();

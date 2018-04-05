@@ -22,6 +22,45 @@ use Yii;
  */
 class Consult extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 0;
+    const STATUS_PROCESSING = 10;
+    const STATUS_CLOSED = 20;
+
+
+    public $detailText;
+
+
+    public static function getNameStatus($status){
+        $statusList = [
+            self::STATUS_NEW => Yii::t('app','New'),
+            self::STATUS_PROCESSING => Yii::t('app','In Processing'),
+            self::STATUS_CLOSED => Yii::t('app','Closed'),
+        ];
+        return $statusList[$status];
+    }
+
+    public static function getAllAllowedStatuses(){
+        $statusList = [
+            self::STATUS_NEW => Yii::t('app','New'),
+            self::STATUS_PROCESSING => Yii::t('app','In Processing'),
+            self::STATUS_CLOSED => Yii::t('app','Closed'),
+        ];
+
+        return $statusList;
+    }
+
+    public static function getNextAllowedStatuses($status){
+        $statusList = [
+            self::STATUS_NEW => [
+                self::STATUS_PROCESSING => Yii::t('app','In Processing'),
+                self::STATUS_CLOSED => Yii::t('app','Closed')
+            ],
+            self::STATUS_PROCESSING => [self::STATUS_CLOSED => Yii::t('app','Closed')]
+        ];
+
+        return $statusList[$status];
+    }
+
     /**
      * @inheritdoc
      */
@@ -39,6 +78,7 @@ class Consult extends \yii\db\ActiveRecord
             [['date_created'], 'safe'],
             [['profile_id', 'status', 'jurist_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['name'], 'required'],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
             [['jurist_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['jurist_id' => 'id']],
         ];

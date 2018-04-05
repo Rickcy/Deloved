@@ -47,6 +47,7 @@ class Ticket extends \yii\db\ActiveRecord
 
         return $statusList;
     }
+
     public static function getNextAllowedStatuses($status){
         $statusList = [
             self::STATUS_NEW => [

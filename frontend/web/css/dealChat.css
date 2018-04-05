@@ -1,0 +1,79 @@
+a:hover{
+    text-decoration: none!important;
+}
+.deloved-progress-bar{
+    position:relative;
+    display:block;border-radius:4px;
+    background-color:#d4e7b1;width:99%;
+    height:30px;margin-top:5px;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    -webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    -o-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);
+    -moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.1)
+}
+.deloved-progress-bar > .deloved-progress-check{
+    position:absolute;display:block;
+    border-left:3px solid #ffffff;width:0;
+    height:100%
+}
+.deloved-progress-bar > .deloved-progress-check:after{
+    position:absolute;display:block;
+    content:"";border:none;width:21px;
+    height:100%;left:-12px
+}
+.deloved-progress{
+    position:absolute;height:100%;
+    border-radius:4px
+}
+.success-progress{
+    background:-moz-linear-gradient(left, #ffa200, #ffef2c, #bbec43, #94c43d);
+    background:-ms-linear-gradient(left,#ffa200, #ffef2c, #bbec43, #94c43d);
+    background:-o-linear-gradient(left,#ffa200, #ffef2c, #bbec43, #94c43d);
+    background:-webkit-linear-gradient(left,#ffa200, #ffef2c,#bbec43, #94c43d)
+}
+.success-progress:after{
+    content:'';position:absolute;
+    right:-40px;top:0;border:15px solid transparent;
+    border-left:27px solid #94c43d;border-radius:3px
+}.suspended-progress{
+     background-color:#ffa200
+}
+.failure-progress{
+       background-color:#CC0000
+}
+.review-button{
+    width: 60%;
+    display: block;
+    border-radius: 50px;
+    padding: 10px 10px 10px 40px;
+    min-width: 194px;
+    color: white;
+    font-weight: bold;
+    background: #94c43d url(/images/front/otz_ico.png) no-repeat center left 10px;
+    box-shadow: 0 0 15px #c5c5c5;
+}
+.jud-button {
+    width: 60%;
+    display: block;
+    border-radius: 50px;
+    padding: 10px 10px 10px 45px;
+    min-width: 194px;
+    color: white;
+    font-weight: bold;
+    background: #f90603 url(/images/front/jud_ico.png) no-repeat center left 10px;
+    box-shadow: 0 0 15px #c5c5c5;
+}
+
+.claim-button {
+    width: 60%;
+    display: block;
+    border-radius: 50px;
+    padding: 10px 10px 10px 45px;
+    min-width: 194px;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+    background: #ffa200 url(/images/front/mediation_ultra.png) no-repeat center left 10px;
+    background-size: 11% auto;
+    box-shadow: 0 0 15px #c5c5c5;
+}

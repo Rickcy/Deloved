@@ -29,7 +29,7 @@ $timeZone = $session->get('timeZone')/60;
 
                     <td><?=Yii::t('app', '№')?></td>
 
-                <td><?=Yii::t('app', 'Name')?></td>
+                <td><?=Yii::t('app', 'Предприятие')?></td>
 
 
                 <td><?=Yii::t('app', 'Status')?></td>
@@ -45,17 +45,21 @@ $timeZone = $session->get('timeZone')/60;
              * @var $ticket \common\models\Ticket
              */
             foreach ($tickets as $ticket):?>
-                <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
+                <tr class=<?=$i%2 == 0 ? 'even' : 'odd'?>>
 
                         <td>
                             <?= $ticket->id ?>
 
                         </td>
 
-                    <td>
-                        <?= Html::a($ticket->name, ['show', 'id' => $ticket->id]) ?>
-
+                    <td class="ticket-<?=$ticket->id?>">
+                        <?php if ($ticket->profile->account):?>
+                        <?= Html::a($ticket->profile->account->brand_name, ['show', 'id' => $ticket->id]) ?>
+                        <?php else:?>
+                        <?= Html::a($ticket->profile->fio, ['show', 'id' => $ticket->id]) ?>
+                        <?php endif;?>
                     </td>
+
                     <td>
                         <?= Ticket::getNameStatus($ticket->status) ?>
                     </td>

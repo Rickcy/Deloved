@@ -30,9 +30,9 @@ class RepeatEmailConfirm extends Model
         }
         $user = User::findOne(Yii::$app->user->id);
 
-        $user->email=$this->email;
+        $user->email = $this->email;
 
-//        Yii::$app->common->sendMailEmailConfirm($this->email, $user);
+        Yii::$app->common->sendMailEmailConfirm($this->email, $user);
         if($user->save()){
             return $user;
         }

@@ -1,0 +1,14 @@
+table td {
+    font-size:12px;
+    font-family:Arial, Helvetica, sans-serif;
+    padding-left:1px;
+
+}
+.t {border-top:1px solid;}
+.b {border-bottom:1px solid;}
+.l {border-left:1px solid;}
+.r {border-right:1px solid;}
+
+table {
+    border-collapse:collapse;
+}

@@ -36,9 +36,14 @@ use Yii;
  * 
  * @property Region $city
  * @property Profile $profile
- * @property Category $category
+ * @property Managers $managers[]
+ * @property AccountCategory $category
  * @property OrgForm $orgForm
+ * @property Keeper $keeper
  * @property Logo $logos
+ * @property Goods $goods[]
+ * @property Services $services[]
+ * @property PaymentRequest $payRequest[]
  */
 class Account extends \yii\db\ActiveRecord
 {
@@ -52,10 +57,44 @@ class Account extends \yii\db\ActiveRecord
 
 
 
-    public static function getRating($rating){
+    public function isMyAccount(){
+        $myProfile = (User::findOne(Yii::$app->user->id))->profile;
+        if(!isset($myProfile->account)){
+            return true;
+        }
+        $myAccount = $myProfile->account;
+        if($myAccount->id == $this->id){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
+
+
+
+
+    public static function getRating($account){
+        /**
+         * @var $account \common\models\Account
+         */
+        $rating = $account->rating;
         if ($rating === 100){
-            return 'Наивысший уровень надежности';
+            $profile = $account->profile;
+            if(!$profile){
+                return 'Без рейтинга';
+            }
+            $dealsAsBuyer = $profile->dealsAsBuyer;
+            $dealsAsSeller = $profile->dealsAsSeller;
+            $deals = array_merge($dealsAsBuyer,$dealsAsSeller);
+            if(count($deals) > 0){
+                return 'Наивысший уровень надежности';
+            }
+            else{
+            return 'Без рейтинга';
+
+            }
         }
         elseif (100 > $rating && $rating < 80){
             return 'Высокий уровень надежности';
@@ -109,7 +148,7 @@ class Account extends \yii\db\ActiveRecord
             'org_form_id' => Yii::t('app', 'Org Form ID'),
             'brand_name' => Yii::t('app', 'Brand Name'),
             'inn' => Yii::t('app', 'Inn'),
-            'ogrn' => Yii::t('app', 'OGRN'),
+            'ogrn' => Yii::t('app', 'OGRN (OGRN)'),
             'legal_address' => Yii::t('app', 'Legal Address'),
             'date_reg' => Yii::t('app', 'Date Reg'),
             'phone1' => Yii::t('app', 'Phone1'),
@@ -126,8 +165,8 @@ class Account extends \yii\db\ActiveRecord
             'verify_status' => Yii::t('app', 'Verify Status'),
             'rating' => Yii::t('app', 'Rating'),
             'profile_name' => Yii::t('app', 'Profile Name'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'created_at' => Yii::t('app', 'Date Created'),
+            'updated_at' => Yii::t('app', 'Date Updated'),
             'show_main'=>Yii::t('app','Show Main'),
             'date'=>Yii::t('app','Date'),
             'city_name'=>Yii::t('app','City name')
@@ -136,10 +175,22 @@ class Account extends \yii\db\ActiveRecord
     }
 
 
+    public static function getTrimName($name){
+        return str_replace(['ИП','ОАО','ООО',
+                            'АО','ПАО','ЗАО',
+            'Индивидуальный предприниматель',
+            'Открытое акционерное общество',
+            'Закрытое акционерное оьщество',
+            'Публичное акционерное общество',
+            'Общество с ограниченной ответственностью',
+            'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ',
+            'ЗАКРЫТОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО',
+            'ПУБЛИЧНОЕ АКЦИОНЕРНОЕ ОБЩЕСТВО',
+            'ОТКРЫТОЕ АКЦИОНЕРНОЕ ОЩЕСТВО'],'',$name);
+    }
 
 
-
-    public function getMainImage($id=null){
+    public function getMainImage( $id = null){
         $user_id=null;
         if($id){
             $user = Account::findOne($id);
@@ -150,13 +201,28 @@ class Account extends \yii\db\ActiveRecord
             $account=$user->getProfile()->where('user_id=:user_id',[':user_id'=>$user->id])->one()->getAccount()->one();
             $user_id = $account->id;
         }
-        
+
 
        ;
         $main_image =Logo::find()->where('user_id=:user_id',[':user_id'=>$user_id])->andWhere('main_image=:main_image',[':main_image'=>1])->one();
-        
+
         return $main_image;
     }
+
+    /**
+     * @return int
+     */
+    public function getCityId(): int
+    {
+        if($this->city_id){
+            return $this->city_id;
+        }
+        else{
+            return '';
+        }
+    }
+
+
 
 
     /**
@@ -218,6 +284,13 @@ class Account extends \yii\db\ActiveRecord
         return $this->hasOne(OrgForm::className(), ['id' => 'org_form_id']);
     }
 
+
+    public function getKeeper()
+    {
+        return $this->hasOne(Keeper::className(), ['account_id' => 'id']);
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -226,10 +299,35 @@ class Account extends \yii\db\ActiveRecord
         return $this->hasOne(Logo::className(), ['user_id' => 'id']);
     }
 
+
+    public function getGoods(){
+        return $this->hasMany(Goods::className(),['account_id'=>'id']);
+    }
+
+
+    public function getServices(){
+        return $this->hasMany(Services::className(),['account_id'=>'id']);
+    }
+
+    public function getManagers(){
+        return $this->hasMany(Managers::className(),['account_id'=>'id']);
+    }
+
+
+    public function getPaymentRequest(){
+        return $this->hasMany(PaymentRequest::className(),['account_id'=>'id']);
+    }
+
+
+
     public function getCategory(){
 
         return $this->hasMany(AccountCategory::className(),['account_id'=>'id']);
     }
+
+
+
+
 
     public function getAffiliates(){
         return $this->hasMany(Affiliate::className(),['account_id'=>'id']);

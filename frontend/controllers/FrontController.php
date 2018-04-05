@@ -126,8 +126,12 @@ class FrontController extends Controller
      */
     public function actionLogout()
     {
+        $user = User::findOne(Yii::$app->user->id);
+        $user->online = $user::OFFLINE;
+        $user->save();
         $session = Yii::$app->session;
         $session->remove('timeZone');
+
         Yii::$app->user->logout();
 
         return $this->goHome();
@@ -169,6 +173,30 @@ class FrontController extends Controller
         return $this->render('about');
     }
 
+    public function actionDealOnline()
+    {
+        return $this->render('deal-online');
+    }
+
+    public function actionHelpJurist()
+    {
+        return $this->render('help-jurist');
+    }
+
+    public function actionMediation()
+    {
+        return $this->render('mediation');
+    }
+
+    public function actionSud()
+    {
+        return $this->render('sud');
+    }
+
+    public function actionRating()
+    {
+        return $this->render('rating');
+    }
 
     public function actionSogl(){
         return $this->render('sogl');

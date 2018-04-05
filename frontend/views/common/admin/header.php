@@ -6,13 +6,13 @@ $profile =$user->getProfile()->one();
 ?>
 
 <div class="header col-md-12">
-<div class="col-xs-12 col-sm-2">
+<div class="col-xs-12 col-sm-3">
 	<a href="/"><img class="hlogo" src="/images/front/logo2.png"/></a>
 </div>
-	<div class="col-xs-12 col-sm-10">
+	<div class="col-xs-12 col-sm-9">
 
 
-		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/"><?=Yii::t('app', 'Home')?></a>
+		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/admin/information/index">Проверить контрагента</a>
 
 		<a class="hmenu" style="font-family: Georgia, serif;margin-right: 10px" href="/companies/index"><?=Yii::t('app', 'Companies')?></a>
 
@@ -39,8 +39,8 @@ $profile =$user->getProfile()->one();
 
 				<a href="/admin/profile/show" class="info-menu" ><?=Yii::t('app', 'My Profile')?></a>
 
-                <?php if ($user->checkRole(['ROLE_USER'])):?>
-					<a href="#" class="info-menu"><?=Yii::t('app', 'Personal Invoice')?></a>
+                <?php if ($user->checkRole(['ROLE_USER']) && !$user->profile->isManager()):?>
+					<a href="/admin/billing/index" class="info-menu"><?=Yii::t('app', 'Personal Invoice')?></a>
 				<?php endif;?>
 				<a href="/admin/default/logout" data-method="post" class="info-menu"><?=Yii::t('app', 'Logout')?></a>
 

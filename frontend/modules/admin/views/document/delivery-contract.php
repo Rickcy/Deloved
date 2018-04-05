@@ -5,6 +5,8 @@
  * Date: 31.08.17
  * Time: 23:56
  */
+
+use common\models\User;
 use frontend\models\DocumentForm;
 use kartik\date\DatePicker;
 use yii\bootstrap\ActiveForm;
@@ -40,7 +42,9 @@ $this->title = Yii::t('app', 'Delivery contract');
                                 'minLength' => 2,
                             ],
                             'options'=>[
-                                'class'=>'pdf-control'
+                                'class'=>'pdf-control',
+                                'value' =>$account->city->name
+
                             ],
                         ])->label('');
                         ?>
@@ -56,14 +60,15 @@ $this->title = Yii::t('app', 'Delivery contract');
                     <div class="col-xs-12">
                         <?= $form->field($documentForm, 'date_signing')->widget(
                             DatePicker::className(), [
-                            'value' => '12/31/2010',
+                            'value' => '12.31.2010',
                             'pluginOptions' => [
                                 'autoclose'=>true,
                                 'format' => 'dd.mm.yyyy',
 
                             ],
                             'options'=>[
-                                'class'=>'pdf-control pdf-number'
+                                'class'=>'pdf-control pdf-number',
+                                'value' => date('d.m.Y'),
                             ]
                         ]);?>
                     </div>
@@ -82,6 +87,10 @@ $this->title = Yii::t('app', 'Delivery contract');
                 <div class="col-xs-12">
                     <?=$form->field($documentForm , 'inn_executor')->textInput(['class'=>'pdf-control'])?>
                 </div>
+                <?php if (User::checkRole(['ROLE_USER'])):?>
+                    <button type="button" class="btn btn-success my-data my-data-ispol">Заполнить моими данными</button>
+                <?php endif;?>
+
 
 
             </div>
@@ -93,6 +102,10 @@ $this->title = Yii::t('app', 'Delivery contract');
                 <div class="col-xs-12">
                     <?=$form->field($documentForm , 'inn_customer')->textInput(['class'=>'pdf-control'])?>
                 </div>
+                <?php if (User::checkRole(['ROLE_USER'])):?>
+                    <button type="button" class="btn btn-success my-data my-data-zakaz">Заполнить моими данными</button>
+                <?php endif;?>
+
             </div>
         </div>
         <br>
@@ -190,3 +203,41 @@ $this->title = Yii::t('app', 'Delivery contract');
 
     <?php ActiveForm::end()?>
 </div>
+
+<script>
+    $(document).ready(function () {
+        var inn;
+        $('.my-data-zakaz').click(function () {
+            $.ajax({
+                type:'post',
+                url:'/admin/document/get-my-data',
+                success:function (data) {
+                    $('#documentform-inn_customer').val(data)
+                    $('.my-data').remove();
+                },
+                error:function () {
+                    console.log('Error')
+                }
+            })
+
+        });
+        $('.my-data-ispol').click(function () {
+            $.ajax({
+                type:'post',
+                url:'/admin/document/get-my-data',
+                success:function (data) {
+                    $('#documentform-inn_executor').val(data)
+                    $('.my-data').remove();
+                },
+                error:function () {
+                    console.log('Error')
+                }
+            })
+
+        })
+
+    });
+    function getMyData() {
+
+    }
+</script>

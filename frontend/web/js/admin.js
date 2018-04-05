@@ -34,6 +34,10 @@ function showMessage(status, message){
     }, 100)
 }
 
+
+
+
+
 function getLenta() {
     $.ajax({
         type:'POST',
@@ -42,27 +46,106 @@ function getLenta() {
             var lenta = data;
             console.log(data);
             if (lenta.length!==null){
+                $(".badge_red_main").remove();
                 $(".badge_red").remove();
                 if(lenta['accounts']){
-                    $('#account >a').append('<span class="badge badge_red" >+'+lenta['accounts'].length+'</span>')
+                    $('#account >a').append('<span class="badge badge_red_main" >+'+lenta['accounts'].length+'</span>')
+                    lenta['accounts'].forEach(function (item) {
+                        $('.account-'+item['new_account_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
                 }
                 if(lenta['goods']){
-                    $('#goods >a').append('<span class="badge badge_red" >+'+lenta['goods'].length+'</span>')
+                    $('#goods >a').append('<span class="badge badge_red_main" >+'+lenta['goods'].length+'</span>');
+                    lenta['goods'].forEach(function (item) {
+                        $('.good-'+item['new_good_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+
                 }
                 if(lenta['services']){
-                    $('#services >a').append('<span class="badge badge_red" >+'+lenta['services'].length+'</span>')
+                    $('#services >a').append('<span class="badge badge_red_main" >+'+lenta['services'].length+'</span>')
+                    lenta['services'].forEach(function (item) {
+                        $('.service-'+item['new_service_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
                 }
                 if(lenta['suggestions']){
-                    $('#suggestions >a').append('<span class="badge badge_red" >+'+lenta['suggestions'].length+'</span>')
+                    $('#suggestions >a').append('<span class="badge badge_red_main" >+'+lenta['suggestions'].length+'</span>')
                 }
                 if(lenta['tickets']){
-                    $('#support >a').append('<span class="badge badge_red" >+'+lenta['tickets'].length+'</span>')
+                    $('#support >a').append('<span class="badge badge_red_main" >+'+lenta['tickets'].length+'</span>')
+                    lenta['tickets'].forEach(function (item) {
+                        $('.ticket-'+item['new_ticket_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
 
                 }
                 if(lenta['tickets_posts']){
                     $('#support >a').append('<span class="badge badge_red" >+'+lenta['tickets_posts'].length+'</span>')
                     $('#technical_support >a').append('<span class="badge badge_red" >+'+lenta['tickets_posts'].length+'</span>')
+                    lenta['tickets_posts'].forEach(function (item) {
+                        $('.ticket-'+item['ticket_id']).append('<span class="badge badge_red" >+1</span>')
+                    });
                 }
+                if(lenta['consults']){
+                    $('#advice >a').append('<span class="badge badge_red_main" >+'+lenta['consults'].length+'</span>')
+                    lenta['consults'].forEach(function (item) {
+                        $('.consult-'+item['new_consult_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+                if(lenta['reviews']){
+                    $('#reviews >a').append('<span class="badge badge_red_main" >+'+lenta['reviews'].length+'</span>')
+                    lenta['reviews'].forEach(function (item) {
+                        $('.review-'+item['new_review_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+                if(lenta['consults_posts']){
+                    $('#advice >a').append('<span class="badge badge_red" >+'+lenta['consults_posts'].length+'</span>')
+                    lenta['consults_posts'].forEach(function (item) {
+                        $('.consult-'+item['consult_id']).append('<span class="badge badge_red" >+1</span>')
+                    });
+                }
+                if(lenta['deals']){
+                    $('#deals >a').append('<span class="badge badge_red_main" >+'+lenta['deals'].length+'</span>')
+                    lenta['deals'].forEach(function (item) {
+                        $('.deal-'+item['new_deal_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+                if(lenta['tasks']){
+                    $('#tasks >a').append('<span class="badge badge_red_main" >+'+lenta['tasks'].length+'</span>')
+                    lenta['tasks'].forEach(function (item) {
+                        $('.task-'+item['task_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+
+                if(lenta['deals_posts']){
+                    $('#deals >a').append('<span class="badge badge_red" >+'+lenta['deals_posts'].length+'</span>')
+                    lenta['deals_posts'].forEach(function (item) {
+                        $('.deal-'+item['deal_id']).append('<span class="badge badge_red" >+1</span>')
+                    });
+                }
+                if(lenta['disputes']){
+                    $('#disputes >a').append('<span class="badge badge_red_main" >+'+lenta['disputes'].length+'</span>')
+                    lenta['disputes'].forEach(function (item) {
+                        $('.dispute-'+item['new_dispute_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+                if(lenta['disputes_posts']){
+                    $('#disputes >a').append('<span class="badge badge_red" >+'+lenta['disputes_posts'].length+'</span>')
+                    lenta['disputes_posts'].forEach(function (item) {
+                        $('.dispute-'+item['dispute_id']).append('<span class="badge badge_red" >+1</span>')
+                    });
+                }
+                if(lenta['claims']){
+                    $('#claims >a').append('<span class="badge badge_red_main" >+'+lenta['claims'].length+'</span>')
+                    lenta['claims'].forEach(function (item) {
+                        $('.claim-'+item['new_claim_id']).append('<span class="badge badge_red_main" >+1</span>')
+                    });
+                }
+                if(lenta['claims_posts']){
+                    $('#claims >a').append('<span class="badge badge_red" >+'+lenta['claims_posts'].length+'</span>')
+                    lenta['claims_posts'].forEach(function (item) {
+                        $('.claim-'+item['claim_id']).append('<span class="badge badge_red" >+1</span>')
+                    });
+                }
+
             }
         },
         error:function () {
@@ -224,5 +307,42 @@ $(function () {
         })
     });
     getLenta();
-    setInterval(getLenta,60000)
+    setInterval(getLenta,60000);
+
+    $('#begin-mail').click(function () {
+        showMessage('success','Рассылка началась');
+        $.ajax({
+            type:'post',
+            url:'/admin/mail/mail'
+
+        })
+    }
+)
+
+    $("#statuses").change(function () {
+        var val = $(this).val();
+        if(val == 0){
+           $(".display-block").removeClass("display-block");
+        }
+        else {
+            $("[status='"+val+"']").parent().removeClass("display-block");
+            $(".status").not("[status='"+val+"']").parent().addClass("display-block");
+        }
+
+
+    });
+
+    $("#sides").change(function () {
+        var val = $(this).val();
+        if(val == 0){
+            $(".display-block").removeClass("display-block");
+        }
+        else{
+            $("[side='"+val+"']").parent().removeClass("display-block");
+            $(".side").not("[side='"+val+"']").parent().addClass("display-block");
+        }
+
+
+    });
+
 });

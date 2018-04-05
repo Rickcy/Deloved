@@ -115,9 +115,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php $form = ActiveForm::begin(['id' => 'reset-password-form', 'options' => ['class' => 'form-signin text-center']]); ?>
 
-                <?= $form->field($model, 'password')->passwordInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'password')->passwordInput(['autofocus' => true])->label(Yii::t('app','Password')) ?>
 
-                <?= $form->field($model,'repassword')->passwordInput(); ?>
+                <?= $form->field($model,'repassword')->passwordInput()->label(Yii::t('app', 'Repeat password')); ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Сохранить новый пароль', ['class' => 'btn btn-primary']) ?>

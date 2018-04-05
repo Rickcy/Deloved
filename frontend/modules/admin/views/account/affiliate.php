@@ -24,7 +24,7 @@ if ($aff):
                 <label class="label-control">Город</label>
             </div>
             <div class="col-md-9">
-<!--                <input id="aff--><?//=$i?><!--city" class="form-control" value="--><?//=$aff->city_id?><!--" style="width: 100%"/>-->
+
                 <?php
                 echo AutoComplete::widget([
                     'value'=>$aff->getCity()->one()->name,

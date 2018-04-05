@@ -22,7 +22,7 @@ $user = User::findIdentity(Yii::$app->user->id);
             </select>
         </div>
         <div class="col-sm-5">
-            <a href="javascript:void(0)" class="btn btn-md btn-success" id="create-category" style="margin-top:5px"><?=Yii::t('app', 'Create ')?></a>
+            <a href="javascript:void(0)" class="btn btn-md btn-success" id="create-category" style="margin-top:5px"><?=Yii::t('app', 'Создать ')?></a>
         </div>
 
     </div>

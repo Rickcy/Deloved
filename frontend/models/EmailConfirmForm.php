@@ -26,10 +26,12 @@ class EmailConfirmForm extends Model
 
 
     public function confirmEmail(){
-        $user=$this->_user;
+        $user = $this->_user;
         $user->role_id = 2;
         $user->removeEmailConfirmToken();
         $user->save();
+        $user->profile->chargeStatus = 1;
+        $user->profile->save();
         if($user->save()){
             return $user;
         }

@@ -25,5 +25,6 @@ $user = User::findIdentity(Yii::$app->user->id);
     <?=$form->field($model,'repeat_new_password')->passwordInput()->label(Yii::t('app','Repeat password'))?>
 
     <?=Html::submitButton(Yii::t('app', 'Change password'),['class'=>'btn btn-lg btn-success '])?>
+    <?= Html::a(Yii::t('app', 'Cancel'), ['show'],['class' =>  'btn create-btn btn-md btn-default']) ?>
     <?php ActiveForm::end()?>
 </div>

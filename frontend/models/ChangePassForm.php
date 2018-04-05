@@ -20,6 +20,21 @@ class ChangePassForm extends Model
     public $repeat_new_password;
     private $_user;
 
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+           'old_password' => Yii::t('app', 'Old Password'),
+           'new_password' => Yii::t('app', 'New Password'),
+           'repeat_new_password'=>Yii::t('app', 'Repeat New Password')
+
+        ];
+    }
+
+
     public function rules()
     {
         return [
@@ -33,12 +48,14 @@ class ChangePassForm extends Model
         ];
     }
 
-    public function validatePassword($attribute, $params)
+    public function validatePassword()
     {
         if (!$this->hasErrors()) {
+
             $user = $this->getUser();
+
             if (!$user->validatePassword($this->old_password)) {
-                $this->addError($attribute, 'Неверный пароль, попробуйте еще раз');
+                $this->addError('old_password', 'Неверный пароль, попробуйте еще раз');
             }
         }
         else {
@@ -61,9 +78,7 @@ class ChangePassForm extends Model
             $this->_user = User::findOne(Yii::$app->user->id);
         }
 
-        if (!$this->validate()){
-            return null;
-        }
+
 
         $this->_user->password_hash = Yii::$app->security->generatePasswordHash($this->new_password);
         $this->_user->save();

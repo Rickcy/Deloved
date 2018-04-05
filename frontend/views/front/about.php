@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="margin-top: 3%">
                     <div class="col-sm-6 h2_main_name" style="font-size: 17pt;padding-top: 5%">Выбор надежного контрагента и предложение сделки в один клик – просто и удобно!
                         <div class="row">
-                            <a style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
+                            <a href="/front/deal-online" style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
                         </div>
 
                     </div>
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="margin-top: 3%">
                     <div class="col-sm-6 h2_main_name" style="font-size: 17pt;padding-top: 5%">Избегайте рисков – работайте с проверенными контрагентами!
                         <div class="row">
-                            <a style="float: left;margin:12px;color: rgb(75, 100, 190);border: 1px solid rgb(75, 100, 190);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
+                            <a href="/front/rating" style="float: left;margin:12px;color: rgb(75, 100, 190);border: 1px solid rgb(75, 100, 190);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="margin-top: 3%">
                     <div class="col-sm-6 h2_main_name" style="font-size: 17pt;padding-top: 5%">Онлайн консультация юриста.
                         <div class="row">
-                            <a style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
+                            <a href="/front/help-jurist" style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
                         </div>
                     </div>
 
@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="margin-top: 3%">
                     <div class="col-sm-6 h2_main_name" style="font-size:17pt;padding-top: 5%">Урегулирование спора с использованием процедуры медиации - эффективный способ, основанный на переговорах.
                         <div class="row">
-                            <a style="float: left;margin:12px;color: rgb(75, 100, 190);border: 1px solid rgb(75, 100, 190);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
+                            <a href="/front/mediation" style="float: left;margin:12px;color: rgb(75, 100, 190);border: 1px solid rgb(75, 100, 190);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
                         </div>
                     </div>
 
@@ -147,7 +147,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-sm-6 col-sm-push-6 h2_main_name" style="font-size: 17pt;padding-top: 5%">
                         Подача иска в один клик. Судебное разрешение споров в Третейском суде «ДЕЛОВЕД» квалифицированными арбитрами. Незамедлительное вступление в силу решения суда. Помощь юриста при формировании документов.
                         <div class="row">
-                            <a style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
+                            <a href="/front/sud" style="float: left;margin:12px;color: rgb(148, 196, 61);border: 1px solid rgb(148, 196, 61);padding: 5px;-webkit-border-radius:7px ;-moz-border-radius:7px ;border-radius:7px ;">Подробнее</a>
                         </div>
                     </div>
                     <div class="col-sm-6 col-sm-pull-6"><img style="width: 100%" src="/images/front/sud123.jpg"/></div>

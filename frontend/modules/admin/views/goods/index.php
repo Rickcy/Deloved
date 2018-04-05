@@ -1,6 +1,7 @@
 <?php
 
 use common\models\User;
+use frontend\widgets\ChangeCategory;
 use yii\helpers\Html;
 
 
@@ -19,7 +20,11 @@ $timeZone = $session->get('timeZone')/60;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php if ($user->checkRole(['ROLE_USER'])):?>
         <div class="buttons">
-            <?= Html::a(Yii::t('app', 'Create good'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?php if($accsess):?>
+                <?= Html::a(Yii::t('app', 'Create good'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?php else:?>
+                <a href="javascript:void(0)" data-target="#changeCat" class='btn btn-success' data-toggle="modal"><?=Yii::t('app', 'Create good')?></a>
+            <?php endif;?>
         </div>
     <?php endif;?>
     <div class="table-responsive">
@@ -48,7 +53,7 @@ $timeZone = $session->get('timeZone')/60;
             foreach ($goods as $good):?>
                 <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
                     <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
-                    <td>
+                    <td class="good-<?=$good->id?>">
                         <?=$good->account->brand_name ?>
                     </td>
                     <?php endif;?>
@@ -77,3 +82,9 @@ $timeZone = $session->get('timeZone')/60;
         </table>
     </div>
 </div>
+
+<?php if (User::checkRole(['ROLE_USER'])){
+    echo  ChangeCategory::widget(['urlRed'=>'/admin/goods/create','isItem'=>'good']);
+}
+?>
+

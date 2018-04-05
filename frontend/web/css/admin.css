@@ -11,6 +11,45 @@
 
 
 }
+.neutral-review{
+    font-size:x-large;
+    color:#696969
+}
+
+
+.good-review{
+    font-size:x-large;
+    color:green
+}
+.bad-review{
+     font-size:x-large;
+     color:red
+ }
+
+.display-block{
+    display: none;
+}
+
+.dv-case{
+    display:inline-block;
+    margin-right:10px
+}
+
+.dv-case > input{
+    display:none
+}
+
+.dv-case > input ~ label{
+    opacity:.2;
+    transition:500ms;
+    -moz-transition:500ms;
+    -o-transition:500ms;
+    -webkit-transition:500ms
+}
+
+.dv-case > input:checked ~ label{
+    opacity:1
+}
 
 #scrollContent >div {
     padding: 20px;
@@ -78,7 +117,7 @@ textarea.pdf-control{
 
 #scrollContent{
     width: 100%;
-    height: 350px;
+    height: 450px;
     overflow: hidden;
     box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
     -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
@@ -165,6 +204,10 @@ textarea.pdf-control{
     color: white;
 }
 .badge_red{
+    background-color: #d31000;
+    color: white;
+}
+.badge_red_main{
     background-color: #d31000;
     color: white;
 }
@@ -370,7 +413,7 @@ ul{
 }
 .bottom_menu{
     background-color:#94c43d;
-    padding:15px 5px 5px 5px;
+    padding:20px 5px 10px 5px;
 
     font-size:100%
 }
@@ -556,6 +599,7 @@ span.disabled {
     border-bottom: 3px solid rgba(176, 208, 83, 0.47);
 }
 .create-btn{
+    border-radius: 15px;
     font-size: 20px;
 
 }

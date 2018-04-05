@@ -20,6 +20,8 @@ use Yii;
  */
 class ConsultPost extends \yii\db\ActiveRecord
 {
+
+    public $last_post_id;
     /**
      * @inheritdoc
      */
@@ -34,9 +36,11 @@ class ConsultPost extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id', 'status', 'consult_id'], 'integer'],
+            [['profile_id',  'consult_id'], 'integer'],
             [['post'], 'string'],
-            [['date_created'], 'safe'],
+            [['post'], 'required'],
+            ['status', 'in', 'range' => array_keys(Consult::getAllAllowedStatuses())],
+            [['date_created','status','last_post_id'], 'safe'],
             [['consult_id'], 'exist', 'skipOnError' => true, 'targetClass' => Consult::className(), 'targetAttribute' => ['consult_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];

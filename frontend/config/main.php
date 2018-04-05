@@ -17,6 +17,14 @@ return [
         'admin' => [
             'class' => 'app\modules\admin\AdminModule',
         ],
+        'integration' => [
+            'class' => 'frontend\modules\integration\IntegrationModule',
+//            'productClass' => 'frontend\models\Product',
+//            'documentClass' => 'frontend\models\Order',
+//            'groupClass' => 'frontend\models\Group',
+//            'offerClass' => 'frontend\models\Offer',
+            'exchangeDocuments' => true,
+        ],
     ],
     'components' => [
         'request' => [

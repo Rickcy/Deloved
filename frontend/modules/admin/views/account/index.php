@@ -12,7 +12,8 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Accounts');
 $this->params['breadcrumbs'][] = $this->title;
 $user = User::findIdentity(Yii::$app->user->id);
-
+$session = Yii::$app->session;
+$timeZone = $session->get('timeZone')/60;
 
 ?>
 <div class="account-index">
@@ -41,7 +42,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
             <?php endif;?>
             <td><?=Yii::t('app', 'City')?></td>
-            <td><?=Yii::t('app', 'Created At')?></td>
+            <td><?=Yii::t('app', 'Date Created')?></td>
             <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                 <td></td>
             <?php endif;?>
@@ -51,9 +52,9 @@ $user = User::findIdentity(Yii::$app->user->id);
        <?php
        $i=0;
        foreach ($account as $item):?>
-            <tr class="<?=$i%2 == 0 ? 'even' : 'odd'?>">
+            <tr class=<?=$i%2 == 0 ? 'even' : 'odd'?>>
 
-                <td>
+                <td class="account-<?=$item->id?>">
                     <?= Html::a($item->brand_name, ['update', 'id' => $item->id]) ?>
                 </td>
                 <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
@@ -66,9 +67,9 @@ $user = User::findIdentity(Yii::$app->user->id);
                     </td>
                 <?php endif;?>
 
-                <td id="gridRow<?=$item->id?>city"><?=$item->city->name?></td>
+                <td id="gridRow<?=$item->id?>city"><?=$item->city_id?$item->city->name:''?></td>
 
-                <td><?=Yii::$app->formatter->asDatetime($item->created_at, "php:Y-m-d  H:i");?></td>
+                <td><?=(new DateTime(Yii::$app->formatter->asDatetime($item->created_at, "php:Y-m-d  H:i")))->add(new DateInterval('PT'.$timeZone.'H'))->format('Y-m-d H:i')?></td>
                 <?php if ($user->checkRole(['ROLE_ADMIN','ROLE_MANAGER'])):?>
                     <td>
                         <?= Html::a('', ['delete', 'id' => $item->id], ['class'=>'glyphicon glyphicon-trash status','data' => [

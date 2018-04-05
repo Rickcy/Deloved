@@ -23,7 +23,7 @@ $user = User::findIdentity(Yii::$app->user->id);
 
     <?=$form->field($measure , 'full_name')->textInput()?>
 
-     <?php  $items = ArrayHelper::map($type,'id','code');
+     <?php  $items = ArrayHelper::map($type,'id',Yii::t('app','code'));
 
         echo $form->field($measure, 'type_id')->dropDownList($items)->label('Категория')?>
 

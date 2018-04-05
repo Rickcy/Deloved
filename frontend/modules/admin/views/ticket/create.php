@@ -13,16 +13,15 @@ Yii::$app->formatter->timeZone = 'UTC';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="goods-create">
+<div class="ticket-create">
     <h1 class="text-left"><?= Html::encode($this->title) ?></h1>
 
-    <div class="goods-create">
+    <div class="ticket-create">
         <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal'], 'fieldConfig' => [
             'template' => '<div class="col-sm-3 control-label">{label}</div><div class="col-sm-5">{input}</div><div class="row"><div class="col-sm-5 col-sm-offset-3">{error}</div></div>',
         ]]); ?>
 
-        <?= $form->field($model, 'name')->textarea(['rows'=>2,'maxlength' => 40,'placeholder'=>'Например : Ошибка там то или вопрос о том'])->label(Yii::t('app','Topic of the appeal')) ?>
-        <?= $form->field($model, 'detailText')->textarea(['rows'=>5,'maxlength'=>255])->label(Yii::t('app','Detail subscribe')) ?>
+        <?= $form->field($model, 'name')->textarea(['rows'=>4,'maxlength' => 255,'placeholder'=>'Укажите точно ваш вопрос или ошибку, которую вы обнаружили.'])->label(Yii::t('app','Detail subscribe'))?>
         <hr>
 
         <div class="form-group text-left">

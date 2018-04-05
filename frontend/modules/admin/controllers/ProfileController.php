@@ -105,7 +105,7 @@ class ProfileController extends AuthController
         $exp_model=Experience::find()->where('profile_id=:profile_id',[':profile_id'=>$id])->one();
         if(Yii::$app->request->isAjax){
             if (!$model->validate()){
-                Yii::$app->session->addFlash('danger', "Incorrect Profile!");
+                Yii::$app->session->addFlash('danger', "Некорректный профиль");
             }
             else{
 
@@ -146,7 +146,7 @@ class ProfileController extends AuthController
                 $date==''?$model->chargeTill=null:$model->chargeTill=$model->returnDate($date);
                 $model->chargeStatus=$status;
                 $model->save();
-                Yii::$app->session->addFlash('success', "Profile  Update!");
+                Yii::$app->session->addFlash('success', "Профиль обнавлен");
 
             }
         }
@@ -212,7 +212,7 @@ class ProfileController extends AuthController
         
         $model = new ChangePassForm();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $res = $model->changePass();
             if ($res){
                 Yii::$app->session->addFlash('success', 'Пароль успешно изменен!');

@@ -38,6 +38,7 @@ class ServicesController extends AuthController
      */
     public function actionIndex()
     {
+        $accsess = false;
         if (User::checkRole(['ROLE_ADMIN','ROLE_MANAGER'])) {
             $services = Services::find()->all();
 
@@ -46,13 +47,23 @@ class ServicesController extends AuthController
             $account = User::findOne(Yii::$app->user->id)->profile->account;
             $services = Services::find()->where('account_id=:account_id',[':account_id'=>$account->id])->all();
 
+            $accCategs = $account->category;
+            foreach ($accCategs as $accCateg){
+                /**
+                 * @var $accCateg \common\models\AccountCategory
+                 */
+                $cat = $accCateg->category;
+                if($cat->parent_id == 1343){
+                    $accsess = true;
+                }
+            }
 
         }else{
             throw new ForbiddenHttpException('Доступ запрещен');
         }
 
         return $this->render('index', [
-            'services'=>$services
+            'services'=>$services,'accsess'=>$accsess
         ]);
     }
 
@@ -111,7 +122,7 @@ class ServicesController extends AuthController
                 Yii::$app->session->addFlash('danger', $e->getMessage());
                 return $this->redirect(['index']);
             }
-            Yii::$app->session->addFlash('success', 'Service Created!');
+            Yii::$app->session->addFlash('success', 'Услуга создана');
             return $this->redirect(['index']);
         } else {
             return $this->render('create', [
@@ -183,7 +194,7 @@ class ServicesController extends AuthController
                 return $this->redirect(['index']);
             }
 
-            Yii::$app->session->addFlash('success', 'Service Update!');
+            Yii::$app->session->addFlash('success', 'Услуга обновлена');
             return $this->redirect(['index']);
         } else {
             return $this->render('update', [

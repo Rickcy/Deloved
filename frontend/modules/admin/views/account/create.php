@@ -49,12 +49,12 @@ $this->title = Yii::t('app', 'Create Account');
             ],  [
                 'class' => 'btn-group',
                 'data-toggle' => 'buttons',
-                'unselect' => null,
+                'value' => 0,
                 'item' => function ($index, $label, $name, $checked, $value) {
                     return '<label class="btn btn-default' . ($checked ? ' active' : '') . '">' .
                     Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
                 },
-            ]); ?>
+            ])->label(Yii::t('app','Public Status')); ?>
 
             <?= $form->field($model, 'verify_status',[
 
@@ -66,12 +66,12 @@ $this->title = Yii::t('app', 'Create Account');
             ],  [
                 'class' => 'btn-group',
                 'data-toggle' => 'buttons',
-                'unselect' => null,
+                'value' => 0,
                 'item' => function ($index, $label, $name, $checked, $value) {
                     return '<label class="btn btn-default' . ($checked ? ' active' : '') . '">' .
                     Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
                 },
-            ]); ?>
+            ])->label(Yii::t('app','Verify Status')); ?>
 
             <?= $form->field($model, 'profile_name')->widget(
                 AutoComplete::className(), [
@@ -97,28 +97,28 @@ $this->title = Yii::t('app', 'Create Account');
             ],  [
                 'class' => 'btn-group',
                 'data-toggle' => 'buttons',
-                'unselect' => null,
+                'value' => 0,
                 'item' => function ($index, $label, $name, $checked, $value) {
                     return '<label class="btn btn-default' . ($checked ? ' active' : '') . '">' .
                     Html::radio($name, $checked, ['value' => $value]) . $label . '</label>';
                 },
-            ]); ?>
+            ])->label(Yii::t('app','Show Main')); ?>
 
 
 
-            <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'full_name')->textInput(['maxlength' => true])->label(Yii::t('app','Full name')) ?>
 
-            <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'brand_name')->textInput(['maxlength' => true])->label(Yii::t('app','Brand name')) ?>
 
             <?php $items = ArrayHelper::map($org_forms,'id','name');
 
-            echo $form->field($model, 'org_form_id')->dropDownList($items)->label('Организационно-правовая форма')?>
+            echo $form->field($model, 'org_form_id')->dropDownList($items)->label(Yii::t('app','Organizational and legal form'))?>
 
-            <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'inn')->textInput(['maxlength' => true])->label(Yii::t('app','Inn')) ?>
 
-            <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true])->label(Yii::t('app','OGRN (OGRN)'))  ?>
 
-            <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true])->label(Yii::t('app','Legal address')) ?>
 
             <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-4">{input}{error}{hint}</div>'])->widget(
                 DatePicker::className(), [
@@ -147,19 +147,19 @@ $this->title = Yii::t('app', 'Create Account');
             ])->label('Адрес офиса');
             ?>
 
-            <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'address')->textInput(['maxlength' => true])->label(Yii::t('app','Address')) ?>
 
-            <?= $form->field($model, 'director')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'director')->textInput(['maxlength' => true])->label(Yii::t('app','Director')) ?>
 
-            <?= $form->field($model, 'phone1')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'phone1')->textInput(['maxlength' => true])->label(Yii::t('app','Main number of phone')) ?>
 
-            <?= $form->field($model, 'fax')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'fax')->textInput(['maxlength' => true])->label(Yii::t('app','Main number of fax')) ?>
 
-            <?= $form->field($model, 'work_time')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'work_time')->textInput(['maxlength' => true])->label(Yii::t('app','Work time')) ?>
 
-            <?= $form->field($model, 'web_address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'web_address')->textInput(['maxlength' => true])->label(Yii::t('app','Web-site')) ?>
 
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true])->label(Yii::t('app','E-mail address')) ?>
 
         </div>
 
@@ -167,10 +167,10 @@ $this->title = Yii::t('app', 'Create Account');
 
         <div class="tab-pane" id="seo">
 
-            <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
+            <?= $form->field($model, 'description')->textarea(['rows' => 5])->label(Yii::t('app','Description')) ?>
 
 
-            <?= $form->field($model, 'keywords')->textarea(['rows' => 3]) ?>
+            <?= $form->field($model, 'keywords')->textarea(['rows' => 3])->label(Yii::t('app','Keywords')) ?>
 
         </div>
 

@@ -28,6 +28,7 @@ class MainAsset extends AssetBundle
         'css/main/css(4).css',
         'css/main/css(5).css',
         'css/main/sites.css',
+        'css/flash-alerts.css'
     ];
     public $js = [
         'js/main/module_button_up.js',

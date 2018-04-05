@@ -22,7 +22,10 @@
         "zyx/zyx-phpmailer": "@stable",
         "kartik-v/yii2-widget-datepicker": "@dev",
         "phpoffice/phpword": "^0.13.0",
-        "yiisoft/yii2-httpclient": "^2.0"
+        "yiisoft/yii2-httpclient": "^2.0",
+        "carono/commerceml": "^0.2.2",
+        "carono/yii2-file-upload": "^1.0",
+        "carono/yii2-migrate": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

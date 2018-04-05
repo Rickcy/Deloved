@@ -1,0 +1,18 @@
+.f-w-400 {
+    font-weight: 400;
+}
+.f-s-16 {
+    font-size: 16px;
+}
+.m-b-15 {
+    margin-bottom: 15px;
+}
+.visible-print {
+    display: none !important;
+}
+.m-t-5 {
+    margin-top: 5px;
+}
+.m-t-15 {
+    margin-top: 15px;
+}

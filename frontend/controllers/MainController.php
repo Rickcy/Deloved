@@ -135,24 +135,60 @@ class MainController extends Controller
 
 
     public function actionGetDateByInnOrOgrn(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $innOrOgrn = (int)Yii::$app->request->post('innOrOgrn');
         if (is_int($innOrOgrn)){
         $httpClient = new Client();
         $data = $httpClient->createRequest()
             ->setMethod('post')
-            ->setUrl('https://zachestnyibiznesapi.ru/demo/data/search')
-            ->setData(['api_key'=>'lkAJe4TBlAsb3Z76Uhl8Ids8f-XGA7uI','string'=>$innOrOgrn])
+            ->setUrl('https://zachestnyibiznesapi.ru/v2/data/search')
+            ->setData(['api_key'=>'Az03qrVxXMLfnJba8LZTGufSTO00_zAp','string'=>$innOrOgrn])
             ->send();
+            if(count($data->data['docs']) > 1 ){
+                return ['docs'=>$data->data['docs']];
+            }
+
         if ($data->isOk){
             $response = $httpClient->createRequest()
                 ->setMethod('post')
-                ->setUrl('https://zachestnyibiznesapi.ru/demo/data/card')
-                ->setData(['api_key'=>'lkAJe4TBlAsb3Z76Uhl8Ids8f-XGA7uI','id'=>$data->data['docs'][0]['id']])
+                ->setUrl('https://zachestnyibiznesapi.ru/v2/data/card')
+                ->setData(['api_key'=>'Az03qrVxXMLfnJba8LZTGufSTO00_zAp','id'=>$data->data['docs'][0]['id']])
                 ->send();
-            Yii::$app->response->format = Response::FORMAT_JSON;
+
             return $response->data;
             }
         }
+    }
+
+
+    public function actionManyComp($inn,$ogrn){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $httpClient = new Client();
+        $data = $httpClient->createRequest()
+            ->setMethod('post')
+            ->setUrl('https://zachestnyibiznesapi.ru/v2/data/search')
+            ->setData(['api_key'=>'Az03qrVxXMLfnJba8LZTGufSTO00_zAp','string'=>'managed_'.$ogrn.' '.$inn])
+            ->send();
+        if ($data->isOk){
+            if(count($data->data['docs']) > 0){
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+    public function actionGetDateFromList(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $id = (int)Yii::$app->request->post('id');
+        $httpClient = new Client();
+        $response = $httpClient->createRequest()
+            ->setMethod('post')
+            ->setUrl('https://zachestnyibiznesapi.ru/v2/data/card')
+            ->setData(['api_key'=>'Az03qrVxXMLfnJba8LZTGufSTO00_zAp','id'=>$id])
+            ->send();
+
+        return $response->data;
     }
 
 

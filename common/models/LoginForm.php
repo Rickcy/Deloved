@@ -11,7 +11,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
-    public $rememberMe = true;
+    public $rememberMe = false;
     public $timeZone;
     private $_user;
 
@@ -31,6 +31,23 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
+
+
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('app', 'Username'),
+            'password' => Yii::t('app', 'Password'),
+
+
+
+        ];
+    }
+
 
     /**
      * Validates the password.
@@ -59,9 +76,50 @@ class LoginForm extends Model
     {
         
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            $u = $this->getUser();
+            if (!in_array($u->role_id,[1,3,4,5,6,7,8])){
+            $count = CountView::findOne(['account_id'=>$u->profile->account->id]);
+                if(!$count){
+                    $count = new CountView();
+                    $count->account_id = $u->profile->account->id;
+                    $count->save();
+                }
+                else{
+                    if(date('d') == 1){
+                        $count->count_for_month = 0;
+                        $count->count_goods_for_month = 0;
+                        $count->count_services_for_month = 0;
+                        $count->save();
+                    }
+                }
+
+                $this->checkUserStatus($u);
+            }
+
+            $u->online = $u::ONLINE;
+            $u->profile->updated_at = time();
+            $u->profile->save();
+            $u->save();
+
+
+
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 2 : 0);
         } else {
             return false;
+        }
+    }
+
+
+    /**
+     * @var $user \common\models\User
+     */
+    public function checkUserStatus($user){
+        $now = date('Y-m-d H:i:s');
+        $date_status = date('Y-m-d H:i:s',$user->profile->chargeTill);
+        if($date_status < $now){
+            $user->profile->chargeStatus = 0;
+            $user->profile->chargeTill = null;
+            $user->profile->save();
         }
     }
 

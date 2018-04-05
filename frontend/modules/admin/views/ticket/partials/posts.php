@@ -1,6 +1,7 @@
 <?php
 use common\models\Ticket;
 use common\models\User;
+use yii\helpers\Url;
 
 $user = User::findOne(Yii::$app->user->id);
 $myProfile = $user->profile;
@@ -55,11 +56,10 @@ $timeZone = $session->get('timeZone')/60;
                                         <td style="padding-right: 10px" rowspan="2">
                                             <a style="text-decoration: none" href="<?=Url::to([$attach->attachment->filePath])?>"
                                                download="<?=$attach->attachment->filePath?>" data-gallery>
+                                                <img src="/uploads/default/file.png" alt="">
                                             </a>
                                         </td>
-                                        <td>
-                                            Файл
-                                        </td>
+
                                     </tr>
                                 </table>
                             <?php endforeach;?>

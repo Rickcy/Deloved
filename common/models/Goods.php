@@ -226,6 +226,7 @@ class Goods extends \yii\db\ActiveRecord
     }
 
     public function saveGoodsPhoto(){
+        if($this->photos[0]){
         $imagesPaths = explode(',',$this->photos[0]);
         foreach ($imagesPaths as $path){
             $photo = new PhotoGood();
@@ -233,6 +234,7 @@ class Goods extends \yii\db\ActiveRecord
             $photo->item_id = $this->id;
             $photo->filePath = $path;
             $photo->save();
+        }
         }
 
     }

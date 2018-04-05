@@ -11,9 +11,16 @@ use Yii;
  * @property string $filePath
  *
  * @property TicketPostAttach[] $ticketPostAttaches
+ * @property DealPostAttach[] $dealPostAttach
+ * @property ConsultPostAttach[] $consultPostAttach
+ * @property DisputePostAttach[] $disputePostAttach
+ * @property ClaimPostAttach[] $claimPostAttachv
  */
 class Attachment extends \yii\db\ActiveRecord
 {
+
+    public $file;
+
     /**
      * @inheritdoc
      */
@@ -49,5 +56,25 @@ class Attachment extends \yii\db\ActiveRecord
     public function getTicketPostAttaches()
     {
         return $this->hasMany(TicketPostAttach::className(), ['attachment_id' => 'id']);
+    }
+
+    public function getDealPostAttaches()
+    {
+        return $this->hasMany(DealPostAttach::className(), ['attachment_id' => 'id']);
+    }
+
+    public function getConsultPostAttaches()
+    {
+        return $this->hasMany(ConsultPostAttach::className(), ['attachment_id' => 'id']);
+    }
+
+    public function getDisputePostAttaches()
+    {
+        return $this->hasMany(DisputePostAttach::className(), ['attachment_id' => 'id']);
+    }
+
+    public function getClaimPostAttaches()
+    {
+        return $this->hasMany(ClaimPostAttach::className(), ['attachment_id' => 'id']);
     }
 }

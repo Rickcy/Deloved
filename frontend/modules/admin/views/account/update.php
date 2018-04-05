@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
             <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'legal_address')->textInput(['maxlength' => true])->label(Yii::t('app','Legal address')) ?>
 
             <?= $form->field($model, 'date', ['template' => '{label}<div class="col-sm-5">{input}{error}{hint}</div>'])->widget(
                 DatePicker::className(), [
@@ -168,7 +168,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
                 ],
                 'options'=>[
                     'class'=>'form-control',
-                    'value'=>$model->city->name,
+                    'value'=>$model->city_id?$model->city->name:'',
                 ],
             ])->label('Город');
             ?>
@@ -177,15 +177,15 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 
             <?= $form->field($model, 'director')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'phone1')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'phone1')->textInput(['maxlength' => true])->label(Yii::t('app','Main number of phone')) ?>
 
-            <?= $form->field($model, 'fax')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'fax')->textInput(['maxlength' => true])->label(Yii::t('app','Main number of fax')) ?>
 
-            <?= $form->field($model, 'work_time')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'work_time')->textInput(['maxlength' => true])->label(Yii::t('app','Work time')) ?>
 
-            <?= $form->field($model, 'web_address')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'web_address')->textInput(['maxlength' => true])->label(Yii::t('app','Web-site')) ?>
 
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true])->label(Yii::t('app','E-mail address')) ?>
 
         </div>
 

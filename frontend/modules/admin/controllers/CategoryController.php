@@ -82,7 +82,7 @@ class CategoryController extends AuthController
         $id_model=null;
         $model = new Category();
         if ($cat_name==''){
-            Yii::$app->session->addFlash('danger', "Empty Category!");
+            Yii::$app->session->addFlash('danger', "Пустое значение");
         }
         if ($cat_name!=''){
         if(Yii::$app->request->isAjax){
@@ -94,7 +94,7 @@ class CategoryController extends AuthController
 
             $model->save();
             $id_model = $model->id;
-            Yii::$app->session->addFlash('success', "Category $cat_name Add");
+            Yii::$app->session->addFlash('success', "Категория $cat_name добавленна");
 
     }
         $mes = [Yii::$app->session->getAllFlashes(),'id_model'=>$id_model];
@@ -133,13 +133,13 @@ class CategoryController extends AuthController
 
         $model=$this->findModel($id);
         if($name==''){
-            Yii::$app->session->addFlash('danger', "Empty Category!");
+            Yii::$app->session->addFlash('danger', "Пустое значение");
             return json_encode(Yii::$app->session->getAllFlashes());
         }
         if(Yii::$app->request->isAjax){
             $model->name = $name;
             $model->save();
-            Yii::$app->session->addFlash('success', "Category  Update!");
+            Yii::$app->session->addFlash('success', "Категория обнавлена");
         }
         return json_encode(Yii::$app->session->getAllFlashes());
 
@@ -184,7 +184,7 @@ class CategoryController extends AuthController
             }
         }
         $this->findModel($id)->delete();
-        Yii::$app->session->addFlash('success', 'Category Delete!');
+        Yii::$app->session->addFlash('success', 'Категория удалена');
         return $this->redirect(['view','id'=>$model->id]);
     }
 

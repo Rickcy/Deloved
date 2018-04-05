@@ -28,7 +28,7 @@ use yii\helpers\Url;
 
         <?=$form->field($model,'rememberMe')->checkbox()->label(Yii::t('app', 'Remember me'),['style'=>'float:right']) ?>
         <div class="clearfix"></div>
-        <?=Html::submitButton(Yii::t('app', 'Login'),['class'=>'btn btn-lg btn-green btn-block ','id'=>'sendBtn'])?>
+        <?=Html::submitButton(Yii::t('app', 'Login'),['class'=>'btn btn-lg btn-green btn-block ','id'=>'sendBtn','onclick'=>'yaCounter42521619.reachGoal("vhodlk"); return true;' ])?>
 
         <?php ActiveForm::end()?>
 

@@ -34,9 +34,7 @@ $timeZone = $session->get('timeZone');
             <label for="profile_date"></label>
         </div>
 
-            <a class="value-col ft change-pass" href="/admin/profile/password" ><?= Yii::t('app','Change Password')?> </a>
-
-
+            <a class="value-col ft change-pass" href="/admin/profile/password" ><?=Yii::t('app','Change password')?> </a>
 
     </div>
 
@@ -122,8 +120,7 @@ $timeZone = $session->get('timeZone');
                 <label for="profile_date">Статус подписки</label>
             </div>
             <div class="col-sm-7 ft ">
-                <input id="profile_date"  class="form-control" name="profile_date" type="text" readonly value="<?=$profile->chargeStatus==1?'Extended to '.Yii::$app->formatter->asDatetime($profile->chargeTill, "php:d.m.Y"):'Starting'?>"
-                       placeholder="Отсутствует"/>
+                <input id="profile_date"  class="form-control" name="profile_date" type="text" readonly value="<?=$profile->chargeStatus==1 ? Yii::t('app','Extended').' '.($profile->chargeTill ? $profile->chargeTill : ''):Yii::t('app','Starting')?>" />
                 <div class="pods fr"></div>
             </div>
         </div>
